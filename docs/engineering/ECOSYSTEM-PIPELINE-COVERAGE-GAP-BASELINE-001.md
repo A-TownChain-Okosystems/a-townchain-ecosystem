@@ -109,3 +109,60 @@ This is a file inventory only. It does not establish that each workflow is enabl
 - `EXCLUDED`: explicitly excluded with a recorded rationale.
 
 Unknown or uninspected status must never be promoted to success. This document does not assign `VERIFIED` to any pipeline because run-level evidence was not part of this source-definition review.
+
+## Run-level verification addendum — 2026-10-27
+
+**PR head under test:** 987bf4ba779c7df1a9dddb4f31accb70e1d1fab5  
+**PR:** [#237](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/237)  
+**Observed event:** pull_request; run metadata confirms the head SHA above for the listed runs.
+
+### Exact-SHA run outcomes
+
+| Gate | Run ID | Observed outcome | Interpretation |
+|---|---:|---|---|
+| Repository Governance | [40557233764](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557233764) | success; audit job terminal success | Run-level CI evidence for this SHA |
+| Determinism Gate | [40557233515](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557233515) | success; all five jobs terminal success | Still not functional determinism proof for a-townchain Rust because its test command is true |
+| Ecosystem Integration | [40557233520](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557233520) | success; workspace and contract-test jobs terminal success | Integration tests ran on this umbrella-repository revision |
+| Blockchain Core Integration | [40557233717](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557233717) | success; component checks and E2E jobs terminal success | Positive evidence for the tests this workflow actually invokes |
+| Security Assurance | [40557233734](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557233734) | success; exact-SHA assertions passed in applicable jobs | Partial assurance only: configured Miri targets were skipped and fuzz harness compile step was skipped |
+| ATC Test Suite | [40557233618](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557233618) | success; listed jobs terminal success | CI evidence for the umbrella repository's configured test suite |
+| CodeQL | [40557233583](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557233583) | in progress at inspection; Python and JavaScript/TypeScript jobs passed, Rust analysis still running | Not terminal; cannot mark complete |
+| Ecosystem Release Readiness | [40557233616](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557233616) | in progress at inspection; Rust and JavaScript jobs still running, Python and repository-integrity jobs passed | Not terminal; cannot mark complete |
+
+Security Assurance artifacts were bound to the same head SHA. Observed artifact digests:
+- Unsafe inventory: sha256:d0352d709af3ba50e703f28671ca0c529e5765773d0c26e17864178cde307c16
+- Dependency inventory: sha256:0443ebf98ae6a32f8c8e14415fed424b29f4d1d443d53a8666b1c64a14a12fbf
+- Fuzz inventory: sha256:df7f31d01f3d1024f1bbe9b0d696b2c70759a69ed9bdc77b18e39f4cd411d48d
+- Dependency graph: sha256:fa097054887f57f6dbfaea069cf5c08c8b029fcfa69decd952a7966ddab6592b
+
+These digests identify the uploaded ZIP artifacts, not a claim that every finding inside them is clean. Step summaries were inspected; this addendum does not claim a full log-by-log security review.
+
+### P-02/P-03 — source inventory, function catalog and SSOT
+
+- The Source Symbol Inventory workflow is defined with exact-SHA checkout assertions, scanner tests, census generation, reconciliation, registry validation and artifact upload. It was not observed among the runs triggered for this documentation-only PR, so its current execution evidence remains RESIDUAL.
+- The Component Function Catalog workflow has exact-SHA checkout assertions and taxonomy/spec validators. It was also not observed as a run for this PR.
+- PR [#235](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/235) is merged and its recorded snapshot reported 54 existing catalog bindings: 42 blob matches, 10 blob drifts, and 2 unmapped/missing source paths. That snapshot explicitly did not establish symbol semantics or full public-function coverage; its source repository SHAs were pinned as of 2026-10-26 and require refresh before being treated as current.
+- PR [#234](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/234) remains an open Draft. It reports a lexical binding correction and a two-file snapshot, not a complete exported-symbol census; its completeness remains RESIDUAL.
+- The current source/function inventory and SSOT reconciliation are therefore not closed by the successful general test suite.
+
+### P-04/P-05 — ABI and capability security
+
+- The inspected umbrella workflows provide component builds/tests and security inventory, but the runs above do not alone establish cross-language ABI byte compatibility, transaction-domain agreement, signature compatibility, or the normative gas_price width.
+- Capability denial, unknown-capability handling, revocation, and the Aurora wallet.export_key denial must be linked to current canonical source SHAs and explicit negative regression tests. No evidence in the listed umbrella runs closes those cross-repository assertions.
+- Status: RESIDUAL; any disputed or unbound normative contract remains BLOCKED, not implicitly accepted.
+
+### P-08/P-09 — E2E and central release authorization
+
+- The Blockchain Core Integration run passed its configured SDK E2E, multi-node E2E, and multi-process network E2E jobs on this umbrella-repository SHA.
+- The separate l1-network-e2e.yml workflow was not among the observed runs for this docs-only PR. Its presence must not be represented as a successful run for this SHA.
+- The Release Readiness run was still in progress at inspection and is a quality/build gate, not by itself a central release authorization decision that consumes current cross-repository evidence.
+- The catalog-driven build loop PR [#220](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/220) remains an open Draft; PR [#228](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/228), based on that branch, also remains an open Draft. Reconcile these existing changes before implementing overlapping orchestration or release logic.
+
+### Updated decision
+
+**P-01: PARTIAL** — several workflow runs and security artifact digests are verified against the exact PR head; two major runs were still in progress, and skipped security steps limit assurance.  
+**P-02/P-03: RESIDUAL** — source census and catalog reconciliation require a fresh run and current canonical repository heads.  
+**P-04/P-05: RESIDUAL / unresolved normative contracts BLOCKED** — explicit ABI and capability regression evidence remains to be reconciled.  
+**P-08/P-09: RESIDUAL** — configured integration E2E jobs passed, but full architecture-level E2E closure and central evidence-consuming release authorization are not established.
+
+No merge, release, or status promotion to VERIFIED is authorized by this addendum.
