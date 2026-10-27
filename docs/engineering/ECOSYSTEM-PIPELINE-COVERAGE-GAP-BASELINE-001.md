@@ -166,3 +166,21 @@ These digests identify the uploaded ZIP artifacts, not a claim that every findin
 **P-08/P-09: RESIDUAL** — configured integration E2E jobs passed, but full architecture-level E2E closure and central evidence-consuming release authorization are not established.
 
 No merge, release, or status promotion to VERIFIED is authorized by this addendum.
+
+
+## Current-head follow-up — 2026-10-27
+
+The PR head was re-read after the prior run snapshot. Current head: `4ea42fab2627dd4f78a62a941b7529377be68667`. PR #237 remains open, Draft, unmerged.
+
+Current-head workflow runs observed:
+- Governance run [40557844269](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557844269): completed success; audit job terminal success.
+- Determinism run [40557844316](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557844316): completed success. The `a-townchain-rust` step is explicitly labeled a static scan; its success must not be described as functional Rust determinism testing. The previously inspected workflow command `--test-cmd "true"` remains a gap.
+- ATC Test Suite run [40557844399](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557844399): completed success at the workflow level; its observed component checks include tests for configured projects.
+- Security Assurance run [40557844448](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557844448): completed success, but Miri targets and fuzz-harness installation/compilation were skipped. Treat as partial coverage, not a complete security pass.
+- Ecosystem Release Readiness [40557844414](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557844414), CodeQL [40557844425](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557844425), Ecosystem Integration [40557844355](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557844355), and Blockchain Core Integration [40557844424](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40557844424) were still in progress at the last inspection. Do not promote them to passed until their runs reach terminal conclusions.
+
+Run-level job summaries for current head were inspected. This is not a complete raw-log review, and current workflow status can change after this snapshot.
+
+### Updated P-01 disposition
+
+**P-01 remains PARTIAL.** Governance, Determinism Gate, ATC Test Suite, and Security Assurance have terminal successful workflow results for current head `4ea42fab2627dd4f78a62a941b7529377be68667`. However, several relevant workflows were still running, and successful status does not close skipped steps or weak test commands. No merge or release authorization follows from this snapshot.
