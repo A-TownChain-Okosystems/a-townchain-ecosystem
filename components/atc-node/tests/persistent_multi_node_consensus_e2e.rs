@@ -252,8 +252,8 @@ fn persistent_two_node_consensus_path() {
         .unwrap();
 
     let next_height = persisted_height + 1;
-    let recovered_a_next = wait_status(a_rpc, next_height);
-    let recovered_b_next = wait_status(b_rpc, next_height);
+    let _recovered_a_next = wait_status(a_rpc, next_height);
+    let _recovered_b_next = wait_status(b_rpc, next_height);
     // The two status responses are not an atomic snapshot. Verify the shared
     // finalized chain prefix after both nodes have advanced past recovery.
     assert_common_finalized_block(a_rpc, b_rpc);
