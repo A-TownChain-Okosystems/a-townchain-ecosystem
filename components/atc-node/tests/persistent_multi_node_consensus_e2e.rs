@@ -64,7 +64,7 @@ fn wait_finalized_status(addr: &str, min_finalized_height: u64) -> serde_json::V
         if let Ok(mut stream) = TcpStream::connect(addr) {
             let body = r#"{"jsonrpc":"2.0","method":"status","id":1}"#;
             let _ = stream.write_all(body.as_bytes());
-            let _ = stream.write_all(b"\\n");
+            let _ = stream.write_all(b"\n");
             let _ = stream.set_read_timeout(Some(Duration::from_secs(1)));
             let mut out = String::new();
             if stream.read_to_string(&mut out).is_ok() {
