@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-NODE-25E4F290C9",
-  "timestamp": "2026-10-27T07:56:17.870004Z",
+  "timestamp": "2026-10-28T08:38:16.996698Z",
   "category": "module",
   "title": "Component: atc-node",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-node",
-    "commit": "aa5a43d393b7057311528adf0a9a9edc0df8075f"
+    "commit": "08df784788932df3f4392440b33b711a100c7a1f"
   },
   "tags": [
     "atc-node",

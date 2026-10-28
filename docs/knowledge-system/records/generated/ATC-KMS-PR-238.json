@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-238",
+  "timestamp": "2026-10-28T08:38:16.996698Z",
+  "category": "change",
+  "title": "PR #238: test(atc-node): avoid sampled-height race in multi-node E2E",
+  "context": "Pull request 238 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/238",
+    "commit": "08df784788932df3f4392440b33b711a100c7a1f"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Summary\n\n- Replace sequential sampled-height equality assertions with a comparison of the nodes' common finalized block ID.\n- Apply the same invariant after node recovery, where exact current heights are also sampled at different times.\n- Preserve the consensus safety assertion: nodes must agree on the block ID at their shared finalized height.\n\n## Evidence / status\n\nThe failure is recorded in [Blockchain Core Integration run 40558112652](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40558112652). The test waits for node A and then node B while both continue producing blocks at a one-second interval; the observed heights were 3 and 2. This patch addresses the invalid timing-sensitive assertion, but it is **not verified until CI reruns the affected test and E2E jobs**. If the shared finalized block IDs disagree, the test will still fail and indicate a substantive divergence.\n\nNo production consensus code changed. Do not merge until the exact-head checks pass and the test behavior is reviewed."
+}

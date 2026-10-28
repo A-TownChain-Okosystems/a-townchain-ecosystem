@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-8504CAA5C431",
-  "timestamp": "2026-10-27T07:56:17.870004Z",
+  "timestamp": "2026-10-28T08:38:16.996698Z",
   "category": "change",
   "title": "Commit: chore(competitive-monitoring): add v0.2.5 delta overlay",
   "context": "Git commit 8504caa5c4310d7768cb3e11f9e8aae16aab137f on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/8504caa5c4310d7768cb3e11f9e8aae16aab137f",
-    "commit": "aa5a43d393b7057311528adf0a9a9edc0df8075f"
+    "commit": "08df784788932df3f4392440b33b711a100c7a1f"
   },
   "tags": [
     "commit",

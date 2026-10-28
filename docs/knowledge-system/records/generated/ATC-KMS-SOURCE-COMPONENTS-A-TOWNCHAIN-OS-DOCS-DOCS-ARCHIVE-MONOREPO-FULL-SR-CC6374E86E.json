@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-DOCS-ARCHIVE-MONOREPO-FULL-SR-CC6374E86E",
-  "timestamp": "2026-10-27T07:56:17.870004Z",
+  "timestamp": "2026-10-28T08:38:16.996698Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/docs/archive/monorepo-full/src/modules/atclang/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/docs/archive/monorepo-full/src/modules/atclang/ARCHITECTURE.md",
-    "commit": "aa5a43d393b7057311528adf0a9a9edc0df8075f"
+    "commit": "08df784788932df3f4392440b33b711a100c7a1f"
   },
   "tags": [
     "generated",
