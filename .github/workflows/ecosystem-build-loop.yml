@@ -327,10 +327,10 @@ jobs:
             npm-build)
               npm ci 2>&1 | tee ../evidence/install.log || rc=$?
               if [ "$rc" -eq 0 ]; then
-                npm run build 2>&1 | tee ../evidence/build.log || rc=$?
+                npm test 2>&1 | tee ../evidence/test.log || rc=$?
               fi
               if [ "$rc" -eq 0 ]; then
-                npm test 2>&1 | tee ../evidence/test.log || rc=$?
+                npm run build 2>&1 | tee ../evidence/build.log || rc=$?
               fi
               ;;
             *)
