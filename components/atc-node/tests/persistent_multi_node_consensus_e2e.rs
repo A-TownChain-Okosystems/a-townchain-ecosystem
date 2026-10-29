@@ -59,6 +59,57 @@ fn wait_status(addr: &str, min_height: u64) -> serde_json::Value {
     panic!("node did not reach height {min_height}: {addr}");
 }
 
+fn wait_finalized_status(addr: &str, min_finalized_height: u64) -> serde_json::Value {
+    for _ in 0..80 {
+        if let Ok(mut stream) = TcpStream::connect(addr) {
+            let body = r#"{"jsonrpc":"2.0","method":"status","id":1}"#;
+            let _ = stream.write_all(body.as_bytes());
+            let _ = stream.write_all(b"\n");
+            let _ = stream.set_read_timeout(Some(Duration::from_secs(1)));
+            let mut out = String::new();
+            if stream.read_to_string(&mut out).is_ok() {
+                if let Ok(v) = serde_json::from_str::<serde_json::Value>(out.trim()) {
+                    if v.get("result")
+                        .and_then(|x| x.get("finalized"))
+                        .and_then(|x| x.get("height"))
+                        .and_then(|x| x.as_u64())
+                        .unwrap_or(0)
+                        >= min_finalized_height
+                    {
+                        return v;
+                    }
+                }
+            }
+        }
+        thread::sleep(Duration::from_millis(250));
+    }
+    panic!("node did not reach finalized height {min_finalized_height}: {addr}");
+}
+
+fn assert_common_finalized_block(a_rpc: &str, b_rpc: &str) {
+    let a_status = wait_finalized_status(a_rpc, 1);
+    let b_status = wait_finalized_status(b_rpc, 1);
+    let a_finalized = a_status["result"]["finalized"]["height"]
+        .as_u64()
+        .unwrap_or(0);
+    let b_finalized = b_status["result"]["finalized"]["height"]
+        .as_u64()
+        .unwrap_or(0);
+    let common_finalized_height = a_finalized.min(b_finalized);
+    assert!(
+        common_finalized_height >= 1,
+        "nodes have no common finalized height: A={a_finalized}, B={b_finalized}"
+    );
+
+    let a_block = rpc_block(a_rpc, common_finalized_height);
+    let b_block = rpc_block(b_rpc, common_finalized_height);
+    assert_eq!(
+        a_block["result"]["block_id"].as_str(),
+        b_block["result"]["block_id"].as_str(),
+        "nodes disagree at common finalized height {common_finalized_height}"
+    );
+}
+
 #[test]
 fn persistent_two_node_consensus_path() {
     let now = SystemTime::now()
@@ -114,10 +165,10 @@ fn persistent_two_node_consensus_path() {
     let a_status = wait_status(a_rpc, 2);
     let b_status = wait_status(b_rpc, 2);
 
-    assert_eq!(
-        a_status["result"]["height"].as_u64(),
-        b_status["result"]["height"].as_u64()
-    );
+    // Heights are sampled sequentially while both nodes keep producing blocks.
+    // Compare their common finalized block instead of requiring transient heights
+    // to match at two different wall-clock instants.
+    assert_common_finalized_block(a_rpc, b_rpc);
     assert!(
         a_status["result"]["finalized"]["height"]
             .as_u64()
@@ -201,13 +252,11 @@ fn persistent_two_node_consensus_path() {
         .unwrap();
 
     let next_height = persisted_height + 1;
-    let recovered_a_next = wait_status(a_rpc, next_height);
-    let recovered_b_next = wait_status(b_rpc, next_height);
-    assert_eq!(
-        recovered_a_next["result"]["height"].as_u64(),
-        recovered_b_next["result"]["height"].as_u64(),
-        "restarted nodes diverged after recovery"
-    );
+    let _recovered_a_next = wait_status(a_rpc, next_height);
+    let _recovered_b_next = wait_status(b_rpc, next_height);
+    // The two status responses are not an atomic snapshot. Verify the shared
+    // finalized chain prefix after both nodes have advanced past recovery.
+    assert_common_finalized_block(a_rpc, b_rpc);
 
     let _ = recovered_a.kill();
     let _ = recovered_b.kill();
