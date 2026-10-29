@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-448F25DDEB87",
-  "timestamp": "2026-10-28T08:38:16.996698Z",
+  "timestamp": "2026-10-29T08:34:54.881870Z",
   "category": "change",
   "title": "Commit: Merge pull request #225 from A-TownChain-Okosystems/catalog/vm-source-binding-blobsha-20261023",
   "context": "Git commit 448f25ddeb8716d8e31b6d489fd1da23fa48f170 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/448f25ddeb8716d8e31b6d489fd1da23fa48f170",
-    "commit": "08df784788932df3f4392440b33b711a100c7a1f"
+    "commit": "3614e510778390f24fe55eded62de710b9cdf2b5"
   },
   "tags": [
     "commit",

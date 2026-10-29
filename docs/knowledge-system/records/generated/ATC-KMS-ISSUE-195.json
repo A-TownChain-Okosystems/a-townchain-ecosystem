@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-ISSUE-195",
-  "timestamp": "2026-10-28T08:38:16.996698Z",
+  "timestamp": "2026-10-29T08:34:54.881870Z",
   "category": "discussion",
   "title": "Issue #195: Integrate ATC-CHILD-SAFETY-POLICY-001 across canonical components",
   "context": "Issue 195 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "issue",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/195",
-    "commit": "08df784788932df3f4392440b33b711a100c7a1f"
+    "commit": "3614e510778390f24fe55eded62de710b9cdf2b5"
   },
   "tags": [
     "generated",
