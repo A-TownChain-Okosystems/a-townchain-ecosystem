@@ -185,9 +185,90 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
-  build:
+  test-entrypoint-preflight:
+    name: Validate canonical test entry point
     needs: plan
     if: needs.plan.outputs.status == 'READY' && needs.plan.outputs.repo != ''
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+      source_sha: ${{ steps.check.outputs.source_sha }}
+    steps:
+      - name: Checkout canonical implementation repository
+        uses: actions/checkout@v4
+        with:
+          repository: A-TownChain-Okosystems/${{ needs.plan.outputs.repo }}
+          ref: main
+          path: source
+          persist-credentials: false
+      - name: Verify declared npm test entry point before build
+        id: check
+        env:
+          PROFILE: ${{ needs.plan.outputs.profile }}
+          TARGET_REPO: ${{ needs.plan.outputs.repo }}
+          CONTROLLER_EVENT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          canonical_source_sha="$(git -C source rev-parse HEAD)"
+          test "${#canonical_source_sha}" -eq 40
+          echo "source_sha=$canonical_source_sha" >> "$GITHUB_OUTPUT"
+          export CANONICAL_SOURCE_SHA="$canonical_source_sha"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          profile = os.environ["PROFILE"]
+          target = os.environ["TARGET_REPO"]
+          status = "PASS"
+          reason = "profile does not use npm test"
+          if profile == "npm-build":
+              package_path = Path("source/package.json")
+              if not package_path.is_file():
+                  status = "BLOCKED"
+                  reason = "package.json is missing; cannot verify npm test entry point"
+              else:
+                  try:
+                      package = json.loads(package_path.read_text(encoding="utf-8"))
+                  except (OSError, json.JSONDecodeError) as exc:
+                      status = "BLOCKED"
+                      reason = f"package.json is unreadable or invalid JSON: {exc}"
+                  else:
+                      scripts = package.get("scripts")
+                      test_script = scripts.get("test") if isinstance(scripts, dict) else None
+                      if not isinstance(test_script, str) or not test_script.strip():
+                          status = "BLOCKED"
+                          reason = "package.json scripts.test is missing or empty; build is not allowed to start"
+                      else:
+                          reason = "package.json scripts.test exists and is non-empty"
+
+          report = {
+              "schema_id": "ATC-TEST-ENTRYPOINT-PREFLIGHT-001",
+              "target_repo": target,
+              "profile": profile,
+              "controller_event_sha": os.environ["CONTROLLER_EVENT_SHA"],
+              "canonical_source_sha": os.environ["CANONICAL_SOURCE_SHA"],
+              "status": status,
+              "reason": reason,
+          }
+          Path("test-entrypoint-preflight.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps(report, indent=2))
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"status={status}\n")
+          if status == "BLOCKED":
+              raise SystemExit(1)
+          PY
+      - name: Upload test entry point evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-test-entrypoint-preflight-${{ needs.plan.outputs.repo }}-${{ github.run_id }}
+          path: test-entrypoint-preflight.json
+          if-no-files-found: error
+          retention-days: 180
+
+  build:
+    needs: [plan, test-entrypoint-preflight]
+    if: needs.plan.outputs.status == 'READY' && needs.plan.outputs.repo != '' && needs.test-entrypoint-preflight.outputs.status == 'PASS'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -195,7 +276,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: A-TownChain-Okosystems/${{ needs.plan.outputs.repo }}
-          ref: main
+          ref: ${{ needs.test-entrypoint-preflight.outputs.source_sha }}
           path: source
           persist-credentials: false
       - name: Record exact source revision
@@ -246,10 +327,10 @@ jobs:
             npm-build)
               npm ci 2>&1 | tee ../evidence/install.log || rc=$?
               if [ "$rc" -eq 0 ]; then
-                npm run build 2>&1 | tee ../evidence/build.log || rc=$?
+                npm test 2>&1 | tee ../evidence/test.log || rc=$?
               fi
               if [ "$rc" -eq 0 ]; then
-                npm test 2>&1 | tee ../evidence/test.log || rc=$?
+                npm run build 2>&1 | tee ../evidence/build.log || rc=$?
               fi
               ;;
             *)
@@ -270,7 +351,7 @@ jobs:
 
   failure-diagnostics:
     if: failure()
-    needs: [catalog-audit, plan, build]
+    needs: [catalog-audit, plan, test-entrypoint-preflight, build]
     runs-on: ubuntu-latest
     steps:
       - name: Record failed loop context
@@ -282,6 +363,7 @@ jobs:
           REF_NAME: ${{ github.ref_name }}
           PLAN_STATUS: ${{ needs.plan.outputs.status }}
           TARGET_REPO: ${{ needs.plan.outputs.repo }}
+          TEST_ENTRYPOINT_STATUS: ${{ needs.test-entrypoint-preflight.outputs.status }}
         run: |
           set -euo pipefail
           mkdir -p failure-evidence
@@ -297,6 +379,7 @@ jobs:
               "ref": os.environ["REF_NAME"],
               "plan_status": os.environ.get("PLAN_STATUS") or "BLOCKED_OR_SKIPPED",
               "target_repo": os.environ.get("TARGET_REPO") or None,
+              "test_entrypoint_status": os.environ.get("TEST_ENTRYPOINT_STATUS") or "BLOCKED_OR_SKIPPED",
               "status": "RESIDUAL",
               "note": "Failure context only; inspect the failed job steps and logs before assigning root cause."
           }
