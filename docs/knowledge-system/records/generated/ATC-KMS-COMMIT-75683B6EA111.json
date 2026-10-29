@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-75683B6EA111",
-  "timestamp": "2026-10-29T08:34:54.881870Z",
+  "timestamp": "2026-10-29T20:46:58.638839Z",
   "category": "change",
   "title": "Commit: docs(roadmap): define evidence-gated implementation slots and queue",
   "context": "Git commit 75683b6ea11135fbce4421b24ba384d4eff12248 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/75683b6ea11135fbce4421b24ba384d4eff12248",
-    "commit": "3614e510778390f24fe55eded62de710b9cdf2b5"
+    "commit": "66de3f21c50ab481c44e868715923c98c072ad71"
   },
   "tags": [
     "commit",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-187",
-  "timestamp": "2026-10-29T08:34:54.881870Z",
+  "timestamp": "2026-10-29T20:46:58.638839Z",
   "category": "change",
   "title": "PR #187: fix(registry): distinguish specification-only bindings from executable sources",
   "context": "Pull request 187 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/187",
-    "commit": "3614e510778390f24fe55eded62de710b9cdf2b5"
+    "commit": "66de3f21c50ab481c44e868715923c98c072ad71"
   },
   "tags": [
     "generated",

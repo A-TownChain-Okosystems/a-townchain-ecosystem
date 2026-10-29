@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-WIKI-DRIVERS-WIKI-ARCHITECTUR-37E673E495",
-  "timestamp": "2026-10-29T08:34:54.881870Z",
+  "timestamp": "2026-10-29T20:46:58.638839Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/wiki/drivers-wiki/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/wiki/drivers-wiki/ARCHITECTURE.md",
-    "commit": "3614e510778390f24fe55eded62de710b9cdf2b5"
+    "commit": "66de3f21c50ab481c44e868715923c98c072ad71"
   },
   "tags": [
     "generated",
