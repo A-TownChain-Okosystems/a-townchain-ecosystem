@@ -57,7 +57,65 @@ The numbering is a **proposed logical architecture model**, not a claim that all
 
 ---
 
-## 2. Sub-Layers and Function Hierarchy
+## 2. Seven Building Blocks: Responsibility and Integration Boundaries
+
+This section groups seven named ecosystem building blocks by responsibility. It is a conceptual system-of-systems view, **not** a replacement for the machine-readable layer registry, component/function catalog, or component repositories. It does not assert that every integration described below is implemented or verified.
+
+### 2.1 Responsibility domains
+
+| # | Building block | Responsibility domain | Authority boundary |
+|---|---|---|---|
+| 1 | **ATCLang** | Programming language and developer toolchain: source processing and program/bytecode production where supported | Does not own blockchain consensus, VM execution policy, kernel authority, or OS lifecycle |
+| 2 | **ShivaCore** | System kernel / trusted computing base (TCB): system-critical resource control, isolation and capability enforcement | Kernel authority only; not the OS application layer, blockchain consensus, or AI policy plane |
+| 3 | **Aurora AI** | AI control plane and agent platform: agent/task coordination, model routing, approvals and AI policy | Must not bypass ShivaCore capabilities or become authority for consensus, canonical ledger state, or ATC-VM execution |
+| 4 | **A-TownChain** | Blockchain protocol and ledger domain: transaction/protocol processing and chain state under the canonical implementation | Ledger and consensus authority stays in the canonical blockchain source; AI and applications cannot override protocol rules |
+| 5 | **ATC-VM** | Virtual-machine execution domain for supported program/bytecode and smart-contract logic | Execution semantics and resource limits belong to the VM contract; compiler compatibility and chain invocation require explicit evidence |
+| 6 | **GlobusOS** | Operating-system platform: system services and native application environment built around the kernel | Uses the canonical ShivaCore kernel; must not create a duplicate kernel implementation in the ecosystem control plane |
+| 7 | **Genesis Engine** | Engine/tooling for interactive applications and digital worlds | Application/engine domain; not a child runtime of GlobusOS or Aurora AI. Integrations use explicit APIs/contracts |
+
+### 2.2 Conceptual architecture flow
+
+```text
+                     A-TOWNCHAIN ECOSYSTEM
+                              |
+             +----------------+----------------+
+             |                |                |
+      DEVELOPER /         SYSTEM PLATFORM   DOMAIN PLATFORMS
+      EXECUTION DOMAIN         DOMAIN              |
+             |                |          +-------+-------+
+          ATCLang          ShivaCore   Aurora AI   Genesis Engine
+             |                |
+        (compiler /            +----> GlobusOS
+         toolchain)           (kernel hosted/used by OS)
+             |
+       bytecode / program
+             |
+      ATC-VM execution <---- explicit chain/VM contract ----> A-TownChain
+             |                                               |
+             +---------------- application/API --------------+
+                              boundaries
+```
+
+The drawing is a responsibility map, not a single mandatory runtime sequence. The exact call paths, compiler-to-VM compatibility, chain-to-VM invocation, OS integration, and Aurora/Genesis integrations must be evidenced independently. The diagram must not be interpreted as saying the blockchain is a subcomponent of ATCLang, or that Aurora AI and Genesis Engine are downstream components of GlobusOS.
+
+### 2.3 Normative relationship rules for this architecture view
+
+1. **ATCLang ↔ ATC-VM:** Treat this as a compiler/toolchain-to-execution relationship only for the exact bytecode format, version and semantics proven compatible by tests. Until then, mark compatibility `RESIDUAL` or `BLOCKED`, not `VERIFIED`.
+2. **ShivaCore → GlobusOS:** ShivaCore is the kernel/TCB; GlobusOS is the operating-system platform that uses the canonical kernel. This is the explicit kernel/OS containment relationship.
+3. **A-TownChain ↔ ATC-VM:** Record the chain-to-VM boundary through explicit execution and state-transition contracts. Do not infer correct consensus, deterministic execution, or production readiness merely from the presence of VM code.
+4. **Aurora AI ↔ system/application APIs:** AI agents operate through explicit capabilities, authorization, approval and audit boundaries. Aurora AI is not a kernel, consensus engine, ledger authority, or substitute for the VM.
+5. **Genesis Engine ↔ GlobusOS / Aurora AI:** These are optional integration relationships through documented interfaces. Genesis Engine remains its own engine/application domain, not a downstream component of either platform.
+6. **Cross-cutting controls:** Security, identity/capabilities, protocol compatibility, observability, testing and evidence span multiple blocks; they must not be represented as a single extra runtime stage.
+7. **Canonical ownership:** Implementations, APIs, tests and release evidence remain in their component SSOT repositories. This ecosystem repository records architecture, mappings, compliance and evidence; it does not introduce duplicate core implementations.
+8. **Evidence gate:** Any relationship without exact source binding and relevant test/CI/E2E evidence remains `RESIDUAL`, `UNRESOLVED` or `BLOCKED`. Documentation alone does not promote implementation or verification status.
+
+### 2.4 Registry alignment
+
+The seven-block view is a named-component grouping. It does **not** renumber or silently migrate the current L0–L10 / X1–X8 draft registry, and it does not approve the separate L0–L9 / X0–X36 target model. Registry migration remains subject to owner review, standards approval, mapping updates and validator changes.
+
+---
+
+## 3. Sub-Layers and Function Hierarchy
 
 Each main layer has a deeper structure. The following hierarchy applies to the complete component and function catalog:
 
