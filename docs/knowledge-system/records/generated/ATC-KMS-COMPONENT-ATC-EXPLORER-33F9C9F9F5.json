@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-EXPLORER-33F9C9F9F5",
-  "timestamp": "2026-10-29T20:46:58.638839Z",
+  "timestamp": "2026-10-30T08:42:26.060627Z",
   "category": "module",
   "title": "Component: atc-explorer",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-explorer",
-    "commit": "66de3f21c50ab481c44e868715923c98c072ad71"
+    "commit": "6f2649c170aea9cf9219688362e7a3a29474a27b"
   },
   "tags": [
     "atc-explorer",

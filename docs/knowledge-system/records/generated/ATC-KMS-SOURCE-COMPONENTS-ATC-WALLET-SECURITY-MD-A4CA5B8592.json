@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-ATC-WALLET-SECURITY-MD-A4CA5B8592",
-  "timestamp": "2026-10-29T20:46:58.638839Z",
+  "timestamp": "2026-10-30T08:42:26.060627Z",
   "category": "evidence",
   "title": "Indexed source: components/atc-wallet/SECURITY.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-wallet/SECURITY.md",
-    "commit": "66de3f21c50ab481c44e868715923c98c072ad71"
+    "commit": "6f2649c170aea9cf9219688362e7a3a29474a27b"
   },
   "tags": [
     "generated",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-608E08F1325C",
-  "timestamp": "2026-10-29T20:46:58.638839Z",
+  "timestamp": "2026-10-30T08:42:26.060627Z",
   "category": "change",
   "title": "Commit: docs(competitive-monitoring): add daily report for 2026-10-25",
   "context": "Git commit 608e08f1325c66b287e04eed806341c87d9e44ec on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/608e08f1325c66b287e04eed806341c87d9e44ec",
-    "commit": "66de3f21c50ab481c44e868715923c98c072ad71"
+    "commit": "6f2649c170aea9cf9219688362e7a3a29474a27b"
   },
   "tags": [
     "commit",
