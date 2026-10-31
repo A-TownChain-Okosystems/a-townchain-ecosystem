@@ -169,6 +169,22 @@ The seven pillars are independent technology domains with defined integration re
 
 **Success evidence:** Rendering and runtime benchmarks, deterministic simulation tests where required, content pipeline reliability, editor usability and shipped applications.
 
+### Architecture crosswalk — responsibility mapping, not dependency ordering
+
+The seven strategic pillars map to primary responsibility domains in the canonical L0–L7 architecture. This is a cross-reference, not a one-to-one layer decomposition, execution sequence or dependency graph. Layer numbers classify responsibility; they do not imply that a higher-numbered system is subordinate to, downstream of or runtime-dependent on a lower-numbered system.
+
+| Strategic pillar | Primary architecture domain | Boundary clarification |
+|---|---|---|
+| ATCLang | L3 — Deterministic Execution | Language/toolchain; compiler and ABI contracts are owned in their canonical source repositories |
+| ShivaCore Kernel | L0 — System & Network | Kernel/security foundation; not a blockchain VM or AI authority |
+| Aurora AI | L6 — AI & Intelligence | Agent/intelligence domain; no consensus or canonical chain-state authority |
+| A-TownChain | L2 — Blockchain Core & Consensus | Protocol and consensus authority for canonical chain state |
+| ATC-VM | L3 — Deterministic Execution | Computes candidate deterministic transitions under L2 protocol rules |
+| GlobusOS | L0 — System & Network | Operating-system platform; can operate offline and is not subordinate to Aurora or Genesis |
+| Genesis Engine | L7 — Applications & User Experience | Independent engine/application runtime; not downstream of GlobusOS and not blockchain consensus |
+
+The X cross-layer control plane intersects all relevant domains for identity, capabilities, authorization, policy, governance, security and evidence. X is not an eighth execution pillar and does not take ownership of component state. A repository may span multiple architectural domains; canonical implementation ownership remains defined by the standards registry and repository SSOT records.
+
 ## 5. Cross-ecosystem differentiators
 
 ### 5.1 Native technology ownership
