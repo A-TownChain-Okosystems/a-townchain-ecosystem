@@ -6,6 +6,8 @@ System-of-Systems-Integrations- und Evidence-Control-Plane des A-TownChain-Ökos
 
 Dieses Repository koordiniert die Integration dieser Systeme, dokumentiert Cross-Repo-Verträge und aggregiert Evidence. Ein Import, ein grüner Einzel-Gate oder ein vorhandener Integrationstest beweist nicht, dass alle Komponenten als Gesamtsystem vollständig verifiziert sind.
 
+Strategische Vision, Mission, Ziele, Technologie-Säulen, Entwicklungs-Horizonte und KPI-Rahmen: [Ecosystem Vision, Mission & Master Strategy](docs/strategy/ECOSYSTEM-VISION-MISSION-MASTER-STRATEGY.md).
+
 ## Scope
 
 In-Scope: System-Integration, komponentenübergreifende Gates und der
