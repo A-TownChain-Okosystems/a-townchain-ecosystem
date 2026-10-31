@@ -26,29 +26,33 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 
 ## Architecture
 
-`ARCHITECTURE.md` defines conceptual responsibility domains L0–L7 and the
-cross-layer control plane X. Layer numbers do **not** define a mandatory
-runtime order, a dependency chain or product subordination.
+`ARCHITECTURE.md` defines conceptual responsibility domains and the
+cross-layer control plane X. Its domain model is not a mandatory runtime
+order, a dependency chain or product-subordination model.
 
 The seven strategic technology pillars are independent domains with explicit
-interfaces. Their primary architecture mapping is:
+interfaces. Their primary conceptual responsibility mapping is:
 
-| Technology pillar | Primary domain |
+| Technology pillar | Primary architecture responsibility |
 |---|---|
-| ATCLang | L3 — Deterministic Execution |
-| ShivaCore Kernel | L0 — System & Network |
-| Aurora AI | L6 — AI & Intelligence |
-| A-TownChain | L2 — Blockchain Core & Consensus |
-| ATC-VM | L3 — Deterministic Execution |
-| GlobusOS | L0 — System & Network |
-| Genesis Engine | L7 — Applications & User Experience |
+| ATCLang | Deterministic Execution |
+| ShivaCore Kernel | System & Network |
+| Aurora AI | AI & Intelligence |
+| A-TownChain | Blockchain Core & Consensus |
+| ATC-VM | Deterministic Execution |
+| GlobusOS | System & Network |
+| Genesis Engine | Applications & User Experience |
 
 X provides cross-cutting identity, capability, authorization, policy,
 governance, security and evidence controls; it is not an additional execution
-layer. Genesis Engine is not downstream of GlobusOS, and Aurora AI does not
-own blockchain consensus or canonical chain state. Repository-level SSOT
-records and `atc-standards` remain authoritative for implementation ownership.
-See `ARCHITECTURE.md` for the complete model.
+pillar. Genesis Engine is not downstream of GlobusOS, and Aurora AI does not
+own blockchain consensus or canonical chain state.
+
+This conceptual crosswalk does not assign or modify repository classification,
+maturity, ownership or canonical status. Those remain governed by
+`ATC-STD-202`, `atc-standards/registry/repositories.yaml` and each
+repository's canonical SSOT records. See `ARCHITECTURE.md` for the complete
+model.
 
 ## Capabilities and limits
 
