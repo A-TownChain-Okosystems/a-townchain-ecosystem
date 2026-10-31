@@ -26,10 +26,29 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 
 ## Architecture
 
-Schichten (unten → oben): ShivaCore-Kernel (TCB) → ATCLang → ATC-VM →
-ATC-Algorithm/Node (A-TownChain L1) → Aurora AI (Policy/Agent-Ebene) →
-Genesis Engine (Game-Plattform) → Anwendungen (Genesis Chronicles, Flagship).
-Details: `ARCHITECTURE.md`.
+`ARCHITECTURE.md` defines conceptual responsibility domains L0–L7 and the
+cross-layer control plane X. Layer numbers do **not** define a mandatory
+runtime order, a dependency chain or product subordination.
+
+The seven strategic technology pillars are independent domains with explicit
+interfaces. Their primary architecture mapping is:
+
+| Technology pillar | Primary domain |
+|---|---|
+| ATCLang | L3 — Deterministic Execution |
+| ShivaCore Kernel | L0 — System & Network |
+| Aurora AI | L6 — AI & Intelligence |
+| A-TownChain | L2 — Blockchain Core & Consensus |
+| ATC-VM | L3 — Deterministic Execution |
+| GlobusOS | L0 — System & Network |
+| Genesis Engine | L7 — Applications & User Experience |
+
+X provides cross-cutting identity, capability, authorization, policy,
+governance, security and evidence controls; it is not an additional execution
+layer. Genesis Engine is not downstream of GlobusOS, and Aurora AI does not
+own blockchain consensus or canonical chain state. Repository-level SSOT
+records and `atc-standards` remain authoritative for implementation ownership.
+See `ARCHITECTURE.md` for the complete model.
 
 ## Capabilities and limits
 
