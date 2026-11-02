@@ -18,7 +18,7 @@ This document is a cross-repository architecture proposal. It records an initial
 
 It is **not** an approved ATC standard, does not allocate a standard ID, does not authorize implementation changes, and does not supersede any repository-specific specification or governance decision.
 
-Normative standards remain owned by `atc-standards`. The canonical implementation of each subsystem remains in its designated source repository. This document is maintained in `a-townchain-ecosystem` because that repository owns cross-repository architecture and integration evidence, not component implementation.
+Normative ecosystem-wide standards and registry allocation remain governed through `atc-standards`. ShivaCore-specific kernel architecture and interface authority is maintained in `atc-shivacore` through its active and frozen kernel specifications. The canonical implementation of the reusable kernel remains in `globus-os/modules/atc-shivacore/kernel/`. This document is maintained in `a-townchain-ecosystem` because that repository owns cross-repository architecture mapping and integration evidence, not component implementation. ATC-SMM MUST NOT silently amend or supersede a ShivaCore specification.
 
 Lifecycle:
 - Architecture proposal: DRAFT
@@ -34,7 +34,7 @@ The architecture follows:
 
 **One physical-memory authority, multiple domain-owned memory and storage consumers.**
 
-1. ShivaCore is the sole authority for physical memory, kernel heap, page tables, address-space mechanisms, memory objects and capability-enforced mappings.
+1. ShivaCore is the kernel/TCB authority for privileged memory mechanisms, address-space objects, page tables, frame-capability enforcement and mapping protection. The frozen SC-001/SC-005/SC-007 contracts define frame creation from Untyped, rights and mapping semantics; allocation policy remains above the kernel boundary.
 2. GlobusOS owns userspace resource policy, service lifecycle, filesystem/VFS, volumes and storage-service orchestration. It consumes ShivaCore memory primitives; it does not create a competing physical allocator or page-table authority.
 3. Aurora owns AI/agent memory semantics and its own knowledge/context/vector services. It accesses system resources only through authorized GlobusOS services and capabilities.
 4. A-TownChain / ATC-VM / atc-node own their respective deterministic state semantics, node persistence and recovery boundaries. Chain data is not kernel memory and is not stored in the kernel TCB.
@@ -71,7 +71,7 @@ The following map records the ownership decision and the source baseline inspect
 | Repository | Canonical role in ATC-SMM | Baseline inspected |
 |---|---|---|
 | `globus-os` | Active ShivaCore kernel source plus GlobusOS userspace, memory policy, VFS and services | `f370b681e5c9ff49577f25c24f15b5fc880d5cba` |
-| `atc-shivacore` | Kernel architecture, reuse, HAL, ABI and governance specifications; not a second active kernel | `3b56253b39bdc6cbf719ed9a2a21461d73b8fc34` |
+| `atc-shivacore` | ShivaCore kernel/TCB architecture authority; active/frozen kernel, HAL, ABI, boot and capability/address-space specifications; no duplicate active kernel source | `3b56253b39bdc6cbf719ed9a2a21461d73b8fc34` |
 | `aurora-ai` | AI/agent memory and context implementation | `30e85eb8aba199f68b5f17f329eddbe168e50f87` |
 | `a-townchain` | Chain orchestration and canonical integration; canonical L1 storage component at `components/storage` (subtree SSOT) | `ce92756c32f138e3bc51039060101f4d466027bd` |
 | `atc-node` | Standalone node runtime source imported under `a-townchain/components/node`; node-level durable storage implementation not established by the inspected root manifest | `821d049efc5b592e4728b36b64038d4ce5e7d2c6` |
@@ -88,7 +88,7 @@ The active kernel implementation is:
 
 `globus-os/modules/atc-shivacore/kernel/`
 
-The `atc-shivacore` repository explicitly identifies itself as specifications/governance/support. It MUST NOT receive a second active kernel implementation.
+The `atc-shivacore` README and STATUS explicitly establish it as the reusable kernel-contract/specification and governance authority, while the active implementation is migrated to GlobusOS. It MUST NOT receive a second active kernel implementation.
 
 ### 3.2 Existing memory modules
 
@@ -111,21 +111,39 @@ Observed source files in `aurora-ai`:
 
 The source inventory proves file and API presence only. It does not establish that every path is used in the booted system, production-ready, or verified at the baseline SHA.
 
+### 3.3 Binding ShivaCore specification reconciliation
+
+The following ShivaCore documents were fetched at repository baseline `3b56253b39bdc6cbf719ed9a2a21461d73b8fc34`:
+
+| Specification | Blob SHA | Status / binding ATC-SMM consequence |
+|---|---|---|
+| `SHIVA-KERNEL-REUSE-001.md` | `dfd8744dabda2d136a501851f94fbcf8c550701d` | `active`; kernel contract is OS-neutral; memory/address-space primitives and isolation belong to TCB; filesystems, chain and AI stay above it |
+| `SHIVA-HAL-001.md` | `f071bc13e610e88a540fe4d57ffc9e286ee87da9` | `active`; target page-table primitives, synchronization and boot handoff are HAL responsibilities; architecture-specific unsafe code isolated and tested |
+| `SHIVA-ABI-001.md` | `edb0e219bdab32fd99ae4d1513dcbb7deab1e9bf` | `active`; address-space and memory-object handles are explicit capabilities; syscalls validate caller, capability, pointers and lengths; no ambient authority; ABI changes versioned |
+| `SHIVA-BOOT-001.md` | `64e73fa8c711dc076330dae8dbfc81c04b989bb3` | `active`; kernel receives boot memory map/CPU topology and initializes its own page tables and allocator state before exposing services |
+| `SC-005-CAPABILITY_SYSTEM.md` | `2e19216b43237fcbd6e175a7abf15c1781cde4ca` | `FROZEN v0.1.0`; typed rights, derivation only reduces rights, revocation removes derived authority; no all-rights initial capability or ambient derive |
+| `SC-007-ADDRESSSPACE_MEMORY.md` | `8d61e3e9fa8951ccf20924254ba1c48fb239bfee` | `FROZEN v0.1.0`; map requires AddressSpace MAP + Frame GRANT; mapping rights are a subset of Frame-Cap rights; W^X is mandatory policy; unmap and frame revocation include synchronous TLB shootdown |
+| `SHIVA-GLOBUS-INTEGRATION-001.md` | `b46302a3bfd2808016b18b0824517da724558dbc` | `DRAFT`; ShivaCore owns address spaces/protection and capability primitives; GlobusOS owns process/service policy, VFS, storage, networking and drivers |
+
+The frozen SC-005 and SC-007 documents are more specific than generic ATC-SMM language. ATC-SMM therefore records their requirements as inherited constraints, not as newly invented requirements. A change to frozen semantics requires the ShivaCore owner’s documented SC-DEC/SC-ARCH governance path; ATC-SMM alone cannot authorize it.
+
 ## 4. Ownership and trust boundaries
 
 ### 4.1 ShivaCore — physical memory and protection authority
 
-ShivaCore MUST own the privileged mechanisms required to enforce memory isolation:
+ShivaCore MUST own the privileged mechanisms required to enforce memory isolation, as constrained by the active/frozen ShivaCore contracts:
 
-- boot memory-map validation and reserved-region handling;
-- physical frame allocation, reservation, release and reclamation;
-- kernel heap and kernel-only mappings;
-- address-space objects and page-table roots;
-- mapping, unmapping, permission changes and rollback;
-- page-fault validation and dispatch primitives;
-- memory-object and mapping capability enforcement;
-- TLB invalidation and cross-CPU shootdown before unsafe frame reuse;
-- lifecycle-safe cleanup when processes or address spaces terminate.
+- validate the boot handoff and memory-map inputs; establish kernel page tables and allocator state before exposing services;
+- manage kernel page-table objects and AddressSpace objects;
+- enforce map/unmap/switch operations through explicit capability-authorized ABI operations;
+- require AddressSpace-Cap `{MAP}` plus Frame-Cap `{GRANT}` for mapping; mapping rights MUST be a subset of Frame-Cap rights;
+- enforce SC-005 typed object-rights, monotonic derivation and revocation semantics;
+- enforce W^X as the frozen SC-007 policy; changes require the documented SC-DEC/SC-ARCH review, not a runtime service-space override;
+- perform synchronous unmap/TLB-shootdown semantics required by SC-007, including cross-CPU behavior before stale mappings can be used;
+- deliver memory faults through the specified AddressSpace fault-endpoint and thread-suspend contract;
+- isolate target-specific page-table, synchronization and CPU operations behind the HAL.
+
+**Important distinction:** SC-007 says frames originate from Untyped via SC-001 Retype; mapping creates visibility, not memory. Allocation policy is service-space policy. Therefore ATC-SMM MUST NOT describe a generic kernel heap or a frame-scanning allocator as the complete normative process-memory allocation model. Existing `memory.rs`/`memory_manager.rs` code must be classified as interim implementation until conformance with SC-001…SC-007 is demonstrated.
 
 Only the minimum mechanisms required for isolation belong in the TCB. Filesystem policy, databases, AI inference, blockchain state, content indexing, application policy and storage federation remain outside the TCB.
 
@@ -140,7 +158,7 @@ GlobusOS MUST own:
 - persistent storage orchestration and recovery interfaces;
 - service authorization and IPC to kernel memory objects.
 
-The existing `globus-memory` crate is treated as a userspace abstraction/policy boundary until its complete call graph and hardware-backed integration are verified. It MUST NOT independently allocate physical frames or mutate canonical kernel page tables.
+The existing `globus-memory` crate is treated as an OS-side policy/model/API layer, not a second hardware memory authority. It may request memory through the ShivaCore capability/Untyped/AddressSpace contract; it MUST NOT independently own physical frames, page-table roots or hardware mapping mutation. Its current model code is not proof of conformance or a hardware-backed mapping path.
 
 ### 4.3 Aurora AI — semantic AI memory
 
@@ -186,51 +204,41 @@ Wallet private keys, seed/recovery material and signing state MUST remain in the
 
 ## 5. Kernel memory invariants
 
-The following are proposed mandatory architecture invariants. They require owner/security review before normative adoption.
+The following rules are inherited from the cited ShivaCore specifications or are ATC-SMM integration constraints. They are not replacements for those specifications.
 
-1. **Single allocator authority:** exactly one canonical physical frame allocator in ShivaCore.
-2. **No ambient authority:** every privileged memory operation requires an explicit capability/object right.
-3. **Least privilege:** allocations do not automatically receive execute or delegation rights.
-4. **W^X:** writable and executable mappings MUST NOT be granted simultaneously unless a separately reviewed architecture exception exists.
-5. **NX by default:** executable permission is explicit and separately authorized.
-6. **Kernel/user isolation:** user address spaces cannot map supervisor-only kernel memory.
-7. **Checked arithmetic:** address, length, page-count and range calculations use checked operations; overflow fails closed.
-8. **Transactional mapping:** failed map/unmap/protect operations roll back intermediate page-table mutations and reclaim only resources proven unreferenced.
-9. **Lifetime safety:** mappings, address spaces, capabilities and physical frames have explicit ownership and lifetime rules; stale references cannot survive reclamation.
-10. **TLB safety:** a physical frame MUST NOT be reused until required local and remote TLB invalidations have completed.
-11. **SMP safety:** shared frame allocator, page-table mutation and scheduler/address-space state are synchronized for the declared CPU execution model.
-12. **Fail closed:** invalid faults, unauthorized mappings, malformed ranges and resource exhaustion return explicit errors or terminate the affected workload according to policy; they do not widen permissions.
-13. **Secure reclamation:** sensitive memory is zeroized before reuse; ordinary memory reclamation cannot bypass object/capability revocation.
-14. **DMA isolation:** DMA-capable devices use the declared IOMMU/DMA ownership and mapping contract; CPU page-table isolation alone is not sufficient.
-15. **No persistence in the kernel:** filesystem, database, block-storage, AI memory and chain persistence logic remain userspace/domain services.
+1. **Capability authority:** kernel-object access is capability-only; no ambient authority. (SHIVA-ABI-001; SC-005)
+2. **Typed rights:** Frame rights and AddressSpace rights are distinct; mapping requires AddressSpace `{MAP}` plus Frame `{GRANT}`. (SC-005; SC-007)
+3. **Monotonic rights:** capability derivation cannot increase rights; reduction is performed through the frozen mint/revoke model. (SC-005)
+4. **W^X:** no VA region may be simultaneously writable and executable. This is frozen SC-007 policy; an exception cannot be introduced by ATC-SMM or runtime policy.
+5. **Kernel-exclusive page tables:** userspace never writes page-table entries directly. (SC-007)
+6. **Synchronous unmap/revocation:** unmap and frame revocation complete the specified TLB shootdown before stale access can persist. (SC-007)
+7. **Untyped frame source:** frames are created through the SC-001 Untyped/Retype model; map does not allocate memory. (SC-007)
+8. **ABI validation:** validate caller context, capability, user pointer and length; return explicit errors; version breaking ABI changes. (SHIVA-ABI-001)
+9. **HAL isolation:** page-table primitives and required synchronization are target-HAL responsibilities; architecture-specific unsafe code is isolated and tested. (SHIVA-HAL-001)
+10. **Boot ordering:** initialize kernel page tables and allocator state from validated boot information before exposing services. (SHIVA-BOOT-001)
+11. **Fault contract:** page faults follow the SC-007 suspend/notification/resume or terminal-suspend rules; no generic implicit allocation-on-fault is assumed.
+12. **Implementation evidence:** source presence is not conformance; target build, boot, ABI/IPC and security evidence must be tied to exact source SHAs. (SHIVA-KERNEL-REUSE-001; HAL; BOOT)
+13. **No persistence in the TCB:** filesystems, database, block-storage, AI memory and chain persistence remain userspace/domain services. (SHIVA-KERNEL-REUSE-001; SHIVA-GLOBUS-INTEGRATION-001)
+
+Additional memory-safety recommendations such as checked arithmetic, rollback, object lifetime, secure reclamation and DMA/IOMMU isolation remain ATC-SMM review/acceptance criteria unless already specified by a more specific ShivaCore contract. They MUST NOT be represented as already implemented.
 
 ## 6. Memory object and interface contract
 
-This document does not freeze concrete Rust types or syscall numbers. Those belong to the canonical ShivaCore ABI and HAL specifications.
+ATC-SMM does not define a parallel syscall model or replace the ShivaCore ABI. The canonical types and operations remain governed by SHIVA-ABI-001 and SC-001…SC-007.
 
-The interface model MUST distinguish:
+The cross-layer model MUST preserve these distinctions:
 
-- `PhysicalFrameRange`: owned/reserved physical frames;
-- `MemoryObject`: kernel-managed memory object with explicit owner and lifecycle;
-- `AddressSpace`: an isolated virtual address-space object;
-- `Mapping`: a relationship between a memory object/range and a virtual range;
-- `MemoryRights`: explicit READ, WRITE, EXECUTE and controlled delegation rights;
-- `MemoryQuota`: userspace policy limit, not physical-memory authority;
-- `MemoryFault`: validated fault metadata, not an implicit allocation request.
+- `UntypedMemory`: capability-authorized source of memory authority; frame creation uses SC-001 Retype.
+- `FrameCap`: typed capability with SC-005 Frame rights; `GRANT` authorizes mapping.
+- `AddressSpaceCap`: typed capability with `MAP`, `UNMAP`, `SWITCH` rights.
+- `PageTable`: kernel-exclusive object; userspace cannot edit entries.
+- `Mapping`: VA-to-frame relationship; mapping rights are a subset of the Frame-Cap rights.
+- `MemoryQuota`: GlobusOS/service-space policy, not a kernel frame-allocation authority.
+- `MemoryFault`: follows SC-007 fault endpoint and thread state semantics; it is not implicitly an allocation request.
 
-Required lifecycle:
+ATC-SMM deliberately does not prescribe a new generic `MemoryRights` mask, allocator API, syscall number or Rust ABI type. In particular, it MUST NOT collapse Frame rights (`READ/WRITE/EXECUTE/GRANT`) and AddressSpace rights (`MAP/UNMAP/SWITCH`) into one generic object-rights mask.
 
-`RESERVE → ALLOCATE → CREATE_OBJECT → AUTHORIZE → MAP → USE → UNMAP → REVOKE → ZEROIZE_IF_REQUIRED → RECLAIM`
-
-Every transition MUST define:
-- caller identity and capability;
-- object owner and lifetime;
-- alignment and range validation;
-- permission transition;
-- concurrency/locking requirements;
-- rollback behavior;
-- error semantics;
-- audit/diagnostic event where security-relevant.
+The implementation lifecycle is specified by the frozen SC-001…SC-007 contracts. At the integration level it is: acquire/derive Untyped authority → Retype frame → derive least-privilege Frame-Cap → authorize AddressSpace-Cap → map → use → unmap/revoke with synchronous TLB semantics → reclaim only after all references/mappings are gone. Exact operation atomicity and failure semantics remain those of the underlying SC specifications.
 
 The userspace ABI MUST be versioned. Internal kernel structs MUST NOT become an implicit userspace ABI.
 
@@ -270,13 +278,13 @@ The archived `atc-storage` repository MUST NOT be treated as an active dependenc
 
 | ID | Finding | Evidence basis | Status |
 |---|---|---|---|
-| MEM-01 | `memory_manager.rs` currently creates READ \| WRITE \| EXEC \| DELEGATE rights on allocation | Source at GlobusOS baseline; capability creation call | RESIDUAL / HIGH |
-| MEM-02 | `UserspaceBump` is explicitly described as a virtual-address simulation, not a hardware-backed process mapping | Source comments and allocation branch in `memory_manager.rs` | NOT_VERIFIED as real userspace mapping |
-| MEM-03 | `globus-memory/src/paging.rs` models mappings in a `std::collections::BTreeMap`; it does not itself mutate hardware page tables | Source implementation | MODEL / NOT_HARDWARE_VERIFIED |
-| MEM-04 | `globus-memory/src/frames.rs` implements a bounded monotonic allocator model; a full free/reclaim/coalescing lifecycle is not shown in this module | Source implementation | PARTIAL |
-| MEM-05 | `memory.rs` frame allocation reconstructs/scans the usable-frame iterator with `nth(next)`; allocation complexity and lifecycle need review | Source implementation | REVIEW_REQUIRED |
-| MEM-06 | Mapping mutation rollback, page-table cleanup and object/mapping lifetime remain explicit P0 acceptance criteria | `FN-VMM-001` in ecosystem delivery registry | IN_PROGRESS |
-| MEM-07 | Cross-CPU TLB shootdown, per-CPU scheduler state and frame reclamation are open in the active kernel-isolation work | GlobusOS PR #89 description and patch | BLOCKED / RESIDUAL |
+| MEM-01 | `memory_manager.rs` creates a generic `ResourceType::Memory` capability with `READ | WRITE | EXEC | DELEGATE` on allocation; this is broader and less typed than SC-005 Frame/AddressSpace rights. It does not by itself prove that a hardware page mapping receives executable permission. | GlobusOS `memory_manager.rs` blob `6d1d8ec948b3d3d0d683e1a0e92d9c77ee2fbfaa`; ShivaCore SC-005 blob `2e19216b43237fcbd6e175a7abf15c1781cde4ca` | RESIDUAL / HIGH / SPEC-CONFORMANCE REVIEW |
+| MEM-02 | The same manager routes small allocations to kernel `alloc::alloc` and large allocations to `UserspaceBump`, explicitly documented as virtual-address simulation; this is not the SC-001 Retype + SC-007 map process-memory contract. | GlobusOS `memory_manager.rs` blob `6d1d8ec948b3d3d0d683e1a0e92d9c77ee2fbfaa`; SC-007 blob `8d61e3e9fa8951ccf20924254ba1c48fb239bfee` | INTERIM / NOT_CONFORMANT_AS_PROCESS_MAPPING |
+| MEM-03 | `globus-memory/src/paging.rs` models mappings in a `BTreeMap`; it is not itself the kernel-exclusive hardware page-table object/mutation path required by SC-007. | GlobusOS source at inspected baseline; SC-007 | MODEL / NOT_HARDWARE_VERIFIED |
+| MEM-04 | `globus-memory/src/frames.rs` exposes a bounded monotonic frame model; conformance to Untyped/Retype and full lifetime/reclamation semantics is not established. | GlobusOS source at inspected baseline; SC-001/SC-007 | PARTIAL / NOT_CONFORMANT_EVIDENCE |
+| MEM-05 | `memory.rs` uses a boot-info usable-frame iterator with `.nth(next)`; the inspected implementation is an interim boot allocator and does not demonstrate SC-001 Untyped/Retype capability ownership. | GlobusOS `memory.rs` source; SC-001/SC-007 | INTERIM / REVIEW_REQUIRED |
+| MEM-06 | Mapping mutation rollback, page-table cleanup and object/mapping lifetime remain P0 acceptance criteria already tracked by the existing delivery item. | `FN-VMM-001` in ecosystem delivery registry | IN_PROGRESS / EVIDENCE MISSING |
+| MEM-07 | SC-007 requires synchronous TLB shootdown; PR #89 explicitly says remote CPU TLB shootdown and true SMP scheduler/frame synchronization are not implemented or evidenced at its current inspected head. | ShivaCore SC-007 blob `8d61e3e9fa8951ccf20924254ba1c48fb239bfee`; GlobusOS PR #89 head `b8e73a18c9f2022e6e3d0d321bea36b8bc448ff2` | BLOCKED / SPEC-COMPLIANCE GAP |
 | MEM-08 | The standalone `atc-storage` repository is archived; its migrated component is located at `a-townchain/components/storage` | `MIGRATION_MANIFEST.yaml`, repository metadata and control-plane registry | SSOT LOCATION CONFIRMED; implementation maturity separate |
 | STOR-01 | `components/storage/src/store.rs` is an in-memory `BTreeMap` KV store with an explicitly non-cryptographic FNV-1a development fingerprint | Source blob `3755e0ce0f41e645ad40d00838403a624244a730` | RESIDUAL / NOT_DURABLE / NOT_CRYPTOGRAPHIC |
 | STOR-02 | Durable node persistence and restart recovery are not established by the inspected `atc-node` root manifest or architecture document | `atc-node/Cargo.toml` and `ARCHITECTURE.md` inspected at baseline | NOT_VERIFIED / INVENTORY_REQUIRED |
@@ -285,8 +293,8 @@ These findings are source-level observations. They are not a substitute for a co
 
 ## 10. Existing work that MUST be reconciled, not duplicated
 
-- GlobusOS PR #89: open Draft; address-space isolation and service-space decoupling work. Its current description explicitly leaves SMP safety and remote TLB shootdown unresolved.
-- GlobusOS PR #108: open; touches `memory_manager.rs` while resolving kernel/boot Clippy blockers. Do not create a competing patch against the same file.
+- GlobusOS PR #89: open Draft at inspected head `b8e73a18c9f2022e6e3d0d321bea36b8bc448ff2`; separate CR3 roots and user-address-space isolation work exist, but remote CPU TLB shootdown, AP startup, per-CPU scheduler integration and synchronized frame lifecycle remain open. Its CI must be checked on the exact current head before any status claim.
+- GlobusOS PR #108: open, non-draft at inspected head `1b2fdf062c943dab6c5b32b92dd373be73918ceb`; its patch touches `memory_manager.rs` only for a compile-time assertion, not the capability-allocation logic. It also touches VMM test scoping and LKM/bootloader lint issues. Coordinate on the same file, but do not overstate the overlap: its current patch does not fix MEM-01/MEM-02.
 - GlobusOS PR #28: open; decentralized memory-node contract. This is an Aurora/federation boundary, not a physical-memory allocator.
 - GlobusOS PR #35: open; performance/optimization center. Its stated authority is recommendation-only and outside the TCB.
 - Ecosystem delivery item `FN-VMM-001`: existing P0 tracking for virtual-memory mapping mutation/lifetime. Reuse this item; do not allocate a duplicate function ID.
@@ -341,7 +349,7 @@ No PR is merged, approved or verified by this architecture document.
 ## 12. Implementation sequence
 
 1. **Inventory closure:** re-fetch exact repository HEADs; inspect manifests, call graphs, memory APIs, ownership, tests, active PRs and subtree drift.
-2. **Kernel contract review:** reconcile this proposal with `SHIVA-KERNEL-REUSE-001`, `SHIVA-HAL-001`, `SHIVA-ABI-001`, `FN-KERNEL-001` and `FN-VMM-001`.
+2. **Kernel contract review:** inherit `SHIVA-KERNEL-REUSE-001`, `SHIVA-HAL-001`, `SHIVA-ABI-001`, `SHIVA-BOOT-001`, frozen `SC-005` and `SC-007`; resolve the SC-001 Retype dependency and `SHIVA-GLOBUS-INTEGRATION-001` boundary. Reuse `FN-KERNEL-001` and `FN-VMM-001`; do not create duplicate delivery IDs.
 3. **Existing-branch coordination:** review PR #89 and PR #108; do not duplicate or overwrite their work.
 4. **Kernel P0 remediation:** prioritize permission defaults, mapping rollback/lifetime, TLB/SMP safety, frame lifecycle and capability enforcement.
 5. **GlobusOS policy contract:** define quota/accounting and userspace memory-service APIs on top of the kernel contract.
@@ -377,11 +385,13 @@ Unknown evidence is BLOCKED or NOT_VERIFIED, never inferred PASS.
 - Architecture name: ATC-SMM
 - Scope: full A-TownChain ecosystem
 - First technical priority: ShivaCore kernel memory safety and ownership boundaries
+- Kernel architecture/specification authority: `atc-shivacore` (active/frozen ShivaCore specifications)
 - Kernel implementation SSOT: `globus-os/modules/atc-shivacore/kernel/`
-- Normative SSOT: `atc-standards`
+- Ecosystem standards registry/governance: `atc-standards`
 - Cross-repository architecture/evidence owner: `a-townchain-ecosystem`
 - New runtime implementation: NOT_AUTHORIZED BY THIS DOCUMENT
 - New normative standard ID: NOT_ALLOCATED
+- ShivaCore specification reconciliation: PARTIAL (SHIVA-KERNEL-REUSE/HAL/ABI/BOOT, SC-005, SC-007 and integration draft inspected; SC-001 full text/path still requires exact retrieval)
 - Inventory completeness: PARTIAL
 - Architecture approval: PENDING
 - Implementation verification: NOT_ESTABLISHED
