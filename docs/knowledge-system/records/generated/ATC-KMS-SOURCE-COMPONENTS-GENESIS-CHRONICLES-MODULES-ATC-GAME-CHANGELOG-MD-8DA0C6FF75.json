@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-GENESIS-CHRONICLES-MODULES-ATC-GAME-CHANGELOG-MD-8DA0C6FF75",
-  "timestamp": "2026-11-01T09:19:38.620488Z",
+  "timestamp": "2026-11-02T09:35:06.223087Z",
   "category": "evidence",
   "title": "Indexed source: components/genesis-chronicles/modules/atc-game/CHANGELOG.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/genesis-chronicles/modules/atc-game/CHANGELOG.md",
-    "commit": "40cf00e9620cc5c19b80e25a728c06a9afc5e42b"
+    "commit": "83b696c8fc63fa4d132da7975e0eee1267f45d5f"
   },
   "tags": [
     "generated",

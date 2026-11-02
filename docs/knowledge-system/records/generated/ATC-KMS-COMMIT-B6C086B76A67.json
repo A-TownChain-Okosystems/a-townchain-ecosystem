@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-B6C086B76A67",
-  "timestamp": "2026-11-01T09:19:38.620488Z",
+  "timestamp": "2026-11-02T09:35:06.223087Z",
   "category": "change",
   "title": "Commit: docs(competitive-monitoring): report only material daily deltas",
   "context": "Git commit b6c086b76a67e14323e3eba49c0ad1237ed99804 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/b6c086b76a67e14323e3eba49c0ad1237ed99804",
-    "commit": "40cf00e9620cc5c19b80e25a728c06a9afc5e42b"
+    "commit": "83b696c8fc63fa4d132da7975e0eee1267f45d5f"
   },
   "tags": [
     "commit",

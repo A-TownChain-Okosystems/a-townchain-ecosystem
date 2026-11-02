@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-99",
-  "timestamp": "2026-11-01T09:19:38.620488Z",
+  "timestamp": "2026-11-02T09:35:06.223087Z",
   "category": "change",
   "title": "PR #99: fix: remove wall-clock from blockchain determinism tests",
   "context": "Pull request 99 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/99",
-    "commit": "40cf00e9620cc5c19b80e25a728c06a9afc5e42b"
+    "commit": "83b696c8fc63fa4d132da7975e0eee1267f45d5f"
   },
   "tags": [
     "generated",

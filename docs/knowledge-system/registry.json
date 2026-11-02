@@ -263,6 +263,11 @@
       "managed_by": "atc-kms-indexer"
     },
     {
+      "id": "ATC-KMS-COMMIT-83B696C8FC63",
+      "path": "records/generated/ATC-KMS-COMMIT-83B696C8FC63.json",
+      "managed_by": "atc-kms-indexer"
+    },
+    {
       "id": "ATC-KMS-COMMIT-8504CAA5C431",
       "path": "records/generated/ATC-KMS-COMMIT-8504CAA5C431.json",
       "managed_by": "atc-kms-indexer"
@@ -493,11 +498,6 @@
       "managed_by": "atc-kms-indexer"
     },
     {
-      "id": "ATC-KMS-COMMIT-F2EE61BDBFFE",
-      "path": "records/generated/ATC-KMS-COMMIT-F2EE61BDBFFE.json",
-      "managed_by": "atc-kms-indexer"
-    },
-    {
       "id": "ATC-KMS-COMMIT-F303EE5747B4",
       "path": "records/generated/ATC-KMS-COMMIT-F303EE5747B4.json",
       "managed_by": "atc-kms-indexer"
@@ -665,11 +665,6 @@
     {
       "id": "ATC-KMS-ISSUE-132",
       "path": "records/generated/ATC-KMS-ISSUE-132.json",
-      "managed_by": "atc-kms-indexer"
-    },
-    {
-      "id": "ATC-KMS-ISSUE-137",
-      "path": "records/generated/ATC-KMS-ISSUE-137.json",
       "managed_by": "atc-kms-indexer"
     },
     {
@@ -1243,6 +1238,11 @@
       "managed_by": "atc-kms-indexer"
     },
     {
+      "id": "ATC-KMS-PR-241",
+      "path": "records/generated/ATC-KMS-PR-241.json",
+      "managed_by": "atc-kms-indexer"
+    },
+    {
       "id": "ATC-KMS-PR-41",
       "path": "records/generated/ATC-KMS-PR-41.json",
       "managed_by": "atc-kms-indexer"
@@ -1270,11 +1270,6 @@
     {
       "id": "ATC-KMS-PR-54",
       "path": "records/generated/ATC-KMS-PR-54.json",
-      "managed_by": "atc-kms-indexer"
-    },
-    {
-      "id": "ATC-KMS-PR-55",
-      "path": "records/generated/ATC-KMS-PR-55.json",
       "managed_by": "atc-kms-indexer"
     },
     {
@@ -5868,10 +5863,10 @@
       "managed_by": "atc-kms-indexer"
     }
   ],
-  "last_updated": "2026-11-01T09:19:38.620488Z",
+  "last_updated": "2026-11-02T09:35:06.223087Z",
   "indexer": {
     "name": "atc-kms-indexer",
     "version": "v1.0.0",
-    "generated_record_count": 1169
+    "generated_record_count": 1168
   }
 }
