@@ -121,11 +121,14 @@ The following ShivaCore documents were fetched at repository baseline `3b56253b3
 | `SHIVA-HAL-001.md` | `f071bc13e610e88a540fe4d57ffc9e286ee87da9` | `active`; target page-table primitives, synchronization and boot handoff are HAL responsibilities; architecture-specific unsafe code isolated and tested |
 | `SHIVA-ABI-001.md` | `edb0e219bdab32fd99ae4d1513dcbb7deab1e9bf` | `active`; address-space and memory-object handles are explicit capabilities; syscalls validate caller, capability, pointers and lengths; no ambient authority; ABI changes versioned |
 | `SHIVA-BOOT-001.md` | `64e73fa8c711dc076330dae8dbfc81c04b989bb3` | `active`; kernel receives boot memory map/CPU topology and initializes its own page tables and allocator state before exposing services |
+| `SC-001-BOOT_MEMORY.md` | `6927a89aabc7a1c1a0bb9f07f911e95d3b698fa3` | `FROZEN v0.1.0`; boot chain B0–B5, 4 KiB frames, Kernel-Control vs Untyped, capability-mediated Retype, Initial Task/`globus-init`, and explicit statement that the historical L0–L10 sequence is not real hardware boot evidence |
 | `SC-005-CAPABILITY_SYSTEM.md` | `2e19216b43237fcbd6e175a7abf15c1781cde4ca` | `FROZEN v0.1.0`; typed rights, derivation only reduces rights, revocation removes derived authority; no all-rights initial capability or ambient derive |
 | `SC-007-ADDRESSSPACE_MEMORY.md` | `8d61e3e9fa8951ccf20924254ba1c48fb239bfee` | `FROZEN v0.1.0`; map requires AddressSpace MAP + Frame GRANT; mapping rights are a subset of Frame-Cap rights; W^X is mandatory policy; unmap and frame revocation include synchronous TLB shootdown |
 | `SHIVA-GLOBUS-INTEGRATION-001.md` | `b46302a3bfd2808016b18b0824517da724558dbc` | `DRAFT`; ShivaCore owns address spaces/protection and capability primitives; GlobusOS owns process/service policy, VFS, storage, networking and drivers |
 
 The frozen SC-005 and SC-007 documents are more specific than generic ATC-SMM language. ATC-SMM therefore records their requirements as inherited constraints, not as newly invented requirements. A change to frozen semantics requires the ShivaCore owner’s documented SC-DEC/SC-ARCH governance path; ATC-SMM alone cannot authorize it.
+
+**Boot-contract discrepancy requiring owner resolution:** `SHIVA-BOOT-001` describes the repository's current image-builder path using the `bootloader` crate, while frozen `SC-001` defines Limine B0/B1 and explicitly says the actual B0–B5 hardware boot chain is currently specification-only; L0–L10 is an in-kernel initialization/test sequence, not a device boot. Until the documents are reconciled through ShivaCore versioned governance, ATC-SMM follows the more specific frozen SC-001 requirements and makes no successful hardware-boot claim. The SC-001 document itself says it does not establish implementation status.
 
 ## 4. Ownership and trust boundaries
 
@@ -391,7 +394,7 @@ Unknown evidence is BLOCKED or NOT_VERIFIED, never inferred PASS.
 - Cross-repository architecture/evidence owner: `a-townchain-ecosystem`
 - New runtime implementation: NOT_AUTHORIZED BY THIS DOCUMENT
 - New normative standard ID: NOT_ALLOCATED
-- ShivaCore specification reconciliation: PARTIAL (SHIVA-KERNEL-REUSE/HAL/ABI/BOOT, SC-005, SC-007 and integration draft inspected; SC-001 full text/path still requires exact retrieval)
+- ShivaCore specification reconciliation: PARTIAL (SHIVA-KERNEL-REUSE/HAL/ABI/BOOT, frozen SC-001/SC-005/SC-007 and integration draft inspected; SHIVA-BOOT vs SC-001 boot-contract discrepancy recorded for owner resolution)
 - Inventory completeness: PARTIAL
 - Architecture approval: PENDING
 - Implementation verification: NOT_ESTABLISHED
