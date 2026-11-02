@@ -18,7 +18,7 @@ This document is a cross-repository architecture proposal. It records an initial
 
 It is **not** an approved ATC standard, does not allocate a standard ID, does not authorize implementation changes, and does not supersede any repository-specific specification or governance decision.
 
-Normative standards remain owned by \`atc-standards\`. The canonical implementation of each subsystem remains in its designated source repository. This document is maintained in \`a-townchain-ecosystem\` because that repository owns cross-repository architecture and integration evidence, not component implementation.
+Normative standards remain owned by `atc-standards`. The canonical implementation of each subsystem remains in its designated source repository. This document is maintained in `a-townchain-ecosystem` because that repository owns cross-repository architecture and integration evidence, not component implementation.
 
 Lifecycle:
 - Architecture proposal: DRAFT
@@ -70,15 +70,15 @@ The following map records the ownership decision and the source baseline inspect
 
 | Repository | Canonical role in ATC-SMM | Baseline inspected |
 |---|---|---|
-| \`globus-os\` | Active ShivaCore kernel source plus GlobusOS userspace, memory policy, VFS and services | \`f370b681e5c9ff49577f25c24f15b5fc880d5cba\` |
-| \`atc-shivacore\` | Kernel architecture, reuse, HAL, ABI and governance specifications; not a second active kernel | \`3b56253b39bdc6cbf719ed9a2a21461d73b8fc34\` |
-| \`aurora-ai\` | AI/agent memory and context implementation | \`30e85eb8aba199f68b5f17f329eddbe168e50f87\` |
-| \`a-townchain\` | Chain orchestration and canonical chain integration; storage subtree ownership needs path-level reconciliation | \`ce92756c32f138e3bc51039060101f4d466027bd\` |
-| \`atc-node\` | Executable node runtime, including node storage and lifecycle boundaries | \`821d049efc5b592e4728b36b64038d4ce5e7d2c6\` |
-| \`genesis-engine\` | Game/runtime asset, world and simulation data domains | \`3c2be8c11c00bf5b6a1a4de87760004e9c5d35ef\` |
-| \`atc-standards\` | Normative standards registry and change governance | \`f54083518fb8a2d12482e0791f05bd8d86b4642d\` |
-| \`a-townchain-ecosystem\` | Cross-repository architecture, integration contracts and evidence control plane | \`83b696c8fc63fa4d132da7975e0eee1267f45d5f\` |
-| \`atc-storage\` | Archived reference; not an active runtime dependency | \`230746c1dc5e4c1355c2707368de50d6c1008660\` |
+| `globus-os` | Active ShivaCore kernel source plus GlobusOS userspace, memory policy, VFS and services | `f370b681e5c9ff49577f25c24f15b5fc880d5cba` |
+| `atc-shivacore` | Kernel architecture, reuse, HAL, ABI and governance specifications; not a second active kernel | `3b56253b39bdc6cbf719ed9a2a21461d73b8fc34` |
+| `aurora-ai` | AI/agent memory and context implementation | `30e85eb8aba199f68b5f17f329eddbe168e50f87` |
+| `a-townchain` | Chain orchestration and canonical chain integration; storage subtree ownership needs path-level reconciliation | `ce92756c32f138e3bc51039060101f4d466027bd` |
+| `atc-node` | Executable node runtime, including node storage and lifecycle boundaries | `821d049efc5b592e4728b36b64038d4ce5e7d2c6` |
+| `genesis-engine` | Game/runtime asset, world and simulation data domains | `3c2be8c11c00bf5b6a1a4de87760004e9c5d35ef` |
+| `atc-standards` | Normative standards registry and change governance | `f54083518fb8a2d12482e0791f05bd8d86b4642d` |
+| `a-townchain-ecosystem` | Cross-repository architecture, integration contracts and evidence control plane | `83b696c8fc63fa4d132da7975e0eee1267f45d5f` |
+| `atc-storage` | Archived reference; not an active runtime dependency | `230746c1dc5e4c1355c2707368de50d6c1008660` |
 
 These are observed repository HEADs from the inventory run, not release pins. Re-fetch each HEAD before implementation, merge, audit or release decisions.
 
@@ -86,28 +86,28 @@ These are observed repository HEADs from the inventory run, not release pins. Re
 
 The active kernel implementation is:
 
-\`globus-os/modules/atc-shivacore/kernel/\`
+`globus-os/modules/atc-shivacore/kernel/`
 
-The \`atc-shivacore\` repository explicitly identifies itself as specifications/governance/support. It MUST NOT receive a second active kernel implementation.
+The `atc-shivacore` repository explicitly identifies itself as specifications/governance/support. It MUST NOT receive a second active kernel implementation.
 
 ### 3.2 Existing memory modules
 
-Observed source files in \`globus-os\`:
+Observed source files in `globus-os`:
 
-- \`modules/atc-shivacore/kernel/src/memory.rs\`
-- \`modules/atc-shivacore/kernel/src/memory_manager.rs\`
-- \`modules/atc-shivacore/kernel/src/allocator.rs\`
-- \`system/memory/src/lib.rs\`
-- \`system/memory/src/frames.rs\`
-- \`system/memory/src/paging.rs\`
-- \`system/memory/src/allocator.rs\`
-- \`system/memory/src/fault.rs\`
+- `modules/atc-shivacore/kernel/src/memory.rs`
+- `modules/atc-shivacore/kernel/src/memory_manager.rs`
+- `modules/atc-shivacore/kernel/src/allocator.rs`
+- `system/memory/src/lib.rs`
+- `system/memory/src/frames.rs`
+- `system/memory/src/paging.rs`
+- `system/memory/src/allocator.rs`
+- `system/memory/src/fault.rs`
 
-Observed source files in \`aurora-ai\`:
+Observed source files in `aurora-ai`:
 
-- \`modules/atc-aurora-memory/src/lib.rs\`
-- \`modules/atc-aurora-memory/Cargo.toml\`
-- \`modules/atc-aurora-memory\` module documentation
+- `modules/atc-aurora-memory/src/lib.rs`
+- `modules/atc-aurora-memory/Cargo.toml`
+- `modules/atc-aurora-memory` module documentation
 
 The source inventory proves file and API presence only. It does not establish that every path is used in the booted system, production-ready, or verified at the baseline SHA.
 
@@ -140,7 +140,7 @@ GlobusOS MUST own:
 - persistent storage orchestration and recovery interfaces;
 - service authorization and IPC to kernel memory objects.
 
-The existing \`globus-memory\` crate is treated as a userspace abstraction/policy boundary until its complete call graph and hardware-backed integration are verified. It MUST NOT independently allocate physical frames or mutate canonical kernel page tables.
+The existing `globus-memory` crate is treated as a userspace abstraction/policy boundary until its complete call graph and hardware-backed integration are verified. It MUST NOT independently allocate physical frames or mutate canonical kernel page tables.
 
 ### 4.3 Aurora AI — semantic AI memory
 
@@ -161,7 +161,7 @@ Aurora MUST NOT:
 - access wallet keys or recovery material;
 - turn AI memory into canonical blockchain state.
 
-The existing \`ATC-AI-MEM-001\` is a draft AI-memory security specification. The existing decentralized-memory architecture is a target contract, not proof of a production federation implementation.
+The existing `ATC-AI-MEM-001` is a draft AI-memory security specification. The existing decentralized-memory architecture is a target contract, not proof of a production federation implementation.
 
 ### 4.4 Blockchain and ATC-VM
 
@@ -172,7 +172,7 @@ The existing \`ATC-AI-MEM-001\` is a draft AI-memory security specification. The
 - Candidate state MUST NOT become canonical until accepted by the protocol's finality/commit rules.
 - AI memory, indexer read models and explorer projections MUST NOT become canonical chain state.
 
-The exact canonical node-storage module and its relationship to the imported \`a-townchain/components/storage\` subtree remain an inventory item; no replacement storage engine is authorized here.
+The exact canonical node-storage module and its relationship to the imported `a-townchain/components/storage` subtree remain an inventory item; no replacement storage engine is authorized here.
 
 ### 4.5 Genesis Engine
 
@@ -208,17 +208,17 @@ This document does not freeze concrete Rust types or syscall numbers. Those belo
 
 The interface model MUST distinguish:
 
-- \`PhysicalFrameRange\`: owned/reserved physical frames;
-- \`MemoryObject\`: kernel-managed memory object with explicit owner and lifecycle;
-- \`AddressSpace\`: an isolated virtual address-space object;
-- \`Mapping\`: a relationship between a memory object/range and a virtual range;
-- \`MemoryRights\`: explicit READ, WRITE, EXECUTE and controlled delegation rights;
-- \`MemoryQuota\`: userspace policy limit, not physical-memory authority;
-- \`MemoryFault\`: validated fault metadata, not an implicit allocation request.
+- `PhysicalFrameRange`: owned/reserved physical frames;
+- `MemoryObject`: kernel-managed memory object with explicit owner and lifecycle;
+- `AddressSpace`: an isolated virtual address-space object;
+- `Mapping`: a relationship between a memory object/range and a virtual range;
+- `MemoryRights`: explicit READ, WRITE, EXECUTE and controlled delegation rights;
+- `MemoryQuota`: userspace policy limit, not physical-memory authority;
+- `MemoryFault`: validated fault metadata, not an implicit allocation request.
 
 Required lifecycle:
 
-\`RESERVE → ALLOCATE → CREATE_OBJECT → AUTHORIZE → MAP → USE → UNMAP → REVOKE → ZEROIZE_IF_REQUIRED → RECLAIM\`
+`RESERVE → ALLOCATE → CREATE_OBJECT → AUTHORIZE → MAP → USE → UNMAP → REVOKE → ZEROIZE_IF_REQUIRED → RECLAIM`
 
 Every transition MUST define:
 - caller identity and capability;
@@ -252,7 +252,7 @@ Every persistent subsystem MUST define:
 
 A content hash, cache entry, snapshot, index or database write does not independently establish authoritative state or consensus finality.
 
-The archived \`atc-storage\` repository MUST NOT be treated as an active dependency without an explicit reactivation decision and SSOT review.
+The archived `atc-storage` repository MUST NOT be treated as an active dependency without an explicit reactivation decision and SSOT review.
 
 ## 8. Cross-system API and data-flow rules
 
@@ -268,25 +268,25 @@ The archived \`atc-storage\` repository MUST NOT be treated as an active depende
 
 | ID | Finding | Evidence basis | Status |
 |---|---|---|---|
-| MEM-01 | \`memory_manager.rs\` currently creates READ \| WRITE \| EXEC \| DELEGATE rights on allocation | Source at GlobusOS baseline; capability creation call | RESIDUAL / HIGH |
-| MEM-02 | \`UserspaceBump\` is explicitly described as a virtual-address simulation, not a hardware-backed process mapping | Source comments and allocation branch in \`memory_manager.rs\` | NOT_VERIFIED as real userspace mapping |
-| MEM-03 | \`globus-memory/src/paging.rs\` models mappings in a \`std::collections::BTreeMap\`; it does not itself mutate hardware page tables | Source implementation | MODEL / NOT_HARDWARE_VERIFIED |
-| MEM-04 | \`globus-memory/src/frames.rs\` implements a bounded monotonic allocator model; a full free/reclaim/coalescing lifecycle is not shown in this module | Source implementation | PARTIAL |
-| MEM-05 | \`memory.rs\` frame allocation reconstructs/scans the usable-frame iterator with \`nth(next)\`; allocation complexity and lifecycle need review | Source implementation | REVIEW_REQUIRED |
-| MEM-06 | Mapping mutation rollback, page-table cleanup and object/mapping lifetime remain explicit P0 acceptance criteria | \`FN-VMM-001\` in ecosystem delivery registry | IN_PROGRESS |
+| MEM-01 | `memory_manager.rs` currently creates READ \| WRITE \| EXEC \| DELEGATE rights on allocation | Source at GlobusOS baseline; capability creation call | RESIDUAL / HIGH |
+| MEM-02 | `UserspaceBump` is explicitly described as a virtual-address simulation, not a hardware-backed process mapping | Source comments and allocation branch in `memory_manager.rs` | NOT_VERIFIED as real userspace mapping |
+| MEM-03 | `globus-memory/src/paging.rs` models mappings in a `std::collections::BTreeMap`; it does not itself mutate hardware page tables | Source implementation | MODEL / NOT_HARDWARE_VERIFIED |
+| MEM-04 | `globus-memory/src/frames.rs` implements a bounded monotonic allocator model; a full free/reclaim/coalescing lifecycle is not shown in this module | Source implementation | PARTIAL |
+| MEM-05 | `memory.rs` frame allocation reconstructs/scans the usable-frame iterator with `nth(next)`; allocation complexity and lifecycle need review | Source implementation | REVIEW_REQUIRED |
+| MEM-06 | Mapping mutation rollback, page-table cleanup and object/mapping lifetime remain explicit P0 acceptance criteria | `FN-VMM-001` in ecosystem delivery registry | IN_PROGRESS |
 | MEM-07 | Cross-CPU TLB shootdown, per-CPU scheduler state and frame reclamation are open in the active kernel-isolation work | GlobusOS PR #89 description and patch | BLOCKED / RESIDUAL |
-| MEM-08 | The \`atc-storage\` repository is archived and described in the control-plane registry as an archived reference | Repository metadata and delivery registry | EXCLUDED as active dependency |
+| MEM-08 | The `atc-storage` repository is archived and described in the control-plane registry as an archived reference | Repository metadata and delivery registry | EXCLUDED as active dependency |
 
 These findings are source-level observations. They are not a substitute for a complete call-graph audit, target build, QEMU/UEFI boot, runtime test, security review or exact-SHA CI evidence.
 
 ## 10. Existing work that MUST be reconciled, not duplicated
 
 - GlobusOS PR #89: open Draft; address-space isolation and service-space decoupling work. Its current description explicitly leaves SMP safety and remote TLB shootdown unresolved.
-- GlobusOS PR #108: open; touches \`memory_manager.rs\` while resolving kernel/boot Clippy blockers. Do not create a competing patch against the same file.
+- GlobusOS PR #108: open; touches `memory_manager.rs` while resolving kernel/boot Clippy blockers. Do not create a competing patch against the same file.
 - GlobusOS PR #28: open; decentralized memory-node contract. This is an Aurora/federation boundary, not a physical-memory allocator.
 - GlobusOS PR #35: open; performance/optimization center. Its stated authority is recommendation-only and outside the TCB.
-- Ecosystem delivery item \`FN-VMM-001\`: existing P0 tracking for virtual-memory mapping mutation/lifetime. Reuse this item; do not allocate a duplicate function ID.
-- Aurora \`ATC-AI-MEM-001\` and \`DECENTRALIZED_MEMORY_ARCHITECTURE.md\`: existing AI memory security/federation work. Keep its ownership in Aurora and GlobusOS.
+- Ecosystem delivery item `FN-VMM-001`: existing P0 tracking for virtual-memory mapping mutation/lifetime. Reuse this item; do not allocate a duplicate function ID.
+- Aurora `ATC-AI-MEM-001` and `DECENTRALIZED_MEMORY_ARCHITECTURE.md`: existing AI memory security/federation work. Keep its ownership in Aurora and GlobusOS.
 
 No PR is merged, approved or verified by this architecture document.
 
@@ -337,13 +337,13 @@ No PR is merged, approved or verified by this architecture document.
 ## 12. Implementation sequence
 
 1. **Inventory closure:** re-fetch exact repository HEADs; inspect manifests, call graphs, memory APIs, ownership, tests, active PRs and subtree drift.
-2. **Kernel contract review:** reconcile this proposal with \`SHIVA-KERNEL-REUSE-001\`, \`SHIVA-HAL-001\`, \`SHIVA-ABI-001\`, \`FN-KERNEL-001\` and \`FN-VMM-001\`.
+2. **Kernel contract review:** reconcile this proposal with `SHIVA-KERNEL-REUSE-001`, `SHIVA-HAL-001`, `SHIVA-ABI-001`, `FN-KERNEL-001` and `FN-VMM-001`.
 3. **Existing-branch coordination:** review PR #89 and PR #108; do not duplicate or overwrite their work.
 4. **Kernel P0 remediation:** prioritize permission defaults, mapping rollback/lifetime, TLB/SMP safety, frame lifecycle and capability enforcement.
 5. **GlobusOS policy contract:** define quota/accounting and userspace memory-service APIs on top of the kernel contract.
-6. **Persistent storage census:** reconcile \`a-townchain\`, \`atc-node\`, imported storage subtree and archived \`atc-storage\`; do not select a new engine until ownership is proven.
+6. **Persistent storage census:** reconcile `a-townchain`, `atc-node`, imported storage subtree and archived `atc-storage`; do not select a new engine until ownership is proven.
 7. **Aurora and Genesis integration:** bind their domain stores to authorized OS services without moving their semantic ownership.
-8. **Normative governance:** only after owner/security/architecture review, submit the appropriate SCR and registry-first standard proposal to \`atc-standards\`. No ID is allocated by this draft.
+8. **Normative governance:** only after owner/security/architecture review, submit the appropriate SCR and registry-first standard proposal to `atc-standards`. No ID is allocated by this draft.
 
 ## 13. Evidence rules
 
@@ -357,14 +357,14 @@ For every implementation or verification claim, record:
 - residuals and linked issue/PR/function IDs.
 
 Statuses remain separate:
-- \`IMPLEMENTED\`: source implementation exists;
-- \`TESTED\`: specified test executed successfully;
-- \`CI_VERIFIED\`: required CI passed for the exact SHA;
-- \`E2E_VERIFIED\`: cross-component behavior passed for the pinned source set;
-- \`VERIFIED\`: all applicable verification gates passed;
-- \`RESIDUAL\`: known unresolved risk;
-- \`BLOCKED\`: required dependency/evidence is missing;
-- \`EXCLUDED\`: explicitly outside active scope.
+- `IMPLEMENTED`: source implementation exists;
+- `TESTED`: specified test executed successfully;
+- `CI_VERIFIED`: required CI passed for the exact SHA;
+- `E2E_VERIFIED`: cross-component behavior passed for the pinned source set;
+- `VERIFIED`: all applicable verification gates passed;
+- `RESIDUAL`: known unresolved risk;
+- `BLOCKED`: required dependency/evidence is missing;
+- `EXCLUDED`: explicitly outside active scope.
 
 Unknown evidence is BLOCKED or NOT_VERIFIED, never inferred PASS.
 
@@ -373,9 +373,9 @@ Unknown evidence is BLOCKED or NOT_VERIFIED, never inferred PASS.
 - Architecture name: ATC-SMM
 - Scope: full A-TownChain ecosystem
 - First technical priority: ShivaCore kernel memory safety and ownership boundaries
-- Kernel implementation SSOT: \`globus-os/modules/atc-shivacore/kernel/\`
-- Normative SSOT: \`atc-standards\`
-- Cross-repository architecture/evidence owner: \`a-townchain-ecosystem\`
+- Kernel implementation SSOT: `globus-os/modules/atc-shivacore/kernel/`
+- Normative SSOT: `atc-standards`
+- Cross-repository architecture/evidence owner: `a-townchain-ecosystem`
 - New runtime implementation: NOT_AUTHORIZED BY THIS DOCUMENT
 - New normative standard ID: NOT_ALLOCATED
 - Inventory completeness: PARTIAL
