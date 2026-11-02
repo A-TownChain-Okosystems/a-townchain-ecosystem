@@ -1,13 +1,14 @@
 # ADR-0002: Canonical Capability and Physical-Memory Authority
 
-- Status: Proposed — owner decision required; NOT ACCEPTED
+- Status: Accepted — architecture-owner approval recorded 2026-11-02; implementation is staged behind the technical gates below
 - Scope: Architecture decision proposal for ShivaCore / GlobusOS memory authority
 - Related PR: [a-townchain-ecosystem#241](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/241)
 - Evidence baseline: GlobusOS `f370b681e5c9ff49577f25c24f15b5fc880d5cba`
 - Normative dependencies: frozen ShivaCore SC-001, SC-005 and SC-007
 - Existing delivery tracking: `FN-KERNEL-001`, `FN-VMM-001` (no new task IDs)
-- Decision authority: ShivaCore specification/architecture owner; implementation owner for GlobusOS; applicable governance reviewers
-- Change class: Architecture proposal only. No normative specification or implementation change is authorized by this ADR.
+- Architecture-owner approval: D1–D6 explicitly approved by the user acting as A-TownChain/ShivaCore architecture owner on 2026-11-02
+- Remaining authorities: GlobusOS implementation review, ShivaCore normative governance for any required spec/boot-contract reconciliation, and applicable security/release reviewers
+- Change class: Accepted architecture direction and implementation authorization for staged work. Frozen normative specifications remain unchanged; any required normative reconciliation follows a separate versioned owner/governance process.
 
 ## 1. Context
 
@@ -15,7 +16,7 @@ The Memory Conformance Audit and the follow-up Capability / Untyped-Retype Autho
 
 The inspected boot path constructs independent capability tables for MemorySubsystem, ProcessManager and VFS. The current capability implementation is a flat PID/CapId map with generic rights. Physical frames are enumerated from bootloader `Usable` regions by `BootInfoFrameAllocator`; no SC-001 UntypedMemory capability and Retype lifecycle was identified. The existing `vmm.rs` hardware page-table algorithm is an implementation asset, but its production frame backend and SC-005/SC-007 authority integration are not established.
 
-This ADR prepares owner decisions. It does not resolve the SC-001 Limine B0–B5 versus current `bootloader_api` boot-contract discrepancy, and does not amend frozen contracts.
+The architecture owner has approved D1–D6 as the binding implementation direction. This approval does not itself resolve the SC-001 Limine B0–B5 versus current `bootloader_api` boot-contract discrepancy, does not amend frozen contracts, and does not establish hardware conformance.
 
 ## 2. Decision drivers and constraints
 
@@ -25,14 +26,14 @@ This ADR prepares owner decisions. It does not resolve the SC-001 Limine B0–B5
 4. Physical frame provenance, ownership, derivation, consumption and reclamation must be auditable.
 5. Existing `vmm.rs` hardware mapping and rollback logic must be evaluated for integration, not replaced by a parallel VMM.
 6. `system/memory` remains an abstraction/model layer and must not become a second hardware memory authority.
-7. Kernel code remains read-only until the required owners explicitly approve the architecture and implementation scope.
+7. Kernel implementation is authorized only in staged increments consistent with this ADR; boot-contract-dependent code remains gated until the SC-001/SHIVA-BOOT discrepancy is resolved through the versioned owner process.
 8. No release or VERIFIED status without exact-head tests, boot/E2E evidence and governance/security gates.
 
 ## 3. Proposed decisions for owner approval
 
 ### D1 — Canonical CSpace root and ownership
 
-**Recommendation:** Establish exactly one kernel-owned CSpace authority root, created at the SC-001-defined boot/Initial Task authority boundary and governed by the SC-005 object-capability model. The precise creation point and root custodian must be confirmed against the resolved boot contract before implementation.
+**Approved decision:** Establish exactly one kernel-owned CSpace authority root, created at the SC-001-defined boot/Initial Task authority boundary and governed by the SC-005 object-capability model. The kernel authority custodian is the sole authority for root integrity, CNode hierarchy, slot allocation, typed mint/derive/revoke operations, rights attenuation and global revocation coordination. Its concrete initialization hook must conform to the resolved SC-001 boot handoff.
 
 The kernel authority owner is responsible for:
 - root creation and integrity;
@@ -43,7 +44,7 @@ The kernel authority owner is responsible for:
 
 No subsystem constructor may silently create a new independent root/table.
 
-**Owner decision required:** Confirm whether the canonical root is owned by the kernel's Initial Task/boot authority, a dedicated kernel authority object, or another construction explicitly permitted by frozen SC-001/SC-005. This ADR does not unilaterally choose between those normative interpretations.
+**Approval recorded:** The single kernel-owned root and SC-001 Initial Task authority boundary are approved. The implementation must not introduce a second root or choose a boot handoff that contradicts frozen SC-001.
 
 ### D2 — Capability distribution to subsystems
 
@@ -62,9 +63,9 @@ All authorization must bind the capability's type, object identity, owner/deriva
 
 ### D3 — Untyped physical-memory ownership
 
-**Recommendation:** Physical memory classification and handoff must originate from the resolved SC-001 boot contract. Every managed physical frame must be traceable to either the Kernel-Control reserve or an UntypedMemory capability owned/delegated through the prescribed Initial Task path.
+**Approved decision:** SC-001 is the normative target for physical-memory classification and handoff. Every managed physical frame must be traceable to either the Kernel-Control reserve or an UntypedMemory capability owned/delegated through the prescribed Initial Task path. The current `bootloader_api` implementation is non-conformant until a versioned owner/governance resolution reconciles it with SC-001 Limine B0–B5; do not claim boot conformance or implement an incompatible adapter.
 
-The owner decision must define:
+The implementation design and boot-contract resolution evidence must define:
 - exact Kernel-Control reserve boundaries and protected ranges;
 - Untyped region granularity and identity;
 - Initial Task ownership and delegation;
@@ -75,7 +76,7 @@ A `MemoryRegionKind::Usable` iterator alone is not an ownership transfer and mus
 
 ### D4 — Retype lifecycle and accounting
 
-**Recommendation:** Retype must be an authorized typed operation over an owned UntypedMemory object, with deterministic accounting and failure semantics.
+**Approved decision:** Retype is an authorized typed operation over an owned UntypedMemory object, with deterministic accounting and failure semantics. Implementation must satisfy the following lifecycle contract:
 
 The implementation design must specify:
 1. source Untyped capability and owner;
@@ -91,7 +92,7 @@ No allocator API or frame-reclaim behavior should be implemented until these sem
 
 ### D5 — Existing VMM integration
 
-**Recommendation:** Retain the existing `vmm.rs` hardware page-table mutation and transactional rollback implementation as the sole candidate VMM implementation. Integrate it behind the frozen SC-005/SC-007 invocation boundary:
+**Approved decision:** Retain the existing `vmm.rs` hardware page-table mutation and transactional rollback implementation as the sole VMM implementation. Integrate it behind the frozen SC-005/SC-007 invocation boundary:
 
 - Frame capability GRANT authorizes the relevant frame transfer/use;
 - AddressSpace capability MAP authorizes the target mapping;
@@ -104,7 +105,7 @@ Raw frame/virtual-address/page-flag APIs must not become a bypass around the typ
 
 ### D6 — Cross-space revocation and reclamation
 
-**Recommendation:** A kernel-owned lifecycle authority must coordinate all mappings of a frame across AddressSpaces. Reclamation is permitted only after capability revocation, all required unmaps, TLB shootdown acknowledgements, and outstanding references/leases are complete. The exact synchronization and SMP failure policy must be specified before implementation.
+**Approved decision:** A kernel-owned lifecycle authority coordinates all mappings of a frame across AddressSpaces. Reclamation is permitted only after capability revocation, all required unmaps, TLB shootdown acknowledgements, and outstanding references/leases are complete. The synchronization and SMP failure policy must be specified and tested before enabling reclamation.
 
 ## 4. Alternatives considered
 
@@ -114,9 +115,9 @@ Raw frame/virtual-address/page-flag APIs must not become a bypass around the typ
 | Share one generic mutable CapabilityTable among all subsystems | Reject: removes instance duplication but retains flat generic rights and does not implement typed CSpace/CNode semantics |
 | Give every subsystem unrestricted root access | Reject: ambient authority and excessive blast radius |
 | Add a second allocator/VMM/capability subsystem alongside current code | Reject: creates competing hardware authorities and violates the existing SSOT boundary |
-| Typed, scoped CSpace references plus SC-001 Untyped/Retype objects and existing VMM integration | Preferred direction, subject to owner approval and exact frozen-contract interpretation |
+| Typed, scoped CSpace references plus SC-001 Untyped/Retype objects and existing VMM integration | Preferred direction, approved direction, subject to exact frozen-contract interpretation and implementation evidence |
 
-## 5. Consequences if approved
+## 5. Consequences of approval
 
 - One auditable authority chain from boot memory classification through Untyped ownership, Retype, typed Frame objects, AddressSpace mapping and revocation.
 - Subsystems receive least-authority interfaces rather than independent capability stores.
@@ -124,25 +125,27 @@ Raw frame/virtual-address/page-flag APIs must not become a bypass around the typ
 - Implementation will require coordinated migration of ProcessManager, MemorySubsystem, VFS, IPC, syscall dispatch and any service-space consumer.
 - Boot-contract resolution is a prerequisite; no claim of SC-001 hardware boot conformance is implied.
 
-## 6. Open owner decisions — approval checklist
+## 6. Implementation closure checklist — not a reversal of D1–D6 approval
 
-- [ ] Confirm canonical CSpace root custodian and creation point under SC-001/SC-005.
-- [ ] Confirm CNode hierarchy, slot allocation and subsystem delegation boundaries.
-- [ ] Confirm the boot protocol and resolve SC-001 Limine B0–B5 vs current `bootloader_api` discrepancy through the proper owner/versioned process.
-- [ ] Approve Kernel-Control reserve and UntypedMemory partition/handoff.
-- [ ] Approve Retype accounting, failure atomicity, destruction and retype-back semantics.
-- [ ] Approve cross-AddressSpace revocation and TLB/SMP completion contract.
-- [ ] Approve the existing VMM integration boundary and required evidence gates.
-- [ ] Confirm whether ATCFS is a kernel object or service-space component and align its authorization boundary.
+- [x] D1 approved: one kernel-owned CSpace root at the SC-001 Initial Task authority boundary.
+- [x] D2 approved: constrained subsystem capability references; no independent subsystem tables or ambient root access.
+- [ ] D3 implementation prerequisite: complete the versioned SC-001 / SHIVA-BOOT boot-contract reconciliation; SC-001 remains normative meanwhile.
+- [x] D3 target approved: Kernel-Control and UntypedMemory partition/handoff follow SC-001.
+- [x] D4 approved: typed Retype, deterministic accounting, failure atomicity, destruction/revocation and controlled reclaim.
+- [x] D6 approved: cross-AddressSpace revocation and TLB/SMP completion before reclamation.
+- [x] D5 approved: existing `vmm.rs` remains the sole VMM and is integrated through SC-005/SC-007.
+- [ ] Implementation detail: classify ATCFS at its canonical ownership boundary and enforce the D2 least-authority interface.
 
 ## 7. Implementation gate
 
-Until every applicable owner decision above is recorded and approved:
+The architecture direction D1–D6 is approved. Implementation is now authorized in staged, reviewable increments, but each increment remains gated by its technical prerequisites:
 
-- **Kernel implementation: BLOCKED.**
+- **Boot-contract-dependent physical-memory/Untyped implementation: BLOCKED** until the SC-001 / SHIVA-BOOT discrepancy is resolved by the versioned owner process.
+- **Any change to frozen SC-001/SC-005/SC-007: BLOCKED** absent a separate normative change process.
+- **Other implementation increments: AUTHORIZED** only where they can be proven not to depend on the unresolved boot contract and conform to the frozen contracts.
 - **Frozen SC-001/SC-005/SC-007 changes: BLOCKED absent a separate normative change process.**
 - **PR #241: documentation-only Draft; do not merge as normative approval.**
-- **No new allocator, CSpace implementation, VMM, frame manager or fault subsystem.**
+- **No parallel allocator, CSpace authority, VMM, frame manager or fault subsystem.** Changes must extend the canonical GlobusOS kernel SSOT and reuse `FN-KERNEL-001` / `FN-VMM-001`.
 - Continue tracking through existing `FN-KERNEL-001` and `FN-VMM-001`.
 
 After approval, implementation must proceed in separately reviewable increments against the canonical GlobusOS kernel SSOT, with exact commit/path/symbol/blob evidence, targeted unit and fault-injection tests, real SC-001 boot evidence, SC-005 capability tests, SC-007 mapping/revocation/TLB E2E tests, and exact-head CI artifacts. CI green alone is not VERIFIED.
@@ -155,4 +158,4 @@ After approval, implementation must proceed in separately reviewable increments 
 - Frozen SC-005 blob: `2e19216b43237fcbd6e175a7abf15c1781cde4ca`.
 - Frozen SC-007 blob: `8d61e3e9fa8951ccf20924254ba1c48fb239bfee`.
 
-This ADR is a proposal for review, not an accepted architecture decision, implementation authorization, or conformance claim.
+This ADR records accepted architecture direction D1–D6 and authorization for staged implementation. It is not evidence of implementation, CI/E2E verification, hardware boot conformance, or production readiness.
