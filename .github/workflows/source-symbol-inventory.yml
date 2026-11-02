@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - "tools/scan_public_symbols.py"
+      - "tools/build_org_file_function_catalog.py"
+      - "tools/tests/test_build_org_file_function_catalog.py"
       - "tools/run_org_source_census.py"
       - "tools/reconcile_component_function_catalog.py"
       - "tools/tests/test_reconcile_component_function_catalog.py"
@@ -18,6 +20,8 @@ on:
     branches: [main]
     paths:
       - "tools/scan_public_symbols.py"
+      - "tools/build_org_file_function_catalog.py"
+      - "tools/tests/test_build_org_file_function_catalog.py"
       - "tools/run_org_source_census.py"
       - "tools/reconcile_component_function_catalog.py"
       - "tools/tests/test_reconcile_component_function_catalog.py"
@@ -55,11 +59,11 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile scanner, orchestrator and tests
-        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/build_runtime_symbol_registry.py tools/validate_runtime_symbol_registry.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_runtime_symbol_registry.py
+        run: python -m py_compile tools/scan_public_symbols.py tools/build_org_file_function_catalog.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/build_runtime_symbol_registry.py tools/validate_runtime_symbol_registry.py tools/tests/test_scan_public_symbols.py tools/tests/test_build_org_file_function_catalog.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_runtime_symbol_registry.py
       - name: Run scanner and organization census tests
         run: |
-          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_runtime_symbol_registry -v
-      - name: Clone all active repositories at observed clean HEADs
+          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_build_org_file_function_catalog tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_runtime_symbol_registry -v
+      - name: Clone all public repositories, including archived references, at clean HEADs
         env:
           GH_OWNER: A-TownChain-Okosystems
           ATC_CENSUS_TOKEN: ${{ secrets.ATC_CENSUS_TOKEN }}
@@ -73,12 +77,12 @@ jobs:
           git clone --no-hardlinks "$GITHUB_WORKSPACE" "$workspace/a-townchain-ecosystem"
           git -C "$workspace/a-townchain-ecosystem" checkout --detach "$source_sha"
           test "$(git -C "$workspace/a-townchain-ecosystem" rev-parse HEAD)" = "$source_sha"
-          python - <<'PY' > "$RUNNER_TEMP/active-repositories.txt"
+          python - <<'PY' > "$RUNNER_TEMP/all-public-repositories.txt"
           import json
           from pathlib import Path
           manifest = json.loads(Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json").read_text(encoding="utf-8"))
           for repo in sorted(manifest["repositories"], key=lambda item: item["name"].lower()):
-              if not repo.get("archived", False) and repo["name"] != "a-townchain-ecosystem":
+              if repo["name"] != "a-townchain-ecosystem" and not repo.get("private", False):
                   print(repo["name"])
           PY
           clone_failures=0
@@ -107,7 +111,7 @@ jobs:
               continue
             fi
             printf '%s %s\n' "$name" "$(git -C "$workspace/$name" rev-parse HEAD)"
-          done < "$RUNNER_TEMP/active-repositories.txt"
+          done < "$RUNNER_TEMP/all-public-repositories.txt"
           echo "Repository checkout failures: $clone_failures; census remains fail-closed for missing/dirty checkouts."
           test -z "$(git -C "$workspace/a-townchain-ecosystem" status --porcelain --untracked-files=all)"
           printf 'a-townchain-ecosystem %s\n' "$(git -C "$workspace/a-townchain-ecosystem" rev-parse HEAD)"
@@ -144,6 +148,33 @@ jobs:
               summary["active_scanned"], summary["active_excluded_private"], summary["active_expected"]
           ))
           PY
+      - name: Build exact-SHA per-file purpose catalog
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json; then
+            catalog_exit=0
+            python tools/build_org_file_function_catalog.py \
+              --workspace "$RUNNER_TEMP/atc-org-checkouts" \
+              --manifest docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json \
+              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
+              --output artifacts/ATC-ORG-FILE-FUNCTION-CATALOG-001.json || catalog_exit=$?
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("artifacts/ATC-ORG-FILE-FUNCTION-CATALOG-001.json")
+          if path.exists():
+              report = json.loads(path.read_text(encoding="utf-8"))
+              print(json.dumps({"status": report["status"], **report["summary"]}, sort_keys=True))
+          PY
+            if [[ "$catalog_exit" -ne 0 ]]; then
+              echo "::error::Per-file catalog was generated with BLOCKED coverage; inspect the JSON artifact."
+              exit "$catalog_exit"
+            fi
+          else
+            echo "::error::Source census missing; per-file catalog cannot be SHA-bound."
+            exit 2
+          fi
       - name: Reconcile catalog against census evidence
         if: always()
         run: |
@@ -180,6 +211,7 @@ jobs:
           name: atc-org-source-census-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
             artifacts/ATC-ORG-SOURCE-CENSUS-001.json
+            artifacts/ATC-ORG-FILE-FUNCTION-CATALOG-001.json
             artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
             artifacts/ATC-RUNTIME-SYMBOL-REGISTRY-REBUILT.json
           if-no-files-found: warn
