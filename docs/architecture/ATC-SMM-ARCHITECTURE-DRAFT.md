@@ -73,8 +73,8 @@ The following map records the ownership decision and the source baseline inspect
 | `globus-os` | Active ShivaCore kernel source plus GlobusOS userspace, memory policy, VFS and services | `f370b681e5c9ff49577f25c24f15b5fc880d5cba` |
 | `atc-shivacore` | Kernel architecture, reuse, HAL, ABI and governance specifications; not a second active kernel | `3b56253b39bdc6cbf719ed9a2a21461d73b8fc34` |
 | `aurora-ai` | AI/agent memory and context implementation | `30e85eb8aba199f68b5f17f329eddbe168e50f87` |
-| `a-townchain` | Chain orchestration and canonical chain integration; storage subtree ownership needs path-level reconciliation | `ce92756c32f138e3bc51039060101f4d466027bd` |
-| `atc-node` | Executable node runtime, including node storage and lifecycle boundaries | `821d049efc5b592e4728b36b64038d4ce5e7d2c6` |
+| `a-townchain` | Chain orchestration and canonical integration; canonical L1 storage component at `components/storage` (subtree SSOT) | `ce92756c32f138e3bc51039060101f4d466027bd` |
+| `atc-node` | Standalone node runtime source imported under `a-townchain/components/node`; node-level durable storage implementation not established by the inspected root manifest | `821d049efc5b592e4728b36b64038d4ce5e7d2c6` |
 | `genesis-engine` | Game/runtime asset, world and simulation data domains | `3c2be8c11c00bf5b6a1a4de87760004e9c5d35ef` |
 | `atc-standards` | Normative standards registry and change governance | `f54083518fb8a2d12482e0791f05bd8d86b4642d` |
 | `a-townchain-ecosystem` | Cross-repository architecture, integration contracts and evidence control plane | `83b696c8fc63fa4d132da7975e0eee1267f45d5f` |
@@ -167,12 +167,14 @@ The existing `ATC-AI-MEM-001` is a draft AI-memory security specification. The e
 
 - ATC-VM defines deterministic contract storage semantics and execution limits.
 - A-TownChain defines canonical protocol/state-transition authority.
-- atc-node provides the executable node lifecycle and durable persistence boundary.
+- The migration manifest identifies `a-townchain` as the monorepo source of truth and maps archived `atc-storage` into `a-townchain/components/storage`.
+- The inspected `components/storage/src/store.rs` is currently an in-memory `BTreeMap` KV store. Its FNV-1a root is explicitly development-only and MUST NOT be treated as a cryptographic state root, consensus commitment or durable database.
+- The standalone `atc-node` repository remains a node-runtime source imported under `a-townchain/components/node`; the inspected root manifest does not establish a durable storage implementation there.
 - Durable database success MUST NOT be confused with consensus finality.
 - Candidate state MUST NOT become canonical until accepted by the protocol's finality/commit rules.
 - AI memory, indexer read models and explorer projections MUST NOT become canonical chain state.
 
-The exact canonical node-storage module and its relationship to the imported `a-townchain/components/storage` subtree remain an inventory item; no replacement storage engine is authorized here.
+Therefore, `a-townchain/components/storage` is the canonical storage-component location, but its inspected implementation is only an in-memory MVP. Durable node persistence, crash recovery and state-root cryptography remain explicit implementation/evidence gaps. No replacement storage engine is authorized by this draft.
 
 ### 4.5 Genesis Engine
 
@@ -275,7 +277,9 @@ The archived `atc-storage` repository MUST NOT be treated as an active dependenc
 | MEM-05 | `memory.rs` frame allocation reconstructs/scans the usable-frame iterator with `nth(next)`; allocation complexity and lifecycle need review | Source implementation | REVIEW_REQUIRED |
 | MEM-06 | Mapping mutation rollback, page-table cleanup and object/mapping lifetime remain explicit P0 acceptance criteria | `FN-VMM-001` in ecosystem delivery registry | IN_PROGRESS |
 | MEM-07 | Cross-CPU TLB shootdown, per-CPU scheduler state and frame reclamation are open in the active kernel-isolation work | GlobusOS PR #89 description and patch | BLOCKED / RESIDUAL |
-| MEM-08 | The `atc-storage` repository is archived and described in the control-plane registry as an archived reference | Repository metadata and delivery registry | EXCLUDED as active dependency |
+| MEM-08 | The standalone `atc-storage` repository is archived; its migrated component is located at `a-townchain/components/storage` | `MIGRATION_MANIFEST.yaml`, repository metadata and control-plane registry | SSOT LOCATION CONFIRMED; implementation maturity separate |
+| STOR-01 | `components/storage/src/store.rs` is an in-memory `BTreeMap` KV store with an explicitly non-cryptographic FNV-1a development fingerprint | Source blob `3755e0ce0f41e645ad40d00838403a624244a730` | RESIDUAL / NOT_DURABLE / NOT_CRYPTOGRAPHIC |
+| STOR-02 | Durable node persistence and restart recovery are not established by the inspected `atc-node` root manifest or architecture document | `atc-node/Cargo.toml` and `ARCHITECTURE.md` inspected at baseline | NOT_VERIFIED / INVENTORY_REQUIRED |
 
 These findings are source-level observations. They are not a substitute for a complete call-graph audit, target build, QEMU/UEFI boot, runtime test, security review or exact-SHA CI evidence.
 
