@@ -155,6 +155,7 @@ Following the recorded D1–D6 approval, implementation proceeds in separately r
 - Architecture/conformance record: `docs/architecture/ATC-SMM-ARCHITECTURE-DRAFT.md` in PR #241, including MEM-09…MEM-24.
 - GlobusOS source baseline: `f370b681e5c9ff49577f25c24f15b5fc880d5cba`.
 - Initial D5 security increment: GlobusOS PR [#111](https://github.com/A-TownChain-Okosystems/globus-os/pull/111), head `26e9cfa78f46a1eecd208139013e7c12f7939e10`, `allocator.rs` blob `8ab10a3bc9950d537263abc31a97527d93d51e10`; adds NX to the kernel heap mapping and a feature-gated W^X flag test. PR is Draft; CI is pending and this is not yet VERIFIED.
+- Initial D2 least-authority hardening: GlobusOS PR [#112](https://github.com/A-TownChain-Okosystems/globus-os/pull/112), head `12abc51e0ea34e1fb9acac4b8b16ac5d7924557d`; removes implicit EXEC from generic memory capabilities created by `ProcessManager::spawn` and `KernelMemoryManager::allocate`, with negative assertions in existing tests. Process blob `d9966f5debecf7d17913135fe1da83c0352cf242`; memory-manager blob `6303a3f39285b3d64dc435f449908a130f0f419f`. PR is Draft; exact-head checks are queued/in progress; not CI_VERIFIED or SC-005 conformant.
 - Frozen SC-001 blob: `6927a89aabc7a1c1a0bb9f07f911e95d3b698fa3`.
 - Frozen SC-005 blob: `2e19216b43237fcbd6e175a7abf15c1781cde4ca`.
 - Frozen SC-007 blob: `8d61e3e9fa8951ccf20924254ba1c48fb239bfee`.
