@@ -420,3 +420,146 @@ Unknown evidence is BLOCKED or NOT_VERIFIED, never inferred PASS.
 - Architecture approval: PENDING
 - Implementation verification: NOT_ESTABLISHED
 - Production readiness: NOT_CLAIMED
+
+
+## 15. Capability- and Untyped/Retype-Authority-Trace (2026-11-02)
+
+### 15.1 Trace baseline and method
+
+Read-only source baseline: `globus-os` commit `f370b681e5c9ff49577f25c24f15b5fc880d5cba`. All paths below refer to that exact commit. No source files in `globus-os` or frozen specification files in `atc-shivacore` were modified.
+
+Frozen authority baselines:
+- SC-001 `SC-001-BOOT_MEMORY.md`, blob `6927a89aabc7a1c1a0bb9f07f911e95d3b698fa3`.
+- SC-005 `SC-005-CAPABILITY_SYSTEM.md`, blob `2e19216b43237fcbd6e175a7abf15c1781cde4ca`.
+
+Repository code-search at the inspected GlobusOS commit returned no indexed source matches for `UntypedMemory` or `Retype`. This is a source-census result, not proof that no external/generated artifact exists; no such external implementation was established in this trace.
+
+### 15.2 Authority and ownership graph — observed implementation
+
+```mermaid
+flowchart TD
+  BI["bootloader_api BootInfo / MemoryRegions"] --> BFA["BootInfoFrameAllocator"]
+  BFA --> HEAP["allocator::init_heap"]
+  HEAP --> MS["MemorySubsystem::new"]
+  MS --> MTC["CapabilityTable A"]
+  PM["ProcessManager::new"] --> PTC["CapabilityTable B"]
+  KI["KernelState::boot"] --> VTC["CapabilityTable C in Arc<Mutex>"]
+  VTC --> VFS["Vfs"]
+  MTC --> MM["KernelMemoryManager regions"]
+  PTC --> PROC["ProcessManager process records"]
+  ST["SyscallDispatcher::dispatch"] -->|"caller supplies &CapabilityTable"| ANY["Caller-selected table"]
+  KG["KnowledgeGraph service-space"] -->|"caller supplies &CapabilityTable"| ANY
+  VMM["VMM / HardwareMapper"] --> FB["FrameBackend trait"]
+  FB -. "production HHDM + allocator backend not wired" .-> BFA
+  BFA -. "no Untyped/Retype capability path" .-> INIT["SC-001 Initial Task / CSpace"]
+```
+
+The graph is a source-level dependency/ownership trace, not a claim that all paths execute in one booted configuration.
+
+### 15.3 MEM-19 — Capability authority is split at kernel initialization
+
+**Status: BLOCKED — SC-005 authority non-conformance.**
+
+Observed runtime construction sites:
+- `modules/atc-shivacore/kernel/src/memory_manager.rs`, `MemorySubsystem::new` (line 361; blob `6d1d8ec948b3d3d0d683e1a0e92d9c77ee2fbfaa`) creates its own `CapabilityTable::new()` (line 364).
+- `modules/atc-shivacore/kernel/src/process.rs`, `ProcessManager::new` (line 70; blob `960c80753ca3a7c9ff54887ca00501e150127554`) creates another `CapabilityTable::new()` (line 74).
+- `modules/atc-shivacore/kernel/src/kernel_init.rs`, `KernelState::boot` (blob `104f77f7cc8686e19797d29bab6f150df6e03688`) constructs `MemorySubsystem::new()` (line 121), `ProcessManager::new()` (line 132), and then independently creates an `Arc<Mutex<CapabilityTable>>` for VFS (line 150), passed to `Vfs::new` (line 151).
+
+The `KernelState` stores `memory`, `processes`, and `vfs` separately. The VFS table is not sourced from `processes.caps` or `memory.caps`; neither is the MemorySubsystem table injected into ProcessManager. Therefore three distinct runtime capability-table instances are constructed in the canonical init path. Test-only `CapabilityTable::new()` calls in `capability.rs`, `atcfs.rs`, `vfs.rs`, `syscall.rs`, and `cross_subsystem.rs` are excluded from this runtime count.
+
+**Consequence:** a capability minted in one table is not inherently visible to another subsystem's table. The source does not establish one kernel-wide CSpace root, CNode tree, or shared revocation domain. A single Rust module/type does not make these independently instantiated tables one authority.
+
+### 15.4 MEM-20 — Capability data model does not implement frozen SC-005
+
+**Status: BLOCKED — structural and rights-model non-conformance.**
+
+Source: `modules/atc-shivacore/kernel/src/capability.rs`, blob `a29b963a1a7ba6cb4535f63b8e4ca3657d573568`.
+
+Observed symbols and behavior:
+- `Rights(pub u8)` (line 35) uses an 8-bit generic mask; `ResourceType` (line 22) is a small generic enum including `Memory`, IPC, accelerator, filesystem and network.
+- `CapabilityTable` (line 100) is a flat `BTreeMap<CapId, Capability>` plus `BTreeMap<Pid, Vec<CapId>>`; `new` (line 111) initializes those maps.
+- `create` (line 125) creates a capability for a PID/resource ID and accepts a generic rights mask. It does not create or resolve a CNode slot in a CSpace tree.
+- `delegate` (line 151) checks generic DELEGATE and attenuates rights; this is useful monotonic behavior but is not the SC-005 typed mint/derive + CNode slot model.
+- `revoke` (line 222) recursively removes descendants from this table; cross-table or frame-mapping revocation is not established.
+
+Frozen SC-005 requires CSpace/CNode slot addressing; typed object references; 16-bit object-specific rights; badge semantics; bounded derivation depth; and frame revocation that also unmaps in all AddressSpaces. The current source does not establish those structures or semantics. In particular, generic `ResourceType::Memory` and generic `DELEGATE` cannot substitute for Frame `GRANT`, AddressSpace `MAP/UNMAP/SWITCH`, or UntypedMemory `RETYPE`.
+
+### 15.5 MEM-21 — automatic broad grants bypass the intended typed initial/delegation model
+
+**Status: BLOCKED — excessive generic authority.**
+
+- `process.rs`, `ProcessManager::spawn` (blob `960c80753ca3a7c9ff54887ca00501e150127554`, lines 84–99) automatically creates a generic `ResourceType::Memory` capability with `READ | WRITE | EXEC | DELEGATE` for each process address-space ID.
+- `memory_manager.rs`, `KernelMemoryManager::allocate` (blob `6d1d8ec948b3d3d0d683e1a0e92d9c77ee2fbfaa`, lines 126–179) automatically grants the same generic rights for a region.
+
+SC-005 requires object-specific rights and SC-001/SC-005 prohibit an all-rights initial capability or ambient derivation. These generic automatic grants do not establish the required typed object provenance, CSpace slot ownership, or authorized mint/derive chain. This finding is a specification-conformance blocker; it does not by itself prove that a hardware page is executable.
+
+### 15.6 MEM-22 — subsystem authorization paths are not consistently bound to the canonical capability authority
+
+**Status: BLOCKED — authorization wiring incomplete.**
+
+- `syscall.rs` (blob `d6a9333b7970dde4dfd8b979310789280d87a7c4`, `SyscallDispatcher::dispatch`, line 69) receives `&CapabilityTable` as an argument. The source inspected does not bind this argument to a single kernel-owned CSpace root. `HandleClose` only checks that a handle is present before returning success; it does not resolve/revoke the handle in the supplied table.
+- `vfs.rs` (blob `29d79ddcc150e7a47ee85c446fd2870eee2bf424`, `Vfs::check_cap`, lines 244–253) resolves a handle and checks owner plus generic rights, but does not validate the capability's resource type or resource ID against the requested inode/operation. Its runtime table is separately created in `kernel_init.rs`.
+- `atcfs.rs` (blob `e30ce7152579cfd72d79344bb5a1c76cd67b9cc9`, `check_read`/ `check_write`, lines 187–203) bases access on node owner, PID 0 and public-path rules. `write_file`/`read_file` accept a `&CapabilityTable` parameter (lines 207 and 261), but the inspected implementations do not use that parameter for authorization. The parameter therefore does not establish capability enforcement.
+- `service_space/src/knowledge_graph.rs` (blob `2531b6ddcf0278a33197d63f2c4efbb28ef86ada`) imports the kernel `CapabilityTable` and uses generic `ResourceType::Memory` rights for graph entities. This is a service-space consumer of the generic kernel table API, not evidence of SC-005 typed object integration.
+
+### 15.7 MEM-23 — physical frame origin and Untyped/Retype authority are absent from the inspected implementation
+
+**Status: BLOCKED — SC-001 ownership invariant not established.**
+
+Sources:
+- `modules/atc-shivacore/kernel/src/memory.rs`, blob `2269b164df57675156e9db1d1f633bcdfc6de568`.
+- `modules/atc-shivacore/kernel/src/main.rs`, blob `15123f08bfee471e17eb6eb5f4be00ca2e926be3`.
+
+Observed path:
+1. `kernel_main` obtains `boot_info.memory_regions` and initializes `BootInfoFrameAllocator` (main.rs line 86).
+2. `BootInfoFrameAllocator::usable_frames` filters only `MemoryRegionKind::Usable` and enumerates 4 KiB frames (memory.rs lines 34–46).
+3. `allocate_frame` selects `usable_frames().nth(self.next)` and increments `next` (memory.rs lines 50–55).
+4. The allocator is passed to `allocator::init_heap` (main.rs lines 85–89).
+
+No SC-001 UntypedMemory object/capability, per-region Untyped ownership transfer to Initial Task, capability-mediated Retype operation, typed consumption accounting, or Retype-back/reset path was found in the inspected GlobusOS source census. The allocator has no free/reclaim interface; repeated `.nth(next)` re-enumerates the usable-frame iterator and is linear in the allocation index.
+
+SC-001 REQ-SC001-03 requires every physical frame after B3 to be Kernel-Control or classified as UntypedMemory-Capability; REQ-SC001-05…07 define delegation and Retype ownership. The current usable-frame scan does not implement or prove those invariants.
+
+### 15.8 MEM-24 — VMM frame backend is not connected to the boot allocator or a typed authority chain
+
+**Status: BLOCKED — hardware mapping authority integration not established.**
+
+Source: `modules/atc-shivacore/kernel/src/vmm.rs`, blob `a3ad9e0d727d5644ae500ff0bb80f10606121f3f`.
+
+- The module-level documentation (line 7) explicitly says real-boot wiring (HHDM backend + BootInfoFrameAllocator) follows.
+- `FrameBackend` (lines 295–303) defines `alloc_frame`, `free_frame`, and physical read/write methods, but the inspected implementation contains only the deterministic `TestBackend` implementation (line 810); no production HHDM/BootInfo-backed implementation was identified.
+- `HardwareMapper` and `Vmm` accept raw `PhysFrame`, virtual addresses and page flags; the API is not gated by SC-005 Frame-Cap `GRANT` plus AddressSpace-Cap `MAP`.
+- The per-`Vmm` mapping/refcount registry (lines 559–631) is local to an instance and does not establish a global frame-owner/revocation index across all AddressSpaces.
+
+The existing page-table mutation algorithm and rollback work are retained as implementation assets. This finding does not authorize replacing the VMM.
+
+### 15.9 Consolidated authority/ownership disposition
+
+| Layer | Observed owner/source | SC contract | Status |
+|---|---|---|---|
+| Boot memory map | `bootloader_api::BootInfo` / `BootInfoFrameAllocator` | SC-001 B0–B5 + BootInfo | BLOCKED |
+| Physical frame classification | Usable-region iterator | SC-001 Kernel-Control vs Untyped | BLOCKED |
+| Frame object creation | No Untyped/Retype path found | SC-001 REQ-05…07 | BLOCKED |
+| Capability root | Three independently created runtime tables | SC-005 CSpace/CNode | BLOCKED |
+| Capability entry | Flat CapId/PID maps, generic u8 rights | SC-005 typed 16-bit rights/slots | BLOCKED |
+| Process memory grant | Automatic generic RWX+DELEGATE | SC-001/005 typed initial/delegation model | BLOCKED |
+| Memory subsystem | Heap allocation + UserspaceBump model | SC-001/007 object/mapping path | RESIDUAL / NOT_CONFORMANT |
+| VMM frame backend | Trait + test backend; production boot wiring absent | SC-001/005/007 | BLOCKED |
+| Mapping authority | Raw frame/flags APIs | SC-007 MAP + GRANT | BLOCKED |
+| Frame revocation | Per-VMM local refcount | SC-005/007 cross-space revoke/unmap | BLOCKED |
+| VFS/ATCFS authorization | Separate table or owner/path checks | SC-005 single authority + typed rights | BLOCKED |
+
+### 15.10 Required owner decisions and safe next sequence
+
+These are architecture decisions and implementation prerequisites, not authorization to modify kernel code:
+
+1. **SC-005 root ownership:** confirm the one canonical kernel CSpace root and its owner/creation point under SC-001 B3/B4. Define how MemorySubsystem, ProcessManager, VFS, IPC, syscall dispatch and service-space consumers receive constrained CSpace references/slots; do not pass or clone independent tables.
+2. **SC-001 Untyped partition:** define the exact Kernel-Control reserve and Untyped region handoff for the actual boot protocol, including how the SC-001 Limine B0–B5 contract is reconciled with the current bootloader_api path. No frame allocator change before this owner decision.
+3. **Retype accounting:** specify object-size/alignment, region consumption, failure atomicity, reset/retype-back and memcheck behavior; every frame must have an auditable origin and owner.
+4. **Typed object/rights migration:** map existing generic resource operations to the frozen SC-005 object/right matrix. No generic RWX/DELEGATE grants; no invented replacement rights.
+5. **VMM binding:** adapt the existing mapper behind the SC-007 capability invocation boundary; retain the current hardware mutation/rollback code and add no parallel VMM.
+6. **Global revocation/lifecycle:** define one kernel-owned frame/mapping ownership index and the synchronous all-AddressSpace unmap/TLB completion contract before frame reclamation.
+7. **Subsystem boundary:** determine whether ATCFS is a service-space filesystem or a kernel object; remove the misleading unused capability parameter only through a separately authorized change, and ensure VFS operations bind capabilities to the target object.
+8. **Verification plan:** exact-head Rust/Clippy, typed-cap unit tests, Retype accounting/fault injection, QEMU+Limine B0–B5, Frame-Cap GRANT + AddressSpace MAP integration, cross-AddressSpace revoke/unmap/TLB tests, and artifact/evidence capture. A green unit suite alone is not SC-001/005/007 conformance.
+
+**Disposition:** MEM-19…MEM-24 are source-backed conformance findings. Capability and Untyped/Retype authority remain BLOCKED. Reuse `FN-KERNEL-001` and `FN-VMM-001`; no new delivery/registry IDs. No kernel code, frozen ShivaCore specification, standards registry, or runtime behavior was changed. PR #241 remains DRAFT pending owner review.
