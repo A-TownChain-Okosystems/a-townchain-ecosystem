@@ -159,6 +159,6 @@ Following the recorded D1–D6 approval, implementation proceeds in separately r
 - Frozen SC-001 blob: `6927a89aabc7a1c1a0bb9f07f911e95d3b698fa3`.
 - Frozen SC-005 blob: `2e19216b43237fcbd6e175a7abf15c1781cde4ca`.
 - Frozen SC-007 blob: `8d61e3e9fa8951ccf20924254ba1c48fb239bfee`.
-- SC-005 CSpace migration contract: GlobusOS PR [#113](https://github.com/A-TownChain-Okosystems/globus-os/pull/113), head `12fd8901f96d0030faa01a522c2f2a613af1a53d`, file `docs/architecture/SC-005-CSPACE-MIGRATION-CONTRACT.md`. Documentation-only translation of frozen SC-005 REQ-SC005-01…11 / INV-01…09 into the existing kernel migration sequence; PR remains Draft; no implementation or conformance claim.
+- SC-005 CSpace migration contract: GlobusOS PR [#113](https://github.com/A-TownChain-Okosystems/globus-os/pull/113), head `75103900f9d4613e0e3227db58c1a0434d2a5713`, file `docs/architecture/SC-005-CSPACE-MIGRATION-CONTRACT.md`. Documentation-only translation of frozen SC-005 REQ-SC005-01…11 / INV-01…09, cross-checked against frozen SC-003 and SC-004, with expanded production/test call-site census and explicit unresolved 16-bit rights-bit encoding decision; PR remains Draft; no implementation or conformance claim.
 
 This ADR records accepted architecture direction D1–D6 and authorization for staged implementation. It is not evidence of implementation, CI/E2E verification, hardware boot conformance, or production readiness.
