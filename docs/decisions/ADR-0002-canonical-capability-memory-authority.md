@@ -148,12 +148,13 @@ The architecture direction D1–D6 is approved. Implementation is now authorized
 - **No parallel allocator, CSpace authority, VMM, frame manager or fault subsystem.** Changes must extend the canonical GlobusOS kernel SSOT and reuse `FN-KERNEL-001` / `FN-VMM-001`.
 - Continue tracking through existing `FN-KERNEL-001` and `FN-VMM-001`.
 
-After approval, implementation must proceed in separately reviewable increments against the canonical GlobusOS kernel SSOT, with exact commit/path/symbol/blob evidence, targeted unit and fault-injection tests, real SC-001 boot evidence, SC-005 capability tests, SC-007 mapping/revocation/TLB E2E tests, and exact-head CI artifacts. CI green alone is not VERIFIED.
+Following the recorded D1–D6 approval, implementation proceeds in separately reviewable increments against the canonical GlobusOS kernel SSOT, with exact commit/path/symbol/blob evidence, targeted unit and fault-injection tests, real SC-001 boot evidence, SC-005 capability tests, SC-007 mapping/revocation/TLB E2E tests, and exact-head CI artifacts. CI green alone is not VERIFIED.
 
 ## 8. Evidence references
 
 - Architecture/conformance record: `docs/architecture/ATC-SMM-ARCHITECTURE-DRAFT.md` in PR #241, including MEM-09…MEM-24.
 - GlobusOS source baseline: `f370b681e5c9ff49577f25c24f15b5fc880d5cba`.
+- Initial D5 security increment: GlobusOS PR [#111](https://github.com/A-TownChain-Okosystems/globus-os/pull/111), head `26e9cfa78f46a1eecd208139013e7c12f7939e10`, `allocator.rs` blob `8ab10a3bc9950d537263abc31a97527d93d51e10`; adds NX to the kernel heap mapping and a feature-gated W^X flag test. PR is Draft; CI is pending and this is not yet VERIFIED.
 - Frozen SC-001 blob: `6927a89aabc7a1c1a0bb9f07f911e95d3b698fa3`.
 - Frozen SC-005 blob: `2e19216b43237fcbd6e175a7abf15c1781cde4ca`.
 - Frozen SC-007 blob: `8d61e3e9fa8951ccf20924254ba1c48fb239bfee`.
