@@ -228,6 +228,11 @@
       "managed_by": "atc-kms-indexer"
     },
     {
+      "id": "ATC-KMS-COMMIT-63F23BF89898",
+      "path": "records/generated/ATC-KMS-COMMIT-63F23BF89898.json",
+      "managed_by": "atc-kms-indexer"
+    },
+    {
       "id": "ATC-KMS-COMMIT-66DE3F21C50A",
       "path": "records/generated/ATC-KMS-COMMIT-66DE3F21C50A.json",
       "managed_by": "atc-kms-indexer"
@@ -410,11 +415,6 @@
     {
       "id": "ATC-KMS-COMMIT-C675D7D9E22F",
       "path": "records/generated/ATC-KMS-COMMIT-C675D7D9E22F.json",
-      "managed_by": "atc-kms-indexer"
-    },
-    {
-      "id": "ATC-KMS-COMMIT-C802BE8143C7",
-      "path": "records/generated/ATC-KMS-COMMIT-C802BE8143C7.json",
       "managed_by": "atc-kms-indexer"
     },
     {
@@ -5863,7 +5863,7 @@
       "managed_by": "atc-kms-indexer"
     }
   ],
-  "last_updated": "2026-11-02T09:35:06.223087Z",
+  "last_updated": "2026-11-03T09:38:03.942693Z",
   "indexer": {
     "name": "atc-kms-indexer",
     "version": "v1.0.0",

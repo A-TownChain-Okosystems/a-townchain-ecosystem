@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-3DDA4FB8022D",
-  "timestamp": "2026-11-02T09:35:06.223087Z",
+  "timestamp": "2026-11-03T09:38:03.942693Z",
   "category": "change",
   "title": "Commit: docs(competitive-monitoring): include Sonnet pricing baseline",
   "context": "Git commit 3dda4fb8022db7ef49e264af3a8a9ad925d5315d on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/3dda4fb8022db7ef49e264af3a8a9ad925d5315d",
-    "commit": "83b696c8fc63fa4d132da7975e0eee1267f45d5f"
+    "commit": "63f23bf89898c01e7ca6ea929b00339b147e3583"
   },
   "tags": [
     "commit",

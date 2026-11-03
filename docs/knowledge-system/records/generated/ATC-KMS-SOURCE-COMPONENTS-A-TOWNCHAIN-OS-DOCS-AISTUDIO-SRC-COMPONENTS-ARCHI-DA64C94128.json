@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-AISTUDIO-SRC-COMPONENTS-ARCHI-DA64C94128",
-  "timestamp": "2026-11-02T09:35:06.223087Z",
+  "timestamp": "2026-11-03T09:38:03.942693Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/aistudio/src/components/ArchitectureView.tsx",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/aistudio/src/components/ArchitectureView.tsx",
-    "commit": "83b696c8fc63fa4d132da7975e0eee1267f45d5f"
+    "commit": "63f23bf89898c01e7ca6ea929b00339b147e3583"
   },
   "tags": [
     "generated",
