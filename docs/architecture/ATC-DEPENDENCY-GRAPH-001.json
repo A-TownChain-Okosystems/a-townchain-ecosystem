@@ -392,7 +392,7 @@
     "G3_build": "PARTIAL (entry points evidenced from repo files at exact SHAs; commands not yet executed end-to-end)",
     "G4_tests": "PENDING (no build+test evidence chain recorded)",
     "G5_provenance": "PARTIAL (registry SHAs pinned; CI run IDs pending)",
-    "G6_integration": "DONE - MASTER_OVERVIEW-001.json artifacts registry (commit f659926)"
+    "G6_integration": "RESIDUAL"
   },
   "edge_semantics": "from = dependency (built first), to = dependent consumer; direction of build order",
   "uses_semantics": "node.uses lists dependencies consumed via registered interfaces (registry/dependencies.yaml repositories section)"
