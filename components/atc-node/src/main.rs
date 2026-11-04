@@ -10,7 +10,10 @@ use atc_blockchain::{chain_identity::NUMERIC_CHAIN_ID, network::TcpPeerTransport
 use atc_node::bootstrap::Genesis;
 use atc_node::rpc::{serve, DevnetRpc};
 use atc_node::runtime::Runtime;
-use std::{env, net::TcpListener, path::PathBuf, sync::Arc, thread, time::Duration};
+use std::{
+    collections::BTreeSet, env, net::TcpListener, path::PathBuf, sync::Arc, thread,
+    time::Duration,
+};
 
 const DEFAULT_GENESIS_PROPOSER: &str = "atc-genesis";
 
@@ -46,7 +49,11 @@ fn hex_to_bytes(value: &str) -> Result<Vec<u8>, String> {
 
 fn parse_validators(raw: &str) -> Result<Vec<ValidatorConfig>, String> {
     let mut out = Vec::new();
-    for item in raw.split(',').filter(|x| !x.trim().is_empty()) {
+    let mut validator_ids = BTreeSet::new();
+    for item in raw.split(',') {
+        if item.trim().is_empty() {
+            return Err("ATC_VALIDATORS contains an empty validator entry".into());
+        }
         let mut parts = item.split(':');
         let id = parts
             .next()
@@ -61,6 +68,9 @@ fn parse_validators(raw: &str) -> Result<Vec<ValidatorConfig>, String> {
         let seed = parse_seed(parts.next().ok_or("validator seed missing")?)?;
         if parts.next().is_some() || id.is_empty() || stake == 0 {
             return Err("validator format is id:stake:64hexseed".into());
+        }
+        if !validator_ids.insert(id.clone()) {
+            return Err(format!("duplicate validator id: {id}"));
         }
         out.push(ValidatorConfig { id, stake, seed });
     }
@@ -284,5 +294,19 @@ mod validator_config_tests {
     #[test]
     fn validator_configuration_rejects_invalid_seed() {
         assert!(parse_validators("validator-a:1:not-a-seed").is_err());
+    }
+
+    #[test]
+    fn validator_configuration_rejects_empty_entries() {
+        let seed = "01".repeat(32);
+        assert!(parse_validators(&format!("validator-a:1:{seed},")).is_err());
+        assert!(parse_validators(&format!("validator-a:1:{seed}, ,validator-b:1:{seed}")).is_err());
+    }
+
+    #[test]
+    fn validator_configuration_rejects_duplicate_ids() {
+        let seed = "01".repeat(32);
+        let raw = format!("validator-a:1:{seed},validator-a:2:{seed}");
+        assert!(parse_validators(&raw).is_err());
     }
 }
