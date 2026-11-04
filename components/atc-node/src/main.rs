@@ -262,7 +262,6 @@ fn main() -> std::io::Result<()> {
     }
 }
 
-
 #[cfg(test)]
 mod validator_config_tests {
     use super::*;
