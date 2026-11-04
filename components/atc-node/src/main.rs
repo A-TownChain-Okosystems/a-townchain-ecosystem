@@ -10,7 +10,10 @@ use atc_blockchain::{chain_identity::NUMERIC_CHAIN_ID, network::TcpPeerTransport
 use atc_node::bootstrap::Genesis;
 use atc_node::rpc::{serve, DevnetRpc};
 use atc_node::runtime::Runtime;
-use std::{env, net::TcpListener, path::PathBuf, sync::Arc, thread, time::Duration};
+use std::{
+    collections::BTreeSet, env, net::TcpListener, path::PathBuf, sync::Arc, thread,
+    time::Duration,
+};
 
 const DEFAULT_GENESIS_PROPOSER: &str = "atc-genesis";
 
@@ -44,13 +47,13 @@ fn hex_to_bytes(value: &str) -> Result<Vec<u8>, String> {
         .collect()
 }
 
-fn validators_from_env() -> Result<Vec<ValidatorConfig>, String> {
-    let raw = env::var("ATC_VALIDATORS").unwrap_or_else(|_| {
-        let id = env::var("ATC_NODE_ID").unwrap_or_else(|_| "atc-node-1".into());
-        format!("{id}:1:{}", "01".repeat(32))
-    });
+fn parse_validators(raw: &str) -> Result<Vec<ValidatorConfig>, String> {
     let mut out = Vec::new();
-    for item in raw.split(',').filter(|x| !x.trim().is_empty()) {
+    let mut validator_ids = BTreeSet::new();
+    for item in raw.split(',') {
+        if item.trim().is_empty() {
+            return Err("ATC_VALIDATORS contains an empty validator entry".into());
+        }
         let mut parts = item.split(':');
         let id = parts
             .next()
@@ -66,12 +69,23 @@ fn validators_from_env() -> Result<Vec<ValidatorConfig>, String> {
         if parts.next().is_some() || id.is_empty() || stake == 0 {
             return Err("validator format is id:stake:64hexseed".into());
         }
+        if !validator_ids.insert(id.clone()) {
+            return Err(format!("duplicate validator id: {id}"));
+        }
         out.push(ValidatorConfig { id, stake, seed });
     }
     if out.is_empty() {
         return Err("ATC_VALIDATORS must contain at least one validator".into());
     }
     Ok(out)
+}
+
+fn validators_from_env() -> Result<Vec<ValidatorConfig>, String> {
+    let raw = env::var("ATC_VALIDATORS").map_err(|_| {
+        "ATC_VALIDATORS must be explicitly configured; implicit validator seeds are forbidden"
+            .to_string()
+    })?;
+    parse_validators(&raw)
 }
 
 fn is_local_proposer(node: &Node) -> bool {
@@ -255,5 +269,44 @@ fn main() -> std::io::Result<()> {
 
     loop {
         thread::park_timeout(Duration::from_secs(60));
+    }
+}
+
+#[cfg(test)]
+mod validator_config_tests {
+    use super::*;
+
+    #[test]
+    fn validator_configuration_requires_explicit_seed() {
+        assert!(parse_validators("").is_err());
+    }
+
+    #[test]
+    fn validator_configuration_accepts_explicit_seed() {
+        let raw = format!("validator-a:1:{}", "01".repeat(32));
+        let validators = parse_validators(&raw).unwrap();
+        assert_eq!(validators.len(), 1);
+        assert_eq!(validators[0].id, "validator-a");
+        assert_eq!(validators[0].stake, 1);
+        assert_eq!(validators[0].seed, [1u8; 32]);
+    }
+
+    #[test]
+    fn validator_configuration_rejects_invalid_seed() {
+        assert!(parse_validators("validator-a:1:not-a-seed").is_err());
+    }
+
+    #[test]
+    fn validator_configuration_rejects_empty_entries() {
+        let seed = "01".repeat(32);
+        assert!(parse_validators(&format!("validator-a:1:{seed},")).is_err());
+        assert!(parse_validators(&format!("validator-a:1:{seed}, ,validator-b:1:{seed}")).is_err());
+    }
+
+    #[test]
+    fn validator_configuration_rejects_duplicate_ids() {
+        let seed = "01".repeat(32);
+        let raw = format!("validator-a:1:{seed},validator-a:2:{seed}");
+        assert!(parse_validators(&raw).is_err());
     }
 }
