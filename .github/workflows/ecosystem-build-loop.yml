@@ -1,0 +1,395 @@
+name: Ecosystem Catalog Build Loop
+
+on:
+  workflow_dispatch:
+    inputs:
+      validate_only:
+        description: Validate catalog/manifest and do not build a target
+        required: false
+        type: boolean
+        default: false
+  schedule:
+    - cron: "0 * * * *"
+  pull_request:
+    paths:
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-DEPENDENCY-GRAPH-001.json"
+      - "docs/build/ATC-BUILD-MANIFEST-001.json"
+      - "tools/ecosystem_build_loop.py"
+      - ".github/workflows/ecosystem-build-loop.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-DEPENDENCY-GRAPH-001.json"
+      - "docs/build/ATC-BUILD-MANIFEST-001.json"
+      - "tools/ecosystem_build_loop.py"
+      - ".github/workflows/ecosystem-build-loop.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ecosystem-build-loop
+  cancel-in-progress: false
+
+jobs:
+  catalog-audit:
+    name: Catalog and dependency audit
+    runs-on: ubuntu-latest
+    outputs:
+      audit_status: ${{ steps.audit.outputs.audit_status }}
+    steps:
+      - name: Checkout controller at exact event SHA
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Audit catalog IDs, function coverage, graph and manifest
+        id: audit
+        env:
+          CONTROLLER_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          catalog = json.loads(Path("docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json").read_text())
+          graph = json.loads(Path("docs/architecture/ATC-DEPENDENCY-GRAPH-001.json").read_text())
+          manifest = json.loads(Path("docs/build/ATC-BUILD-MANIFEST-001.json").read_text())
+          errors = []
+          components = catalog.get("components")
+          nodes = graph.get("nodes")
+          repos = manifest.get("repos")
+          if not isinstance(components, list): errors.append("catalog.components must be a list")
+          if not isinstance(nodes, list): errors.append("dependency graph nodes must be a list")
+          if not isinstance(repos, list): errors.append("build manifest repos must be a list")
+          components = components if isinstance(components, list) else []
+          nodes = nodes if isinstance(nodes, list) else []
+          repos = repos if isinstance(repos, list) else []
+
+          def duplicates(values):
+              seen, dup = set(), set()
+              for value in values:
+                  if value in seen: dup.add(value)
+                  seen.add(value)
+              return sorted(str(x) for x in dup)
+
+          component_ids = [x.get("id") for x in components if isinstance(x, dict)]
+          node_ids = [x.get("id") for x in nodes if isinstance(x, dict)]
+          repo_names = [x.get("repo") for x in repos if isinstance(x, dict)]
+          if d := duplicates(component_ids): errors.append("duplicate component IDs: " + ", ".join(d))
+          if d := duplicates(node_ids): errors.append("duplicate dependency node IDs: " + ", ".join(d))
+          if d := duplicates(repo_names): errors.append("duplicate manifest repo names: " + ", ".join(d))
+
+          function_ids, missing_function_ids, function_count = [], 0, 0
+          for component in components:
+              if not isinstance(component, dict): continue
+              functions = component.get("functions", [])
+              if not isinstance(functions, list):
+                  errors.append(f"functions is not a list for component {component.get('id')}")
+                  continue
+              for fn in functions:
+                  if not isinstance(fn, dict):
+                      errors.append(f"non-object function in component {component.get('id')}")
+                      continue
+                  function_count += 1
+                  if not fn.get("id"): missing_function_ids += 1
+                  else: function_ids.append(fn["id"])
+          if missing_function_ids: errors.append(f"{missing_function_ids} function records lack IDs")
+          if d := duplicates(function_ids): errors.append("duplicate function IDs: " + ", ".join(d))
+
+          order = graph.get("topological_order", [])
+          if not isinstance(order, list): errors.append("topological_order must be a list")
+          elif d := duplicates(order): errors.append("duplicate entries in topological_order: " + ", ".join(d))
+
+          report = {
+              "schema_id": "ATC-ECOSYSTEM-LOOP-AUDIT-001",
+              "schema_version": "1.0.0",
+              "controller_sha": os.environ["CONTROLLER_SHA"],
+              "catalog_status": catalog.get("status", "UNKNOWN"),
+              "dependency_graph_status": graph.get("status", "UNKNOWN"),
+              "manifest_status": manifest.get("status", "UNKNOWN"),
+              "component_count": len(components),
+              "function_count": function_count,
+              "dependency_node_count": len(nodes),
+              "manifest_repo_count": len(repos),
+              "status": "BLOCKED" if errors else "AUDIT_STRUCTURALLY_CLEAN",
+              "errors": errors,
+              "limits": [
+                  "Structural audit only; does not prove implementation correctness.",
+                  "Does not assert source-binding completeness, functional verification or release readiness.",
+                  "No catalog-supplied commands are executed."
+              ]
+          }
+          Path("catalog-audit-report.json").write_text(json.dumps(report, indent=2) + "\n")
+          print(json.dumps(report, indent=2))
+          if errors: raise SystemExit(1)
+          PY
+          echo "audit_status=PASS" >> "$GITHUB_OUTPUT"
+      - name: Upload catalog audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-catalog-audit-${{ github.run_id }}
+          path: catalog-audit-report.json
+          if-no-files-found: warn
+          retention-days: 180
+
+  plan:
+    needs: catalog-audit
+    if: needs.catalog-audit.outputs.audit_status == 'PASS'
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.plan.outputs.status }}
+      repo: ${{ steps.plan.outputs.repo }}
+      profile: ${{ steps.plan.outputs.profile }}
+    steps:
+      - name: Checkout controller at exact event SHA
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate schemas and select one target
+        id: plan
+        env:
+          VALIDATE_ONLY: ${{ inputs.validate_only || 'false' }}
+        run: |
+          set -euo pipefail
+          if [ "$VALIDATE_ONLY" = "true" ]; then
+            python tools/ecosystem_build_loop.py --validate-only > build-loop-plan.json
+          else
+            python tools/ecosystem_build_loop.py > build-loop-plan.json
+          fi
+          cat build-loop-plan.json
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          p = json.loads(Path("build-loop-plan.json").read_text(encoding="utf-8"))
+          print("status=" + str(p.get("status", "BLOCKED")))
+          print("repo=" + str(p.get("selected_repo") or ""))
+          print("profile=" + str(p.get("profile") or ""))
+          PY
+      - name: Upload build-loop plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-build-loop-plan-${{ github.run_id }}
+          path: build-loop-plan.json
+          if-no-files-found: error
+          retention-days: 90
+
+  test-entrypoint-preflight:
+    name: Validate canonical test entry point
+    needs: plan
+    if: needs.plan.outputs.status == 'READY' && needs.plan.outputs.repo != ''
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+      source_sha: ${{ steps.check.outputs.source_sha }}
+    steps:
+      - name: Checkout canonical implementation repository
+        uses: actions/checkout@v4
+        with:
+          repository: A-TownChain-Okosystems/${{ needs.plan.outputs.repo }}
+          ref: main
+          path: source
+          persist-credentials: false
+      - name: Verify declared npm test entry point before build
+        id: check
+        env:
+          PROFILE: ${{ needs.plan.outputs.profile }}
+          TARGET_REPO: ${{ needs.plan.outputs.repo }}
+          CONTROLLER_EVENT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          canonical_source_sha="$(git -C source rev-parse HEAD)"
+          test "${#canonical_source_sha}" -eq 40
+          echo "source_sha=$canonical_source_sha" >> "$GITHUB_OUTPUT"
+          export CANONICAL_SOURCE_SHA="$canonical_source_sha"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          profile = os.environ["PROFILE"]
+          target = os.environ["TARGET_REPO"]
+          status = "PASS"
+          reason = "profile does not use npm test"
+          if profile == "npm-build":
+              package_path = Path("source/package.json")
+              if not package_path.is_file():
+                  status = "BLOCKED"
+                  reason = "package.json is missing; cannot verify npm test entry point"
+              else:
+                  try:
+                      package = json.loads(package_path.read_text(encoding="utf-8"))
+                  except (OSError, json.JSONDecodeError) as exc:
+                      status = "BLOCKED"
+                      reason = f"package.json is unreadable or invalid JSON: {exc}"
+                  else:
+                      scripts = package.get("scripts")
+                      test_script = scripts.get("test") if isinstance(scripts, dict) else None
+                      if not isinstance(test_script, str) or not test_script.strip():
+                          status = "BLOCKED"
+                          reason = "package.json scripts.test is missing or empty; build is not allowed to start"
+                      else:
+                          reason = "package.json scripts.test exists and is non-empty"
+
+          report = {
+              "schema_id": "ATC-TEST-ENTRYPOINT-PREFLIGHT-001",
+              "target_repo": target,
+              "profile": profile,
+              "controller_event_sha": os.environ["CONTROLLER_EVENT_SHA"],
+              "canonical_source_sha": os.environ["CANONICAL_SOURCE_SHA"],
+              "status": status,
+              "reason": reason,
+          }
+          Path("test-entrypoint-preflight.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps(report, indent=2))
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"status={status}\n")
+          if status == "BLOCKED":
+              raise SystemExit(1)
+          PY
+      - name: Upload test entry point evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-test-entrypoint-preflight-${{ needs.plan.outputs.repo }}-${{ github.run_id }}
+          path: test-entrypoint-preflight.json
+          if-no-files-found: error
+          retention-days: 180
+
+  build:
+    needs: [plan, test-entrypoint-preflight]
+    if: needs.plan.outputs.status == 'READY' && needs.plan.outputs.repo != '' && needs.test-entrypoint-preflight.outputs.status == 'PASS'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout canonical implementation repository
+        uses: actions/checkout@v4
+        with:
+          repository: A-TownChain-Okosystems/${{ needs.plan.outputs.repo }}
+          ref: ${{ needs.test-entrypoint-preflight.outputs.source_sha }}
+          path: source
+          persist-credentials: false
+      - name: Record exact source revision
+        id: source
+        working-directory: source
+        run: |
+          set -euo pipefail
+          sha="$(git rev-parse HEAD)"
+          test "${#sha}" -eq 40
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          mkdir -p ../evidence
+          printf 'repository=%s\nsource_sha=%s\nworkflow_sha=%s\nrun_id=%s\nrun_attempt=%s\n' \
+            "${{ needs.plan.outputs.repo }}" "$sha" "${{ github.sha }}" \
+            "${{ github.run_id }}" "${{ github.run_attempt }}" > ../evidence/source.txt
+      - name: Set up Rust
+        if: needs.plan.outputs.profile == 'cargo-workspace'
+        uses: dtolnay/rust-toolchain@stable
+      - name: Set up Python
+        if: needs.plan.outputs.profile == 'python-pytest'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Node
+        if: needs.plan.outputs.profile == 'npm-build'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build and test canonical target
+        working-directory: source
+        env:
+          PROFILE: ${{ needs.plan.outputs.profile }}
+        run: |
+          set -uo pipefail
+          rc=0
+          case "$PROFILE" in
+            cargo-workspace)
+              cargo build --workspace 2>&1 | tee ../evidence/build.log || rc=$?
+              if [ "$rc" -eq 0 ]; then
+                cargo test --workspace 2>&1 | tee ../evidence/test.log || rc=$?
+              fi
+              ;;
+            python-pytest)
+              python -m compileall -q . 2>&1 | tee ../evidence/build.log || rc=$?
+              if [ "$rc" -eq 0 ]; then
+                python -m pytest -q 2>&1 | tee ../evidence/test.log || rc=$?
+              fi
+              ;;
+            npm-build)
+              npm ci 2>&1 | tee ../evidence/install.log || rc=$?
+              if [ "$rc" -eq 0 ]; then
+                npm test 2>&1 | tee ../evidence/test.log || rc=$?
+              fi
+              if [ "$rc" -eq 0 ]; then
+                npm run build 2>&1 | tee ../evidence/build.log || rc=$?
+              fi
+              ;;
+            *)
+              echo "Unsupported build profile: $PROFILE" | tee ../evidence/build.log
+              rc=2
+              ;;
+          esac
+          printf 'exit_code=%s\n' "$rc" > ../evidence/result.txt
+          if [ "$rc" -ne 0 ]; then exit "$rc"; fi
+      - name: Upload exact-SHA build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-build-evidence-${{ needs.plan.outputs.repo }}-${{ github.run_id }}
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 180
+
+  failure-diagnostics:
+    if: failure()
+    needs: [catalog-audit, plan, test-entrypoint-preflight, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record failed loop context
+        env:
+          EVENT_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          PLAN_STATUS: ${{ needs.plan.outputs.status }}
+          TARGET_REPO: ${{ needs.plan.outputs.repo }}
+          TEST_ENTRYPOINT_STATUS: ${{ needs.test-entrypoint-preflight.outputs.status }}
+        run: |
+          set -euo pipefail
+          mkdir -p failure-evidence
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          data = {
+              "schema_id": "ATC-ECOSYSTEM-LOOP-FAILURE-001",
+              "controller_sha": os.environ["EVENT_SHA"],
+              "run_id": os.environ["RUN_ID"],
+              "run_attempt": os.environ["RUN_ATTEMPT"],
+              "event": os.environ["EVENT_NAME"],
+              "ref": os.environ["REF_NAME"],
+              "plan_status": os.environ.get("PLAN_STATUS") or "BLOCKED_OR_SKIPPED",
+              "target_repo": os.environ.get("TARGET_REPO") or None,
+              "test_entrypoint_status": os.environ.get("TEST_ENTRYPOINT_STATUS") or "BLOCKED_OR_SKIPPED",
+              "status": "RESIDUAL",
+              "note": "Failure context only; inspect the failed job steps and logs before assigning root cause."
+          }
+          Path("failure-evidence/loop-failure.json").write_text(json.dumps(data, indent=2) + "\n")
+          print(json.dumps(data, indent=2))
+          PY
+      - name: Upload failure diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-loop-failure-${{ github.run_id }}
+          path: failure-evidence/
+          if-no-files-found: error
+          retention-days: 180
