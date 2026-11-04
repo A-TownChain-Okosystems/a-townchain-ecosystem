@@ -30,6 +30,8 @@ fn start_node(addr: &str) -> Child {
         .env("ATC_RPC_ADDR", addr)
         .env("ATC_P2P_ADDR", &p2p_addr)
         .env("ATC_DATA_DIR", &data_dir)
+        // Isolated deterministic validator key for this process-level test only.
+        .env("ATC_VALIDATORS", format!("atc-node-1:1:{}", "2a".repeat(32)))
         .stdin(Stdio::null())
         .stdout(Stdio::null())
         .stderr(Stdio::inherit())
