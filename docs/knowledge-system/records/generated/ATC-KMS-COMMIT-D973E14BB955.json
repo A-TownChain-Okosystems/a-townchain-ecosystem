@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-D973E14BB955",
-  "timestamp": "2026-11-03T09:38:03.942693Z",
+  "timestamp": "2026-11-04T09:22:10.789453Z",
   "category": "change",
   "title": "Commit: chore(catalog): reconcile COMP-IDE source binding",
   "context": "Git commit d973e14bb955e5bfe91b2fcae24aca5592a30a5c on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/d973e14bb955e5bfe91b2fcae24aca5592a30a5c",
-    "commit": "63f23bf89898c01e7ca6ea929b00339b147e3583"
+    "commit": "3d41ed283921d50eff6ac3df95568343cb9eada2"
   },
   "tags": [
     "commit",
