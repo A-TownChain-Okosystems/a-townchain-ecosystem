@@ -44,11 +44,7 @@ fn hex_to_bytes(value: &str) -> Result<Vec<u8>, String> {
         .collect()
 }
 
-fn validators_from_env() -> Result<Vec<ValidatorConfig>, String> {
-    let raw = env::var("ATC_VALIDATORS").unwrap_or_else(|_| {
-        let id = env::var("ATC_NODE_ID").unwrap_or_else(|_| "atc-node-1".into());
-        format!("{id}:1:{}", "01".repeat(32))
-    });
+fn parse_validators(raw: &str) -> Result<Vec<ValidatorConfig>, String> {
     let mut out = Vec::new();
     for item in raw.split(',').filter(|x| !x.trim().is_empty()) {
         let mut parts = item.split(':');
@@ -72,6 +68,14 @@ fn validators_from_env() -> Result<Vec<ValidatorConfig>, String> {
         return Err("ATC_VALIDATORS must contain at least one validator".into());
     }
     Ok(out)
+}
+
+fn validators_from_env() -> Result<Vec<ValidatorConfig>, String> {
+    let raw = env::var("ATC_VALIDATORS").map_err(|_| {
+        "ATC_VALIDATORS must be explicitly configured; implicit validator seeds are forbidden"
+            .to_string()
+    })?;
+    parse_validators(&raw)
 }
 
 fn is_local_proposer(node: &Node) -> bool {
@@ -255,5 +259,33 @@ fn main() -> std::io::Result<()> {
 
     loop {
         thread::park_timeout(Duration::from_secs(60));
+    }
+}
+
+
+#[cfg(test)]
+mod validator_config_tests {
+    use super::*;
+
+    #[test]
+    fn validator_configuration_requires_explicit_seed() {
+        let error = parse_validators("").unwrap_err();
+        assert!(error.contains("ATC_VALIDATORS must contain at least one validator"));
+    }
+
+    #[test]
+    fn validator_configuration_accepts_explicit_seed() {
+        let raw = format!("validator-a:1:{}", "01".repeat(32));
+        let validators = parse_validators(&raw).unwrap();
+        assert_eq!(validators.len(), 1);
+        assert_eq!(validators[0].id, "validator-a");
+        assert_eq!(validators[0].stake, 1);
+        assert_eq!(validators[0].seed, [1u8; 32]);
+    }
+
+    #[test]
+    fn validator_configuration_rejects_invalid_seed() {
+        let error = parse_validators("validator-a:1:not-a-seed").unwrap_err();
+        assert!(error.contains("exactly 64 hex characters"));
     }
 }
