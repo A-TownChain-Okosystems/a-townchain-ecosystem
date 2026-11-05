@@ -10,13 +10,14 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "typescript": "^7",
+    "body-parser": "^2.4.0",
+    "express": "^5",
     "graphql": "^17",
-    "express": "^5"
+    "typescript": "^7"
   },
   "devDependencies": {
-    "@types/node": "^26",
     "@types/jest": "^30",
+    "@types/node": "^26",
     "jest": "^30"
   }
 }
