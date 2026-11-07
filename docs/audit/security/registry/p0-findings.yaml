@@ -1,0 +1,80 @@
+schema_id: ATC-SEC-PENTEST-P0-001
+schema_version: "0.1.0"
+audit_date: "2026-11-05"
+scope: "Transaction Authority und Kryptografie (P0)"
+mode: "Security Audit + kontrollierter Penetrationstest + Remediation + Re-Test"
+evidence_base:
+  a-townchain: f2b468df04cf3dd83b5862c1426b81574019db5c
+  a-townchain-os: 91905a86656e02b2faac4b609903b3533eaf260d
+  atc-standards: f54083518fb8a2d12482e0791f05bd8d86b4642d
+  a-townchain-ecosystem: cd7b646e8388942faa4036fc779bc8d855aae8df
+  globus-os: f370b681e5c9ff49577f25c24f15b5fc880d5cba
+  atc-oracle: 8087d34ddb8c2d40a60178e8f3b4c52ea67d52a8
+normative_resolution:
+  spec: SPEC-DRAFT WAL-SIGN-001
+  rule: "secp256k1/RFC-6979/Low-S kanonisch fuer TX-Signaturen; Ed25519 ausschliesslich P2P/DID-Layer"
+  source: atc-standards/registry/findings.yaml:529
+  status: OPEN (Spec nicht als Datei materialisiert)
+findings:
+  - id: SEC-P0-001
+    title: "Kanonische secp256k1-Tx-Verifikation ist in keinem Konsens-/Node-Pfad verdrahtet"
+    severity: critical
+    evidence: "a-townchain: wallet-Crate (keys.rs, tx.rs) wird ausserhalb seiner Tests nirgends referenziert; kein mempool/tx_pool in components/ oder atc-node; Bloecke tragen keine Signaturen"
+    repro: "grep -rn 'wallet::tx|Transaction {' components/node components/vm components/sdk components/mining -> 0 Treffer"
+    remediation: "R5: Tx-Validierung + Mempool mit Nonce-Tracking im Node; Blockproposer-Signatur"
+    retest: "Node lehnt Tx mit ungueltiger/fehlender Signatur ab (Negativtest); Block ohne Proposer-Signatur wird verworfen"
+  - id: SEC-P0-002
+    title: "Mock-Verifier akzeptiert jede Signatur mit Praefix VALID"
+    severity: critical
+    evidence: "a-townchain components/oracle/src/verification.rs:37-41 (StandardVerifierAdapter)"
+    repro: "docs/audit/security/repro/sec_p0_oracle_repro.rs -> NACHWEIS SEC-P0-002"
+    remediation: "R2: Mock hinter Feature test-mock gaten; produktiver Adapter mit echter Kurvenverifikation; Typ umbenennen"
+    retest: "verify_signature(b'VALID_GARBAGE') -> false/Err im Produktionsbuild"
+  - id: SEC-P0-003
+    title: "Validator-Signatur = sha256(Prefix|Klartext-Secret); verify() verlangt Signierer-Secret"
+    severity: critical
+    evidence: "a-townchain components/node/src/validator.rs:81-92,104-127"
+    repro: "docs/audit/security/repro/sec_p0_validator_repro.rs -> NACHWEIS SEC-P0-003a/b/c"
+    remediation: "R3: ECDSA-Signatur ueber block_hash mit Proposer-Pubkey; verify nur mit Pubkey aus ValidatorSet"
+    retest: "verify ohne Secret moeglich; gefaelschte Proposal mit fremdem Pubkey scheitert"
+  - id: SEC-P0-004
+    title: "Keine Bindung DID <-> Public Key: beliebiger Key beansprucht beliebige DID"
+    severity: critical
+    evidence: "a-townchain components/wallet/src/tx.rs:26-35,77-99 (sender_did ist freier String)"
+    repro: "docs/audit/security/repro/sec_p0_repro.rs::repro_any_key_can_claim_any_did -> NACHWEIS SEC-P0-004"
+    remediation: "R4: address/DID = H(pubkey) nach WAL-SIGN-001; Node prueft sender_did <-> pubkey <-> Signatur"
+    retest: "Tx mit fremder DID wird abgelehnt (Negativtest)"
+  - id: SEC-P0-005
+    title: "Keine Adress-/DID-Ableitung im Live-Wallet; toter wallet.rs mit 32-Byte-Modell"
+    severity: high
+    evidence: "wallet/src/keys.rs (nur public_key() 33B); wallet/src/wallet.rs nicht im Modulbaum (lib.rs:7-11), referenziert nicht existierende KeyPair/TransactionDomain/SignedTransaction"
+    repro: "docs/audit/security/repro/sec_p0_repro.rs::repro_no_address_derivation -> NACHWEIS SEC-P0-005"
+    remediation: "R4: Adressableitung implementieren; wallet.rs entfernen"
+    retest: "cargo clippy/test ohne toten Code; DID-Ableitung deterministisch getestet"
+  - id: SEC-P0-006
+    title: "Zwei parallele Krypto-Modelle (secp256k1 33B vs Ed25519 32B) ohne einheitliches Verfahren"
+    severity: high
+    evidence: "secp256k1: wallet/tx; Ed25519: kai-os keyring/network + integration-Handoff; Typen inkompatibel"
+    repro: "docs/audit/security/repro/sec_p0_repro.rs::repro_key_width_conflict_is_type_level -> NACHWEIS SEC-P0-006"
+    remediation: "R1: WAL-SIGN-001 frieren; Handoff-Signaturen auf TX-Kurve; Ed25519 nur P2P/DID"
+    retest: "Ein Verifikationspfad je Zweck; Cross-Curve-Negativtest dokumentiert"
+  - id: SEC-P0-007
+    title: "Blockhash = 64-Bit-Truncation von SHA-256; Kette ohne Signaturen"
+    severity: high
+    evidence: "a-townchain components/node/src/bootstrap.rs:67-70 (townhash_u64), chain.rs:19-20"
+    repro: "Codepfad-Nachweis (Truncation auf 8 Byte), Kollisionsraum 2^32"
+    remediation: "R6: Vollhash 256 Bit + Proposer-Signatur"
+    retest: "Hashbreite 256 Bit; Block ohne Signatur verworfen"
+  - id: SEC-P0-008
+    title: "Replay-/Domain-Separation unvollstaendig"
+    severity: high
+    evidence: "Wallet-Tx: ATC-TX-DOMAIN-V2 + chain_id (korrekt, ungenutzt); Validator-Payload ohne chain_id/Domain; kai-os challenge_payload = sha256('from|to|nonce') ohne Chain-Bindung, | -Kanonisierungsambiguitaet; kein Nonce-Tracking im Konsens"
+    repro: "auth.rs:44-46; validator.rs:85 (Payloadformat)"
+    remediation: "R7: laengenpraefigierte Kanonisierung + chain_id/network_id in allen Signatur-Preimages"
+    retest: "Replay zwischen zwei ChainIDs/Netzwerken schlaegt fehl"
+  - id: SEC-P0-009
+    title: "Oracle-Tests zementieren den Mock-Bypass (b'VALID_SIG' als gueltig)"
+    severity: medium
+    evidence: "a-townchain components/oracle/tests/oracle_new_tests.rs:32-53"
+    remediation: "R2: Tests auf echte Signaturfixtures umstellen"
+    retest: "Keine Testfixture mit Praefix-Semantik mehr"
