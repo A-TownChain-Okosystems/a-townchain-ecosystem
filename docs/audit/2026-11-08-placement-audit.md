@@ -56,3 +56,20 @@ Damit ist SEC-P0-001/003/004/007 **nur im Monorepo** umgesetzt. Wer `atc-node` b
 2. `modules/atc-zkp` stilllegen oder `components/zkp` als kanonisch markieren.
 3. Mirror-Policy für `ecosystem/components/` festlegen.
 4. ARCHITECTURE.md auf den Ist-Zustand ziehen (in diesem Commit aktualisiert).
+
+## Maßnahmen (08.11.2026, umgesetzt)
+
+| Befund | Maßnahme | Beleg |
+|---|---|---|
+| P-01 Node-Drift | `atc-node` als **Mirror ohne kanonischen Code** gekennzeichnet: `SYNC-STATUS.md` mit Drift-Tabelle, Reaktivierungsplan und Begründung; README-Ablagehinweis | Branch `docs/placement-status` (Commits 4d6e2f00, 5f12108) |
+| P-04 Doku-Drift | `ARCHITECTURE.md` in a-townchain: `components/*` als kanonisch, `modules/*` als Legacy | a-townchain `8a98876` |
+| P-05 Register | Nachträge 2026-11-08 in beiden Datei-Registern (14 + 3 Dateien) | a-townchain `e1c6b40`, a-townchain-os `64d8d5d` |
+
+**Offen (blockiert):** `atc-node/main` ist branch-protected (PR-Pflicht, Checks `audit`, `cargo-audit`, `codeql`).
+Der Merge des Mirror-Hinweises braucht einen PR; PR-Erstellung ist durch die unverifizierte
+E-Mail des Accounts gesperrt (HTTP 403 auf `POST /pulls`). Owner-Klick:
+`https://github.com/A-TownChain-Okosystems/atc-node/compare/main...docs/placement-status?expand=1`
+
+**Offen (Entscheidung):** Monorepo-SSOT endgültig festschreiben und `atc-node` archivieren
+(7 von 8 Standalone-Komponenten-Repos sind bereits archiviert), oder `a-townchain` um ein
+Root-Workspace-Manifest erweitern, damit `atc-node` das Wallet-Crate per Git-Pin beziehen kann.
