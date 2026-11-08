@@ -130,13 +130,15 @@ findings:
   remediation: 'R7: laengenpraefigierte Kanonisierung + chain_id/network_id in allen
     Signatur-Preimages'
   retest: Replay zwischen zwei ChainIDs/Netzwerken schlaegt fehl
-  status: PARTIALLY_FIXED
+  status: FIXED
   fix_status_note: '2026-11-07: Proposal-Signatur jetzt mit Chain-ID und Domain-Trennung
     (7ee9db34a). Offen: Mempool-Nonce-Tracking, kai-os-Challenge-Kanonisierung.'
-  fix_note: '2026-11-08: Nonce-Ordnung wird in Mempool und TxLedger erzwungen (erste
-    Tx setzt Baseline, danach exakt sequenziell; NonceTooLow, NonceGap, Duplikat,
-    Replay ueber Blockgrenzen abgelehnt). Proposal-Signaturen tragen chain_id und
-    Domain (ATC-PROPOSE-V1). Commits: 576b59c58, f7dfbe06f.'
+  fix_note: '2026-11-08: Challenge-Payload jetzt domain-separiert (ATC-KAI-CHALLENGE-V1)
+    und laengenpraefigiert (u32-Laenge je Feld) -> Pipe-Ambiguitaet ausgeschlossen;
+    chain_id 658467 ist Pflichtfeld und wird vor Signaturpruefung validiert (AuthError::WrongChain);
+    session_id ebenfalls domain-separiert. a-townchain-os Commit ead5695f3. 4 neue
+    Unit-Tests, kai-os-network 22 Tests gruen. Residual: Nonce-Registry ist nicht
+    persistent (Neustart setzt auf 0), Challenge enthaelt keinen Zeitstempel.'
   residual: 'kai-os-Handshake: Challenge-Payload bleibt sha256("from|to|nonce") ohne
     Chain-/Domain-Bindung und mit Pipe-Kanonisierungsambiguitaet.'
 - id: SEC-P0-009
