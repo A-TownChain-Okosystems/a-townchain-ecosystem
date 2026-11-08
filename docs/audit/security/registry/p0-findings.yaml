@@ -19,29 +19,33 @@ findings:
 - id: SEC-P0-001
   title: Kanonische secp256k1-Tx-Verifikation ist in keinem Konsens-/Node-Pfad verdrahtet
   severity: critical
-  evidence: 'a-townchain: wallet-Crate (keys.rs, tx.rs) wird ausserhalb seiner Tests nirgends referenziert; kein
-    mempool/tx_pool in components/ oder atc-node; Bloecke tragen keine Signaturen'
-  repro: grep -rn 'wallet::tx|Transaction {' components/node components/vm components/sdk components/mining -> 0
-    Treffer
+  evidence: 'a-townchain: wallet-Crate (keys.rs, tx.rs) wird ausserhalb seiner Tests nirgends referenziert;
+    kein mempool/tx_pool in components/ oder atc-node; Bloecke tragen keine Signaturen'
+  repro: grep -rn 'wallet::tx|Transaction {' components/node components/vm components/sdk components/mining
+    -> 0 Treffer
   remediation: 'R5: Tx-Validierung + Mempool mit Nonce-Tracking im Node; Blockproposer-Signatur'
-  retest: Node lehnt Tx mit ungueltiger/fehlender Signatur ab (Negativtest); Block ohne Proposer-Signatur wird verworfen
-  status: PARTIALLY_FIXED
-  fix_status_note: '2026-11-07: Verifikations-Adapter (Ed25519/secp256k1) und verify_bound existieren jetzt; die
-    Verdrahtung in Mempool/Block-Import fehlt weiterhin.'
-  fix_note: '2026-11-08: components/node/src/mempool.rs (Commit 576b59c58) nimmt Transaktionen nur nach verify_bound
-    (Signatur + DID-Bindung), Chain-ID- und Nonce-Pruefung auf; Block-Assembly ueber take_all() sperrt IDs dauerhaft.
-    Offen: Verifikation beim Block-Import/Reorg und im RPC-Pfad.'
+  retest: Node lehnt Tx mit ungueltiger/fehlender Signatur ab (Negativtest); Block ohne Proposer-Signatur
+    wird verworfen
+  status: FIXED
+  fix_status_note: '2026-11-07: Verifikations-Adapter (Ed25519/secp256k1) und verify_bound existieren
+    jetzt; die Verdrahtung in Mempool/Block-Import fehlt weiterhin.'
+  fix_note: '2026-11-08: Transaktionspruefung ist im Node verdrahtet - Mempool-Admission (verify_bound,
+    Chain-ID, Nonce, Duplikate) und Blockpfad (Chain::produce_tx_block/import_tx_block mit TxLedger: zustandsfreie
+    Vorpruefung, Commit erst nach Blockanhang, Replay-Sperre ueber Blockgrenzen). Payload = Tx-ID-hex.
+    Commits: 576b59c58, f7dfbe06f, 55ba25542, c46e05eb2.'
+  residual: Block-Reorg-Semantik und der Devnet-RPC-Pfad bleiben unverifiziert; Gossip transportiert weiterhin
+    nur Payload-Strings, keine Transaktionslisten (Wire-Format-Erweiterung offen).
 - id: SEC-P0-002
   title: Mock-Verifier akzeptiert jede Signatur mit Praefix VALID
   severity: critical
   evidence: a-townchain components/oracle/src/verification.rs:37-41 (StandardVerifierAdapter)
   repro: docs/audit/security/repro/sec_p0_oracle_repro.rs -> NACHWEIS SEC-P0-002
-  remediation: 'R2: Mock hinter Feature test-mock gaten; produktiver Adapter mit echter Kurvenverifikation; Typ
-    umbenennen'
+  remediation: 'R2: Mock hinter Feature test-mock gaten; produktiver Adapter mit echter Kurvenverifikation;
+    Typ umbenennen'
   retest: verify_signature(b'VALID_GARBAGE') -> false/Err im Produktionsbuild
   status: FIXED
-  fix_status_note: '2026-11-07: Mock entfernt, echte Ed25519-/secp256k1-Adapter (aaeacf667, e1efe682c); Test-Double
-    ausschliesslich im Testcode (d9794355e).'
+  fix_status_note: '2026-11-07: Mock entfernt, echte Ed25519-/secp256k1-Adapter (aaeacf667, e1efe682c);
+    Test-Double ausschliesslich im Testcode (d9794355e).'
 - id: SEC-P0-003
   title: Validator-Signatur = sha256(Prefix|Klartext-Secret); verify() verlangt Signierer-Secret
   severity: critical
@@ -50,8 +54,8 @@ findings:
   remediation: 'R3: ECDSA-Signatur ueber block_hash mit Proposer-Pubkey; verify nur mit Pubkey aus ValidatorSet'
   retest: verify ohne Secret moeglich; gefaelschte Proposal mit fremdem Pubkey scheitert
   status: FIXED
-  fix_status_note: '2026-11-07: Proposals als ECDSA/RFC6979 ueber domain-separierten Digest mit chain_id; Verifikation
-    oeffentlich gegen Validator-Pubkey ohne Signierer-Schluessel (7ee9db34a, 5cbe2153c).'
+  fix_status_note: '2026-11-07: Proposals als ECDSA/RFC6979 ueber domain-separierten Digest mit chain_id;
+    Verifikation oeffentlich gegen Validator-Pubkey ohne Signierer-Schluessel (7ee9db34a, 5cbe2153c).'
 - id: SEC-P0-004
   title: 'Keine Bindung DID <-> Public Key: beliebiger Key beansprucht beliebige DID'
   severity: critical
@@ -60,29 +64,30 @@ findings:
   remediation: 'R4: address/DID = H(pubkey) nach WAL-SIGN-001; Node prueft sender_did <-> pubkey <-> Signatur'
   retest: Tx mit fremder DID wird abgelehnt (Negativtest)
   status: PARTIALLY_FIXED
-  fix_status_note: '2026-11-07: verify_bound erzwingt sender_did == address_from_pubkey (27bb77613). Offen: DID-Dokument/Registry
-    und Rotation.'
+  fix_status_note: '2026-11-07: verify_bound erzwingt sender_did == address_from_pubkey (27bb77613). Offen:
+    DID-Dokument/Registry und Rotation.'
 - id: SEC-P0-005
   title: Keine Adress-/DID-Ableitung im Live-Wallet; toter wallet.rs mit 32-Byte-Modell
   severity: high
-  evidence: wallet/src/keys.rs (nur public_key() 33B); wallet/src/wallet.rs nicht im Modulbaum (lib.rs:7-11), referenziert
-    nicht existierende KeyPair/TransactionDomain/SignedTransaction
+  evidence: wallet/src/keys.rs (nur public_key() 33B); wallet/src/wallet.rs nicht im Modulbaum (lib.rs:7-11),
+    referenziert nicht existierende KeyPair/TransactionDomain/SignedTransaction
   repro: docs/audit/security/repro/sec_p0_repro.rs::repro_no_address_derivation -> NACHWEIS SEC-P0-005
   remediation: 'R4: Adressableitung implementieren; wallet.rs entfernen'
   retest: cargo clippy/test ohne toten Code; DID-Ableitung deterministisch getestet
   status: FIXED
-  fix_status_note: '2026-11-07: kanonische Adresse ATC:<sha256(pubkey)[..20]> (c6e159ffe). Offen: toten wallet.rs-Pfad
-    loeschen.'
+  fix_status_note: '2026-11-07: kanonische Adresse ATC:<sha256(pubkey)[..20]> (c6e159ffe). Offen: toten
+    wallet.rs-Pfad loeschen.'
 - id: SEC-P0-006
   title: Zwei parallele Krypto-Modelle (secp256k1 33B vs Ed25519 32B) ohne einheitliches Verfahren
   severity: high
   evidence: 'secp256k1: wallet/tx; Ed25519: kai-os keyring/network + integration-Handoff; Typen inkompatibel'
-  repro: docs/audit/security/repro/sec_p0_repro.rs::repro_key_width_conflict_is_type_level -> NACHWEIS SEC-P0-006
+  repro: docs/audit/security/repro/sec_p0_repro.rs::repro_key_width_conflict_is_type_level -> NACHWEIS
+    SEC-P0-006
   remediation: 'R1: WAL-SIGN-001 frieren; Handoff-Signaturen auf TX-Kurve; Ed25519 nur P2P/DID'
   retest: Ein Verifikationspfad je Zweck; Cross-Curve-Negativtest dokumentiert
   status: RESIDUAL
-  fix_status_note: '2026-11-07: Kurven-Zuordnung normativ dokumentiert (Ed25519 nur P2P/DID, secp256k1 fuer TX).
-    Offen: kai-os-Handoff-Signaturen auf secp256k1 umstellen oder als P2P klassifizieren.'
+  fix_status_note: '2026-11-07: Kurven-Zuordnung normativ dokumentiert (Ed25519 nur P2P/DID, secp256k1
+    fuer TX). Offen: kai-os-Handoff-Signaturen auf secp256k1 umstellen oder als P2P klassifizieren.'
 - id: SEC-P0-007
   title: Blockhash = 64-Bit-Truncation von SHA-256; Kette ohne Signaturen
   severity: high
@@ -91,22 +96,25 @@ findings:
   remediation: 'R6: Vollhash 256 Bit + Proposer-Signatur'
   retest: Hashbreite 256 Bit; Block ohne Signatur verworfen
   status: RESIDUAL
-  fix_status_note: '2026-11-07: Blockhash weiterhin 64-Bit; Umstellung auf 32-Byte-Hash ist invasiv und offen.'
+  fix_status_note: '2026-11-07: Blockhash weiterhin 64-Bit; Umstellung auf 32-Byte-Hash ist invasiv und
+    offen.'
 - id: SEC-P0-008
   title: Replay-/Domain-Separation unvollstaendig
   severity: high
   evidence: 'Wallet-Tx: ATC-TX-DOMAIN-V2 + chain_id (korrekt, ungenutzt); Validator-Payload ohne chain_id/Domain;
-    kai-os challenge_payload = sha256(''from|to|nonce'') ohne Chain-Bindung, | -Kanonisierungsambiguitaet; kein
-    Nonce-Tracking im Konsens'
+    kai-os challenge_payload = sha256(''from|to|nonce'') ohne Chain-Bindung, | -Kanonisierungsambiguitaet;
+    kein Nonce-Tracking im Konsens'
   repro: auth.rs:44-46; validator.rs:85 (Payloadformat)
   remediation: 'R7: laengenpraefigierte Kanonisierung + chain_id/network_id in allen Signatur-Preimages'
   retest: Replay zwischen zwei ChainIDs/Netzwerken schlaegt fehl
   status: PARTIALLY_FIXED
-  fix_status_note: '2026-11-07: Proposal-Signatur jetzt mit Chain-ID und Domain-Trennung (7ee9db34a). Offen: Mempool-Nonce-Tracking,
-    kai-os-Challenge-Kanonisierung.'
-  fix_note: '2026-11-08: Mempool fuehrt expected_nonce je Sender (NonceGap/NonceTooLow/Duplicate) und advance_nonce
-    nach Block-Import ein; Proposal-Digest traegt chain_id + PROPOSAL_DOMAIN. Offen: kai-os-Challenge-Kanonisierung
-    (Pipe-Ambiguitaet) und Chain-Bindung im Handshake.'
+  fix_status_note: '2026-11-07: Proposal-Signatur jetzt mit Chain-ID und Domain-Trennung (7ee9db34a).
+    Offen: Mempool-Nonce-Tracking, kai-os-Challenge-Kanonisierung.'
+  fix_note: '2026-11-08: Nonce-Ordnung wird in Mempool und TxLedger erzwungen (erste Tx setzt Baseline,
+    danach exakt sequenziell; NonceTooLow, NonceGap, Duplikat, Replay ueber Blockgrenzen abgelehnt). Proposal-Signaturen
+    tragen chain_id und Domain (ATC-PROPOSE-V1). Commits: 576b59c58, f7dfbe06f.'
+  residual: 'kai-os-Handshake: Challenge-Payload bleibt sha256("from|to|nonce") ohne Chain-/Domain-Bindung
+    und mit Pipe-Kanonisierungsambiguitaet.'
 - id: SEC-P0-009
   title: Oracle-Tests zementieren den Mock-Bypass (b'VALID_SIG' als gueltig)
   severity: medium
@@ -130,5 +138,24 @@ remediation_run:
     oracle: 14 gruen
     node: 39 lib + 3 integration gruen
     wallet: 12 gruen
-  retest_hinweis: Repros SEC-P0-002/003/004/005 muessen gegen den neuen Stand scheitern (Regressionstests jetzt
-    Teil der Suiten).
+  retest_hinweis: Repros SEC-P0-002/003/004/005 muessen gegen den neuen Stand scheitern (Regressionstests
+    jetzt Teil der Suiten).
+remediation_summary:
+  timestamp: '2026-11-08'
+  fixed:
+  - SEC-P0-002
+  - SEC-P0-003
+  - SEC-P0-005
+  - SEC-P0-009
+  - SEC-P0-001
+  partially_fixed:
+  - SEC-P0-004
+  - SEC-P0-008
+  residual:
+  - SEC-P0-006
+  - SEC-P0-007
+  tests_green:
+    oracle: 14
+    node_lib: 48
+    node_integration: 11
+    wallet: 12
