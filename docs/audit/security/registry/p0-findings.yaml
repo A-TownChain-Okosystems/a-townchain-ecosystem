@@ -72,9 +72,20 @@ findings:
   remediation: 'R4: address/DID = H(pubkey) nach WAL-SIGN-001; Node prueft sender_did
     <-> pubkey <-> Signatur'
   retest: Tx mit fremder DID wird abgelehnt (Negativtest)
-  status: PARTIALLY_FIXED
+  status: FIXED
   fix_status_note: '2026-11-07: verify_bound erzwingt sender_did == address_from_pubkey
     (27bb77613). Offen: DID-Dokument/Registry und Rotation.'
+  fix_note: '2026-11-08: components/node/src/did.rs - DidRegistry mit DidDocument:
+    DID wird aus dem Erst-Schluessel abgeleitet (ATC:<sha256(pubkey)[..20]>), current_key/key_at/was_key
+    loesen die DID auf den autoritativen Schluessel auf. Rotation nur mit ECDSA-Beweis
+    des AKTUELLEN Schluessels ueber ATC-DID-ROTATE-V1|did|neuer_pubkey|zielversion|epoche;
+    alte Schluessel werden mit retired_at_epoch stillgelegt statt geloescht (historische
+    Signaturen bleiben pruefbar), Wiederverwendung gesperrt. IdentityPolicy (strict)
+    verdrahtet das in Mempool.admit und TxLedger.check_block: unbekannte DID -> UnknownDid,
+    falscher Schluessel -> KeyMismatch. Commits df9e6a5fe/956cb04bf/e368ea206/40912b666.
+    Residual: Registry ist in-memory (keine Persistenz/Netz-Verteilung), kein DID-Dokumentformat
+    nach W3C-Stil, Rotation noch ohne Governance-Freigabe (ATC-STD-204 Interface-Registrierung
+    offen).'
 - id: SEC-P0-005
   title: Keine Adress-/DID-Ableitung im Live-Wallet; toter wallet.rs mit 32-Byte-Modell
   severity: high
