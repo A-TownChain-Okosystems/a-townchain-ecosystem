@@ -25,9 +25,12 @@ findings:
     Treffer
   remediation: 'R5: Tx-Validierung + Mempool mit Nonce-Tracking im Node; Blockproposer-Signatur'
   retest: Node lehnt Tx mit ungueltiger/fehlender Signatur ab (Negativtest); Block ohne Proposer-Signatur wird verworfen
-  status: RESIDUAL
+  status: PARTIALLY_FIXED
   fix_status_note: '2026-11-07: Verifikations-Adapter (Ed25519/secp256k1) und verify_bound existieren jetzt; die
     Verdrahtung in Mempool/Block-Import fehlt weiterhin.'
+  fix_note: '2026-11-08: components/node/src/mempool.rs (Commit 576b59c58) nimmt Transaktionen nur nach verify_bound
+    (Signatur + DID-Bindung), Chain-ID- und Nonce-Pruefung auf; Block-Assembly ueber take_all() sperrt IDs dauerhaft.
+    Offen: Verifikation beim Block-Import/Reorg und im RPC-Pfad.'
 - id: SEC-P0-002
   title: Mock-Verifier akzeptiert jede Signatur mit Praefix VALID
   severity: critical
@@ -101,6 +104,9 @@ findings:
   status: PARTIALLY_FIXED
   fix_status_note: '2026-11-07: Proposal-Signatur jetzt mit Chain-ID und Domain-Trennung (7ee9db34a). Offen: Mempool-Nonce-Tracking,
     kai-os-Challenge-Kanonisierung.'
+  fix_note: '2026-11-08: Mempool fuehrt expected_nonce je Sender (NonceGap/NonceTooLow/Duplicate) und advance_nonce
+    nach Block-Import ein; Proposal-Digest traegt chain_id + PROPOSAL_DOMAIN. Offen: kai-os-Challenge-Kanonisierung
+    (Pipe-Ambiguitaet) und Chain-Bindung im Handshake.'
 - id: SEC-P0-009
   title: Oracle-Tests zementieren den Mock-Bypass (b'VALID_SIG' als gueltig)
   severity: medium
