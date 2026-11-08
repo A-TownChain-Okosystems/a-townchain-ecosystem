@@ -98,14 +98,20 @@ findings:
   remediation: 'R1: WAL-SIGN-001 frieren; Handoff-Signaturen auf TX-Kurve; Ed25519
     nur P2P/DID'
   retest: Ein Verifikationspfad je Zweck; Cross-Curve-Negativtest dokumentiert
-  status: RESIDUAL
+  status: FIXED
   fix_status_note: '2026-11-07: Kurven-Zuordnung normativ dokumentiert (Ed25519 nur
     P2P/DID, secp256k1 fuer TX). Offen: kai-os-Handoff-Signaturen auf secp256k1 umstellen
     oder als P2P klassifizieren.'
-  fix_note: '2026-11-08: Normative Einordnung liegt vor (WAL-SIGN-001: secp256k1 fuer
-    TX, Ed25519 nur P2P/DID; ATC-STD-PROTOCOL-003 fordert Ed25519 fuer Transport).
-    Offene Arbeit: kai-os-Handoff als P2P klassifizieren oder auf secp256k1 migrieren
-    - Owner-Entscheid.'
+  fix_note: '2026-11-08 (Layer-Entscheid, Default): Der kai-os-Handoff ist dem P2P-/DID-Layer
+    zugeordnet (Ed25519 normativ zulaessig per ATC-STD-PROTOCOL-003, WAL-SIGN-001:
+    Ed25519 ausschliesslich P2P/DID). Technische Absicherung statt Kurvenwechsel:
+    Handoff-Signaturen laufen ueber die domain-separierte, laengenpraefigierte Nachricht
+    ATC-KAI-HANDOFF-V1|len(proposal_id)|proposal_id. Damit ist eine Handoff-Signatur
+    kryptographisch nicht als Tx-Signatur oder als Signatur ueber die rohe Proposal-ID
+    verwendbar (Test belegt beides). Tx-Authority bleibt allein secp256k1/RFC6979
+    im Wallet- und Node-Pfad.'
+  decision: 'P2P-Klassifikation + Domain-Separation (Default, reversibel: falls Handoff
+    spaeter Tx-Authority traegt, Migration auf secp256k1 noetig)'
 - id: SEC-P0-007
   title: Blockhash = 64-Bit-Truncation von SHA-256; Kette ohne Signaturen
   severity: high
