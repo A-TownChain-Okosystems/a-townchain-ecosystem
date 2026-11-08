@@ -73,3 +73,12 @@ E-Mail des Accounts gesperrt (HTTP 403 auf `POST /pulls`). Owner-Klick:
 **Offen (Entscheidung):** Monorepo-SSOT endgültig festschreiben und `atc-node` archivieren
 (7 von 8 Standalone-Komponenten-Repos sind bereits archiviert), oder `a-townchain` um ein
 Root-Workspace-Manifest erweitern, damit `atc-node` das Wallet-Crate per Git-Pin beziehen kann.
+
+## ENTSCHEIDUNG 08.11.2026 (Owner)
+
+**Das Monorepo `a-townchain` ist die Source of Truth.** Neue Entwicklung, Tests und Releases
+laufen ausschliesslich dort. `atc-node` bleibt Mirror ohne Release-Rolle (README-Hinweis und
+`SYNC-STATUS.md` auf Branch `docs/placement-status`); Standalone-Repos erhalten keinen neuen Code.
+
+Folgearbeit im Monorepo (laufend): DID-Registry persistierbar und ueber den Node-RPC abfragbar,
+danach Stilllegung von `modules/atc-zkp` zugunsten von `components/zkp`.
