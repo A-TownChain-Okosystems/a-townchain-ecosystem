@@ -102,16 +102,15 @@ findings:
   fix_status_note: '2026-11-07: Kurven-Zuordnung normativ dokumentiert (Ed25519 nur
     P2P/DID, secp256k1 fuer TX). Offen: kai-os-Handoff-Signaturen auf secp256k1 umstellen
     oder als P2P klassifizieren.'
-  fix_note: '2026-11-08 (Layer-Entscheid, Default): Der kai-os-Handoff ist dem P2P-/DID-Layer
-    zugeordnet (Ed25519 normativ zulaessig per ATC-STD-PROTOCOL-003, WAL-SIGN-001:
-    Ed25519 ausschliesslich P2P/DID). Technische Absicherung statt Kurvenwechsel:
-    Handoff-Signaturen laufen ueber die domain-separierte, laengenpraefigierte Nachricht
-    ATC-KAI-HANDOFF-V1|len(proposal_id)|proposal_id. Damit ist eine Handoff-Signatur
-    kryptographisch nicht als Tx-Signatur oder als Signatur ueber die rohe Proposal-ID
-    verwendbar (Test belegt beides). Tx-Authority bleibt allein secp256k1/RFC6979
-    im Wallet- und Node-Pfad.'
-  decision: 'P2P-Klassifikation + Domain-Separation (Default, reversibel: falls Handoff
-    spaeter Tx-Authority traegt, Migration auf secp256k1 noetig)'
+  fix_note: '2026-11-08: Neues Modul kai-os/integration/src/handoff.rs. Handoff-Signaturen
+    laufen als ECDSA ueber sha256(ATC-KAI-HANDOFF-V1|chain_id u64|len|proposal_id),
+    Low-S erzwungen, Verifikation oeffentlich ueber den 33-Byte-Pubkey (BootedSystem.handoff_public_key).
+    Ed25519-Transport-Schluessel kann die Signatur nachweislich NICHT bestaetigen
+    (e2e-Test); rohe Proposal-ID ebenfalls nicht. Damit existiert fuer autoritaetstragende
+    Signaturen nur noch eine Kurve. Commits f39b8a5fe/c4d0bda0b/206c9bb12/62ab30595.
+    kai-os-Workspace 118 Tests gruen.'
+  decision: 'Sichere Variante: Migration auf secp256k1/RFC6979/Low-S (WAL-SIGN-001).
+    Ed25519 ausschliesslich im Transport (ATC-STD-PROTOCOL-003).'
 - id: SEC-P0-007
   title: Blockhash = 64-Bit-Truncation von SHA-256; Kette ohne Signaturen
   severity: high
