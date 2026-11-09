@@ -3,10 +3,32 @@
 # Issue #13 — ATC Marketplace Routes
 # Stand: Sprint 2.5 | Angepasst an MarketplaceContract v2
 
+import logging
+
 from blockchain.smart_contracts import atc_token, marketplace
 from flask import Blueprint, jsonify, request
 
+logger = logging.getLogger(__name__)
+
 marketplace_bp = Blueprint("marketplace", __name__)
+
+# Fehlercodes statt Exception-Text: verhindert Info-Leaks (py/stack-trace-exposure).
+_ERROR_CODES = {
+    PermissionError: "permission_denied",
+    KeyError: "invalid_reference",
+    ValueError: "invalid_argument",
+}
+
+
+def _error_response(exc, route: str):
+    """Protokolliert die Ursache serverseitig und antwortet ohne interne Details."""
+    logger.warning("%s rejected: %s", route, type(exc).__name__, exc_info=True)
+    code = "invalid_request"
+    for exc_type, mapped in _ERROR_CODES.items():
+        if isinstance(exc, exc_type):
+            code = mapped
+            break
+    return jsonify({"error": code}), 400
 
 
 @marketplace_bp.route("/health", methods=["GET"])
@@ -52,7 +74,7 @@ def list_nft():
             )
         )
     except (ValueError, PermissionError) as e:
-        return jsonify({"error": str(e)}), 400
+        return _error_response(e, "list_nft")
 
 
 @marketplace_bp.route("/buy", methods=["POST"])
@@ -64,7 +86,7 @@ def buy():
             marketplace.buy(buyer=d.get("buyer", ""), listing_id=d.get("listing_id", ""))
         )
     except (ValueError, PermissionError, KeyError) as e:
-        return jsonify({"error": str(e)}), 400
+        return _error_response(e, "buy")
 
 
 @marketplace_bp.route("/cancel", methods=["POST"])
@@ -77,7 +99,7 @@ def cancel():
             )
         )
     except (ValueError, PermissionError, KeyError) as e:
-        return jsonify({"error": str(e)}), 400
+        return _error_response(e, "cancel")
 
 
 @marketplace_bp.route("/sales", methods=["GET"])
