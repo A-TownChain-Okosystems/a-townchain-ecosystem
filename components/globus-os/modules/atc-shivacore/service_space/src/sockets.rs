@@ -869,10 +869,8 @@ impl SocketManager {
         // vom Socket-State)
         if let Some(ref addr) = sock.local_addr {
             match addr {
-                SocketAddr::Unix(path) => {
-                    if self.unix_listeners.get(path) == Some(&sid) {
-                        self.unix_listeners.remove(path);
-                    }
+                SocketAddr::Unix(path) if self.unix_listeners.get(path) == Some(&sid) => {
+                    self.unix_listeners.remove(path);
                 }
                 SocketAddr::Inet { port, .. } if self.inet_listeners.get(port) == Some(&sid) => {
                     self.inet_listeners.remove(port);

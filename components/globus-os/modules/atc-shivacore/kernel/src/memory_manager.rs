@@ -812,16 +812,13 @@ mod tests {
     }
 
     #[test]
-    // Die Assertions sind absichtlich konstant: sie halten den Layout-Vertrag
-    // gegenueber allocator.rs fest und schlagen bei spaeteren Konstanten-Aenderungen an.
-    #[allow(clippy::assertions_on_constants)]
     fn test_constants_match_allocator() {
         // Muss identisch zu allocator.rs sein
         assert_eq!(HEAP_START, 0x_4444_4444_0000);
         assert_eq!(HEAP_SIZE, 100 * 1024);
-        // HEAP_END ist per Definition HEAP_START + HEAP_SIZE; Nutzer-Raum-Lage prueft der nachfolgende assert.
+        assert_eq!(HEAP_END, HEAP_START + HEAP_SIZE);
         // Userspace muss ausserhalb des Kernel-Heaps liegen
-        assert!(USERSPACE_BASE > HEAP_END);
+        const { assert!(USERSPACE_BASE > HEAP_END) };
     }
 
     #[test]

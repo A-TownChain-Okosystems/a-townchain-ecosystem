@@ -58,7 +58,9 @@ pub struct Transaction {
     pub poh_hash: [u8; 32],
 }
 impl Transaction {
-    #[allow(clippy::too_many_arguments)] // Vollstaendige TX-Erzeugung; Bundling wuerge die Aufrufstellen
+    // A full transaction spec; grouping the 11 fields into a params struct
+    // is tracked design debt.
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         tx_type: TxType,
         sender_did: String,
@@ -85,7 +87,7 @@ impl Transaction {
         i.extend_from_slice(&timestamp.to_be_bytes());
         i.extend_from_slice(&poh_hash);
         i.extend_from_slice(&payload);
-        let id = shivacore::security::simple_hash(&i);
+        let id = libshivacore::simple_hash(&i);
         Transaction {
             id,
             tx_type,

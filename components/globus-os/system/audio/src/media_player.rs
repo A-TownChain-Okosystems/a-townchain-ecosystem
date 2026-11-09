@@ -54,8 +54,9 @@ impl MediaQueue {
         self.tracks.len()
     }
 
+    /// Counterpart to `len`.
     pub fn is_empty(&self) -> bool {
-        self.tracks.is_empty()
+        self.len() == 0
     }
     pub fn current(&self) -> Option<&MediaTrack> {
         self.current.and_then(|i| self.tracks.get(i))

@@ -92,9 +92,54 @@ impl UserAddressSpace {
     pub fn in_heap(&self, addr: u64) -> bool {
         addr >= self.heap_base && addr < self.heap_base + self.heap_size
     }
+    /// Die tatsaechlich abgebildeten Regionen als [start, ende)-Paare.
+    ///
+    /// Der Adressraum-Bau braucht sie, um zu entscheiden, welche 1-GiB-Fenster
+    /// er NICHT erben darf. Wichtig ist der Stack: er liegt standardmaessig
+    /// knapp unter 2 GiB und damit nicht dort, wo man Nutzerseiten vermutet.
+    pub fn mapped_regions(&self) -> [(u64, u64); 4] {
+        let stack_pages = self.stack_size.div_ceil(0x1000);
+        let stack_start = self.stack_base - stack_pages * 0x1000;
+        [
+            (
+                self.code_base,
+                self.code_base.saturating_add(self.code_size),
+            ),
+            (
+                self.data_base,
+                self.data_base.saturating_add(self.data_size),
+            ),
+            (stack_start, self.stack_base),
+            (
+                self.heap_base,
+                self.heap_base.saturating_add(self.heap_size),
+            ),
+        ]
+    }
+
     /// Stack pointer initial value (top of stack)
     pub fn initial_rsp(&self) -> u64 {
         self.stack_base
+    }
+
+    /// Prueft, ob ein ganzer Bereich in EINEM beschreibbaren User-Bereich liegt.
+    ///
+    /// Ein Zeiger aus dem Userspace ist ein Vorschlag, keine Zusage: der Kernel
+    /// darf erst lesen oder schreiben, wenn der Bereich vollstaendig im Abbild
+    /// des aufrufenden Prozesses liegt. Absichtlich nicht `in_code`: Code ist
+    /// zwar lesbar, aber ein Puffer dort ist ein Fehler des Aufrufers.
+    /// Ueberlauf wird abgelehnt, nicht umgerechnet.
+    pub fn range_writable(&self, ptr: u64, len: usize) -> bool {
+        if len == 0 {
+            return true;
+        }
+        let Some(end) = ptr.checked_add(len as u64) else {
+            return false;
+        };
+        let in_region = |base: u64, size: u64| ptr >= base && end <= base.saturating_add(size);
+        in_region(self.data_base, self.data_size)
+            || in_region(self.heap_base, self.heap_size)
+            || (ptr >= self.stack_base.saturating_sub(self.stack_size) && end <= self.stack_base)
     }
 }
 
@@ -639,6 +684,26 @@ impl UserspaceManager {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn range_check_rejects_half_outside_and_overflow() {
+        let space = UserAddressSpace::default();
+        let data = space.data_base;
+        assert!(space.range_writable(data, 56));
+        assert!(space.range_writable(data + space.data_size - 56, 56));
+        assert!(!space.range_writable(data + space.data_size - 8, 56));
+        assert!(!space.range_writable(u64::MAX - 8, 56));
+        assert!(space.range_writable(0, 0));
+    }
+
+    #[test]
+    fn range_check_accepts_the_stack_but_not_the_code() {
+        let space = UserAddressSpace::default();
+        let stack = space.stack_base - 64;
+        assert!(space.range_writable(stack, 56));
+        assert!(!space.range_writable(stack, 65));
+        assert!(!space.range_writable(space.code_base, 16));
+    }
 
     // --- PrivilegeLevel tests ---
 

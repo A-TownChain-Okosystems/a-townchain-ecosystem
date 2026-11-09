@@ -32,6 +32,9 @@ use spin::Mutex;
 use crate::p2p::{MessageType, P2pMessage, P2pNode, CHAIN_ID};
 use shivacore::security::TokenBucket;
 
+/// Parsed HELLO payload: (protocol version, supported extensions, node id).
+pub type HelloPayload = (u16, Vec<(u8, u8, u8)>, [u8; 32]);
+
 // ─── Protokoll-Konstanten (ATC-PROTO-P2P-001 §1/§3/§11/§18) ──────────────────
 
 /// Protokoll-Bezeichner, linksbündig, mit Nullbytes auf 16 Byte gepolstert (§3.1).
@@ -72,9 +75,6 @@ pub enum V1Type {
     AuthResponse = 12,
     KeyExchange = 13,
 }
-
-/// Version+Musterliste+Ephemeral-Public-Key eines HELLO-Frames.
-pub type HelloPayload = (u16, Vec<(u8, u8, u8)>, [u8; 32]);
 
 impl V1Type {
     pub fn from_u8(v: u8) -> Option<Self> {
@@ -450,9 +450,9 @@ impl SeenSet {
     pub fn len(&self) -> usize {
         self.seen.len()
     }
-
+    /// Counterpart to `len`.
     pub fn is_empty(&self) -> bool {
-        self.seen.is_empty()
+        self.len() == 0
     }
 }
 

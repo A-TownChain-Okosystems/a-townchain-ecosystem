@@ -36,8 +36,9 @@ impl MemoryThumbnailStore {
         self.entries.len()
     }
 
+    /// Counterpart to `len`.
     pub fn is_empty(&self) -> bool {
-        self.entries.is_empty()
+        self.len() == 0
     }
     pub fn contains(&self, uri: &str, size: ThumbnailSize) -> bool {
         self.entries

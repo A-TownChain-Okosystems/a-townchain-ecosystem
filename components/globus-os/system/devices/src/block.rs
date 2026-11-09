@@ -1,5 +1,7 @@
 //! Generic block-device contract used by NVMe and persistent storage.
 
+use alloc::vec;
+use alloc::vec::Vec;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct BlockGeometry {
     pub block_size: u32,
@@ -32,6 +34,11 @@ pub enum BlockError {
     Overflow,
     InvalidBuffer,
     NotReady,
+    /// Das Geraet ist nur lesbar. Fehlte, obwohl ein Geraet mit dieser
+    /// Eigenschaft existiert; ohne eigene Variante muesste der Aufrufer
+    /// "nicht bereit" von "darf nicht" unterscheiden, indem er den Fehler
+    /// errät.
+    ReadOnly,
     Io,
 }
 
@@ -82,7 +89,7 @@ impl MemoryBlockDevice {
         &self,
         request: BlockRequest,
         buffer_len: usize,
-    ) -> Result<std::ops::Range<usize>, BlockError> {
+    ) -> Result<core::ops::Range<usize>, BlockError> {
         validate_request(self.geometry, request)?;
         let block_size = self.geometry.block_size as usize;
         let bytes = (request.blocks as usize)

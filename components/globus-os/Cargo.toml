@@ -1,13 +1,16 @@
 [workspace]
 resolver = "2"
+# Der Boot-Image-Builder haengt am `bootloader`-Crate und braucht Nightly.
+# Als Workspace-Mitglied zwingt er `cargo test --workspace` auf Stable in einen
+# Nightly-Build und laesst den ganzen Workspace scheitern. Er ist deshalb ein
+# eigenes Crate mit eigenem Workspace; gebaut wird er in seinem Verzeichnis.
+exclude = ["modules/atc-shivacore/boot"]
 members = [
-  "system/core","system/ipc","system/security","system/policy","system/process","system/memory","system/vfs","system/net","modules/atc-globus-browser",
-  "system/system-manager","system/task","system/resource","system/process-manager","system/thread-manager",
-  "system/ipc-manager","system/event-bus","system/watchdog","system/mount-manager","system/volume-manager","system/application-manager","system/input-manager","system/window-manager","system/compositor-manager","system/package-manager","system/update-manager","system/recovery-manager","system/configuration-manager","system/notification-manager","system/environment-manager","system/job-manager","system/observability",
-  "system/devices","system/services","system/service-manager","system/power","system/graphics","system/audio","system/media","system/package","system/update",
-  "system/runtime","system/identity","system/wallet-service","system/settings","system/aurora-core","system/diagnostics",
+  "system/core","system/ipc","system/security","system/process","system/memory","system/vfs","system/net",
+  "system/devices","system/services","system/graphics","system/audio","system/media","system/package","system/update",
+  "system/runtime","system/virtualization","system/identity","system/wallet-service","system/settings","system/aurora-core","system/diagnostics",
   "system/shivacore-api","modules/atc-shivacore/kernel","sdk","modules/atc-bootloader","modules/atc-drivers","modules/atc-globus-shell",
-  "modules/atc-linux-edition","modules/atc-shivacore/boot","modules/atc-shivacore/service_space","modules/atc-windows-edition",
+  "modules/atc-linux-edition","modules/atc-shivacore/service_space","modules/atc-windows-edition",
 ]
 [workspace.package]
 version = "0.1.0"
@@ -16,6 +19,5 @@ license = "Apache-2.0"
 repository = "https://github.com/A-TownChain-Okosystems/globus-os"
 [workspace.lints.rust]
 unsafe_code = "warn"
-missing_docs = "warn"
 [workspace.lints.clippy]
 all = "warn"

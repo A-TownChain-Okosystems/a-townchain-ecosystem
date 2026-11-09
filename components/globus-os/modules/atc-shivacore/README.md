@@ -41,11 +41,38 @@ qemu-system-x86_64 -drive format=raw,file=images/shivacore-bios.img \
   -serial stdio -display none -no-reboot
 ```
 
-Erwartete Ausgabe:
+Erwartete serielle Ausgabe (verifiziert am 2026-11-06, QEMU 7.2.22):
 ```text
 ShivaCore: Kernel-Einstiegspunkt erreicht.
-ShivaCore: Framebuffer-Ausgabe erfolgreich.
-ShivaCore: Boot vollstaendig. Uebergabe an Idle-Loop.
+ShivaCore: CPU vendor=... apic=true ... nx=true
+ShivaCore: CPU HAL compatibility check OK.
+ShivaCore: ACPI RSDP/root/table checksums validated; tables=5
+ShivaCore: MADT local_apic=0xFEE00000 ioapic=0xFEC00000 gsi_base=0 cpus=1/1 overrides=5 x2apic=0 unknown=1
+EXCEPTION: BREAKPOINT                     <- Selbsttest aus main.rs (int3)
+ShivaCore: GDT/IDT/PIC OK (K-Sprint 1).
+ShivaCore: Paging-Mapper + Heap initialisiert (100 KiB).
+ShivaCore: LAPIC aktiv (id=0, spurious=0x1FF).
+ShivaCore: LAPIC-Maskentest Vektor 0x40: maskiert=true freigegeben=true
+ShivaCore: IOAPIC id=0 version=0x170020 gsi_base=0 entries=24
+ShivaCore: IOAPIC GSI 2 -> Vektor 0x50 programmiert (maskiert=true, Ruecklesung=true)
+ShivaCore: PIC maskiert (0xFF/0xFF), nur noch ein Zustellweg.
+ShivaCore: Zustellung auf IOAPIC umgestellt: GSI 2 -> Vektor 0x20, maskiert=false
+ShivaCore: Zeitquelle: 40 Ticks zugestellt, 40 MonotonicTime-Schritte (Drift +0)
+ShivaCore: Tick-Rate (PIT soll 100 Hz): PIC=98 Hz, IOAPIC=99 Hz
+ShivaCore: Box-Test -- Wert: 41
+ShivaCore: Vec-Test -- Summe 0..10: 45
+ShivaCore: KernelState::boot() -> Done.
+ShivaCore: USER-001 entering PID=1000 with timer preemption target PID=1001
+ShivaCore: scheduler preemption -> context switch to PID=1001 RIP=0x1400000 RAX=0x0
+```
+Die Framebuffer-Meldungen (`ShivaCore Kernel v0.0.3 -- K-Sprint 2`,
+`Boot: OK | Serial: OK | Framebuffer: OK`) gehen auf den Bildschirm, nicht auf die
+serielle Schnittstelle. Beleg: `docs/assets/shivacore-boot-framebuffer.png`.
+
+Der komplette Lauf in einem Skript (baut ELF, Boot-Image und startet QEMU):
+
+```bash
+scripts/qemu_boot.sh 20
 ```
 
 ## Nächster Schritt: K-Sprint 1

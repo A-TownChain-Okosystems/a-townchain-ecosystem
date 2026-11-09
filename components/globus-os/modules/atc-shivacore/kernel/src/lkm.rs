@@ -1156,10 +1156,12 @@ impl ModuleRegistry {
         let unresolved = self.symbol_table.unresolved_imports(&imports);
         if !unresolved.is_empty() {
             let message = format!("Unresolved symbols: {}", unresolved.join(", "));
-            let module = self.modules.get_mut(name).unwrap();
-            module.state = ModuleState::Failed;
-            module.stats.error_count += 1;
-            module.stats.last_error = Some(message.clone());
+            {
+                let module = self.modules.get_mut(name).unwrap();
+                module.state = ModuleState::Failed;
+                module.stats.error_count += 1;
+                module.stats.last_error = Some(message.clone());
+            }
             self.log_event(
                 ModuleEventType::SymbolUnresolved,
                 &module_name,
@@ -1744,28 +1746,33 @@ impl ModuleBuilder {
 // ══════════════════════════════════════════════════════════════════════════════
 
 pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
-    let mut modules = vec![ModuleBuilder::new("kalloc", "1.0.0")
-        .description("Kernel slab/page allocator")
-        .author("ShivaCore")
-        .license(ModuleLicense::Gpl)
-        .priority(ModulePriority::Core)
-        .provides(&["kmalloc", "kfree"])
-        .export("kmalloc", SymbolType::Function)
-        .export("kfree", SymbolType::Function)
-        .param(
-            "slab_size",
-            ParamType::Uint,
-            "4096",
-            "Default slab size in bytes",
-        )
-        .param(
-            "debug",
-            ParamType::Bool,
-            "false",
-            "Enable debug allocations",
-        )
-        .auto_load()
-        .build()];
+    let mut modules = Vec::with_capacity(16);
+
+    // Core: Memory Allocator
+    modules.push(
+        ModuleBuilder::new("kalloc", "1.0.0")
+            .description("Kernel slab/page allocator")
+            .author("ShivaCore")
+            .license(ModuleLicense::Gpl)
+            .priority(ModulePriority::Core)
+            .provides(&["kmalloc", "kfree"])
+            .export("kmalloc", SymbolType::Function)
+            .export("kfree", SymbolType::Function)
+            .param(
+                "slab_size",
+                ParamType::Uint,
+                "4096",
+                "Default slab size in bytes",
+            )
+            .param(
+                "debug",
+                ParamType::Bool,
+                "false",
+                "Enable debug allocations",
+            )
+            .auto_load()
+            .build(),
+    );
 
     // Core: Scheduler
     modules.push(

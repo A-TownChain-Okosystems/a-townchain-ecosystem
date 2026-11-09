@@ -42,8 +42,9 @@ impl FreeSpaceBitmap {
         self.total_blocks
     }
 
+    /// Counterpart to `len`.
     pub fn is_empty(&self) -> bool {
-        self.total_blocks == 0
+        self.len() == 0
     }
 
     pub fn total_blocks(&self) -> u64 {
