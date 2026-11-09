@@ -1,5 +1,3 @@
-[workspace]
-
 [package]
 name = "atc_zkp"
 version = "0.1.0"

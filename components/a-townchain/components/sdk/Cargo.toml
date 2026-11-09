@@ -7,5 +7,3 @@ description = "Protocol SDK primitives for A-TownChain."
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
-
-[workspace]

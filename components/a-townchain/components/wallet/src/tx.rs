@@ -41,6 +41,8 @@ pub enum TxError {
     InvalidChainId,
     EmptySender,
     InvalidSignature,
+    /// sender_did passt nicht zur Adresse des Public Keys (SEC-P0-004).
+    SenderNotBound,
     InvalidKey(WalletKeyError),
 }
 
@@ -91,6 +93,19 @@ impl Transaction {
                 &public_key,
             )
             .map_err(|_| TxError::InvalidSignature)
+    }
+
+    /// Verifiziert Signatur **und** die Bindung sender_did -> Public Key.
+    ///
+    /// SEC-P0-004: Eine Signatur allein beweist nur Schluesselbesitz; erst der
+    /// Abgleich `sender_did == address_from_pubkey(public_key)` verhindert,
+    /// dass ein beliebiger Schluessel eine fremde DID beansprucht.
+    pub fn verify_bound(&self, public_key: &[u8; 33], signature: &[u8; 64]) -> Result<(), TxError> {
+        self.verify(public_key, signature)?;
+        if self.sender_did != crate::keys::address_from_pubkey(public_key) {
+            return Err(TxError::SenderNotBound);
+        }
+        Ok(())
     }
 }
 
@@ -176,9 +191,10 @@ mod tests {
         assert_eq!(
             tx.id().unwrap(),
             [
-                0x04, 0x3e, 0xbe, 0x75, 0x45, 0xf4, 0x43, 0x20, 0x39, 0x4a, 0xf8, 0x21, 0x1d, 0xa3,
-                0x23, 0xaf, 0xe8, 0xd2, 0x7f, 0xe9, 0xe9, 0x9b, 0xff, 0x5d, 0xa3, 0xaa, 0xfd, 0x2e,
-                0x5c, 0x99, 0xb9, 0xdc,
+                0x04, 0x3e, 0xbe, 0x75, 0x45, 0xf4, 0x43, 0x20,
+                0x39, 0x4a, 0xf8, 0x21, 0x1d, 0xa3, 0x23, 0xaf,
+                0xe8, 0xd2, 0x7f, 0xe9, 0xe9, 0x9b, 0xff, 0x5d,
+                0xa3, 0xaa, 0xfd, 0x2e, 0x5c, 0x99, 0xb9, 0xdc,
             ]
         );
     }
@@ -206,5 +222,31 @@ mod tests {
         let key = WalletKey::from_seed([7u8; 32]).unwrap();
         let signature = tx().sign(&key).unwrap();
         assert!(tx().verify(&[0u8; 33], &signature).is_err());
+    }
+
+    #[test]
+    fn sender_did_muss_zur_pubkey_adresse_passen() {
+        let key = WalletKey::from_seed([7u8; 32]).unwrap();
+        let mut tx = tx();
+        tx.sender_did = key.address();
+        let sig = tx.sign(&key).unwrap();
+        assert!(tx.verify_bound(&key.public_key(), &sig).is_ok());
+
+        // Fremde DID mit eigenem Schluessel signiert: Signatur gueltig, Bindung nicht
+        let mut forged = tx.clone();
+        forged.sender_did = "ATC:0000000000000000000000000000000000000000".into();
+        let sig2 = forged.sign(&key).unwrap();
+        assert_eq!(forged.verify(&key.public_key(), &sig2), Ok(()));
+        assert_eq!(forged.verify_bound(&key.public_key(), &sig2), Err(TxError::SenderNotBound));
+    }
+
+    #[test]
+    fn adresse_ist_deterministisch_und_schluesselgebunden() {
+        let a = WalletKey::from_seed([7u8; 32]).unwrap();
+        let b = WalletKey::from_seed([8u8; 32]).unwrap();
+        assert_eq!(a.address(), a.address());
+        assert_ne!(a.address(), b.address());
+        assert!(a.address().starts_with("ATC:"));
+        assert_eq!(a.address().len(), 4 + 40);
     }
 }

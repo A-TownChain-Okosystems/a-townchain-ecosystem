@@ -42,23 +42,11 @@ pub struct DeviceConfig {
 
 pub fn classify_device(hardware_info: &str) -> MinerDeviceClass {
     let lower = hardware_info.to_lowercase();
-    if lower.contains("nvidia")
-        || lower.contains("cuda")
-        || lower.contains("radeon")
-        || lower.contains("gpu")
-    {
+    if lower.contains("nvidia") || lower.contains("cuda") || lower.contains("radeon") || lower.contains("gpu") {
         MinerDeviceClass::Gpu
-    } else if lower.contains("arm")
-        || lower.contains("android")
-        || lower.contains("ios")
-        || lower.contains("mobile")
-    {
+    } else if lower.contains("arm") || lower.contains("android") || lower.contains("ios") || lower.contains("mobile") {
         MinerDeviceClass::Mobile
-    } else if lower.contains("x86")
-        || lower.contains("intel")
-        || lower.contains("amd")
-        || lower.contains("cpu")
-    {
+    } else if lower.contains("x86") || lower.contains("intel") || lower.contains("amd") || lower.contains("cpu") {
         MinerDeviceClass::Cpu
     } else {
         MinerDeviceClass::Provisional
@@ -97,11 +85,7 @@ pub fn mine(job: &MiningJob, start_nonce: u64, attempts: u64) -> Result<MiningRe
         };
         let digest = hash_candidate(&job.header, nonce)?;
         if meets_target(&digest, &job.target) {
-            return Ok(MiningResult {
-                job_id: job.job_id,
-                nonce,
-                digest,
-            });
+            return Ok(MiningResult { job_id: job.job_id, nonce, digest });
         }
     }
 
@@ -128,11 +112,7 @@ mod tests {
 
     #[test]
     fn bounded_mining_finds_easy_target() {
-        let job = MiningJob {
-            job_id: 42,
-            header: b"header".to_vec(),
-            target: [0xffu8; 32],
-        };
+        let job = MiningJob { job_id: 42, header: b"header".to_vec(), target: [0xffu8; 32] };
         let result = mine(&job, 0, 1).unwrap();
         assert_eq!(result.job_id, 42);
         assert_eq!(result.nonce, 0);
@@ -143,37 +123,20 @@ mod tests {
     #[test]
     fn test_device_classification() {
         assert_eq!(classify_device("NVIDIA RTX 4090"), MinerDeviceClass::Gpu);
-        assert_eq!(
-            classify_device("Apple ARM M2 Mobile"),
-            MinerDeviceClass::Mobile
-        );
-        assert_eq!(
-            classify_device("Intel Core i9 x86 CPU"),
-            MinerDeviceClass::Cpu
-        );
-        assert_eq!(
-            classify_device("Unknown Device"),
-            MinerDeviceClass::Provisional
-        );
+        assert_eq!(classify_device("Apple ARM M2 Mobile"), MinerDeviceClass::Mobile);
+        assert_eq!(classify_device("Intel Core i9 x86 CPU"), MinerDeviceClass::Cpu);
+        assert_eq!(classify_device("Unknown Device"), MinerDeviceClass::Provisional);
     }
 
     #[test]
     fn test_mine_empty_header_error() {
-        let job = MiningJob {
-            job_id: 1,
-            header: vec![],
-            target: [0xffu8; 32],
-        };
+        let job = MiningJob { job_id: 1, header: vec![], target: [0xffu8; 32] };
         assert_eq!(mine(&job, 0, 10), Err(MiningError::EmptyHeader));
     }
 
     #[test]
     fn test_mine_zero_target_error() {
-        let job = MiningJob {
-            job_id: 1,
-            header: b"test".to_vec(),
-            target: [0u8; 32],
-        };
+        let job = MiningJob { job_id: 1, header: b"test".to_vec(), target: [0u8; 32] };
         assert_eq!(mine(&job, 0, 10), Err(MiningError::InvalidTarget));
     }
 }

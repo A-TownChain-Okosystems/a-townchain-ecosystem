@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Michael Wroblewski — Apache-2.0
 //! Cross-Repo-Integrationstest (SCR-0111, F-140): der SDK-Client (atc_cli)
-//! spricht ueber echtes TCP mit dem ECHTEN atc-node-Code (git-Dependency,
-//! rev-gepinnt) — kein Mock. Ehrlichkeit: Devnet-only, localhost, kein TLS.
+//! spricht ueber echtes TCP mit dem ECHTEN atc-node-Crate aus dem Monorepo
+//! (Pfadabhaengigkeit, keine Git-Revision) — kein Mock. Ehrlichkeit: Devnet-only, localhost, kein TLS.
 
 use atc_cli::rpc_client::RpcClient;
 use atc_node::bootstrap::{devnet_boot, Genesis};
@@ -35,8 +35,10 @@ fn sdk_spricht_mit_echtem_node() {
     assert!(bereit, "Node-Dienst nicht bereit");
 
     let mut c = RpcClient::new(format!("127.0.0.1:{}", port));
-    assert_eq!(c.chain_id().expect("chain_id"), 658467, "SDK-Client muss Chain-ID des echten Nodes lesen");
+    assert_eq!(c.chain_id().expect("chain_id"), g.chain_id, "SDK-Client muss die kanonische Chain-ID des echten Nodes lesen");
     assert_eq!(c.peers().expect("peers"), 2);
     // Kerninvariante: Boot-Hash aus der Node-Genesis == was der Client ueber RPC erhaelt
-    assert_eq!(c.boot_hash().expect("boot_hash"), boot_hash, "Boot-Hash muss ueber RPC identisch sein");
+    let erwartet: String = boot_hash.iter().map(|b| format!("{:02x}", b)).collect();
+    let vom_node = c.boot_hash().expect("boot_hash");
+    assert_eq!(vom_node, erwartet, "Boot-Hash muss als voller 256-Bit-Hex ueber RPC kommen");
 }

@@ -42,16 +42,22 @@ impl RpcClient {
         extract_result(&line).ok_or_else(|| format!("kein result in: {}", line.trim()))
     }
 
-    pub fn chain_id(&mut self) -> Result<u64, String> {
-        self.call("chain_id")?
-            .parse::<u64>()
-            .map_err(|e| format!("kein u64: {}", e))
+    /// Ketten-ID wie vom Node gemeldet (kanonisch: Zeichenkette aus config::CHAIN_ID,
+    /// z. B. "atc"). Die numerische Domain-Separation (658467) gehoert in die
+    /// Signaturpfade und ist bewusst nicht Teil dieser Abfrage.
+    pub fn chain_id(&mut self) -> Result<String, String> {
+        self.call("chain_id")
     }
 
-    pub fn boot_hash(&mut self) -> Result<u64, String> {
-        self.call("boot_hash")?
-            .parse::<u64>()
-            .map_err(|e| format!("kein u64: {}", e))
+    /// 256-Bit-Bindungs-Hash der Genesis als 64-stelliges Hex. Eine kuerzere
+    /// oder nicht-hexadezimale Antwort wird abgelehnt: sie waere ein
+    /// 64-Bit-Traversal und damit kein Bindungs-Hash (SEC-P0-007).
+    pub fn boot_hash(&mut self) -> Result<String, String> {
+        let wert = self.call("boot_hash")?;
+        if wert.len() != 64 || !wert.bytes().all(|b| b.is_ascii_hexdigit()) {
+            return Err(format!("Boot-Hash ist kein 256-Bit-Hex-Digest: {}", wert));
+        }
+        Ok(wert.to_ascii_lowercase())
     }
 
     pub fn peers(&mut self) -> Result<usize, String> {
@@ -112,7 +118,7 @@ mod tests {
             } else if line.contains("\"peers\"") {
                 "2"
             } else if line.contains("\"boot_hash\"") {
-                "1234567890"
+                "ab12ab12ab12ab12ab12ab12ab12ab12ab12ab12ab12ab12ab12ab12ab12ab12"
             } else {
                 "pong"
             };
@@ -132,7 +138,7 @@ mod tests {
         let addr = listener.local_addr().expect("keine Adresse");
         std::thread::spawn(move || mock_node(listener));
         let mut c = RpcClient::new(format!("127.0.0.1:{}", addr.port()));
-        assert_eq!(c.chain_id().expect("chain_id fehlgeschlagen"), 658467);
+        assert_eq!(c.chain_id().expect("chain_id fehlgeschlagen"), "658467");
 
         let listener2 = TcpListener::bind("127.0.0.1:0").expect("bind2 fehlgeschlagen");
         let addr2 = listener2.local_addr().expect("keine Adresse2");

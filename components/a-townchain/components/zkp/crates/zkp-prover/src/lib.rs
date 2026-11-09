@@ -39,11 +39,7 @@ impl Proof {
             let chunk: [u8; 8] = rest[i * 8..i * 8 + 8].try_into().ok()?;
             public_inputs.push(u64::from_le_bytes(chunk));
         }
-        Some(Proof {
-            system_id,
-            commitment,
-            public_inputs,
-        })
+        Some(Proof { system_id, commitment, public_inputs })
     }
 }
 
@@ -59,11 +55,7 @@ mod tests {
 
     #[test]
     fn roundtrip() {
-        let p = Proof {
-            system_id: 1,
-            commitment: [7; 32],
-            public_inputs: vec![1, 2, 3],
-        };
+        let p = Proof { system_id: 1, commitment: [7; 32], public_inputs: vec![1, 2, 3] };
         let bytes = p.to_bytes();
         assert_eq!(Proof::from_bytes(&bytes), Some(p));
         assert!(Proof::from_bytes(&bytes[..40]).is_none());

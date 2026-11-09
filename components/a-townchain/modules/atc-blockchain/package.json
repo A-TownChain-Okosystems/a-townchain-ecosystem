@@ -11,10 +11,10 @@
     "typescript": "^7.0.2",
     "@types/node": "^26",
     "react": "^19.2",
-    "react-dom": "^19.2",
+    "react-dom": "^19.3",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "lucide-react": "^1.45",
+    "lucide-react": "^1.61",
     "motion": "^14"
   }
 }

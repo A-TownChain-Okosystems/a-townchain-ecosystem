@@ -1,12 +1,13 @@
-pub mod dao;
-pub mod delegation;
+// Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
+// atc-governance — DAO governance system (ATC-03)
 pub mod proposal;
-pub mod timelock;
-pub mod treasury;
 pub mod voting;
-pub use dao::Dao;
-pub use delegation::Delegation;
+pub mod treasury;
+pub mod delegation;
+pub mod timelock;
+
 pub use proposal::{Proposal, ProposalStatus};
-pub use timelock::Timelock;
+pub use voting::{Vote, VotingSystem, VoteType};
 pub use treasury::Treasury;
-pub use voting::{Vote, VoteType, VotingSystem};
+pub use delegation::Delegation;
+pub use timelock::Timelock;

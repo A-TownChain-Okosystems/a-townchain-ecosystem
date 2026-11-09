@@ -51,10 +51,7 @@ mod tests {
 
     #[test]
     fn deterministisch_pro_slot() {
-        let vs = vec![
-            Validator { id: 1, stake: 30 },
-            Validator { id: 2, stake: 70 },
-        ];
+        let vs = vec![Validator { id: 1, stake: 30 }, Validator { id: 2, stake: 70 }];
         let a = select_proposer(&vs, 5).unwrap();
         let b = select_proposer(&vs, 5).unwrap();
         assert_eq!(a.id, b.id);
@@ -62,10 +59,7 @@ mod tests {
 
     #[test]
     fn jede_wahl_ist_valide() {
-        let vs = vec![
-            Validator { id: 1, stake: 10 },
-            Validator { id: 2, stake: 10 },
-        ];
+        let vs = vec![Validator { id: 1, stake: 10 }, Validator { id: 2, stake: 10 }];
         for slot in 0..100 {
             let sel = select_proposer(&vs, slot).unwrap();
             assert!(sel.id == 1 || sel.id == 2);
@@ -75,10 +69,7 @@ mod tests {
     #[test]
     fn u128_stake_boundary_is_supported() {
         let vs = vec![
-            Validator {
-                id: 1,
-                stake: u128::MAX - 1,
-            },
+            Validator { id: 1, stake: u128::MAX - 1 },
             Validator { id: 2, stake: 1 },
         ];
         assert!(select_proposer(&vs, 0).is_some());
@@ -87,10 +78,7 @@ mod tests {
     #[test]
     fn total_stake_overflow_fails_closed() {
         let vs = vec![
-            Validator {
-                id: 1,
-                stake: u128::MAX,
-            },
+            Validator { id: 1, stake: u128::MAX },
             Validator { id: 2, stake: 1 },
         ];
         assert!(select_proposer(&vs, 0).is_none());

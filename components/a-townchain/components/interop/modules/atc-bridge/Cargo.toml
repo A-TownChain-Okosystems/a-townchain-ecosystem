@@ -1,5 +1,3 @@
-[workspace]
-
 [package]
 name = "atc_bridge"
 version = "0.1.0"

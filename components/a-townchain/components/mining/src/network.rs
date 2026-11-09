@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Michael Wroblewski — Apache-2.0
 //! Network interfaces & protocol handling for mining jobs.
 
-use crate::miner::{MiningError, MiningJob, MiningResult};
+use crate::miner::{MiningJob, MiningResult, MiningError};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum NetworkMessage {
@@ -26,11 +26,7 @@ impl NetworkHandler {
         &self.node_id
     }
 
-    pub fn process_proof(
-        &self,
-        result: &MiningResult,
-        target: &[u8; 32],
-    ) -> Result<bool, MiningError> {
+    pub fn process_proof(&self, result: &MiningResult, target: &[u8; 32]) -> Result<bool, MiningError> {
         if result.digest <= *target {
             Ok(true)
         } else {
@@ -66,9 +62,7 @@ mod tests {
 
     #[test]
     fn test_network_message_serialization_roundtrip() {
-        let msg = NetworkMessage::GetWorkRequest {
-            miner_id: "miner-1".into(),
-        };
+        let msg = NetworkMessage::GetWorkRequest { miner_id: "miner-1".into() };
         if let NetworkMessage::GetWorkRequest { miner_id } = msg {
             assert_eq!(miner_id, "miner-1");
         } else {

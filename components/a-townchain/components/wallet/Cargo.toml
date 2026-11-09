@@ -1,7 +1,5 @@
-[workspace]
-
 [package]
-name = "atc-wallet-legacy"
+name = "atc_wallet"
 version = "0.1.0"
 edition = "2021"
 description = "Desktop Wallet — Key-Management, TX-Signing, DeFi"
@@ -12,4 +10,3 @@ license = "Apache-2.0"
 egui = "0.36"
 secp256k1 = "0.31.1"
 sha2 = "0.10"
-atc-wallet = { path = "../../../atc-wallet" }

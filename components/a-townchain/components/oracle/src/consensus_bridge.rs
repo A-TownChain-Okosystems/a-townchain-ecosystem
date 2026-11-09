@@ -18,16 +18,9 @@ pub struct SignedOraclePayload {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ConsensusBridgeError {
     VerificationFailed(VerificationError),
-    StaleData {
-        current_time: u64,
-        payload_time: u64,
-        max_age: u64,
-    },
+    StaleData { current_time: u64, payload_time: u64, max_age: u64 },
     DeviationExceeded,
-    InsufficientSources {
-        have: usize,
-        need: usize,
-    },
+    InsufficientSources { have: usize, need: usize },
     EmergencyPaused,
 }
 
@@ -93,9 +86,7 @@ impl OracleStagingBuffer {
 
         for payload in &self.staged_payloads {
             // Staleness-Pruefung
-            if current_time < payload.timestamp
-                || current_time - payload.timestamp > self.max_staleness_seconds
-            {
+            if current_time < payload.timestamp || current_time - payload.timestamp > self.max_staleness_seconds {
                 return Err(ConsensusBridgeError::StaleData {
                     current_time,
                     payload_time: payload.timestamp,
@@ -128,12 +119,9 @@ impl OracleStagingBuffer {
             return Err(ConsensusBridgeError::DeviationExceeded);
         }
 
-        let median_val =
-            aggregate_median(&valid_reports, self.min_sources).map_err(|e| match e {
-                FeedError::TooFewSources { have, need } => {
-                    ConsensusBridgeError::InsufficientSources { have, need }
-                }
-            })?;
+        let median_val = aggregate_median(&valid_reports, self.min_sources).map_err(|e| match e {
+            FeedError::TooFewSources { have, need } => ConsensusBridgeError::InsufficientSources { have, need },
+        })?;
 
         Ok(ConsensusStateValue {
             key: self.key.clone(),

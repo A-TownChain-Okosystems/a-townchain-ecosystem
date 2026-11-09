@@ -1,0 +1,54 @@
+# Root-Workspace des a-townchain-Monorepos.
+# Kanonisch: components/, modules/, tooling/ und die Produkt-Apps.
+# Ausgeschlossen bleiben:
+#  - die sieben Unter-Workspaces (eigene Manifeste)
+#    (das Doku-Archiv enthaelt seit dem Manifest-Cleanup keine Crates mehr)
+#  - apps/-Spiegel bereits vorhandener components-Crates
+#  - modules/atc-blockchain/kernel und ecosystem/integration: durch FV-002
+#    blockiert (Kernel-Crate unvollstaendig, src enthaelt nur blockchain.rs)
+[workspace]
+resolver = "2"
+members = [
+    "ai/atclang/crates/atc-core",
+    "ai/aurora-ai/modules/atc-aurora-agents",
+    "ai/aurora-ai/modules/atc-aurora-core",
+    "ai/aurora-ai/modules/atc-aurora-localization",
+    "ai/aurora-ai/modules/atc-aurora-memory",
+    "ai/aurora-ai/sdk",
+    "ai/genesis-chronicles/modules/atc-game",
+    "apps/atc-compute",
+    "apps/atc-launchpad",
+    "components/algorithm",
+    "components/exec-admission",
+    "components/interop/modules/atc-bridge",
+    "components/mining",
+    "components/node",
+    "components/oracle",
+    "components/sdk",
+    "components/sdk/modules/atc-cli",
+    "components/sdk/modules/atc-sdk/rust",
+    "components/storage",
+    "components/vm",
+    "components/wallet",
+    "kernel/atc-shivacore/modules/atc-security",
+    "kernel/atc-shivacore/sdk",
+    "modules/atc-dns",
+    "modules/atc-governance",
+    "modules/atc-zkp",
+    "standards/sdk",
+]
+exclude = [
+    "ai/genesis-engine",
+    "apps/atc-interop",
+    "apps/atc-marketplace",
+    "apps/atc-mining",
+    "apps/atc-node",
+    "apps/atc-sdk",
+    "apps/atc-storage",
+    "components/zkp",
+    "ecosystem/integration",
+    "kernel/globus-os",
+    "kernel/kai-os",
+    "modules/atc-blockchain/kernel",
+    "tooling/atc-engineering",
+]
