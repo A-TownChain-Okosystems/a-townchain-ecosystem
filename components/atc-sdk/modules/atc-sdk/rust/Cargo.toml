@@ -1,5 +1,3 @@
-[workspace]
-
 [package]
 name = "atc-sdk"
 version = "0.2.0"

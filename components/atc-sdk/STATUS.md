@@ -1,6 +1,9 @@
 # STATUS — atc-sdk
 
-**Stand:** 2026-09-16  
+> **Evidence freshness notice (2026-10-09):** this file records a 2026-09-16 remediation snapshot. The current source SHA was inspected, but the workflow query returned no PR-triggered runs for it; this does not prove that no CI exists. Current build/test/security state remains unverified until linked to the applicable exact-SHA Actions evidence. The existing gates below remain open unless fresh evidence closes them.
+
+**Dokumentations-Review:** 2026-10-09  
+**Historischer Status-Snapshot:** 2026-09-16  
 **Version:** v1.0.0  
 **Status:** DEVELOPMENT / AUDIT REMEDIATION
 
