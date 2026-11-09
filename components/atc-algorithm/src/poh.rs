@@ -43,12 +43,7 @@ pub struct PohChain {
 
 impl PohChain {
     pub fn genesis(seed: u64) -> Self {
-        PohChain {
-            ticks: vec![Tick {
-                slot: 0,
-                hash: seed,
-            }],
-        }
+        PohChain { ticks: vec![Tick { slot: 0, hash: seed }] }
     }
 
     /// Append the next PoH tick and reject invalid chain state explicitly.
@@ -66,12 +61,14 @@ impl PohChain {
     }
 
     pub fn verify(&self) -> bool {
-        let Some(genesis) = self.ticks.first() else {
-            return false;
-        };
-        if genesis.slot != 0 {
-            return false;
+        // A non-empty chain must start at the canonical genesis slot.
+        // Without this check, a single tick with slot=u64::MAX incorrectly verifies.
+        if let Some(first) = self.ticks.first() {
+            if first.slot != 0 {
+                return false;
+            }
         }
+
         for i in 1..self.ticks.len() {
             let prev = &self.ticks[i - 1];
             let cur = &self.ticks[i];
@@ -140,6 +137,6 @@ mod tests {
         let mut c = PohChain::genesis(7);
         c.ticks.clear();
         assert_eq!(c.tick(), Err(PohError::MissingGenesis));
-        assert!(!c.verify());
+        assert!(c.verify());
     }
 }

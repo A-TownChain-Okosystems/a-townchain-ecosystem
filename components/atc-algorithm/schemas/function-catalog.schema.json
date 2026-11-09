@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/A-TownChain-Okosystems/atc-algorithm/blob/main/schemas/function-catalog.schema.json",
+  "title": "ATC Algorithm Function Catalog",
+  "type": "object",
+  "required": [
+    "catalog_id",
+    "catalog_version",
+    "catalog_status",
+    "normative",
+    "repository",
+    "source_ref",
+    "source_tree_sha",
+    "scope",
+    "summary",
+    "functions"
+  ],
+  "properties": {
+    "catalog_id": {
+      "const": "ATC-ALGORITHM-FUNCTION-CATALOG"
+    },
+    "catalog_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "catalog_status": {
+      "enum": [
+        "SOURCE_INVENTORY_BASELINE_NOT_COMPLETE",
+        "BLOCKED_RECONCILIATION"
+      ]
+    },
+    "normative": {
+      "const": false
+    },
+    "repository": {
+      "const": "A-TownChain-Okosystems/atc-algorithm"
+    },
+    "source_ref": {
+      "type": "string"
+    },
+    "source_tree_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "languages",
+        "included",
+        "excluded",
+        "limitations"
+      ],
+      "properties": {
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "included": {
+          "type": "string"
+        },
+        "excluded": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "source_files",
+        "functions_discovered",
+        "tests_detected",
+        "semantic_contracts_verified"
+      ],
+      "properties": {
+        "source_files": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "functions_discovered": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tests_detected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "semantic_contracts_verified": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "functions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "source",
+          "signature_source",
+          "docstring",
+          "status",
+          "contract",
+          "evidence"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "rust_function",
+              "python_function",
+              "test_function"
+            ]
+          },
+          "source": {
+            "type": "object",
+            "required": [
+              "path",
+              "line_start",
+              "sha"
+            ],
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "line_start": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sha": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{40}$"
+              }
+            },
+            "additionalProperties": false
+          },
+          "signature_source": {
+            "type": "string"
+          },
+          "docstring": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "const": "DISCOVERED_NOT_SEMANTICALLY_VERIFIED"
+          },
+          "contract": {
+            "type": "object",
+            "required": [
+              "preconditions",
+              "postconditions",
+              "errors",
+              "side_effects",
+              "determinism",
+              "security_invariants"
+            ],
+            "properties": {
+              "preconditions": {
+                "const": "UNSPECIFIED"
+              },
+              "postconditions": {
+                "const": "UNSPECIFIED"
+              },
+              "errors": {
+                "const": "UNSPECIFIED"
+              },
+              "side_effects": {
+                "const": "UNSPECIFIED"
+              },
+              "determinism": {
+                "const": "UNSPECIFIED"
+              },
+              "security_invariants": {
+                "const": "UNSPECIFIED"
+              }
+            },
+            "additionalProperties": false
+          },
+          "evidence": {
+            "type": "object",
+            "required": [
+              "tests",
+              "exact_sha"
+            ],
+            "properties": {
+              "tests": {
+                "const": "NOT_RECONCILED"
+              },
+              "exact_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
