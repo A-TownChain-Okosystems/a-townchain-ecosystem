@@ -1,8 +1,9 @@
-#![allow(dead_code)]
 // Copyright (c) 2026 A-TownChain-Okosystems — Apache-2.0
 //! ATC-STD-600 execution context and fail-closed gate.
 
 pub const CHAIN_ID: &str = "atc";
+pub const TX_DOMAIN: &str = "ATC-TX-DOMAIN";
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ChainContext {
     pub chain_id: String,
@@ -24,39 +25,22 @@ pub enum ContextError {
 
 impl ChainContext {
     pub fn validate(&self, expected_protocol: &str, expected_vm: &str) -> Result<(), ContextError> {
-        if self.chain_id != CHAIN_ID {
-            return Err(ContextError::InvalidChainId);
-        }
-        if !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") {
-            return Err(ContextError::InvalidNetworkId);
-        }
-        if self.genesis_id.len() != 64 || !self.genesis_id.bytes().all(|b| b.is_ascii_hexdigit()) {
-            return Err(ContextError::InvalidGenesisId);
-        }
-        if self.protocol_version != expected_protocol {
-            return Err(ContextError::ProtocolMismatch);
-        }
-        if self.vm_version != expected_vm {
-            return Err(ContextError::VmMismatch);
-        }
+        if self.chain_id != CHAIN_ID { return Err(ContextError::InvalidChainId); }
+        if !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") { return Err(ContextError::InvalidNetworkId); }
+        if self.genesis_id.len() != 64 || !self.genesis_id.bytes().all(|b| b.is_ascii_hexdigit()) { return Err(ContextError::InvalidGenesisId); }
+        if self.protocol_version != expected_protocol { return Err(ContextError::ProtocolMismatch); }
+        if self.vm_version != expected_vm { return Err(ContextError::VmMismatch); }
         Ok(())
     }
 
     pub fn verify_genesis_id(&self, computed: &str) -> Result<(), ContextError> {
-        if self.genesis_id != computed {
-            return Err(ContextError::GenesisMismatch);
-        }
+        if self.genesis_id != computed { return Err(ContextError::GenesisMismatch); }
         Ok(())
     }
 }
 
 /// State transitions MUST call this gate before VM execution.
-pub fn execution_gate(
-    context: &ChainContext,
-    computed_genesis_id: &str,
-    expected_protocol: &str,
-    expected_vm: &str,
-) -> Result<(), ContextError> {
+pub fn execution_gate(context: &ChainContext, computed_genesis_id: &str, expected_protocol: &str, expected_vm: &str) -> Result<(), ContextError> {
     context.validate(expected_protocol, expected_vm)?;
     context.verify_genesis_id(computed_genesis_id)?;
     Ok(())
@@ -84,8 +68,11 @@ mod tests {
     #[test]
     fn identity_mismatch_fails_closed() {
         let mut c = ctx();
-        c.chain_id = "wrong".into();
-        assert!(execution_gate(&c, &"a".repeat(64), "1.0.0", "1.0.0").is_err());
+        c.network_id = "invalid-network".into();
+        assert_eq!(
+            execution_gate(&c, &"a".repeat(64), "1.0.0", "1.0.0"),
+            Err(ContextError::InvalidNetworkId)
+        );
     }
 
     #[test]
