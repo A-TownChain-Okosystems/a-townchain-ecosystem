@@ -10,7 +10,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "react": "^19.2",
+    "react": "^19.3",
     "ethers": "^6",
     "typescript": "^7"
   },

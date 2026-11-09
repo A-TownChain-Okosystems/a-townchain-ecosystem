@@ -16,11 +16,11 @@ ATC Marketplace — DEX, NFT/Asset-Registry (ATC-9000).
 
 ## ATC Compliance & Governance (ATC-STD-201 / 202 / 203)
 
-**ATC COMPLIANCE: R2** — auditiert am 2026-09-07 (atc-repo-audit; R-Level aus `.atc/repository.yaml`).
+**ATC COMPLIANCE: R2 — HISTORISCHER AUDIT-STAND (2026-09-07).** Dieser datierte R-Level ist keine aktuelle Exact-SHA-Verifikation und keine Produktionsfreigabe; aktuellen Status und Evidence im Repository prüfen.
 Architekturentscheidungen: zentral im [DECISIONS_REGISTER](https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/main/docs/DECISIONS_REGISTER.md) (AD-Nummern verbindlich; lokale Entscheidungen in `docs/decisions/`).
 
 - **Purpose:** NFT-/Genesis-Marketplace (L5).
-- **Scope:** Layer L5, Domain marketplace — atc-marketplace als APPLICATION in der 23-Repo-Landschaft (AD-024/026).
+- **Scope:** Layer L5, Domain marketplace — atc-marketplace als Marketplace-Repository im Organisationsinventar; der GitHub-Bestand vom 2026-10-09 umfasst 33 Repositories (26 nicht archiviert, 7 archiviert).
 - **Architecture:** Genesis-Chronicles-NFTs (ATC-9000) auf Chain-ID 658467.
 - **Features:** Marketplace-Core.
 - **Installation:** Modul-Build je Sprache (typescript); Integration via Monorepo-Workspace (a-townchain-os, sync_modules.py).
