@@ -1,5 +1,3 @@
-[workspace]
-
 [package]
 name = "atc-oracle"
 version = "0.1.0"
