@@ -1,21 +1,25 @@
 # Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
-"""Genesis Engine — Minimal ECS (Entity-Component-System) Core."""
-from __future__ import annotations
+"""
+Genesis Engine — Minimal ECS (Entity-Component-System) Core
+MVP Milestone 1 — ECHTER CODE, keine Vision-Doku.
 
+Design: einfach, dependency-frei, testbar. Entities sind IDs, Components
+sind reine Datenklassen, Systems operieren auf (Entity, Components)-Tupeln.
+"""
+from dataclasses import dataclass, field
+from typing import Dict, Type, List, Iterator, Tuple, Any
 import itertools
-from collections.abc import Iterator
-from dataclasses import dataclass
-from typing import Any
 
 
 class World:
     """Zentrale Verwaltung aller Entities und Components."""
 
-    def __init__(self) -> None:
+    def __init__(self):
         self._next_id = itertools.count(1)
         self.entities: set[int] = set()
-        self.components: dict[type, dict[int, Any]] = {}
-        self.systems: list[System] = []
+        # component_type -> {entity_id: component_instance}
+        self.components: Dict[Type, Dict[int, Any]] = {}
+        self.systems: List["System"] = []
 
     def create_entity(self) -> int:
         eid = next(self._next_id)
@@ -31,23 +35,24 @@ class World:
         ctype = type(component)
         self.components.setdefault(ctype, {})[entity_id] = component
 
-    def get_component(self, entity_id: int, ctype: type) -> Any | None:
+    def get_component(self, entity_id: int, ctype: Type):
         return self.components.get(ctype, {}).get(entity_id)
 
-    def has_component(self, entity_id: int, ctype: type) -> bool:
+    def has_component(self, entity_id: int, ctype: Type) -> bool:
         return entity_id in self.components.get(ctype, {})
 
-    def query(self, *ctypes: type) -> Iterator[tuple[int, tuple[Any, ...]]]:
-        """Liefert Entities, die alle angegebenen Component-Typen besitzen."""
+    def query(self, *ctypes: Type) -> Iterator[Tuple[int, tuple]]:
+        """Liefert (entity_id, (comp1, comp2, ...)) fuer alle Entities,
+        die ALLE angegebenen Component-Typen besitzen."""
         if not ctypes:
             return
         stores = [self.components.get(ct, {}) for ct in ctypes]
         base = stores[0]
         for eid in base:
-            if all(eid in store for store in stores[1:]):
-                yield eid, tuple(store[eid] for store in stores)
+            if all(eid in s for s in stores[1:]):
+                yield eid, tuple(s[eid] for s in stores)
 
-    def add_system(self, system: System) -> None:
+    def add_system(self, system: "System") -> None:
         system.world = self
         self.systems.append(system)
 
@@ -58,12 +63,13 @@ class World:
 
 class System:
     """Basisklasse fuer Systems. Konkrete Systems ueberschreiben update()."""
-
-    world: World | None = None
+    world: World = None
 
     def update(self, dt: float) -> None:
-        """Default system hook; concrete systems override this method."""
+        raise NotImplementedError
 
+
+# --- Kern-Components (minimal, erweiterbar) ---
 
 @dataclass
 class Position:
@@ -79,7 +85,7 @@ class Velocity:
 
 @dataclass
 class Sprite:
-    color: tuple[int, int, int] = (255, 255, 255)
+    color: tuple = (255, 255, 255)
     width: int = 16
     height: int = 16
 
@@ -88,8 +94,6 @@ class MovementSystem(System):
     """Bewegt alle Entities mit Position + Velocity."""
 
     def update(self, dt: float) -> None:
-        if self.world is None:
-            return
-        for _, (pos, vel) in self.world.query(Position, Velocity):
+        for eid, (pos, vel) in self.world.query(Position, Velocity):
             pos.x += vel.dx * dt
             pos.y += vel.dy * dt
