@@ -454,8 +454,9 @@ impl SystemExecutor {
         self.systems.len()
     }
 
+    /// Gegenstueck zu `len` (Clippy: `len_without_is_empty`).
     pub fn is_empty(&self) -> bool {
-        self.systems.is_empty()
+        self.len() == 0
     }
 
     pub fn parallel_batches(&self) -> Result<Vec<Vec<SystemId>>, ScheduleError> {
