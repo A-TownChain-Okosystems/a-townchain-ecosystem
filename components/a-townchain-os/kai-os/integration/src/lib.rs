@@ -9,6 +9,10 @@ use kai_os_ai::ipc::{IpcGateway, IpcMessage};
 use kai_os_ai::proposal::{ProposalRegistry, ProposalState};
 use kai_os_health::gossip::{HealthGossip, HealthStatus};
 use kai_os_health::watchdog::{ServiceState, Watchdog};
+pub mod handoff;
+
+pub use handoff::{handoff_message, verify_handoff, HandoffKey, HANDOFF_CHAIN_ID};
+
 use kai_os_keyring::keyring::{KeyKind, Keyring};
 use kai_os_node::lifecycle::{Lifecycle, State};
 use kai_os_runtime::capability::CapabilitySet;
@@ -37,6 +41,8 @@ pub struct BootedSystem {
     pub proposals: ProposalRegistry,
     pub proposal_id: String,
     pub proposal_signature: [u8; 64],
+    /// 33-Byte secp256k1-Pubkey des Handoff-Schluessels (oeffentlich pruefbar).
+    pub handoff_public_key: [u8; 33],
     pub gossip: HealthGossip,
 }
 
@@ -176,13 +182,13 @@ pub fn boot(cfg: &BootConfig) -> Result<(BootedSystem, BootReport), BootError> {
         .push(("proposal", format!("{} HandedToVM", &proposal_id[..16])));
 
     // 8. Signatur: Übergabe an die VM-Grenze wird vom Node-Key signiert.
-    let proposal_signature = keyring
-        .sign("node-key", proposal_id.as_bytes())
-        .map_err(|e| fail("signature", e.to_string()))?;
-    let public = keyring
-        .public_key("node-key")
-        .map_err(|e| fail("signature", e.to_string()))?;
-    if !kai_os_keyring::keyring::verify(&public, proposal_id.as_bytes(), &proposal_signature) {
+    // Handoff-Signatur: secp256k1/ECDSA (WAL-SIGN-001) mit Domain + Chain-ID.
+    // Ed25519 bleibt ausschliesslich im Transport (ATC-STD-PROTOCOL-003).
+    let handoff_key = HandoffKey::from_seed(&cfg.node_seed).map_err(|e| fail("signature", e))?;
+    let handoff_public_key = handoff_key.public_key();
+    let handoff_payload = handoff_message(HANDOFF_CHAIN_ID, &proposal_id);
+    let proposal_signature = handoff_key.sign(&handoff_payload);
+    if !verify_handoff(&handoff_public_key, &handoff_payload, &proposal_signature) {
         return Err(fail(
             "signature",
             "handoff signature does not verify".into(),
@@ -238,6 +244,7 @@ pub fn boot(cfg: &BootConfig) -> Result<(BootedSystem, BootReport), BootError> {
             proposals,
             proposal_id,
             proposal_signature,
+            handoff_public_key,
             gossip,
         },
         report,
