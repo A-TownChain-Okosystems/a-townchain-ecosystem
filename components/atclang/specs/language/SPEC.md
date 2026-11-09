@@ -1,6 +1,6 @@
 # ATCLang 1.0 — Language Specification
 
-**Gate:** G1 (AD-022) · **Status:** PASSED, 07.09.2026 · **Referenz-Implementierung:** Python, src/atclang (Commit a7e1bd4)
+**Gate:** G1 (AD-022) · **Status:** PASSED, 07.09.2026 · **Referenz-Definition:** Python-Referenz a7e1bd4 (historisch; Inventar: docs/reference/python/, entfernt in 34be28f per Rust-only-Politik). **Kanonische Implementierung:** Rust Canonical Core (crates/atc-core, SCR-0128-Teilmenge); volle Sprachkonformanz = Gate G3 (OPEN)
 
 **Normativitäts-Regel:** Diese Spezifikation ist aus der Referenz-Implementierung
 extrahiert und muss mit ihr uebereinstimmen. Abweichungen zwischen SPEC und
@@ -33,7 +33,7 @@ Maschinenlesbares Extrakt: `specs/language/registry.json`.
 | HASH | AT | LPAREN | RPAREN | LBRACE |
 | RBRACE | LBRACKET | RBRACKET | COMMA | COLON |
 | SEMICOLON | DOT | UNDERSCORE | NEWLINE | INDENT |
-| DEDENT | EOF | COMMENT |
+| DEDENT | EOF | COMMENT |  |  |
 
 ### 2.2 Literale
 
@@ -137,12 +137,14 @@ Wallet-Deklarationen erzeugen WalletDef (parallele Struktur zu ContractDef).
 
 | Stufe | Produktion | Operatoren |
 |---|---|---|
-| 1 (niedrigst) | parse_logical | `\\|\\|`, `&&` |
+| 1 (niedrigst) | parse_logical | OR, AND (siehe Hinweis unten) |
 | 2 | parse_comparison | `==`, `!=`, `<`, `>`, `<=`, `>=` |
 | 3 | parse_addition | `+`, `-` |
 | 4 | parse_multiplication | `*`, `/`, `%` |
 | 5 | parse_unary | `!`, unäres `-` |
 | 6 | parse_postfix | Call `(...)`, Index `[...]`, `.`-Zugriff, `::`-Zugriff, `?` |
+
+Hinweis: `parse_logical` behandelt die Operatoren `ODER` (`||` im Quelltext) und `UND` (`&&`); die pipe-Zeichen sind hier ausnahmsweise unescapierbar dargestellt, um die Tabellenstruktur zu erhalten.
 | 7 (höchst) | parse_primary | Literale, Ident, `(expr)`, Match-Expr, Lambda, Range |
 
 Grundformen (parse_primary): IntLiteral, FloatLiteral, StringLiteral,
