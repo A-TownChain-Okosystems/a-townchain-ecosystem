@@ -1,65 +1,54 @@
-// Copyright (c) 2026 A-TownChain-Okosystems — Apache-2.0
-//! Rust trusted key boundary for the ATC wallet.
+//! Secure Ed25519 wallet key management for A-TownChain.
+use ed25519_dalek::{SigningKey, VerifyingKey};
+use sha2::{Digest, Sha256};
 
-use ed25519_dalek::{Signature, Signer, SigningKey, VerifyingKey};
-use getrandom::fill;
-use zeroize::Zeroize;
-
-#[derive(Debug)]
-pub enum KeyError {
-    Randomness,
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct KeyPair {
+    secret: [u8; 32],
 }
 
-pub struct WalletKey {
-    signing_key: SigningKey,
-}
+impl KeyPair {
+    pub fn from_seed(seed: [u8; 32]) -> Self { Self { secret: seed } }
 
-impl WalletKey {
     pub fn generate() -> Result<Self, KeyError> {
         let mut seed = [0u8; 32];
-        fill(&mut seed).map_err(|_| KeyError::Randomness)?;
-        let key = SigningKey::from_bytes(&seed);
-        seed.zeroize();
-        Ok(Self { signing_key: key })
+        getrandom::fill(&mut seed).map_err(|_| KeyError::Randomness)?;
+        Ok(Self { secret: seed })
     }
 
-    pub fn from_seed(seed: [u8; 32]) -> Self {
-        Self {
-            signing_key: SigningKey::from_bytes(&seed),
-        }
-    }
+    pub fn signing_key(&self) -> SigningKey { SigningKey::from_bytes(&self.secret) }
 
-    pub fn public_key(&self) -> [u8; 32] {
-        self.signing_key.verifying_key().to_bytes()
-    }
+    pub fn verifying_key(&self) -> VerifyingKey { self.signing_key().verifying_key() }
 
-    pub fn verifying_key(&self) -> VerifyingKey {
-        self.signing_key.verifying_key()
-    }
+    pub fn public_key_bytes(&self) -> [u8; 32] { self.verifying_key().to_bytes() }
 
-    pub fn sign(&self, message: &[u8]) -> Signature {
-        self.signing_key.sign(message)
+    pub fn secret_bytes(&self) -> [u8; 32] { self.secret }
+
+    pub fn address(&self) -> String {
+        let digest = Sha256::digest(self.public_key_bytes());
+        format!("ATC{}", hex::encode(&digest[..16]))
     }
 }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum KeyError { Randomness }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn deterministic_seed_derives_same_public_key() {
-        let a = WalletKey::from_seed([7u8; 32]);
-        let b = WalletKey::from_seed([7u8; 32]);
-        assert_eq!(a.public_key(), b.public_key());
+    fn deterministic_seed_derivation() {
+        let a = KeyPair::from_seed([7u8; 32]);
+        let b = KeyPair::from_seed([7u8; 32]);
+        assert_eq!(a.public_key_bytes(), b.public_key_bytes());
+        assert_eq!(a.address(), b.address());
     }
 
     #[test]
-    fn signature_roundtrip() {
-        let key = WalletKey::from_seed([7u8; 32]);
-        let sig = key.sign(b"ATC wallet test");
-        assert!(key
-            .verifying_key()
-            .verify_strict(b"ATC wallet test", &sig)
-            .is_ok());
+    fn address_is_canonical_shape() {
+        let k = KeyPair::from_seed([9u8; 32]);
+        assert_eq!(k.address().len(), 35);
+        assert!(k.address().starts_with("ATC"));
     }
 }

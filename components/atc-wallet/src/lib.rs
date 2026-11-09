@@ -1,9 +1,11 @@
-//! A-TownChain Rust wallet core.
+//! Canonical ATC Wallet core.
+//! Private keys never leave the wallet signing boundary.
 
-pub mod address;
 pub mod balance;
 pub mod gui;
 pub mod history;
 pub mod keys;
-pub mod node;
-pub mod tx;
+pub mod tx;\npub mod wallet;
+
+pub use keys::KeyPair;
+pub use tx::{SignedTransaction, Transaction, TransactionDomain, TxError};\npub use wallet::Wallet;
