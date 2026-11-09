@@ -12,7 +12,8 @@
     atclang/
     ├── specs/          # NORMATIVE SPEZIFIKATION (VERSION.toml; language/types/abi/bytecode/vm/contracts/consensus)
     ├── docs/           # ERKLÄREND (Sprach-/Typ-/ABI-/VM-/Sicherheits-Doku)
-    ├── src/atclang/    # IMPLEMENTIERUNG (das einzige Architekturzentrum)
+    ├── crates/atc-core/ # IMPLEMENTED: aktueller Rust-Production-Kern und CLI
+    ├── src/atclang/    # LEGACY/UNVERIFIED: historischer Python-Referenzstand
     │   ├── frontend/      # Source → Lexer → Parser → AST (keine Blockchain-Ausführung)
     │   ├── semantics/     # Resolver → TypeChecker → Ownership/Borrow → CapabilityChecker → Validated AST
     │   ├── ir/            # ATC-IR + unabhängiger IR-Verifier
@@ -63,7 +64,6 @@ Entfernte Inhalte: bewahrt im Wiki-Vault (a-townchain-os-docs/docs/archive/monor
 4. Conformance-Fixtures verbindlich (hello.atc → expected.ast → expected.ir → expected.atcb → expected.artifact)
 5. Meta-Doku aus src/atclang/ an 1.0-Positionen (docs/, root) verschieben
 
-
 ---
 
 ## Re-Audit 06.09.2026 (Commit 044604f) — GATE: YELLOW
@@ -72,8 +72,8 @@ Architektur 8.5/10 · Implementierung 5.5/10 · Production/Consensus-Readiness
 noch nicht gegeben. Phase 1 bestaetigt. Ab jetzt: VERTIKALE Subsystem-
 Implementierung mit Conformance-Absicherung — kein weiterer grosser Rebuild.
 
-**R-01 (Legacy-Artefakte im Tree: modules/atc-atclang/__pycache__,
-tests/__pycache__/*.pyc) — beseitigt; .gitignore um __pycache__/, *.py[cod],
+**R-01 (Legacy-Artefakte im Tree: modules/atc-atclang/**pycache**,
+tests/**pycache**/*.pyc) — beseitigt; .gitignore um **pycache**/, *.py[cod],
 .pytest_cache/ erweitert.**
 
 ## Priorisierte Phase-2-Roadmap (VERBINDLICH)
@@ -111,6 +111,7 @@ tests/__pycache__/*.pyc) — beseitigt; .gitignore um __pycache__/, *.py[cod],
 **Aurora AI (AD-021):** Rust Core (Model Manager, Scheduler, Hardware-
 Abstraction, Security, IPC, Plugin-Runtime) + Python AI-Layer (PyTorch/ONNX/
 LLM, ROCm). ATCLang -> Rust-first; Aurora -> Rust-Core + Python-AI-Layer.
+
 ## Gate-Status (07.09.2026)
 
 - G0 (Architecture Freeze): PASSED
