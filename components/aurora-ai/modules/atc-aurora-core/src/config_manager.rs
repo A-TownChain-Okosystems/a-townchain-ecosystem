@@ -1,15 +1,10 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Config Manager — manages Aurora configuration
+
 use std::collections::HashMap;
 
 pub struct ConfigManager {
     config: HashMap<String, String>,
-}
-
-impl Default for ConfigManager {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl ConfigManager {
@@ -27,20 +22,30 @@ impl ConfigManager {
     pub fn set(&mut self, key: &str, value: &str) {
         self.config.insert(key.into(), value.into());
     }
+
     pub fn get(&self, key: &str) -> Option<&String> {
         self.config.get(key)
     }
+
     pub fn get_or_default(&self, key: &str, default: &str) -> String {
         self.config
             .get(key)
             .cloned()
             .unwrap_or_else(|| default.into())
     }
+
     pub fn remove(&mut self, key: &str) {
         self.config.remove(key);
     }
+
     pub fn keys(&self) -> Vec<String> {
         self.config.keys().cloned().collect()
+    }
+}
+
+impl Default for ConfigManager {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

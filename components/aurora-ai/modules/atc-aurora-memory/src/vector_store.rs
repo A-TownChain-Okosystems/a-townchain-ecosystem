@@ -6,12 +6,6 @@ pub struct VectorStore {
     vectors: HashMap<String, Vec<f32>>,
 }
 
-impl Default for VectorStore {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl VectorStore {
     pub fn new() -> Self {
         Self {
@@ -57,9 +51,21 @@ impl VectorStore {
     }
 }
 
+impl Default for VectorStore {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn default_is_empty() {
+        assert_eq!(VectorStore::default().count(), 0);
+    }
+
     #[test]
     fn test_vector_store() {
         let mut vs = VectorStore::new();

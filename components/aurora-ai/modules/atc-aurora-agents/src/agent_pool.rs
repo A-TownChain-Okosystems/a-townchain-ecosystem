@@ -1,17 +1,12 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Agent Pool — manages all 12 agents
+use std::collections::HashMap;
+
 use crate::agent_base::{Agent, AgentContext, AgentResponse};
 use crate::agents::*;
-use std::collections::HashMap;
 
 pub struct AgentPool {
     agents: HashMap<String, Box<dyn Agent>>,
-}
-
-impl Default for AgentPool {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl AgentPool {
@@ -59,9 +54,20 @@ impl AgentPool {
     }
 }
 
+impl Default for AgentPool {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn default_registers_the_standard_agents() {
+        assert_eq!(AgentPool::default().count(), 12);
+    }
 
     #[test]
     fn test_pool() {

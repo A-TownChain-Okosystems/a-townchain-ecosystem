@@ -15,12 +15,6 @@ pub struct MemoryIndex {
     tag_index: HashMap<String, Vec<usize>>,
 }
 
-impl Default for MemoryIndex {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl MemoryIndex {
     pub fn new() -> Self {
         Self {
@@ -63,9 +57,21 @@ impl MemoryIndex {
     }
 }
 
+impl Default for MemoryIndex {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn default_is_empty() {
+        assert_eq!(MemoryIndex::default().count(), 0);
+    }
+
     #[test]
     fn test_index() {
         let mut mi = MemoryIndex::new();

@@ -23,7 +23,7 @@ export default defineConfig({
     user: user || "",
     password: password || "",
     database: sqlDbName || "",
-    // TLS is the secure default; set SQL_SSL=false only for explicitly local/dev databases.\n    ssl: process.env.SQL_SSL?.toLowerCase() !== "false",
+    ssl: false,
   },
   verbose: true,
 });

@@ -17,12 +17,6 @@ pub struct KnowledgeBase {
     index: HashMap<String, Vec<usize>>,
 }
 
-impl Default for KnowledgeBase {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl KnowledgeBase {
     pub fn new() -> Self {
         Self {
@@ -66,9 +60,21 @@ impl KnowledgeBase {
     }
 }
 
+impl Default for KnowledgeBase {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn default_is_empty() {
+        assert_eq!(KnowledgeBase::default().count(), 0);
+    }
+
     #[test]
     fn test_kb() {
         let mut kb = KnowledgeBase::new();

@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // LLM Router — routes requests to optimal model
+
 pub struct LlmRouter {
     rules: Vec<RouterRule>,
 }
@@ -8,12 +9,6 @@ pub struct RouterRule {
     pub pattern: String,
     pub model: String,
     pub priority: u8,
-}
-
-impl Default for LlmRouter {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl LlmRouter {
@@ -56,6 +51,12 @@ impl LlmRouter {
             }
         }
         "shiva-1.0".into()
+    }
+}
+
+impl Default for LlmRouter {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
