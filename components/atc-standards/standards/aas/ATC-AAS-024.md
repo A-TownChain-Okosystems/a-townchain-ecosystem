@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-024
   title: "ATC-AAS-024 — Agent-to-Agent Protocol Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-024 — Agent-to-Agent Protocol Standard (v1.0.0, APPROVED)
+# ATC-AAS-024 — Agent-to-Agent Protocol Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -78,3 +78,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Nachrichten zwischen Agenten MÜSSEN das definierte Protokollformat mit allen Pflichtfeldern einhalten.
+2. Jede Nachricht MUSS eine eindeutige Message-ID, Sender-ID, Empfänger-ID und eine digitale Signatur enthalten.
+3. Ungültige oder unvollständige Protokollnachrichten MÜSSEN vom Empfänger verworfen werden.
+4. Die Kommunikation zwischen Agenten MUSS verschlüsselt und integritätsgeschützt erfolgen.
+5. Nachrichten-Timeouts MÜSSEN definiert werden, um Deadlocks bei der Kommunikation zu verhindern.
+6. Nachrichtenströme MÜSSEN auf Ratenbegrenzungen (Rate Limiting) überwacht werden.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% Protokoll-Konformität MUSS bei Inter-Agenten-Nachrichten durchgesetzt werden.
+- Latenz der Nachrichtenverarbeitung SOLLTE unter 100ms liegen.
+- 0 unverschlüsselte Nachrichten MÜSSEN im Netzwerkverkehr akzeptiert werden.
+- Signaturfehler bei Nachrichten MÜSSEN zu 100% verworfen werden.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch Validator-Läufe (S-01 bis S-25) verifiziert werden. Mängel werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 erfasst. Protokollverstöße MÜSSEN korrigiert werden.
+
+## 7. Security Considerations
+
+Authentifizierte und verschlüsselte Protokolle verhindern Man-in-the-Middle-Angriffe und Spoofing zwischen Agenten. Ungesicherte Nachrichten MÜSSEN das System veranlassen, die Verbindung zu trennen.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-001, AI-DEV-004, AI-DEV-011, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

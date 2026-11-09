@@ -19,7 +19,7 @@ VERSION = "0.2.0"  # SCR-0115: Ticket-Praefix erlaubt, Merges ausgenommen
 LEVELS = ["R0", "R1", "R2", "R3", "R4"]
 BAD_PATHS = [".env", "node_modules/", "target/debug/", "/dist/", "/*.log", "tmp/", ".DS_Store"]
 CC_RE = re.compile(
-    r"^(\[[^\]]+\]\s*)?(feat|fix|docs|refactor|test|security|perf|build|ci|chore|spec|release|audit|approve|restore|sync|review|init)(\([^)]+\))?: .+"
+    r"^(\[[^\]]+\]\s*)?(feat|fix|docs|style|refactor|test|security|perf|build|ci|chore|spec|release|audit|approve|restore|sync|review|init)(\([^)]+\))?: .+"
 )  # SCR-0115: optionaler [Ticket]-Praefix ist Org-Konvention (z.B. "[S26] docs(...):")
 
 

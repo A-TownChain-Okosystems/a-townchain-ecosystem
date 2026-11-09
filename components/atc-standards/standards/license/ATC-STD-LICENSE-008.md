@@ -2,7 +2,7 @@
 standard:
   id: ATC-STD-LICENSE-008
   title: "Trademark Separation Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: license
   authority: A-TownChain Ecosystems
@@ -23,9 +23,9 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ----
 
-# ATC-STD-LICENSE-008 — Trademark Separation Standard (v1.0.0, APPROVED)
+# ATC-STD-LICENSE-008 — Trademark Separation Standard (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.0, §30-eingefroren) — Standard der Familie ATC License
+> **Status:** APPROVED (v1.1.0, §30-eingefroren) — Standard der Familie ATC License
 > System (FAM-44); §9-FREIGEGEBEN 08.09.2026, 03:55 UTC+2 via Owner-Direktive
 > „ATC-Lizenzsystem als eigene Standardfamilie etablieren" (SCR-0037). Klar getrennt
 > von SPDX-Standardlizenzen (Repos behalten Apache-2.0 als Basisschicht, SCR-0036).
@@ -58,6 +58,10 @@ Verortet in der Governance-Schicht des ATC-Ökosystems (FAM-44, Range ATC-STD-LI
 **KR-5:** Manifeste MÜSSEN trademarks.included: false + separate_policy: true deklarieren (sofern keine Ausnahme erteilt).
 **KR-6:** Namens-/Logo-Verwechslungsgefahr in Forks/Abwandlungen MUSS verboten sein (no-endorsement).
 
+**KR-7:** Alle Marken, Logos und rechtlich geschützten Namen MUESSEN zentral in `TRADEMARKS.md` gelistet sein (REQ-LIC-045).
+**KR-8:** Bei Nutzung von ATC-Marken MUSS ein deutlicher Hinweistext auf den Markeninhaber eingefügt werden (REQ-LIC-046).
+**KR-9:** Eine Kombination von ATC-Marken mit Drittmarken MUSS ohne schriftliche Genehmigung verboten sein (REQ-LIC-047).
+
 ## §3 Schnittstellen & Kopplungen
 
 - **Registry-Kopplung:** standards.yaml/versions.yaml (S-14/S-19), Katalog-Slot in
@@ -70,16 +74,14 @@ Verortet in der Governance-Schicht des ATC-Ökosystems (FAM-44, Range ATC-STD-LI
 
 ## §4 Metriken & Akzeptanzkriterien
 
-**M-1:** 100 % Manifeste mit Trademark-Deklaration
-**M-2:** 0 implizite Markenrechte in Lizenztexten
-**M-3:** Markenliste zentral und aktuell
+- **M-1:** 100 % aller aktiven Lizenztypen MUESSEN vollständig mit Metadaten deklariert sein.
+- **M-2:** 0 falsche Open-Source-Bezeichnungen; jede Einschränkung MUSS ehrlich klassifiziert werden.
+- **M-3:** Die Durchsetzungsquote MUSS in 100 % aller CI-Builds durch das Compliance-Gate nachgewiesen werden.
+- **M-4:** Lizenzänderungs- und Widerrufseinträge MUESSEN innerhalb von 24 Stunden global synchronisiert sein.
 
 ## §5 Compliance & Verifikation
 
-Compliance wird über die Gesamt-Validierung (CI, S-01..S-25) je Registry-Eintrag
-geprüft; die License-Compliance Engine (LICENSE-006) erweitert dies je Repository.
-Abweichungen werden als Findings (F-NNN) geführt und nach ATC-STD-BUG-005 (RCA)
-bearbeitet.
+Compliance wird über die Gesamt-Validierung (CI, Validator-Läufe S-01 bis S-25) je Registry-Eintrag geprüft; die License-Compliance Engine (ATC-STD-LICENSE-006) erweitert dies je Repository. Abweichungen MUESSEN als Findings (F-001 bis F-999) gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 erfasst und bearbeitet werden.
 
 ## Requirements (normativ)
 
@@ -91,6 +93,9 @@ bearbeitet.
 - **REQ-LIC-023** (§2): Keine impliziten Markenrechte in ATC-Lizenztexten.
 - **REQ-LIC-024** (§2): Markenliste zentral geführt, Nutzung nur via Trademark Policy.
 - **REQ-LIC-025** (§2): No-Endorsement-Klausel je Lizenztyp.
+- **REQ-LIC-045** (§2): Marken-Registerführung MUSS zentral in TRADEMARKS.md erfolgen.
+- **REQ-LIC-046** (§2): Attributions-Pflicht MUSS sichtbaren Urheber-Hinweis erzwingen.
+- **REQ-LIC-047** (§2): Co-Branding-Verbot MUSS ohne Freigabe strikt durchgesetzt werden.
 
 ## Security Considerations
 
@@ -107,17 +112,3 @@ rechtliche Prüfung wird empfohlen und ist als ausstehend dokumentiert.
 |---|---|
 | Standard-Status | SPECIFIED — retro-aktiv erfasst (Meta-Sweep 08.09.2026, SCR-0047) |
 | Autoritativ | Implementierungs-Status gemaess ATC-STD-IMPLEMENTATION-001 §3/§4 in `registry/standard-implementation.yaml` (SSOT); Detail-Erfassung laeuft via Coverage-Programm gemaess ATC-STD-IMPLEMENTATION-001 §6 |
-
-## Changelog (Standard-intern)
-
-- **1.0.0** (2026-09-08): Initial Release — Trademark Separation Standard als achte. Standard der Familie
-  ATC License System (FAM-44) via SCR-0037; §9-FREIGEGEBEN 08.09.2026, 03:55 UTC+2 —
-  APPROVED, normativ, §30-eingefroren.
-
-## References
-
-- ATC-STD-000 (Standards Governance & Specification), ATC-STD-FRAMEWORK-001 (FAM-44)
-- ATC-STD-UPDATE-001/CHANGE-001/COMPAT-001 (Change-Control), ATC-STD-BUG-005 (RCA)
-- licenses/ (License-Registry SSOT), SCR-0036 (Apache-2.0 Basisschicht)
-
-*ATC-STD-LICENSE-008 v1.0.0 · ATC-LICENSE-System · SCR-0037 · Aurora (Superagent) · 08.09.2026*

@@ -2909,7 +2909,7 @@ framework:
   - id: FAM-45
     name: Vision-to-Software (V2S)
     range: ATC-STD-V2S-000..026
-    note: 'End-to-End-Lifecycle VISION->EOL — Master + 26 Phasen-Standards (SCR-0042); Phasen-Slots 001-026 im Bau'
+    note: 'End-to-End-Lifecycle VISION->EOL — Master + 26 Phasen-Standards vollstaendig (SCR-0041/0042, Bergung 03.10.)'
     family_refs: null
     slots:
     - id: ATC-STD-V2S-000
@@ -2917,6 +2917,136 @@ framework:
       status: BELEGT
       refs:
       - ATC-STD-V2S-000
+    - id: ATC-STD-V2S-001
+      title: Vision
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-001
+    - id: ATC-STD-V2S-002
+      title: Idea Intake
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-002
+    - id: ATC-STD-V2S-003
+      title: Objectives
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-003
+    - id: ATC-STD-V2S-004
+      title: Requirements
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-004
+    - id: ATC-STD-V2S-005
+      title: Traceability
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-005
+    - id: ATC-STD-V2S-006
+      title: Specification
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-006
+    - id: ATC-STD-V2S-007
+      title: Architecture
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-007
+    - id: ATC-STD-V2S-008
+      title: Software Design
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-008
+    - id: ATC-STD-V2S-009
+      title: Development
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-009
+    - id: ATC-STD-V2S-010
+      title: Integration
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-010
+    - id: ATC-STD-V2S-011
+      title: Testing
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-011
+    - id: ATC-STD-V2S-012
+      title: Verification
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-012
+    - id: ATC-STD-V2S-013
+      title: Validation
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-013
+    - id: ATC-STD-V2S-014
+      title: Security
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-014
+    - id: ATC-STD-V2S-015
+      title: Software Audit
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-015
+    - id: ATC-STD-V2S-016
+      title: Release Candidate
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-016
+    - id: ATC-STD-V2S-017
+      title: Release
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-017
+    - id: ATC-STD-V2S-018
+      title: Deployment
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-018
+    - id: ATC-STD-V2S-019
+      title: Operations
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-019
+    - id: ATC-STD-V2S-020
+      title: Monitoring
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-020
+    - id: ATC-STD-V2S-021
+      title: Incident
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-021
+    - id: ATC-STD-V2S-022
+      title: Feedback
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-022
+    - id: ATC-STD-V2S-023
+      title: Improvement
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-023
+    - id: ATC-STD-V2S-024
+      title: Version Upgrade
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-024
+    - id: ATC-STD-V2S-025
+      title: Deprecation
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-025
+    - id: ATC-STD-V2S-026
+      title: End-of-Life
+      status: BELEGT
+      refs:
+      - ATC-STD-V2S-026
   - id: FAM-46
     name: Repository Maintenance (REPO-MAINT)
     range: ATC-STD-REPO-MAINT-001..999
@@ -4069,3 +4199,15 @@ framework:
       status: BELEGT
       refs:
       - ATC-ARCH-001
+  - id: FAM-76
+    name: "Aurora Swarm Network (AURORA-SWARM)"
+    range: "ATC-AURORA-SWARM-001..999"
+    note: 'Einzelfamilien-Allokation: ATC-AURORA-SWARM-001 (Aurora Swarm Network / ASN) — Owner-Entwurf 07.10.2026 (SCR-0138); naechster freier Slot nach FAM-75.'
+    family_refs:
+    - ATC-STD-000
+    slots:
+    - id: ATC-AURORA-SWARM-001
+      title: "Aurora Swarm Network (ASN) — Neuronales KI-Schwarmnetzwerk"
+      status: BELEGT
+      refs:
+      - ATC-AURORA-SWARM-001

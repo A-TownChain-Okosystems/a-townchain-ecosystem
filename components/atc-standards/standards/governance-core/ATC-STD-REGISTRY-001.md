@@ -2,7 +2,7 @@
 standard:
   id: ATC-STD-REGISTRY-001
   title: "ATC Registry Management Standard — Verbindliche SSOT-Verwaltung aller ATC-Registries: Registry-Inventar mit Zuständigkeiten, Single-Source-of-Truth-Prinzip, Generatoren statt Handarbeit, Cross-Registry-Konsistenz über Validator-Gates, Prozess für neue Registries, Manipulationsschutz"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: governance-core
   authority: A-TownChain-Okosystems
@@ -31,9 +31,9 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ----
 
-# ATC-STD-REGISTRY-001 — ATC Registry Management Standard (v1.0.0, APPROVED)
+# ATC-STD-REGISTRY-001 — ATC Registry Management Standard (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.0) — §9-Freigabe Michael Wroblewski (Builder-Chat 08.09.2026, 00:36 UTC+2);
+> **Status:** APPROVED (v1.1.0) — §9-Freigabe Michael Wroblewski (Builder-Chat 08.09.2026, 00:36 UTC+2);
 > normativ in Kraft ab 08.09.2026, §30-eingefroren (ATC-STD-000). SCR-0025 akzeptiert.
 > **Familie:** Standards Governance Core (FAM-43). **Kopplungen:** TAXONOMY-001
 > (Meta-Registry), STDDEV-001 (Standard-Einträge), CHANGE-001 (Änderungskanal),
@@ -148,6 +148,22 @@ archiviert werden; Konsumenten (Gates, Doku) MÜSSEN vorher umgestellt werden
 - **REQ-RM-008** (§8): SCR-only-Änderungen; Hand-Edits an generierten Dateien
   sind P1-Findings; kein Status-Vorgriff vor §9.
 - **REQ-RM-009** (§9): RETIRE mit Migration/Archiv + Konsumenten-Umstellung.
+- **REQ-RM-010** (§10): Schema-Validierungspflicht: Jede Registry-Datei MUSS gegen ein korrespondierendes JSON/YAML-Schema validiert werden.
+- **REQ-RM-011** (§10): Backup und Immutabilität: Ältere Registry-Zustände MUESSEN nach jedem Freigabe-Tag in der Git-Historie unveränderlich archiviert bleiben.
+- **REQ-RM-012** (§10): Verwaiste Eintragsvermeidung: Einträge in Registries MUESSEN bei Löschung des Zielobjekts auf DEPRECATED oder RETIRED gesetzt werden.
+- **REQ-RM-013** (§10): Sync-Intervall: Automatische Registry-Synchronisation MUSS bei jedem PR-Merge ausgeführt werden.
+
+
+## §10 Metriken & Akzeptanzkriterien
+
+1. **Schema-Konformitätsrate:** MUSS 100% aller Registries umfassen.
+2. **Cross-Registry-Konsistenz:** MUSS in 100% der CI-Läufe (Gates S-16 bis S-24) bestanden werden.
+3. **Generator-Integritätsquote:** MUSS 100% Manuelle Hand-Edit-Abwesenheit bei generierten Registries garantieren.
+4. **Synchronisations-Latenz:** MUSS nach SCR-Freigabe unter 5 Minuten liegen.
+
+## §11 Compliance & Verifikation
+
+Die Einhaltung der Registry-Standards MUSS kontinuierlich in den Validator-Läufen S-01 bis S-25 (insbesondere S-16, S-20, S-21, S-22, S-23, S-24) und Repository-Audits nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 verifiziert werden. Fehlerhafte Registries erzeugen Findings F-001 bis F-999 und blockieren den Pipeline-Status.
 
 ## Security Considerations
 
@@ -155,7 +171,7 @@ Registry-Manipulation wäre ein Direktangriff auf die maschinenlesbare Governanc
 falsche „approved"-Status müssten von keinem Menschen mehr geprüft werden. Schutz:
 SCR-Pflicht + Git-Historie als Audit-Trail, Generator-Erzwingung mit Regenerierungs-
 Kommentar, Konsistenz-Gates je CI-Lauf, §9-Vorgriffs-Verbot. Secrets in Registries
-sind verboten — Zugangsdaten gehören in verschlüsselte Stores.
+sind verboten — Zugangsdaten gehören in verschlüsselte Stores. Registry-Integritätsverletzungen MUESSEN sofort als Severity S1 eingestuft werden. Unbefugte Änderungen an Schemas oder Generatoren MUESSEN den CI-Build abbrechen.
 
 ## Implementierungsstatus
 
@@ -166,6 +182,7 @@ sind verboten — Zugangsdaten gehören in verschlüsselte Stores.
 
 ## Changelog (Standard-intern)
 
+- **1.1.0** (2026-09-08): Additive Elaboration SCR-0041 — neue Regeln (§10, REQ-RM-010..013), Metriken, Compliance & Verifikation, keine bestehende Regel geändert.
 - **1.0.0** (2026-09-08): Initial Release — Kodifizierung des etablierten
   Registry-Systems: SSOT-Inventar (10 Registries + Naming-Schema mit Generator/Gate-
   Tabelle), SSOT-Prinzip mit AUD-Typ-Lehre, Generator-Pflicht, 5 Konsistenz-Gates,
@@ -174,7 +191,8 @@ sind verboten — Zugangsdaten gehören in verschlüsselte Stores.
 
 ## References
 
-- registry/*.yaml (Inventar), schemas/naming-conventions.schema.json
+- **NORMATIVE:** ATC-STD-000, ATC-STD-REGISTRY-001, registry/*.yaml (Inventar), schemas/naming-conventions.schema.json
+- **INFORMATIVE:** SCR-0041, ATC-STD-BUG-001..005
 - tools/framework|taxonomy|protocol|repo-audit/gen_*.py (Generatoren)
 - ATC-STD-TAXONOMY-001 (Meta), ATC-STD-STDDEV-001 (Erstellung), ATC-STD-CHANGE-001
 - ATC-STD-AUDIT-001 (Evidence), ATC-STD-BUG-005 (Findings), ATC-STD-999 (AUD-Typ)

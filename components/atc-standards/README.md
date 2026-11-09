@@ -7,22 +7,22 @@
 
 ```yaml
 state:
-  id: ATC-STATE-20260918-f5171f46
-  generated_at: "2026-09-18 10:19 UTC+2"
-  registry_version: "1.0.0"
-  registry_sha256: "f5171f46250c6ad0e7a08b906a1657225413dbc1929e57d78cc38a138c80fcde"
-  standards_total: 505
-  standards_approved: 505
-  standards_candidate: 0
+  id: ATC-STATE-20261009-ca5c3b44
+  generated_at: "2026-10-09 00:17 UTC+2"
+  registry_version: "1.1.0"
+  registry_sha256: "ca5c3b445fc45382417d7b3013a8229fc736aadcc6f2a3c8420736bdd316610b"
+  standards_total: 533
+  standards_approved: 506
+  standards_candidate: 27
   standards_other: 0
-  standard_files: 503
-  families: 75
+  standard_files: registry-derived
+  families: 76
 ```
 
 **Diese Zahlen sind die EINZIG maschinenverbindliche Auskunft** (ATC-STD-003 §2 Ein-Zahl-Regel).
 Historische Zahlenstände: ausschließlich `STATUS.md` / `CHANGELOG.md` / `audits/`.
 
-**Implementierungs-KPI:** 505 Standards normativ definiert — 65 enforced, 131 implemented, 303 specification-only. Die Aussage „505 Standards implementiert“ ist unzulässig (ATC-STD-003 §8: APPROVED ≠ IMPLEMENTED).
+**Implementierungs-KPI:** 533 Standards normativ definiert — 65 enforced, 131 implemented, 330 specification-only. Die Aussage „533 Standards implementiert“ ist unzulässig (ATC-STD-003 §8: APPROVED ≠ IMPLEMENTED).
 
 **FORMALE COMPLIANCE: PASS** · **IMPLEMENTATION: PARTIAL** · **PRODUCTION READINESS: NOT_READY** — ein Zustand behauptet nie den anderen.
 
@@ -36,17 +36,17 @@ Historische Zahlenstände: ausschließlich `STATUS.md` / `CHANGELOG.md` / `audit
 
 ATC Standards is the canonical normative governance layer of the A-TownChain ecosystem. It maintains:
 
-- **Registry:** SSOT für alle 505 Standards mit Versionierung, Dependencies (DAG) und Findings
+- **Registry:** SSOT für alle 533 Standards mit Versionierung, Dependencies (DAG) und Findings
 - **Verfassung:** ATC-STD-000 v1.3.0, APPROVED
 - **Validator-Suite:** atc-std-validator, atc-repo-audit, atc-readme-validator
-- **Governance Framework:** 75 Familien
+- **Governance Framework:** 76 Familien
 - **Governance-Determinismus:** ATC-STD-003 (SSOT-Matrix, State-ID, Ein-Zahl-Regel)
 
-**Organisationsbestand:** 32 Repository-Einträge im Repository-Registry-SSOT. Governance-Status und Ausnahmen werden ausschließlich aus `registry/repositories.yaml` bzw. den daraus generierten Compliance-Views abgeleitet.
+**Organisationsbestand:** registry-derived Repository-Einträge im Repository-Registry-SSOT. Governance-Status und Ausnahmen werden ausschließlich aus `registry/repositories.yaml` bzw. den daraus generierten Compliance-Views abgeleitet.
 
 ## Scope
 
-Governance-Root der A-TownChain-Organisation: Registry, Standards, Schemata, Validatoren, Audits und Change-Requests. In Scope: normative Standards (503 Dateien, 75 Familien) und ihre Metadaten/Validierung. Out of Scope: Implementierung der Standards in den Repository-Einträgen der Organisation und deren CI-Gates.
+Governance-Root der A-TownChain-Organisation: Registry, Standards, Schemata, Validatoren, Audits und Change-Requests. In Scope: normative Standards (registry-derived Dateien, 76 Familien) und ihre Metadaten/Validierung. Out of Scope: Implementierung der Standards in den Repository-Einträgen der Organisation und deren CI-Gates.
 
 ## Features
 
@@ -60,8 +60,8 @@ Governance-Root der A-TownChain-Organisation: Registry, Standards, Schemata, Val
 
 ### Core Components
 - `registry/` — SSOT
-- `standards/` — 503 Standard-Dateien in 75 Familien
-- `profiles/` — 32 verbindliche Standards-Profile je Repository
+- `standards/` — registry-derived Standard-Dateien in 76 Familien
+- `profiles/` — registry-derived verbindliche Standards-Profile je Repository
 - `schemas/` — JSON/YAML-Schemata
 - `tools/` — Validators, Auditors, Generators
 - `governance/`, `approval/`, `change-requests/` — Verfassung, Freigaben und SCR-System
@@ -71,6 +71,15 @@ Governance-Root der A-TownChain-Organisation: Registry, Standards, Schemata, Val
 ```bash
 python3 tools/atc-std-validator/validate_all.py
 python3 tools/atc-repo-audit/atc_repo_audit.py . --level R3
+```
+
+## Installation
+
+Requirements: Python 3.11+ and PyYAML.
+
+```bash
+python3 -m pip install --disable-pip-version-check pyyaml
+python3 tools/atc-std-validator/validate_all.py
 ```
 
 ## Governance Flow
@@ -129,13 +138,27 @@ Governance-Hardening: Registry-Integritäts-Gate, Discovery→Audit→SCR-Kopplu
 
 ```text
 ├── approval/
+├── atc/
+├── ats/
 ├── audits/
 ├── change-requests/
+├── contracts/
+├── docs/
+├── evidence/
 ├── governance/
+├── legal/
+├── licenses/
+├── licensing/
 ├── profiles/
+├── protocols/
+├── references/
 ├── registry/
 ├── schemas/
+├── sdk/
+├── security/
 ├── standards/
+├── templates/
+├── tests/
 └── tools/
 ```
 

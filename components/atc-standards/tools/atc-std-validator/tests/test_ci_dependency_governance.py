@@ -25,7 +25,9 @@ declared = set()
 for _n in re.findall(r"^\s*([A-Za-z0-9_\-.]+)\s*[<>=~!]", req_text, re.M):
     _n = _n.lower()
     declared.add(PKG_IMPORT_MAP.get(_n, _n))
-STDLIB_OK = {
+STDLIB_OK = set(sys.stdlib_module_names)
+# Derived from the Python 3.11 runtime used by CI; no manually maintained allowlist.
+STDLIB_OK |= {
     "os",
     "re",
     "sys",
@@ -58,7 +60,7 @@ STDLIB_OK = {
     "csv",
     "logging",
     "base64",
-}  # base64 nachgetragen (Drift-Fix 13.09., AUD-Followup: version_gate.py)
+}  # compatibility aliases not represented as top-level stdlib names
 local_mods = {p.stem for p in (ROOT / "tools").rglob("*.py")}
 for py in (ROOT / "tools").rglob("*.py"):
     src = py.read_text(encoding="utf-8", errors="replace")

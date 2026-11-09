@@ -15,4 +15,4 @@ owner: ShivaCoreDev
 source_file: standards/aas/ATC-AAS-012.md
 status: approved
 title: Agent Hallucination / Assumption Standard (P0)
-version: 1.0.0
+version: 1.1.0

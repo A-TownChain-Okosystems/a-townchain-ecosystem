@@ -2,13 +2,13 @@
 standard:
   id: ATC-ENT-002
   title: "ATC-ENT-002 — Rollen & Verantwortlichkeiten Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: enterprise
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-ENT-002 — Rollen & Verantwortlichkeiten Standard (v1.0.0, APPROVED)
+# ATC-ENT-002 — Rollen & Verantwortlichkeiten Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -91,3 +91,47 @@ Enterprise-Transaktionen: Buchungs- und Audit-Trails unveraenderbar (append-only
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-280ff (Security-Familie), ATC-ENT-001 · INFORMATIVE: Registry-Kategorie enterprise
+## 5. Verbindliche Rollen- und Verantwortlichkeitsregeln
+
+1. Neue Rollen MUSS über den Change-Prozess gemäß ATC-ENT-010 beantragt und in der zentralen Rollen-Registry erfasst werden.
+2. Jede Rolle MUSS eindeutig definierte Zuständigkeiten (responsibilities), Befugnisse (authority) und Einschränkungen (limitations) enthalten.
+3. KI-Agenten, die als ROLE-AI-AGENT agieren, MUSS zwingend an eine eindeutige agent_id gemäß ATC-AAS-001 gebunden sein.
+4. Bei Rollenwechseln oder Abberufungen MUSS die zugewiesenen Berechtigungen unverzüglich entzogen und im Audit-Log gemäß ATC-ENT-014 dokumentiert werden.
+5. Rollen-Kumulationen, die zu einem Interessenkonflikt führen, MUSS offengelegt und gemäß ATC-ENT-006 behandelt werden.
+
+## 6. Metriken & Akzeptanzkriterien
+
+1. **Rollen-Registry-Abdeckung:** 100% aller aktiven Rollen MUSS in der Rollen-Registry vollständig dokumentiert sein.
+2. **Agenten-Zuordnungsquote:** 100% aller agierenden KI-Agenten MUSS einer gültigen agent_id nach ATC-AAS-001 und der Rolle ROLE-AI-AGENT zugewiesen sein.
+3. **Approver-Invariante:** 0 Verstöße gegen das Verbot von Agenten als Approver (ATC-STD-000 §14.1).
+4. **Audit-Vollständigkeit:** 100% aller von KI-Agenten ausgeführten Aktionen MUSS mit audit_required: true protokolliert werden.
+
+## 7. Compliance & Verifikation
+
+Die Einhaltung aller Vorgaben dieses Standards MUSS durch automatisierte Validator-Läufe (S-01 bis S-25) kontinuierlich geprüft werden. Etwaige Abweichungen oder Nicht-Konformitäten MUSS unverzüglich als Findings (F-NNN) gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 in `registry/findings.yaml` erfasst und kategorisiert werden. Abweichungen von Sicherheits- oder Governance-Invarianten MUSS priorisiert vor einem Release behoben werden.
+
+## 8. Security Considerations
+
+Fehlkonfigurierte oder verwaiste Rollen stellen ein erhebliches Sicherheitsrisiko dar. Rollenrechte MUSS nach dem Prinzip der geringsten Rechtevergabe (Least Privilege) vergeben werden. KI-Agenten MUSS strikt auf ihren zugewiesenen Funktionsbereich beschränkt bleiben.
+
+## 9. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (Owner-Sammelfreigabe) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 10. References
+
+### Normative Referenzen
+- **ATC-STD-000**: Verfassung der A-TownChain Ökosystems
+
+### Informative Referenzen
+- **SCR-0041**: Owner-Auftrag zur Batch-Elaboration dünner Standards
+- **ATC-AAS-001**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-003**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-006**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-010**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-014**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-BUG-001**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-BUG-005**: Referenzierter Standard im ATC-Regelwerk

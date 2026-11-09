@@ -131,20 +131,7 @@ Governance-Hardening: Registry-Integritäts-Gate, Discovery→Audit→SCR-Kopplu
 ## Repository Structure
 
 ```text
-├── atc/
-├── ats/
-├── contracts/
-├── docs/
-├── evidence/
-├── approval/
-├── audits/
-├── change-requests/
-├── governance/
-├── profiles/
-├── registry/
-├── schemas/
-├── standards/
-└── tools/
+@@REPOSTRUCT@@
 ```
 
 ## Documentation

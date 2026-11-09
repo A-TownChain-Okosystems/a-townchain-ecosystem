@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-025
   title: "ATC-AAS-025 — Agent Repository Manifest Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-025 — Agent Repository Manifest Standard (v1.0.0, APPROVED)
+# ATC-AAS-025 — Agent Repository Manifest Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -91,3 +91,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 5. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Jedes R2+-Repository MUSS ein vollständiges Repository-Manifest unter `.github/ai/repository.yaml` enthalten.
+2. Das Repo-Manifest MUSS die zugelassenen Agenten, Rollen und Repository-Richtlinien deklarieren.
+3. Änderungen am Repository-Manifest MÜSSEN durch den Repository-Owner genehmigt werden.
+4. Agenten MÜSSEN das Repo-Manifest beim ersten Zugriff validieren und Richtlinien einhalten.
+5. Fehlt das Repo-Manifest, MUSS das Repository für automatische Agenten-Aktionen gesperrt werden.
+6. Das Repo-Manifest MUSS im Versionierungs-Tool gegen unberechtigte Änderungen geschützt sein.
+
+## 6. Metriken & Akzeptanzkriterien
+
+- 100% der R2+-Repositories MÜSSEN ein valides Repo-Manifest besitzen.
+- 0 unautorisierte Aktionen MÜSSEN in Repositories ohne Manifest durchgeführt werden.
+- Validierungsdauer des Repo-Manifests MUSS unter 50ms liegen.
+- Schema-Prüfungen des Manifests MÜSSEN zu 100% erfolgreich sein.
+
+## 7. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch automatisierte Validator-Läufe (S-01 bis S-25) geprüft werden. Abweichungen werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 gemeldet. Manifest-Mängel MÜSSEN behoben werden.
+
+## 8. Security Considerations
+
+Das Repository-Manifest dient als lokale Sicherheits-Policy für den Agentenbetrieb im jeweiligen Repository. Nicht konforme Manifeste MÜSSEN die Sperrung des Repositories nach sich ziehen.
+
+## 9. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 10. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-001, AI-DEV-003, AI-DEV-007, ATC-AAS-001, ATC-AAS-003, ATC-AAS-007, ATC-AAS-008, ATC-AAS-011, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

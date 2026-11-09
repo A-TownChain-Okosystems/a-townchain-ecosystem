@@ -28,6 +28,7 @@ DOMAIN_MAP = {
     "zkp": "TRUST",
     "ai-dev": "AI",
     "aas": "AI",
+    "aurora-swarm": "AI",
     "enterprise": "GOV",
     "v2s": "GOV",
     "readme": "SW",
@@ -108,6 +109,7 @@ FAMILY_CODES = {
     "eng": "ENG",
     "legal": "LEGAL",
     "maint": "MAINT",
+    "aurora-swarm": "ASW",
 }
 
 cats = yaml.safe_load(open("registry/categories.yaml", encoding="utf-8"))

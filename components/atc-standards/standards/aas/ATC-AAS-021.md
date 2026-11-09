@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-021
   title: "ATC-AAS-021 — Agent Quality Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-021 — Agent Quality Standard (v1.0.0, APPROVED)
+# ATC-AAS-021 — Agent Quality Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -74,3 +74,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Die Qualität eines Agenten MUSS kontinuierlich anhand der definierten KPIs aus den Audit-Records ermittelt werden.
+2. Fällt ein Agent unter die geforderten Schwellenwerte, MUSS seine Berechtigung automatisch eingeschränkt werden.
+3. Qualitätsberichte MÜSSEN regelmäßig generiert und im Repository hinterlegt werden.
+4. Code-Qualitätsmetriken (Linting, Abdeckung) MÜSSEN vor jeder Freigabe positiv validiert werden.
+5. Systematische Qualitätsmängel MÜSSEN zur vorübergehenden Stilllegung des Agenten führen.
+6. Qualitäts-Schwellenwerte MÜSSEN periodisch durch das Governance-Board überprüft und angepasst werden.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% KPI-Erfassung MUSS bei allen aktiven Agenten durchgeführt werden.
+- Automatische Rechteeinschränkung MUSS bei KPI-Unterschreitung innerhalb von 60 Sekunden erfolgen.
+- Code-Abdeckung MUSS mindestens 80% betragen.
+- Linting-Fehler MÜSSEN zu 0% toleriert werden.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch Validator-Läufe (S-01 bis S-25) überwacht werden. Mängel werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 gemeldet. Qualitätsprobleme MÜSSEN behoben werden.
+
+## 7. Security Considerations
+
+Die kontinuierliche Qualitätsüberwachung stellt sicher, dass fehlerhafte Agenten frühzeitig erkannt und isoliert werden. Mangelfhafte Agenten MÜSSEN vom System getrennt werden.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-004, AI-DEV-010, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

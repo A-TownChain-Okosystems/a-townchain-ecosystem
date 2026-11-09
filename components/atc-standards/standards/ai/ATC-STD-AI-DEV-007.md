@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-AI-DEV-007
   title: "ATC-STD-AI-DEV-007 — AI Git Commit & Pull Request Standard"
-  version: "1.0.1"
+  version: "1.1.0"
   status: approved
   category: ai-dev
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,9 +18,9 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-STD-AI-DEV-007 — AI Git Commit & Pull Request Standard (v1.0.1, APPROVED)
+# ATC-STD-AI-DEV-007 — AI Git Commit & Pull Request Standard (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.1) — Owner-Freigabe (SCR-0006) 07.09.2026 (ATC-STD-000 §9); normativ in Kraft · **Reihe:** ATC-STD-AI-DEV-001…012
+> **Status:** APPROVED (v1.1.0) — Owner-Freigabe (SCR-0006) 07.09.2026 (ATC-STD-000 §9); normativ in Kraft · **Reihe:** ATC-STD-AI-DEV-001…012
 > **Autoren:** Michael Wroblewski (Owner), Aurora (Superagent)
 > **Kernprinzip:** Commit und PR sind die öffentlichen, maschinenlesbaren
 > Nachweise der Agentenarbeit. GitHub-Automationen werten die Historie
@@ -157,3 +157,93 @@ Keine Zugangsdaten in Artefakten; Security-Review-Pflicht bei sicherheitsrelevan
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-203, ATC-STD-AI-DEV-001 · INFORMATIVE: Roadmap MK8 (Security), Model-Registry
+## 8. Verbindliche Erweiterungsregeln
+
+- 8.1 Alle durch den Agenten erzeugten Commits MÜSSEN mittels GPG oder SSH kryptografisch signiert sein.
+- 8.2 Commit-Nachrichten MÜSSEN dem konventionellen Standard folgen und zwingend eine gültige Task-ID enthalten.
+- 8.3 Ein Pull Request MUSS automatisch gecancelt werden, wenn die verknüpften CI-Validation-Checks fehlschlagen.
+- 8.4 PRs dürfen einen Umfang von maximal 500 geänderten Zeilen nicht überschreiten, um Überprüfungsqualität zu sichern.
+- 8.5 Sämtliche geforderten Trailer-Felder MÜSSEN im Footer der Commit-Nachricht lückenlos vorhanden sein.
+
+## 9. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Signaturquote aller Agenten-Commits MUSS exakt 100% betragen.
+- **Metrik 2:** Konformitätsrate der Commit-Trailer MUSS 100% erreichen.
+- **Metrik 3:** Erfolgsquote beim automatisierten Mergen fehlerfreier PRs MUSS über 98% liegen.
+- **Metrik 4:** Bearbeitungszeit fehlerhafter Commits MUSS unter 300 Sekunden liegen.
+
+## 10. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 11. Security Considerations
+
+- Ein direkter Merge in den Main-Branch MUSS ohne Owner-Freigabe technisch unterbunden werden.
+- Commit-Signaturen MÜSSEN vor jedem Merge serverseitig verifiziert werden.
+- Schlüsselmaterial zur Signierung MUSS in HSM/KMS gesichert werden.
+
+## 12. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.1 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 13. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-042
+- ATC-STD-AI-DEV-001
+- ATC-STD-AI-DEV-004
+- ATC-STD-AI-DEV-007
+
+## 14. Verbindliche Erweiterungsregeln
+
+- 8.1 Alle durch den Agenten erzeugten Commits MÜSSEN mittels GPG oder SSH kryptografisch signiert sein.
+- 8.2 Commit-Nachrichten MÜSSEN dem konventionellen Standard folgen und zwingend eine gültige Task-ID enthalten.
+- 8.3 Ein Pull Request MUSS automatisch gecancelt werden, wenn die verknüpften CI-Validation-Checks fehlschlagen.
+- 8.4 PRs dürfen einen Umfang von maximal 500 geänderten Zeilen nicht überschreiten, um Überprüfungsqualität zu sichern.
+- 8.5 Sämtliche geforderten Trailer-Felder MÜSSEN im Footer der Commit-Nachricht lückenlos vorhanden sein.
+
+## 15. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Signaturquote aller Agenten-Commits MUSS exakt 100% betragen.
+- **Metrik 2:** Konformitätsrate der Commit-Trailer MUSS 100% erreichen.
+- **Metrik 3:** Erfolgsquote beim automatisierten Mergen fehlerfreier PRs MUSS über 98% liegen.
+- **Metrik 4:** Bearbeitungszeit fehlerhafter Commits MUSS unter 300 Sekunden liegen.
+- **Metrik 5:** Validierungsrate der PR-Metadaten MUSS 100% betragen.
+
+## 16. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 17. Security Considerations
+
+- Ein direkter Merge in den Main-Branch MUSS ohne Owner-Freigabe technisch unterbunden werden.
+- Commit-Signaturen MÜSSEN vor jedem Merge serverseitig verifiziert werden.
+- Schlüsselmaterial zur Signierung MUSS in HSM/KMS gesichert werden.
+
+## 18. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.1 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 19. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-042
+- ATC-STD-AI-DEV-001
+- ATC-STD-AI-DEV-004
+- ATC-STD-AI-DEV-007

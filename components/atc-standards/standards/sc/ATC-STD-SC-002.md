@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-SC-002
   title: "ATC-STD-SC-002 — Smart Contract Identity Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: sc
   authority: A-TownChain-Okosystems
   owner: Michael (Owner-Entwurf) / ATC-AI-ARCH-001 (Formalfassung)
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   applies_to: "Alle Smart Contracts des A-TownChain-Oekosystems"
   supersedes: []
@@ -18,9 +18,9 @@ standard:
   superseded_by: null
 ---
 
-# ATC-STD-SC-002 — Smart Contract Identity Standard (v1.0.0, APPROVED)
+# ATC-STD-SC-002 — Smart Contract Identity Standard (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.0) — Owner-Freigabe 07.09.2026, 21:00 UTC+2 (ATC-STD-000 §9,
+> **Status:** APPROVED (v1.1.0) — Owner-Freigabe 07.09.2026, 21:00 UTC+2 (ATC-STD-000 §9,
 > „Freigabe"); dokumentiert in approval/APPROVAL-DECISION-2026-09-07-SC-FRAMEWORK.md.
 > Immutabilität per §30 — Änderungen nur via SCR.
 > **Familie:** ATC Smart Contract Standards Framework (ATC-STD-SC-001..020).
@@ -43,22 +43,48 @@ Zusaetzlich MUSS jeder Contract referenzieren: source_repository, contract_path,
 
 
 
+
+## 3. Deterministische Identifikator-Generierung (REQ-SC-059)
+
+Die contract_id MUSS nach dem Schema ATC-SC-<KATEGORIE>-NNN gebildet werden und darf sich während des gesamten Lebenszyklus des Contracts nicht ändern. Bei Vererbung oder Modulstruktur MUSS jedes separat deployte Bytecode-Artefakt eine eigene eindeutige Identität besitzen.
+
+## 4. Unveränderbarkeit von Identitäts-Metadaten (REQ-SC-060)
+
+Identitätsrelevante Zustandsvariablen (z. B. contract_id, created_at_block, initial_owner) MUESSEN als immutable oder constant im Contract-Code deklariert werden, um nachträgliche Manipulationen auszuschließen.
+
+## 5. Laufzeit-Metadaten-Schnittstelle (REQ-SC-061)
+
+Jeder Contract MUSS eine öffentliche Schnittstelle (z. B. getContractIdentity()) bereitstellen, welche die Metadaten strukturierbar zur On-Chain- und Off-Chain-Verifikation zurückgibt.
+
+## 6. Identitäts-Event-Protokollierung (REQ-SC-062)
+
+Änderungen von Administrations- oder Eigentümerrechten MUESSEN ein standardisiertes Event auslösen, welches die ursprüngliche und neue Identität des Verwalters lückenlos protokolliert.
+
+## 7. Metriken & Akzeptanzkriterien
+
+- Metadaten-Vollständigkeit: 100% aller geforderten Felder nach REQ-SC-006 MUSS im Contract oder On-Chain-Record vorhanden sein.
+- Quellcode-Verifizierbarkeit: Der Quellcode-Hash MUSS zu 100% mit dem im Deployment Record hinterlegten Git-Commit übereinstimmen.
+- Abfrage-Effizienz: Die Laufzeit-Abfrage der Identitätsfunktionen MUSS in unter 50.000 Gas ausführbar sein.
+- Validator-Konformität: Validator-Testläufe S-01 bis S-25 MUESSEN ohne identitätsbezogene Findings bestanden werden.
+
 ## Anforderungs-Verzeichnis
 
 | REQ-ID | Anforderung | Verbindlichkeit |
 |---|---|---|
 | REQ-SC-006 | Identitaetsfelder (§1) | MUSS |
 | REQ-SC-007 | Code-Repo-Commit-Deployment-Link (§2) | MUSS |
+| REQ-SC-059 | Deterministische Identifikator-Generierung | MUSS |
+| REQ-SC-060 | Unveränderbarkeit von Identitäts-Metadaten | MUSS |
+| REQ-SC-061 | Laufzeit-Metadaten-Schnittstelle | MUSS |
+| REQ-SC-062 | Identitäts-Event-Protokollierung | MUSS |
 
-## Compliance
+## Compliance & Verifikation
 
-Pruefung im Rahmen der SC-Compliance-Gates (ATC-STD-SC-001 §Gates, SC-G0..G13):
-kein Gate — kein Mainnet. Verstoege werden als Finding nach ATC-STD-BUG-001
-dokumentiert. Registry-Pflichten nach ATC-STD-SC-019.
+Die Einhaltung aller normativen Vorgaben wird automatisiert über die SC-Compliance-Gates (ATC-STD-SC-001 §Gates, SC-G0..G13) sowie regelmäßige Validator-Läufe (S-01 bis S-25) des atc-validator geprüft. Etwaige Verstöße oder Abweichungen MUESSEN als Findings F-001..F-999 gemäß ATC-STD-BUG-001..005 dokumentiert werden. Die Registrierungs- und Validierungspflicht richtet sich nach ATC-STD-SC-019.
 
 ## Security Considerations
 
-Identitaetsdaten enthalten keine Secrets; deployment_address nur nach SC-G10.
+Identitätsdaten enthalten keine sensitiven Secrets; deployment_address wird erst nach bestandenem Gate SC-G10 freigegeben. Unveränderliche Identitätsmetadaten verhindern Spoofing- und Sybil-Angriffe auf Systemebene und gewährleisten die Integrität im gesamten A-TownChain-Ökosystem.
 
 ## Implementierungsstatus
 
@@ -72,11 +98,12 @@ Identitaetsdaten enthalten keine Secrets; deployment_address nur nach SC-G10.
 | Version | Datum | Aenderung |
 |---|---|---|
 | 1.0.0 | 2026-09-07 | Initiale Fassung (Owner-Entwurf Michael, Formalfassung ATC-AI-ARCH-001) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
 
 ## References
 
 - **NORMATIVE:** ATC-STD-000 (Verfassung), ATC-STD-201/202, ATC-STD-203
   (Security), ATC-STD-204 (Dependency & Interface), ATC-STD-SC-001
   (Familien-Hauptstandard)
-- **INFORMATIVE:** ATC-AAS-001..025 (Agenten-Standards), AI-DEV-001..012,
-  contracts/registry/ (Contract Registry)
+- **INFORMATIVE:** SCR-0041 (Change Request), ATC-AAS-001..025 (Agenten-Standards), AI-DEV-001..012,
+  contracts/registry/ (Contract Registry), ATC-STD-BUG-001..005 (Bug Standards)

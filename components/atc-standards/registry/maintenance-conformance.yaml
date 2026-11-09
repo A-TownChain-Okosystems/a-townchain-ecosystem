@@ -53,7 +53,7 @@ maintenance_conformance:
     - REQ-MAINT-014
     - REQ-MAINT-015
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-001
     role: Classification
     group: Governance & Classification
@@ -70,7 +70,7 @@ maintenance_conformance:
     - REQ-MAINT-019
     - REQ-MAINT-020
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-002
     role: Lifecycle
     group: Governance & Classification
@@ -86,7 +86,7 @@ maintenance_conformance:
     - REQ-MAINT-023
     - REQ-MAINT-024
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-003
     role: Code Maintenance
     group: Engineering
@@ -101,7 +101,7 @@ maintenance_conformance:
     - REQ-MAINT-026
     - REQ-MAINT-027
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-004
     role: Dependency Maintenance
     group: Engineering
@@ -117,7 +117,7 @@ maintenance_conformance:
     - REQ-MAINT-030
     - REQ-MAINT-031
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-005
     role: Security Maintenance
     group: Security
@@ -133,7 +133,7 @@ maintenance_conformance:
     - REQ-MAINT-034
     - REQ-MAINT-035
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-006
     role: Infrastructure Maintenance
     group: Engineering
@@ -148,7 +148,7 @@ maintenance_conformance:
     - REQ-MAINT-037
     - REQ-MAINT-038
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-007
     role: OS Maintenance
     group: Platform
@@ -163,7 +163,7 @@ maintenance_conformance:
     - REQ-MAINT-040
     - REQ-MAINT-041
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-008
     role: Blockchain Maintenance
     group: Platform
@@ -178,7 +178,7 @@ maintenance_conformance:
     - REQ-MAINT-043
     - REQ-MAINT-044
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-009
     role: VM & Runtime Maintenance
     group: Platform
@@ -194,7 +194,7 @@ maintenance_conformance:
     - REQ-MAINT-047
     - REQ-MAINT-048
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-010
     role: AI Maintenance
     group: Platform
@@ -209,7 +209,7 @@ maintenance_conformance:
     - REQ-MAINT-050
     - REQ-MAINT-051
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-011
     role: Repository Maintenance
     group: Governance Assets
@@ -223,7 +223,7 @@ maintenance_conformance:
     - REQ-MAINT-052
     - REQ-MAINT-053
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-012
     role: Standards Maintenance
     group: Governance Assets
@@ -238,7 +238,7 @@ maintenance_conformance:
     - REQ-MAINT-055
     - REQ-MAINT-056
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-013
     role: Documentation Maintenance
     group: Governance Assets
@@ -253,7 +253,7 @@ maintenance_conformance:
     - REQ-MAINT-058
     - REQ-MAINT-059
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-014
     role: Performance Maintenance
     group: Engineering
@@ -267,7 +267,7 @@ maintenance_conformance:
     - REQ-MAINT-060
     - REQ-MAINT-061
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-015
     role: Reliability Maintenance
     group: Assurance
@@ -282,7 +282,7 @@ maintenance_conformance:
     - REQ-MAINT-063
     - REQ-MAINT-064
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-016
     role: Compatibility Maintenance
     group: Lifecycle
@@ -296,7 +296,7 @@ maintenance_conformance:
     - REQ-MAINT-065
     - REQ-MAINT-066
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-017
     role: Upgrade & Migration
     group: Lifecycle
@@ -310,7 +310,7 @@ maintenance_conformance:
     - REQ-MAINT-067
     - REQ-MAINT-068
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-018
     role: Rollback & Recovery
     group: Security
@@ -325,7 +325,7 @@ maintenance_conformance:
     - REQ-MAINT-070
     - REQ-MAINT-071
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-019
     role: Maintenance Evidence
     group: Assurance
@@ -341,7 +341,7 @@ maintenance_conformance:
     - REQ-MAINT-074
     - REQ-MAINT-075
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-020
     role: Maintenance Automation
     group: Assurance
@@ -357,7 +357,7 @@ maintenance_conformance:
     - REQ-MAINT-078
     - REQ-MAINT-079
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-021
     role: Emergency Maintenance
     group: Security
@@ -374,7 +374,7 @@ maintenance_conformance:
     - REQ-MAINT-083
     - REQ-MAINT-084
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-022
     role: End-of-Life / Retirement
     group: Lifecycle
@@ -389,7 +389,7 @@ maintenance_conformance:
     - REQ-MAINT-086
     - REQ-MAINT-087
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-023
     role: Vendor & Supply-Chain Maintenance
     group: Supply & Ecosystem
@@ -405,7 +405,7 @@ maintenance_conformance:
     - REQ-MAINT-090
     - REQ-MAINT-091
     version: 1.0.0
-    status: draft
+    status: approved
   - id: ATC-STD-MAINT-024
     role: Cross-Ecosystem Maintenance
     group: Supply & Ecosystem
@@ -420,4 +420,4 @@ maintenance_conformance:
     - REQ-MAINT-093
     - REQ-MAINT-094
     version: 1.0.0
-    status: draft
+    status: approved

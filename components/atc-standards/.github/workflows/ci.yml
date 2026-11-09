@@ -84,6 +84,9 @@ jobs:
         run: |
           pip install pyyaml -q
           python3 tools/repo_registry_check.py
+
+      - name: README Gates (E-4 / ATC-STD-README-001)
+        run: python3 tools/atc-readme-validator/check_readme.py .
       - name: Views-Drift-Check (gen_views, REQ-IMP-006, SCR-0081)
         run: |
           pip install pyyaml -q
@@ -94,7 +97,7 @@ jobs:
           ts = re.compile(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})? UTC\+?2?")
           sha = re.compile(r"[0-9a-f]{40}")
           lines = [l for l in diff.splitlines() if l.startswith(("+", "-")) and not l.startswith(("+++", "---"))]
-          norm = lambda s: sha.sub("SHA", ts.sub("TS", s))
+          norm = lambda s: re.sub(r"(commit:\s*)[0-9a-f]+", r"\1COMMIT", re.sub(r"ATC-STATE-\d{8}-[0-9a-f]{8}", "ATC-STATE-DATE-ID", sha.sub("SHA", ts.sub("TS", s))))
           plus = sorted(norm(l[1:]) for l in lines if l.startswith("+"))
           minus = sorted(norm(l[1:]) for l in lines if l.startswith("-"))
           if plus != minus:

@@ -2,7 +2,7 @@
 standard:
   id: ATC-STD-CHANGE-001
   title: "ATC Change Control Dachnorm — Eine Änderung, ein Kanal, eine Gate-Landkarte: konsolidierte Zuordnung von ATC-STD-000 §19–33 (SCR), VERSION-001, UPDATE-001 und COMPAT-001 zur verbindlichen Entscheidungsmatrix „welches Instrument für welche Änderung“ — mit RACI, Notfallpfad und den 13 Change-Nachweis-Fragen als Prüfraster"
-  version: "1.0.1"
+  version: "1.1.0"
   status: approved
   category: governance-core
   authority: A-TownChain-Okosystems
@@ -32,9 +32,9 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ----
 
-# ATC-STD-CHANGE-001 — ATC Change Control Dachnorm (v1.0.1, APPROVED)
+# ATC-STD-CHANGE-001 — ATC Change Control Dachnorm (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.1) — §9-Freigabe Michael Wroblewski (Builder-Chat 08.09.2026, 00:36 UTC+2);
+> **Status:** APPROVED (v1.1.0) — §9-Freigabe Michael Wroblewski (Builder-Chat 08.09.2026, 00:36 UTC+2);
 > normativ in Kraft ab 08.09.2026, §30-eingefroren (ATC-STD-000). SCR-0025 akzeptiert.
 > **Familie:** Standards Governance Core (FAM-43). **Rolle:** Dachnorm — ordnet ZU,
 > ersetzt NICHT: ATC-STD-000 §19–33, VERSION-001, UPDATE-001, COMPAT-001 bleiben
@@ -155,6 +155,22 @@ Session-Records (AOS-001), AUD-Records. Unbeantwortbare Fragen sind Findings
 - **REQ-CH-010** (§8): Lex specialis + Lückenregel (strengere Zuordnung).
 - **REQ-CH-011** (§9): 13 Nachweis-Fragen je Änderung beantwortbar; Lücken sind
   Findings.
+- **REQ-CH-012** (§10): Synchronisationspflicht aller nachgelagerten Registries MUSS vor Statusübergang zu APPROVED abgeschlossen sein.
+- **REQ-CH-013** (§10): Gate-Bypass Verbot: Kein Gate DARF ohne explizites Owner-Bypass-Dokument übersprungen werden; unbefugte Bypasses MUESSEN als P1-Finding erfasst werden.
+- **REQ-CH-014** (§10): Rollback-Planung MUSS für jede MINOR und MAJOR Änderung vor Freigabe vorliegen.
+- **REQ-CH-015** (§10): Evidenz-Archivierung MUSS nach Abschluss der Änderung unveränderlich im Audit-Trail gesichert werden.
+
+
+## §10 Metriken & Akzeptanzkriterien
+
+1. **Pipeline-Durchlaufzeit:** MUSS für PATCH < 24h und für MINOR < 72h betragen.
+2. **Gate-Erfolgsquote:** MUSS vor Merge 100% aller anwendbaren S-Gates und UPD-Gates betragen.
+3. **Traceability-Index:** MUSS 100% der 13 Change-Nachweis-Fragen positiv beantworten.
+4. **Emergency-Post-Mortem Rate:** MUSS innerhalb von 48h nach Notfall-Fixes 100% betragen.
+
+## §11 Compliance & Verifikation
+
+Die Einhaltung der Change-Control-Prozesse MUSS kontinuierlich in den Validator-Läufen S-01 bis S-25 und Repository-Audits nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 verifiziert werden. Jegliche Abweichung erzeugt automatisierte Findings F-001 bis F-999 und führt zur sofortigen Blockade der Change-Pipeline.
 
 ## Security Considerations
 
@@ -163,7 +179,7 @@ Change Control ist die zentrale Angriffsfläche der Governance: Eine ungetrackte
 Schutz: SCR-Kanal-Pflicht ohne Ausnahme, Gate-Stopp-Regel, 48h-Nachholpflicht im
 Notfall, 13-Fragen-Raster mit Finding-Folge, unabhängige Audit-Instanz (REPO-AUDIT,
 MAUD), Human-Gate-Finalität beim Owner. Commit-Trailer-Manipulation wäre Fälschung
-des Nachweises — Git-Historie + AUD-Records decken Widersprüche auf.
+des Nachweises — Git-Historie + AUD-Records decken Widersprüche auf. Unbefugte Manipulationen der Change-Matrix oder Bypass-Versuche MUESSEN vom CI-System sofort als Severity-S1-Sicherheitsereignis klassifiziert und gemeldet werden.
 
 ## Implementierungsstatus
 
@@ -174,6 +190,7 @@ des Nachweises — Git-Historie + AUD-Records decken Widersprüche auf.
 
 ## Changelog (Standard-intern)
 
+- **1.1.0** (2026-09-08): Additive Elaboration SCR-0041 — neue Regeln (§10, REQ-CH-012..015), Metriken, Compliance & Verifikation und Security-Klarstellungen, keine bestehende Regel geändert.
 - **1.0.0** (2026-09-08): Initial Release — Konsolidierung der Change-Control-
   Kette als Dachnorm: Änderungsarten-Matrix (6 Artefakttypen × PATCH/MINOR/MAJOR),
   eine Pipeline (SCR→VERSION→UPDATE→COMPAT→AUDIT→REGISTRY), Lifecycle-Zuordnung,
@@ -185,7 +202,8 @@ des Nachweises — Git-Historie + AUD-Records decken Widersprüche auf.
 
 ## References
 
-- ATC-STD-000 §19–33 (SCR-Prozess), ATC-STD-VERSION-001, ATC-STD-UPDATE-001
+- **NORMATIVE:** ATC-STD-000 (§19–33 SCR-Prozess), ATC-STD-VERSION-001, ATC-STD-UPDATE-001
+- **INFORMATIVE:** SCR-0041, ATC-STD-BUG-001..005, ATC-STD-CHANGE-001
   (UPD-G01..G09), ATC-STD-COMPAT-001 (MAJOR-Gate UPD-G04)
 - ATC-STD-999 §3 (13 Nachweis-Fragen), ATC-STD-AUDIT-001 (AUD-Records)
 - ATC-STD-STDDEV-001, ATC-STD-REGISTRY-001, ATC-STD-MILESTONE-001

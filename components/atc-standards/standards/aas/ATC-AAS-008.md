@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-008
   title: "ATC-AAS-008 — Agent Workflow Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-008 — Agent Workflow Standard (v1.0.0, APPROVED)
+# ATC-AAS-008 — Agent Workflow Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -72,3 +72,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Der Makro-Lifecycle MUSS ausnahmslos in der vorgegebenen Phasenfolge durchlaufen werden; ein Phasensprung ist unzulässig.
+2. Jeder Übergang zwischen Workflow-Stufen MUSS mit Zeitstempel und Grund im Audit-Trail protokolliert werden.
+3. Vor dem Eintritt in die Phase `EXECUTION` MÜSSEN alle Vorbedingungen der Analyse- und Planungsphase erfüllt sein.
+4. Tritt während eines Phasenübergangs ein Fehler auf, MUSS der Workflow kontrolliert in den Zustand `FAILED` schalten.
+5. Workflows MÜSSEN mit einer maximalen Ausführungszeit (Timeout) versehen sein und bei Überschreiten beendet werden.
+6. Manuelle Eingriffe in laufende Workflows MÜSSEN über autorisierte Befehle erfolgen und im Stufenprotokoll vermerkt werden.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% aller Workflow-Ausführungen MÜSSEN der strikten Phasenabfolge entsprechen.
+- 0 unprotokollierte Stufenwechsel MÜSSEN in der State Machine zugelassen werden.
+- Rollback-Einleitung bei Workflow-Fehlern MUSS in unter 1 Sekunde erfolgen.
+- Workflow-Timeouts MÜSSEN nach Ablauf exakt greifen.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch Validator-Läufe (S-01 bis S-25) verifiziert werden. Verstöße werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 protokolliert. Workflow-Fehler MÜSSEN behoben werden.
+
+## 7. Security Considerations
+
+Strikte Workflow-Grenzen verhindern das unkontrollierte Ausführen von Code ohne vorherige Planungs- und Prüfschritte. Ungültige Zustandsübergänge MÜSSEN den Prozess stoppen.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-001, AI-DEV-004, AI-DEV-007, ATC-AAS-020, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

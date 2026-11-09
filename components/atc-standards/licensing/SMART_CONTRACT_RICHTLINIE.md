@@ -568,10 +568,10 @@ durch Netzwerk-Partition moeglich:
 
 | Dokument | Bezug |
 |---------|------|
-| [ATC-LIC Spezifikation](https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/main/docs/standards/ATC-LIC-SMART_CONTRACT_LICENSE.md) | Hauptstandard |
-| [ATC-LIC Spezifikation](https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/main/docs/standards/ATS-LIC-SYSTEM_HARDWARE_LICENSE.md) | Hardware-Lizenzen |
-| [Compliance-Handbuch](https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/main/docs/compliance/COMPLIANCE_HANDBUCH.md) | Uebergeordnetes Handbuch |
-| [Lizenz-Uebersicht](https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/main/docs/LICENSING_OVERVIEW.md) | Zentrale Uebersicht |
+| [ATC-LIC Spezifikation](../standards/ATC-LIC-SMART_CONTRACT_LICENSE.md) | Hauptstandard |
+| [ATC-LIC Spezifikation](../standards/ATS-LIC-SYSTEM_HARDWARE_LICENSE.md) | Hardware-Lizenzen |
+| [Compliance-Handbuch](COMPLIANCE_HANDBUCH.md) | Uebergeordnetes Handbuch |
+| [Lizenz-Uebersicht](../LICENSING_OVERVIEW.md) | Zentrale Uebersicht |
 | ATC-01 | Smart Contracts |
 | ATC-03 | Decentralized Identity |
 | ATC-04 | DAG Consensus |

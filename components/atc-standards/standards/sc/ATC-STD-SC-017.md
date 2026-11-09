@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-SC-017
   title: "ATC-STD-SC-017 — GameFi Contract Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: sc
   authority: A-TownChain-Okosystems
   owner: Michael (Owner-Entwurf) / ATC-AI-ARCH-001 (Formalfassung)
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   applies_to: "Alle Smart Contracts des A-TownChain-Oekosystems"
   supersedes: []
@@ -18,9 +18,9 @@ standard:
   superseded_by: null
 ---
 
-# ATC-STD-SC-017 — GameFi Contract Standard (v1.0.0, APPROVED)
+# ATC-STD-SC-017 — GameFi Contract Standard (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.0) — Owner-Freigabe 07.09.2026, 21:00 UTC+2 (ATC-STD-000 §9,
+> **Status:** APPROVED (v1.1.0) — Owner-Freigabe 07.09.2026, 21:00 UTC+2 (ATC-STD-000 §9,
 > „Freigabe"); dokumentiert in approval/APPROVAL-DECISION-2026-09-07-SC-FRAMEWORK.md.
 > Immutabilität per §30 — Änderungen nur via SCR.
 > **Familie:** ATC Smart Contract Standards Framework (ATC-STD-SC-001..020).
@@ -47,6 +47,30 @@ Wichtige Game-Ereignisse sind Event-pflichtig (SC-008) fuer Anti-Cheat-Monitorin
 
 
 
+
+## 4. Verifizierbare Zufallsgenerierung (VRF) (REQ-SC-115)
+
+Zufallsbasierte Spiel- und Drop-Mechanismen MUESSEN verifizierbaren Zufall (VRF) oder Commit-Reveal-Schemas nutzen; Blockhash-Zufall ist unzulässig.
+
+## 5. Emissions-Caps für Game-Rewards (REQ-SC-116)
+
+In-Game Reward-Ausschüttungen MUESSEN durch tägliche und globale Obergrenzen im Contract fest verankert sein.
+
+## 6. Anti-Bot & Rate-Limiting Modifikatoren (REQ-SC-117)
+
+Interaktive Spielaktionen MUESSEN Cooldown-Zeiten per Block oder Zeitstempel erzwingen, um Bot-Spam einzudämmen.
+
+## 7. Verbindliche Item-Integrität (REQ-SC-118)
+
+Eigenschaften und Seltenheitsgrade von In-Game-Assets MUESSEN nach dem Minting unveränderlich On-Chain gespeichert werden.
+
+## 8. Metriken & Akzeptanzkriterien
+
+- VRF Entropie-Prüfung: MUSS 100% fälschungssichere Zufallswerte nachweisen.
+- Reward-Emissions-Cap: MUSS 0% Überschreitung der Tagesbudgets garantieren.
+- Rate-Limiting Effektivität: MUSS Transaktionen innerhalb der Cooldown-Phase zu 100% blockieren.
+- Asset-Integritäts-Rate: MUSS 0 unbefugte Parameteränderungen bei Spielgegenständen aufweisen.
+
 ## Anforderungs-Verzeichnis
 
 | REQ-ID | Anforderung | Verbindlichkeit |
@@ -54,16 +78,18 @@ Wichtige Game-Ereignisse sind Event-pflichtig (SC-008) fuer Anti-Cheat-Monitorin
 | REQ-SC-047 | Asset-Verhalten (§1) | MUSS |
 | REQ-SC-048 | Reward-Grenzen (§2) | MUSS |
 | REQ-SC-049 | Anti-Cheat-Events (§3) | MUSS |
+| REQ-SC-115 | Verifizierbare Zufallsgenerierung (VRF) | MUSS |
+| REQ-SC-116 | Emissions-Caps für Game-Rewards | MUSS |
+| REQ-SC-117 | Anti-Bot & Rate-Limiting Modifikatoren | MUSS |
+| REQ-SC-118 | Verbindliche Item-Integrität | MUSS |
 
-## Compliance
+## Compliance & Verifikation
 
-Pruefung im Rahmen der SC-Compliance-Gates (ATC-STD-SC-001, SC-G0..G13):
-kein Gate — kein Mainnet. Verstoege werden als Finding nach ATC-STD-BUG-001
-dokumentiert. Registry-Pflichten nach ATC-STD-SC-019.
+Die Einhaltung aller normativen Vorgaben wird automatisiert über die SC-Compliance-Gates (ATC-STD-SC-001 §Gates, SC-G0..G13) sowie regelmäßige Validator-Läufe (S-01 bis S-25) des atc-validator geprüft. Etwaige Verstöße oder Abweichungen MUESSEN als Findings F-001..F-999 gemäß ATC-STD-BUG-001..005 dokumentiert werden. Die Registrierungs- und Validierungspflicht richtet sich nach ATC-STD-SC-019.
 
 ## Security Considerations
 
-GameFi koppelt Wirtschaftswerte an Spiellogik — Exploits wirken direkt auf die Tokenomia.
+GameFi-Verträge kombinieren Gaming-Logik mit echten Vermögenswerten. Schutz vor Zufallsmanipulation (MEV/Reentrancy) und Bot-Ausbeutung MUSS durch strikte Modifikatoren gesichert werden.
 
 ## Implementierungsstatus
 
@@ -77,8 +103,9 @@ GameFi koppelt Wirtschaftswerte an Spiellogik — Exploits wirken direkt auf die
 | Version | Datum | Aenderung |
 |---|---|---|
 | 1.0.0 | 2026-09-07 | Initiale Fassung (Owner-Entwurf Michael, Formalfassung ATC-AI-ARCH-001) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
 
 ## References
 
 - **NORMATIVE:** ATC-STD-000, ATC-STD-203, ATC-STD-204, ATC-STD-SC-001 (Familien-Hauptstandard), ATC-STD-SC-011 (Token)
-- **INFORMATIVE:** ATC-AAS-001..025, AI-DEV-001..012, contracts/registry/
+- **INFORMATIVE:** SCR-0041 (Change Request), ATC-AAS-001..025, AI-DEV-001..012, contracts/registry/, ATC-STD-BUG-001..005 (Bug Standards)

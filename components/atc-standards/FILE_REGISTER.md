@@ -274,6 +274,7 @@
 - `change-requests/SCR-0079.md`
 - `change-requests/SCR-0080.md`
 - `change-requests/SCR-0081.md`
+- `change-requests/SCR-0128.md`
 - `contracts/README.md`
 - `contracts/bridge/README.md`
 - `contracts/defi/README.md`

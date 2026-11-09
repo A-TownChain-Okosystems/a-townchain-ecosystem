@@ -4,6 +4,8 @@ name: Standard-Version-Gate
 # Abweichung = Drift = FAIL (MIGRATION_REQUIRED). Registry = registry/standards.yaml.
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
     paths:
@@ -22,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - name: Install dependencies

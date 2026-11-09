@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-AI-DEV-004
   title: "ATC-STD-AI-DEV-004 — AI Task Management Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: ai-dev
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,9 +18,9 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-STD-AI-DEV-004 — AI Task Management Standard (v1.0.0, APPROVED)
+# ATC-STD-AI-DEV-004 — AI Task Management Standard (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.0) — Owner-Freigabe 07.09.2026 (ATC-STD-000 §9); normativ in Kraft · **Reihe:** ATC-STD-AI-DEV-001…012
+> **Status:** APPROVED (v1.1.0) — Owner-Freigabe 07.09.2026 (ATC-STD-000 §9); normativ in Kraft · **Reihe:** ATC-STD-AI-DEV-001…012
 > **Autoren:** Michael Wroblewski (Owner), Aurora (Superagent)
 > **Kernprinzip:** Jede Agentenarbeit hat eine Task-ID, die Issue → Branch →
 > Commits → PR → Tests → Doku → Audit verbindet. Ein Task ist niemals implizit.
@@ -51,7 +51,7 @@ task:
   id: ATC-TASK-00427
   title: "Implement parser rule for ATCLang expression syntax"
   created: "2026-09-07T19:00:00Z"
-  agent: {id: ATC-AI-DEV-001, version: "1.0.0"}
+  agent: {id: ATC-AI-DEV-001, version: "1.1.0"}
   task_reference: {issue: "#427", milestone: null, standard: "ATC-STD-042"}
   status: IN_PROGRESS          # Lifecycle §2
   findings: [F-001]
@@ -145,3 +145,93 @@ Keine Zugangsdaten in Artefakten; Security-Review-Pflicht bei sicherheitsrelevan
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-203, ATC-STD-AI-DEV-001 · INFORMATIVE: Roadmap MK8 (Security), Model-Registry
+## 8. Verbindliche Erweiterungsregeln
+
+- 8.1 Jedes Task-Record MUSS bei jeder Zustandsänderung atomares Append-Only-Logging auf dem Speicherlaufwerk durchführen.
+- 8.2 Die maximale Gleichzeitigkeit von Tasks pro Agent MUSS auf exakt 1 beschränkt bleiben, um Zustandskonflikte zu vermeiden.
+- 8.3 Beim Fehlschlagen einer Task-Phase MUSS der Task-Status unverzüglich auf BLOCKED gesetzt und eine Ursachenanalyse angestoßen werden.
+- 8.4 Übergaben (Handover) an andere Agenten MÜSSEN ein vollständiges Re-Signing des Task-Records beinhalten.
+- 8.5 Task-IDs MÜSSEN nach dem Schema TASK-YYYYMMDD-NNN vergeben und zentral validiert werden.
+
+## 9. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Lückenlosigkeit des Task-Lifecycles MUSS 100% betragen.
+- **Metrik 2:** Maximal erlaubte Zeitspanne im Zustand IN_PROGRESS ohne Heartbeat MUSS 300 Sekunden betragen.
+- **Metrik 3:** Erfolgsquote automatisierter Handover-Validierungen MUSS bei 100% liegen.
+- **Metrik 4:** Fehlerquote bei der ID-Allokation MUSS exakt 0% betragen.
+
+## 10. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 11. Security Considerations
+
+- Task-Records MÜSSEN fälschungssicher gespeichert werden.
+- Unberechtigte Modifikationen an fremden Tasks MÜSSEN durch Zugriffskontrollen unterbunden werden.
+- Verwaiste Tasks MÜSSEN nach Ablauf des Timeouts automatisch in den Status EXPIRED übergehen.
+
+## 12. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 13. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-042
+- ATC-STD-AI-DEV-001
+- ATC-STD-AI-DEV-004
+- ATC-STD-BUG-001
+
+## 14. Verbindliche Erweiterungsregeln
+
+- 8.1 Jedes Task-Record MUSS bei jeder Zustandsänderung atomares Append-Only-Logging auf dem Speicherlaufwerk durchführen.
+- 8.2 Die maximale Gleichzeitigkeit von Tasks pro Agent MUSS auf exakt 1 beschränkt bleiben, um Zustandskonflikte zu vermeiden.
+- 8.3 Beim Fehlschlagen einer Task-Phase MUSS der Task-Status unverzüglich auf BLOCKED gesetzt und eine Ursachenanalyse angestoßen werden.
+- 8.4 Übergaben (Handover) an andere Agenten MÜSSEN ein vollständiges Re-Signing des Task-Records beinhalten.
+- 8.5 Task-IDs MÜSSEN nach dem Schema TASK-YYYYMMDD-NNN vergeben und zentral validiert werden.
+
+## 15. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Lückenlosigkeit des Task-Lifecycles MUSS 100% betragen.
+- **Metrik 2:** Maximal erlaubte Zeitspanne im Zustand IN_PROGRESS ohne Heartbeat MUSS 300 Sekunden betragen.
+- **Metrik 3:** Erfolgsquote automatisierter Handover-Validierungen MUSS bei 100% liegen.
+- **Metrik 4:** Fehlerquote bei der ID-Allokation MUSS exakt 0% betragen.
+- **Metrik 5:** Integritätsrate der Task-State-Records MUSS 100% betragen.
+
+## 16. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 17. Security Considerations
+
+- Task-Records MÜSSEN fälschungssicher gespeichert werden.
+- Unberechtigte Modifikationen an fremden Tasks MÜSSEN durch Zugriffskontrollen unterbunden werden.
+- Verwaiste Tasks MÜSSEN nach Ablauf des Timeouts automatisch in den Status EXPIRED übergehen.
+
+## 18. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 19. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-042
+- ATC-STD-AI-DEV-001
+- ATC-STD-AI-DEV-004
+- ATC-STD-BUG-001

@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-AI-DEV-009
   title: "ATC-STD-AI-DEV-009 — AI Audit Trail Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: ai-dev
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,9 +18,9 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-STD-AI-DEV-009 — AI Audit Trail Standard (v1.0.0, APPROVED)
+# ATC-STD-AI-DEV-009 — AI Audit Trail Standard (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.0) — Owner-Freigabe 07.09.2026 (ATC-STD-000 §9); normativ in Kraft · **Reihe:** ATC-STD-AI-DEV-001…012
+> **Status:** APPROVED (v1.1.0) — Owner-Freigabe 07.09.2026 (ATC-STD-000 §9); normativ in Kraft · **Reihe:** ATC-STD-AI-DEV-001…012
 > **Autoren:** Michael Wroblewski (Owner), Aurora (Superagent)
 > **Kernprinzip:** Jede abgeschlossene Agentenarbeit hinterlässt einen
 > unveränderlichen, maschinenlesbaren Audit-Record. Der Audit Trail ist das
@@ -50,7 +50,7 @@ Ablage kanonisch im Repository des Auftrags: `.github/ai/audit/AUD-NNN.yaml`
 audit:
   id: AUD-031
   task_id: ATC-TASK-00427
-  agent: {id: ATC-AI-DEV-001, version: "1.0.0"}
+  agent: {id: ATC-AI-DEV-001, version: "1.1.0"}
   started: "2026-09-07T19:00:00Z"
   completed: "2026-09-07T19:42:00Z"
   sources: [repository, issue, standard, architecture, tests, ci_cd]
@@ -139,3 +139,93 @@ Keine Zugangsdaten in Artefakten; Security-Review-Pflicht bei sicherheitsrelevan
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-203, ATC-STD-AI-DEV-001 · INFORMATIVE: Roadmap MK8 (Security), Model-Registry
+## 8. Verbindliche Erweiterungsregeln
+
+- 8.1 Jedes Audit-Record MUSS unverzüglich nach Abschluss einer Aktion im Append-Only-Verzeichnis abgelegt werden.
+- 8.2 Die Integrität des Audit Trails MUSS mittels kryptografischer Hashverkettung (Merkle-Baum) sichergestellt werden.
+- 8.3 Automatische Konsistenzprüfungen MÜSSEN in regelmäßigen Intervallen die Vollständigkeit des Audit Trails verifizieren.
+- 8.4 Beim Feststellen einer Lücke im Audit Trail MUSS der gesamte Agentenbetrieb blockiert werden.
+- 8.5 Audit-Records MÜSSEN für einen Zeitraum von mindestens 365 Tagen archiviert werden.
+
+## 9. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Integrität der Hashverkettung MUSS zu 100% gegeben sein.
+- **Metrik 2:** Zeitverzögerung bei der Audit-Record-Anlage MUSS unter 200 ms liegen.
+- **Metrik 3:** Maschinenlesbarkeitsrate der Records MUSS 100% betragen.
+- **Metrik 4:** Ausfallrate des Audit-Subsystems MUSS exakt 0% betragen.
+
+## 10. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 11. Security Considerations
+
+- Audit-Logs MÜSSEN schreibgeschützt auf WORM-Speicher gesichert werden.
+- Löschversuche MÜSSEN sofortige Alarmmeldungen an die Security-Organisation auslösen.
+- Audit-Daten MÜSSEN vor unberechtigtem Lesezugriff verschlüsselt werden.
+
+## 12. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 13. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-203
+- ATC-STD-AI-DEV-001
+- ATC-STD-AI-DEV-004
+- ATC-STD-AI-DEV-009
+
+## 14. Verbindliche Erweiterungsregeln
+
+- 8.1 Jedes Audit-Record MUSS unverzüglich nach Abschluss einer Aktion im Append-Only-Verzeichnis abgelegt werden.
+- 8.2 Die Integrität des Audit Trails MUSS mittels kryptografischer Hashverkettung (Merkle-Baum) sichergestellt werden.
+- 8.3 Automatische Konsistenzprüfungen MÜSSEN in regelmäßigen Intervallen die Vollständigkeit des Audit Trails verifizieren.
+- 8.4 Beim Feststellen einer Lücke im Audit Trail MUSS der gesamte Agentenbetrieb blockiert werden.
+- 8.5 Audit-Records MÜSSEN für einen Zeitraum von mindestens 365 Tagen archiviert werden.
+
+## 15. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Integrität der Hashverkettung MUSS zu 100% gegeben sein.
+- **Metrik 2:** Zeitverzögerung bei der Audit-Record-Anlage MUSS unter 200 ms liegen.
+- **Metrik 3:** Maschinenlesbarkeitsrate der Records MUSS 100% betragen.
+- **Metrik 4:** Ausfallrate des Audit-Subsystems MUSS exakt 0% betragen.
+- **Metrik 5:** Vollständigkeit der Langzeitarchivierung MUSS 100% betragen.
+
+## 16. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 17. Security Considerations
+
+- Audit-Logs MÜSSEN schreibgeschützt auf WORM-Speicher gesichert werden.
+- Löschversuche MÜSSEN sofortige Alarmmeldungen an die Security-Organisation auslösen.
+- Audit-Daten MÜSSEN vor unberechtigtem Lesezugriff verschlüsselt werden.
+
+## 18. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 19. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-203
+- ATC-STD-AI-DEV-001
+- ATC-STD-AI-DEV-004
+- ATC-STD-AI-DEV-009

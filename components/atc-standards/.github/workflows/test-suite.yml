@@ -1,5 +1,7 @@
 name: ATC Test Suite (Tools-Smoke)
 on:
+  pull_request:
+    branches: [main]
   workflow_dispatch:
   push:
     branches: [main]
@@ -27,6 +29,9 @@ jobs:
           assert n >= 446, f"Registry-Anzahl {n} unerwartet geschrumpft (< 446, Kollaps-Schutz SCR-0087); Wachstum deckt der Views-Drift-Gate ab (kein statischer Pin mehr)"
           print(f"Registry OK: {n} Standards")
           PY
+      - name: Determinism-Checker Regressionstests (SCR-0131, W2-MECH-01)
+        run: |
+          python3 tools/tests/test_determinism_check.py
       - name: Evidence-Bindung (SCR-0086 idempotentes test_run-Update je Lauf + hartes Push-Gate)
         if: success()
         env:

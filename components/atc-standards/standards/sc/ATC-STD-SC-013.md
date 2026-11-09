@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-SC-013
   title: "ATC-STD-SC-013 — DeFi Contract Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: sc
   authority: A-TownChain-Okosystems
   owner: Michael (Owner-Entwurf) / ATC-AI-ARCH-001 (Formalfassung)
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   applies_to: "Alle Smart Contracts des A-TownChain-Oekosystems"
   supersedes: []
@@ -18,9 +18,9 @@ standard:
   superseded_by: null
 ---
 
-# ATC-STD-SC-013 — DeFi Contract Standard (v1.0.0, APPROVED)
+# ATC-STD-SC-013 — DeFi Contract Standard (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.0) — Owner-Freigabe 07.09.2026, 21:00 UTC+2 (ATC-STD-000 §9,
+> **Status:** APPROVED (v1.1.0) — Owner-Freigabe 07.09.2026, 21:00 UTC+2 (ATC-STD-000 §9,
 > „Freigabe"); dokumentiert in approval/APPROVAL-DECISION-2026-09-07-SC-FRAMEWORK.md.
 > Immutabilität per §30 — Änderungen nur via SCR.
 > **Familie:** ATC Smart Contract Standards Framework (ATC-STD-SC-001..020).
@@ -47,6 +47,30 @@ Withdrawal-Regeln MUESSEN dokumentiert sein; Emergency-Verhalten nach dem Emerge
 
 
 
+
+## 4. Pool-Invarianten-Garantie (REQ-SC-099)
+
+DeFi-Liquidity-Pools MUESSEN die mathematischen Invarianten nach jeder Interaktion strikt validieren.
+
+## 5. Verpflichtender Slippage-Schutz (REQ-SC-100)
+
+Swap- und Liquidity-Funktionen MUESSEN benutzerdefinierte Min-Output- bzw. Max-Input-Parameter auswerten und bei Abweichung revertieren.
+
+## 6. Anti-Flash-Loan-Schutz (REQ-SC-101)
+
+Preissensitive Operationen MUESSEN vor Manipulationen durch Same-Block Flash Loans geschützt sein (z. B. via TWAP Oracles oder Block-Locks).
+
+## 7. Notfall-Liquiditäts-Abhebung (REQ-SC-102)
+
+DeFi-Contracts MUESSEN eine emergencyWithdraw-Funktion bieten, die Kapitalbergung ohne Belohnungsberechnung erlaubt.
+
+## 8. Metriken & Akzeptanzkriterien
+
+- Invarianten-Härte: MUSS 100% der Invarianten-Prüfungen in Invarianten-Tests bestehen.
+- Slippage-Toleranz Durchsetzung: 100% aller Swaps mit unzureichendem Output MUESSEN revertieren.
+- Flash-Loan Resistenz: MUSS 0 manipulative Preisänderungen im selben Block erlauben.
+- Notfall-Auszahlungs-Latenz: Emergency Withdraw MUSS auch bei gepausiertem Orakel funktionieren.
+
 ## Anforderungs-Verzeichnis
 
 | REQ-ID | Anforderung | Verbindlichkeit |
@@ -54,16 +78,18 @@ Withdrawal-Regeln MUESSEN dokumentiert sein; Emergency-Verhalten nach dem Emerge
 | REQ-SC-036 | Wertfluss-Invarianten (§1) | MUSS |
 | REQ-SC-037 | Manipulationsresistenz (§2) | MUSS |
 | REQ-SC-038 | Withdrawal/Emergency (§3) | MUSS |
+| REQ-SC-099 | Pool-Invarianten-Garantie | MUSS |
+| REQ-SC-100 | Verpflichtender Slippage-Schutz | MUSS |
+| REQ-SC-101 | Anti-Flash-Loan-Schutz | MUSS |
+| REQ-SC-102 | Notfall-Liquiditäts-Abhebung | MUSS |
 
-## Compliance
+## Compliance & Verifikation
 
-Pruefung im Rahmen der SC-Compliance-Gates (ATC-STD-SC-001, SC-G0..G13):
-kein Gate — kein Mainnet. Verstoege werden als Finding nach ATC-STD-BUG-001
-dokumentiert. Registry-Pflichten nach ATC-STD-SC-019.
+Die Einhaltung aller normativen Vorgaben wird automatisiert über die SC-Compliance-Gates (ATC-STD-SC-001 §Gates, SC-G0..G13) sowie regelmäßige Validator-Läufe (S-01 bis S-25) des atc-validator geprüft. Etwaige Verstöße oder Abweichungen MUESSEN als Findings F-001..F-999 gemäß ATC-STD-BUG-001..005 dokumentiert werden. Die Registrierungs- und Validierungspflicht richtet sich nach ATC-STD-SC-019.
 
 ## Security Considerations
 
-DeFi-Contracts sind das hoechste Exploit-Risiko; unabhaengiges Audit (SC-005) Pflicht.
+DeFi-Protokolle tragen hohe finanzielle Risiken. Preismanipulationen und Flash-Loan-Angriffe gehören zu den Hauptbedrohungen und MUESSEN durch Mehrfach-Sicherungen isoliert werden.
 
 ## Implementierungsstatus
 
@@ -77,8 +103,9 @@ DeFi-Contracts sind das hoechste Exploit-Risiko; unabhaengiges Audit (SC-005) Pf
 | Version | Datum | Aenderung |
 |---|---|---|
 | 1.0.0 | 2026-09-07 | Initiale Fassung (Owner-Entwurf Michael, Formalfassung ATC-AI-ARCH-001) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
 
 ## References
 
 - **NORMATIVE:** ATC-STD-000, ATC-STD-203, ATC-STD-204, ATC-STD-SC-001 (Familien-Hauptstandard), ATC-STD-SC-003 (Security), ATC-STD-SC-004 (Testing)
-- **INFORMATIVE:** ATC-AAS-001..025, AI-DEV-001..012, contracts/registry/
+- **INFORMATIVE:** SCR-0041 (Change Request), ATC-AAS-001..025, AI-DEV-001..012, contracts/registry/, ATC-STD-BUG-001..005 (Bug Standards)

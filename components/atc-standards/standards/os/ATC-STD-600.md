@@ -337,7 +337,7 @@ A valid signature MUST NOT bypass identity, domain, runtime, or conformance vali
 ### 9.2 Transaction domain
 
 - **REQ-STD-600-006:** Transactions MUST use defined canonical encoding.
-- **REQ-STD-600-007:** The transaction signing context MUST include at least `chain_id`, `network_id`, `protocol_version`, and an explicit transaction domain separator.
+- **REQ-STD-600-007:** The transaction validation context MUST include `chain_id`, `network_id`, `protocol_version`, and an explicit transaction domain separator. These context fields are validated before signing-byte construction; `network_id` and `protocol_version` MUST NOT be inserted into the canonical V2 signing bytes unless a governed protocol revision explicitly defines that change.
 - **REQ-STD-600-008:** Transaction domain validation MUST occur before state execution.
 - **REQ-STD-600-009:** Non-canonical encoding variants MUST NOT be accepted as equivalent authenticated transactions.
 

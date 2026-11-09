@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-003
   title: "ATC-AAS-003 — Agent Permission Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-003 — Agent Permission Standard (v1.0.0, APPROVED)
+# ATC-AAS-003 — Agent Permission Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -68,3 +68,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Berechtigungen MÜSSEN nach dem Prinzip der geringsten Rechte (Least Privilege) streng bedarfsgerecht vergeben werden.
+2. Eine Weitergabe, Vererbung oder Delegation erteilter Berechtigungen an andere Agenten MUSS strikt verboten werden.
+3. Temporäre Rechte-Eskalationen MÜSSEN automatisch nach Ablauf des definierten Zeitfensters (maximal 4 Stunden) widerrufen werden.
+4. Jede Berechtigungsprüfung MUSS vor der Ausführung der Zieloperation atomar und idempotent durchlaufen.
+5. Ein Entzug von Berechtigungen MUSS unverzüglich und ohne Verzögerung für alle laufenden Agenten-Sitzungen wirksam werden.
+6. Sämtliche Berechtigungsentscheidungen MÜSSEN auditierbar protokolliert und gegen Modifikationen geschützt werden.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% aller privilegierten Operationen MÜSSEN eine gültige Berechtigung vorweisen.
+- 0 verbleibende abgelaufene temporäre Rechte-Eskalationen MÜSSEN im System existieren.
+- Berechtigungsprüfungen MÜSSEN eine Erfolgsquote von 100% präziser Auswertung aufweisen.
+- Rechte-Widerrufe MÜSSEN in unter 100ms systemweit in Kraft treten.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch automatisierte Validator-Läufe (S-01 bis S-25) kontrolliert werden. Abweichungen führen zu Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005. Unbefugte Privilegienerweiterungen MÜSSEN sofort eskaliert werden.
+
+## 7. Security Considerations
+
+Unberechtigte Rechteausweitung stellt ein kritisches Sicherheitsrisiko dar. Das System MUSS sicherstellen, dass Berechtigungsentscheidungen serverseitig und fälschungssicher evaluiert werden. Bei Privilegienverlust MUSS die Session beendet werden.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-002, AI-DEV-007, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

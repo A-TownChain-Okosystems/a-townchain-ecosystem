@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-007
   title: "ATC-AAS-007 — Agent Task Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-007 — Agent Task Standard (v1.0.0, APPROVED)
+# ATC-AAS-007 — Agent Task Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -76,3 +76,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 3. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Tasks MÜSSEN alle geforderten Pflichtfelder aus AI-DEV-004 §1 sowie die spezifischen Zusatzfelder vollständig aufweisen.
+2. Vor dem Beginn der Arbeit an einem Task MUSS der Agent den Task-Status im System auf `IN_PROGRESS` setzen.
+3. Unvollständige, mehrdeutige oder widersprüchliche Task-Spezifikationen MÜSSEN vor der Bearbeitung abgelehnt werden.
+4. Mehrfachbearbeitungen desselben Tasks durch verschiedene Agenten MÜSSEN durch Locking koordiniert werden.
+5. Nach Abschluss MUSS ein strukturierter Task-Abschlussbericht mit allen erzeugten Artefakten erstellt werden.
+6. Task-Abbrüche MÜSSEN mit einer klaren Fehlerursache im System dokumentiert und im Audit-Trail hinterlegt werden.
+
+## 4. Metriken & Akzeptanzkriterien
+
+- 100% aller bearbeiteten Tasks MÜSSEN das vollständige Pflichtfeldschema erfüllen.
+- 0 abgebrochene Tasks ohne dokumentierte Statusänderung MÜSSEN akzeptiert werden.
+- Task-Statusaktualisierungen MÜSSEN in < 100ms im System reflektiert werden.
+- Locking-Konflikte MÜSSEN in unter 50ms aufgelöst werden.
+
+## 5. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch automatisierte Validator-Läufe (S-01 bis S-25) überwacht werden. Fehler führen zu Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005. Mangelhafte Tasks MÜSSEN überarbeitet werden.
+
+## 6. Security Considerations
+
+Das Manipulieren von Task-Parametern MUSS verhindert werden. Task-Payloads MÜSSEN vor der Ausführung auf böswillige Befehle geprüft werden. Nicht autorisierte Task-Änderungen MÜSSEN verworfen werden.
+
+## 7. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 8. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-004, AI-DEV-009, AI-DEV-010, ATC-AAS-004, ATC-AAS-011, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

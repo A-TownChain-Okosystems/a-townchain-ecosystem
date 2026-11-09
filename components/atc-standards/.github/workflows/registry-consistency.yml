@@ -29,7 +29,7 @@ jobs:
             echo 'FAIL: stale ATC-STD-000 v1.2.0 governance snapshot detected.'
             exit 1
           fi
-          if grep -RInE '[0-9]+ (standards|repositories|repos)' README.md STATUS.md AGENT_MANIFEST.md tools/gen_views 2>/dev/null \
+          if grep -RInE '[0-9]+ (standards|repositories|repos)\b' README.md STATUS.md AGENT_MANIFEST.md tools/gen_views 2>/dev/null \
              | grep -vE 'generated|GENERATED|historical|History|registry'; then
             echo 'FAIL: unqualified hard-coded registry/repository count detected in generated/governance views.'
             exit 1

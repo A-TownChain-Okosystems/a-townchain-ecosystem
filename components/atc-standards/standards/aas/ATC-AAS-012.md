@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-012
   title: "ATC-AAS-012 — Agent Hallucination / Assumption Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-012 — Agent Hallucination / Assumption Standard (v1.0.0, APPROVED)
+# ATC-AAS-012 — Agent Hallucination / Assumption Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -76,3 +76,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 3. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Jede vom Agenten generierte Aussage MUSS explizit als Fakt, Schlussfolgerung oder Annahme deklariert werden.
+2. Unbestätigte Annahmen MÜSSEN vor der Verwendung in der Ausführungsphase verifiziert oder verworfen werden.
+3. Spekulative Aussagen (Klasse 'Guess') MÜSSEN in normativen Dokumenten und Code-Kommentaren strikt vermieden werden.
+4. Erkennt der Agent eine Halluzination in früheren Ausgaben, MUSS er diese sofort korrigieren und markieren.
+5. Kritische Systementscheidungen MÜSSEN ausschließlich auf verifizierten Fakten (Klasse 'Fact') basieren.
+6. Klassifikations-Labels MÜSSEN maschinenlesbar sein und automatisierte Prüfungen ermöglichen.
+
+## 4. Metriken & Akzeptanzkriterien
+
+- 100% aller Aussagen in PRs MÜSSEN eine gültige Klassifizierung tragen.
+- 0 unüberprüfte Annahmen MÜSSEN in produktivem Code oder Konfigurationen verbleiben.
+- Erfassungsquote von Korrekturen MUSS 100% betragen.
+- Halluzinations-Scans MÜSSEN vor dem Einreichen ausgeführt werden.
+
+## 5. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS über Validator-Läufe (S-01 bis S-25) verifiziert werden. Verstöße werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 erfasst. Unklassifizierte Texte MÜSSEN korrigiert werden.
+
+## 6. Security Considerations
+
+Halluzinationen können Sicherheitslücken erzeugen. Das Filtern ungeprüfter Annahmen schützt das Gesamtsystem vor unvorhersehbarem Agentenverhalten. Unklare Behauptungen MÜSSEN verworfen werden.
+
+## 7. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 8. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-001, AI-DEV-005, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

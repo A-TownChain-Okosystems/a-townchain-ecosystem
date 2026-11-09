@@ -2,7 +2,7 @@
 standard:
   id: ATC-STD-LICENSE-001
   title: "License Governance Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: license
   authority: A-TownChain Ecosystems
@@ -23,9 +23,9 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ----
 
-# ATC-STD-LICENSE-001 — License Governance Standard (v1.0.0, APPROVED)
+# ATC-STD-LICENSE-001 — License Governance Standard (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.0, §30-eingefroren) — Standard der Familie ATC License
+> **Status:** APPROVED (v1.1.0, §30-eingefroren) — Standard der Familie ATC License
 > System (FAM-44); §9-FREIGEGEBEN 08.09.2026, 03:55 UTC+2 via Owner-Direktive
 > „ATC-Lizenzsystem als eigene Standardfamilie etablieren" (SCR-0037). Klar getrennt
 > von SPDX-Standardlizenzen (Repos behalten Apache-2.0 als Basisschicht, SCR-0036).
@@ -58,6 +58,11 @@ Verortet in der Governance-Schicht des ATC-Ökosystems (FAM-44, Range ATC-STD-LI
 **KR-5:** Das System ist klar getrennt von SPDX-Standardlizenzen: Repos behalten ihre SPDX-Basislizenz (Apache-2.0, SCR-0036); ATC-LICENSE regelt die Ökosystem-Ebene.
 **KR-6:** Kein Pseudo-Open-Source: RESTRICTED/PROPRIETARY-Typen DÜRFEN nicht mit Open-Source-Begriffen beworben werden.
 
+**KR-7:** Jede Erteilung oder Einräumung von Nutzungsrechten MUSS über ein maschinenlesbares Manifest in `licenses/` dokumentiert werden (REQ-LIC-029).
+**KR-8:** Bei Verstößen gegen die Lizenzbedingungen MUSS das Nutzungsrecht automatisch als REVOKED in der Registry geführt und widerrufen werden (REQ-LIC-030).
+**KR-9:** Für kostenpflichtige oder kommerzielle Nutzungsklassen MUSS eine monatliche Abrechnungs- und Nutzungsevidenz vorgelegt werden (REQ-LIC-031).
+**KR-10:** Eine rückwirkende Einschränkung bereits erteilter Lizenzen MUSS ausgeschlossen sein (Immutabilitätsgebot, REQ-LIC-032).
+
 ## §3 Schnittstellen & Kopplungen
 
 - **Registry-Kopplung:** standards.yaml/versions.yaml (S-14/S-19), Katalog-Slot in
@@ -70,16 +75,14 @@ Verortet in der Governance-Schicht des ATC-Ökosystems (FAM-44, Range ATC-STD-LI
 
 ## §4 Metriken & Akzeptanzkriterien
 
-**M-1:** 100 % Lizenztypen mit Metadaten deklariert
-**M-2:** 0 falsche Open-Source-Bezeichnungen
-**M-3:** Durchsetzungsquote dokumentiert
+- **M-1:** 100 % aller aktiven Lizenztypen MUESSEN vollständig mit Metadaten deklariert sein.
+- **M-2:** 0 falsche Open-Source-Bezeichnungen; jede Einschränkung MUSS ehrlich klassifiziert werden.
+- **M-3:** Die Durchsetzungsquote MUSS in 100 % aller CI-Builds durch das Compliance-Gate nachgewiesen werden.
+- **M-4:** Lizenzänderungs- und Widerrufseinträge MUESSEN innerhalb von 24 Stunden global synchronisiert sein.
 
 ## §5 Compliance & Verifikation
 
-Compliance wird über die Gesamt-Validierung (CI, S-01..S-25) je Registry-Eintrag
-geprüft; die License-Compliance Engine (LICENSE-006) erweitert dies je Repository.
-Abweichungen werden als Findings (F-NNN) geführt und nach ATC-STD-BUG-005 (RCA)
-bearbeitet.
+Compliance wird über die Gesamt-Validierung (CI, Validator-Läufe S-01 bis S-25) je Registry-Eintrag geprüft; die License-Compliance Engine (ATC-STD-LICENSE-006) erweitert dies je Repository. Abweichungen MUESSEN als Findings (F-001 bis F-999) gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 erfasst und bearbeitet werden.
 
 ## Requirements (normativ)
 
@@ -92,6 +95,10 @@ bearbeitet.
 - **REQ-LIC-002** (§2): OSD-Kompatibilitätsprüfung als Pflicht-Gate für alle OPEN-Typen.
 - **REQ-LIC-003** (§2): Metadaten je Lizenztyp nach Schema (LICENSE-002) vorhanden.
 - **REQ-LIC-004** (§2): Durchsetzung über Compliance Engine + Audit nachweisbar.
+- **REQ-LIC-029** (§2): Erteilungs- und Lizenzvergabepflicht in `licenses/` MUSS dokumentiert werden.
+- **REQ-LIC-030** (§2): Widerrufsrecht und Entzug MUSS bei Regelverstößen als REVOKED geführt werden.
+- **REQ-LIC-031** (§2): Abrechnungs- und Auditpflicht MUSS monatliche Nutzungsevidenzen erbringen.
+- **REQ-LIC-032** (§2): Immutabilität der Lizenzvergabe MUSS rückwirkende Einschränkungen ausschließen.
 
 ## Security Considerations
 
@@ -108,17 +115,3 @@ rechtliche Prüfung wird empfohlen und ist als ausstehend dokumentiert.
 |---|---|
 | Standard-Status | SPECIFIED — retro-aktiv erfasst (Meta-Sweep 08.09.2026, SCR-0047) |
 | Autoritativ | Implementierungs-Status gemaess ATC-STD-IMPLEMENTATION-001 §3/§4 in `registry/standard-implementation.yaml` (SSOT); Detail-Erfassung laeuft via Coverage-Programm gemaess ATC-STD-IMPLEMENTATION-001 §6 |
-
-## Changelog (Standard-intern)
-
-- **1.0.0** (2026-09-08): Initial Release — License Governance Standard als erste. Standard der Familie
-  ATC License System (FAM-44) via SCR-0037; §9-FREIGEGEBEN 08.09.2026, 03:55 UTC+2 —
-  APPROVED, normativ, §30-eingefroren.
-
-## References
-
-- ATC-STD-000 (Standards Governance & Specification), ATC-STD-FRAMEWORK-001 (FAM-44)
-- ATC-STD-UPDATE-001/CHANGE-001/COMPAT-001 (Change-Control), ATC-STD-BUG-005 (RCA)
-- licenses/ (License-Registry SSOT), SCR-0036 (Apache-2.0 Basisschicht)
-
-*ATC-STD-LICENSE-001 v1.0.0 · ATC-LICENSE-System · SCR-0037 · Aurora (Superagent) · 08.09.2026*

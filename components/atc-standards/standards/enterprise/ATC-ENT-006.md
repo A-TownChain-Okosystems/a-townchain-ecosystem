@@ -2,13 +2,13 @@
 standard:
   id: ATC-ENT-006
   title: "ATC-ENT-006 — Interessenkonflikte Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: enterprise
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-ENT-006 — Interessenkonflikte Standard (v1.0.0, APPROVED)
+# ATC-ENT-006 — Interessenkonflikte Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -70,3 +70,46 @@ Enterprise-Transaktionen: Buchungs- und Audit-Trails unveraenderbar (append-only
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-280ff (Security-Familie), ATC-ENT-001 · INFORMATIVE: Registry-Kategorie enterprise
+## 4. Verbindliche Regeln zur Vermeidung von Interessenkonflikten
+
+1. Keine Rolle und kein KI-Agent darf die eigenen Arbeitsergebnisse selbst genehmigen oder freigeben (Vier-Augen-Prinzip).
+2. Identifizierte Interessenkonflikte MUSS unverzüglich im jeweiligen DEC-Record nach ATC-ENT-003 offengelegt und mit dem conflict_flag markiert werden.
+3. Wenn ein KI-Agent einen Zielkonflikt zwischen einer Aufgabenstellung und den Governance-Regeln feststellt, MUSS der Agent die Ausführung abbrechen und nach AI-DEV-011 §2 eskalieren.
+4. Entscheidungen, die unter einem nicht offengelegten Interessenkonflikt getroffen wurden, MUSS als ungültig deklariert und erneut geprüft werden.
+5. Alle Interessenkonflikt-Meldungen MUSS im monatlichen KPI-Report gemäß ATC-ENT-013 erfasst werden.
+
+## 5. Metriken & Akzeptanzkriterien
+
+1. **Vier-Augen-Prinzip-Quote:** 100% aller Freigaben MUSS durch eine von der Autorenschaft unabhängige Rolle erfolgen.
+2. **Offenlegungsrate:** 100% aller identifizierten Konflikte MUSS im Audit-Trail mit conflict_flag versehen sein.
+3. **Eskalations-Einhaltung:** 100% der Agenten-Zielkonflikte MUSS ordnungsgemäß nach AI-DEV-011 §2 eskaliert werden.
+4. **Unabhängige Auditierung:** 0 nicht untersuchte Interessenkonflikt-Meldungen bei Stichproben-Audits.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung aller Vorgaben dieses Standards MUSS durch automatisierte Validator-Läufe (S-01 bis S-25) kontinuierlich geprüft werden. Etwaige Abweichungen oder Nicht-Konformitäten MUSS unverzüglich als Findings (F-NNN) gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 in `registry/findings.yaml` erfasst und kategorisiert werden. Abweichungen von Sicherheits- oder Governance-Invarianten MUSS priorisiert vor einem Release behoben werden.
+
+## 7. Security Considerations
+
+Unentdeckte Interessenkonflikte gefährden die Integrität des Gesamtsystems. Rollen- und Rechte-Mischungen MUSS systematisch unterbunden werden. Bei Agenten-Systemen MUSS verhindert werden, dass Optimierungsziele Governance-Schranken umgehen.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (Owner-Sammelfreigabe) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+### Normative Referenzen
+- **ATC-STD-000**: Verfassung der A-TownChain Ökosystems
+
+### Informative Referenzen
+- **SCR-0041**: Owner-Auftrag zur Batch-Elaboration dünner Standards
+- **ATC-ENT-003**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-013**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-014**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-AI-DEV-011**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-BUG-001**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-BUG-005**: Referenzierter Standard im ATC-Regelwerk

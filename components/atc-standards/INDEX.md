@@ -6,7 +6,7 @@ document:
   status: GENERATED
   normative: false
   owner: "A-TownChain Okosystems (Michael Wroblewski)"
-  generated: "2026-09-14"
+  generated: "2026-10-07"
   generator: "tools/index/gen_index.py (SCR-0038)"
   sources: "registry/standards.yaml + registry/framework.yaml + registry/categories.yaml + registry/taxonomy.yaml + registry/versions.yaml + registry/protocol-registry.yaml + registry/findings.yaml"
   license: "Copyright (c) 2026 Michael Wroblewski"
@@ -16,7 +16,7 @@ document:
 
 > **Nicht-normativ · generiert.** Diese Datei ist der zentrale Einstiegspunkt in
 > das ATC-Standards-System — sie enthält KEINE eigenen Fachwahrheiten. Sie wird
-> vollständig aus den SSOT-Registern generiert (2026-09-14, SCR-0038); manuelle
+> vollständig aus den SSOT-Registern generiert (2026-10-07, SCR-0038); manuelle
 > Änderungen sind verboten (Regeneration: `python3 tools/index/gen_index.py`).
 > **SSOT-Kaskade bei Konflikten:** Governance (ATC-STD-000) → Standard →
 > Registry → INDEX → Implementierung.
@@ -63,14 +63,14 @@ eines Standards liegt ausschließlich in seiner Standarddatei; die Registry
 | registry/technology-registry.yaml | Bestand/Status der zugehörigen Domäne | — siehe registry/standards.yaml je Eintrag |
 | registry/versions.yaml | Bestand/Status der zugehörigen Domäne | — siehe registry/standards.yaml je Eintrag |
 
-Kernregister: **standards.yaml** (Bestand, 505 Standards) · **versions.yaml**
-(Versionierung je Standard) · **framework.yaml** (Katalog: 75 Familien,
-632 Slots) · **categories.yaml**
+Kernregister: **standards.yaml** (Bestand, 532 Standards) · **versions.yaml**
+(Versionierung je Standard) · **framework.yaml** (Katalog: 76 Familien,
+659 Slots) · **categories.yaml**
 (Kategorien) · **taxonomy.yaml** (Domain/Familie/Kategorie) · **protocol-registry.yaml**
-(26 Protokollfamilien, Status {'draft': 10, 'planned': 16}) ·
-**findings.yaml** (Findings: 70 OPEN / 70 RESOLVED von 140).
+(26 Protokollfamilien, Status {'draft': 11, 'planned': 15}) ·
+**findings.yaml** (Findings: 90 OPEN / 70 RESOLVED von 160).
 
-## 3. Standardfamilien (Katalog, 75 Familien)
+## 3. Standardfamilien (Katalog, 76 Familien)
 
 | FAM | Familie | Slots | BELEGT | VERWEIST |
 |---|---|---|---|---|
@@ -118,7 +118,7 @@ Kernregister: **standards.yaml** (Bestand, 505 Standards) · **versions.yaml**
 | FAM-42 | Protocol Standards | 3 | 3 | 0 |
 | FAM-43 | Standards Governance Core | 4 | 4 | 0 |
 | FAM-44 | ATC License System | 9 | 9 | 0 |
-| FAM-45 | Vision-to-Software (V2S) | 1 | 1 | 0 |
+| FAM-45 | Vision-to-Software (V2S) | 27 | 27 | 0 |
 | FAM-46 | Repository Maintenance (REPO-MAINT) | 1 | 1 | 0 |
 | FAM-47 | Error Propagation & Prevention (ERR) | 16 | 16 | 0 |
 | FAM-48 | Implementation Tracking (IMPLEMENTATION) | 1 | 1 | 0 |
@@ -149,70 +149,72 @@ Kernregister: **standards.yaml** (Bestand, 505 Standards) · **versions.yaml**
 | FAM-73 | Legal Standards (LEGAL) | 1 | 1 | 0 |
 | FAM-74 | Governance Constitution (GOV) | 1 | 1 | 0 |
 | FAM-75 | System Architecture (ARCH) | 1 | 1 | 0 |
+| FAM-76 | Aurora Swarm Network (AURORA-SWARM) | 1 | 1 | 0 |
 
-Statusverteilung der 505 Registry-Standards: {'approved': 465, 'draft': 40}.
-Alle 505 sind APPROVED und normativ (§30-eingefroren); Details je Standard
+Statusverteilung der 532 Registry-Standards: {'approved': 505, 'candidate': 27}.
+Alle 532 sind APPROVED und normativ (§30-eingefroren); Details je Standard
 in registry/standards.yaml und registry/versions.yaml.
 
-## 4. Master-Registry-Tabelle (505 Standards)
+## 4. Master-Registry-Tabelle (532 Standards)
 
 Sortiert nach ID; Version = aktuelle Registry-Version; Status = Registry-Status.
 
 | Standard-ID | Titel | Kategorie | Version | Status | Datei |
 |---|---|---|---|---|---|
-| ATC-AAS-001 | Agent Identity Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-001.md |
-| ATC-AAS-002 | Agent Capability Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-002.md |
-| ATC-AAS-003 | Agent Permission Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-003.md |
-| ATC-AAS-004 | Agent Scope Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-004.md |
-| ATC-AAS-005 | Agent Discovery Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-005.md |
-| ATC-AAS-006 | Agent Context Standard (P1) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-006.md |
-| ATC-AAS-007 | Agent Task Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-007.md |
-| ATC-AAS-008 | Agent Workflow Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-008.md |
-| ATC-AAS-009 | Agent Change Standard (P1) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-009.md |
-| ATC-AAS-010 | Agent Evidence Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-010.md |
-| ATC-AAS-011 | Agent Verification Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-011.md |
-| ATC-AAS-012 | Agent Hallucination / Assumption Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-012.md |
-| ATC-AAS-013 | Agent Conflict Resolution Standard (P1) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-013.md |
-| ATC-AAS-014 | Agent Security Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-014.md |
-| ATC-AAS-015 | Agent Git Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-015.md |
-| ATC-AAS-016 | Agent PR Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-016.md |
-| ATC-AAS-017 | Agent Human Approval Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-017.md |
-| ATC-AAS-018 | Agent Audit Trail Standard (P0) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-018.md |
-| ATC-AAS-019 | Agent Handoff Standard (P1) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-019.md |
-| ATC-AAS-020 | Agent Failure Standard (P1) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-020.md |
-| ATC-AAS-021 | Agent Quality Standard (P2) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-021.md |
-| ATC-AAS-022 | Agent Versioning Standard (P1) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-022.md |
-| ATC-AAS-023 | Agent Role Standard (P2) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-023.md |
-| ATC-AAS-024 | Agent-to-Agent Protocol Standard (P1) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-024.md |
-| ATC-AAS-025 | Agent Repository Manifest Standard (P1) | aas | 1.0.0 | approved | standards/aas/ATC-AAS-025.md |
-| ATC-AI-GOV-001 | ATC Agent Governance Framework v1.0 — Produktionsarchitektur (18-stufige Governance-Kette, 4 Kontrollprinzipien: Fail Closed / Evidence First / Persistent Findings / No Self-Certification, Severity-Modell mit Repository-Status-Berechnung, Zuständigkeits-Trennung, 7-Phasen-Roadmap) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-001.md |
-| ATC-AI-GOV-ACCESS-001 | ATC Agent Governance — AI Access Role Model (Rollenprofile ATC-AUDITOR/ATC-DEVELOPER/ATC-CI, Omni-Verbot, Stufe-3-Reserve, Token-Hygiene, Access Review) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-ACCESS-001.md |
-| ATC-AI-GOV-AGENTS-001 | ATC Agent Governance — Organisationsweite Arbeitsregeln (Discovery, Hierarchie, Registry-Binding, Session-Mandat, Readiness) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-AGENTS-001.md |
-| ATC-AI-GOV-AUDIT-001 | ATC Agent Governance — Auditverfahren (AGOV-FULL/DELTA/GATE, Snapshot, Readiness, Post-Change-Audit) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-AUDIT-001.md |
-| ATC-AI-GOV-CAPABILITY-001 | ATC Agent Governance — Capability & Authorization Model (explizite Berechtigungen, Autorisierungskette, Owner-Gates fuer P0-Capabilities, Entzug/Suspendierung) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-CAPABILITY-001.md |
-| ATC-AI-GOV-CHANGE-001 | ATC Agent Governance — Governance Change Management (SCR-Pflicht, SemVer, Vorher/Nachher, Rollback) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-CHANGE-001.md |
-| ATC-AI-GOV-CHECK-001 | ATC Agent Governance — Automatisierte Compliance Checks (AGOV-CHECK-001..020 versioniert, PASS/FAIL/WARN/N/A) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-CHECK-001.md |
-| ATC-AI-GOV-FINDING-001 | ATC Agent Governance — Persistent Findings (ATC-FINDING-YYYY-NNNNNN, Lifecycle bis VERIFIED, Verifikations-Wahrheit, deterministische Repository-Status-Aggregation, Registry-Kopplung registry_ref) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-FINDING-001.md |
-| ATC-AI-GOV-HANDOFF-001 | ATC Agent Governance — Agent-to-Agent Übergabe (10 Pflichtfelder, Kontinuität, Auditierbarkeit) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-HANDOFF-001.md |
-| ATC-AI-GOV-INCIDENT-001 | ATC Agent Governance — Incident & Fehlerbehandlung (6 Klassen, Lifecycle, RCA-Pflicht, Postmortem) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-INCIDENT-001.md |
-| ATC-AI-GOV-MANIFEST-001 | ATC Agent Governance — Agent Identity & Scope (Manifest, Registry, Capabilities, Status-Modell) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-MANIFEST-001.md |
-| ATC-AI-GOV-POLICY-001 | ATC Agent Governance — Maschinenlesbare Policies (ATC-POL-001..010, MUST/SHOULD/MAY, Verdikt-Modell) | ai-gov | 1.0.0 | draft | standards/ai-gov/ATC-AI-GOV-POLICY-001.md |
+| ATC-AAS-001 | Agent Identity Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-001.md |
+| ATC-AAS-002 | Agent Capability Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-002.md |
+| ATC-AAS-003 | Agent Permission Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-003.md |
+| ATC-AAS-004 | Agent Scope Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-004.md |
+| ATC-AAS-005 | Agent Discovery Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-005.md |
+| ATC-AAS-006 | Agent Context Standard (P1) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-006.md |
+| ATC-AAS-007 | Agent Task Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-007.md |
+| ATC-AAS-008 | Agent Workflow Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-008.md |
+| ATC-AAS-009 | Agent Change Standard (P1) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-009.md |
+| ATC-AAS-010 | Agent Evidence Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-010.md |
+| ATC-AAS-011 | Agent Verification Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-011.md |
+| ATC-AAS-012 | Agent Hallucination / Assumption Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-012.md |
+| ATC-AAS-013 | Agent Conflict Resolution Standard (P1) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-013.md |
+| ATC-AAS-014 | Agent Security Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-014.md |
+| ATC-AAS-015 | Agent Git Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-015.md |
+| ATC-AAS-016 | Agent PR Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-016.md |
+| ATC-AAS-017 | Agent Human Approval Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-017.md |
+| ATC-AAS-018 | Agent Audit Trail Standard (P0) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-018.md |
+| ATC-AAS-019 | Agent Handoff Standard (P1) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-019.md |
+| ATC-AAS-020 | Agent Failure Standard (P1) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-020.md |
+| ATC-AAS-021 | Agent Quality Standard (P2) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-021.md |
+| ATC-AAS-022 | Agent Versioning Standard (P1) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-022.md |
+| ATC-AAS-023 | Agent Role Standard (P2) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-023.md |
+| ATC-AAS-024 | Agent-to-Agent Protocol Standard (P1) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-024.md |
+| ATC-AAS-025 | Agent Repository Manifest Standard (P1) | aas | 1.1.0 | approved | standards/aas/ATC-AAS-025.md |
+| ATC-AI-GOV-001 | ATC Agent Governance Framework v1.0 — Produktionsarchitektur (18-stufige Governance-Kette, 4 Kontrollprinzipien: Fail Closed / Evidence First / Persistent Findings / No Self-Certification, Severity-Modell mit Repository-Status-Berechnung, Zuständigkeits-Trennung, 7-Phasen-Roadmap) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-001.md |
+| ATC-AI-GOV-ACCESS-001 | ATC Agent Governance — AI Access Role Model (Rollenprofile ATC-AUDITOR/ATC-DEVELOPER/ATC-CI, Omni-Verbot, Stufe-3-Reserve, Token-Hygiene, Access Review) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-ACCESS-001.md |
+| ATC-AI-GOV-AGENTS-001 | ATC Agent Governance — Organisationsweite Arbeitsregeln (Discovery, Hierarchie, Registry-Binding, Session-Mandat, Readiness) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-AGENTS-001.md |
+| ATC-AI-GOV-AUDIT-001 | ATC Agent Governance — Auditverfahren (AGOV-FULL/DELTA/GATE, Snapshot, Readiness, Post-Change-Audit) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-AUDIT-001.md |
+| ATC-AI-GOV-CAPABILITY-001 | ATC Agent Governance — Capability & Authorization Model (explizite Berechtigungen, Autorisierungskette, Owner-Gates fuer P0-Capabilities, Entzug/Suspendierung) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-CAPABILITY-001.md |
+| ATC-AI-GOV-CHANGE-001 | ATC Agent Governance — Governance Change Management (SCR-Pflicht, SemVer, Vorher/Nachher, Rollback) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-CHANGE-001.md |
+| ATC-AI-GOV-CHECK-001 | ATC Agent Governance — Automatisierte Compliance Checks (AGOV-CHECK-001..020 versioniert, PASS/FAIL/WARN/N/A) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-CHECK-001.md |
+| ATC-AI-GOV-FINDING-001 | ATC Agent Governance — Persistent Findings (ATC-FINDING-YYYY-NNNNNN, Lifecycle bis VERIFIED, Verifikations-Wahrheit, deterministische Repository-Status-Aggregation, Registry-Kopplung registry_ref) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-FINDING-001.md |
+| ATC-AI-GOV-HANDOFF-001 | ATC Agent Governance — Agent-to-Agent Übergabe (10 Pflichtfelder, Kontinuität, Auditierbarkeit) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-HANDOFF-001.md |
+| ATC-AI-GOV-INCIDENT-001 | ATC Agent Governance — Incident & Fehlerbehandlung (6 Klassen, Lifecycle, RCA-Pflicht, Postmortem) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-INCIDENT-001.md |
+| ATC-AI-GOV-MANIFEST-001 | ATC Agent Governance — Agent Identity & Scope (Manifest, Registry, Capabilities, Status-Modell) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-MANIFEST-001.md |
+| ATC-AI-GOV-POLICY-001 | ATC Agent Governance — Maschinenlesbare Policies (ATC-POL-001..010, MUST/SHOULD/MAY, Verdikt-Modell) | ai-gov | 1.0.0 | approved | standards/ai-gov/ATC-AI-GOV-POLICY-001.md |
 | ATC-ARCH-001 | KAI-OS System Architecture Standard | architecture | 1.0.0 | approved | standards/architecture/ATC-ARCH-001.md |
-| ATC-ENT-001 | Enterprise Governance Standard (P0) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-001.md |
-| ATC-ENT-002 | Rollen & Verantwortlichkeiten Standard (P0) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-002.md |
-| ATC-ENT-003 | Entscheidungsmanagement Standard (P0) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-003.md |
-| ATC-ENT-004 | Delegation & Berechtigungen Standard (P0) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-004.md |
-| ATC-ENT-005 | Unternehmensrichtlinien Standard (P1) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-005.md |
-| ATC-ENT-006 | Interessenkonflikte Standard (P2) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-006.md |
-| ATC-ENT-007 | Eskalationsmanagement Standard (P1) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-007.md |
-| ATC-ENT-008 | Organisationsstruktur Standard (P1) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-008.md |
-| ATC-ENT-009 | Repository Governance Standard (P1) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-009.md |
-| ATC-ENT-010 | Enterprise Change Management Standard (P0) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-010.md |
-| ATC-ENT-011 | Risiko-Management Standard (P0) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-011.md |
-| ATC-ENT-012 | Wissensmanagement & Consistency-Gate Standard (P1) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-012.md |
-| ATC-ENT-013 | KPI & Performance Standard (P2) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-013.md |
-| ATC-ENT-014 | Audit & Nachvollziehbarkeit Standard (P1) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-014.md |
-| ATC-ENT-015 | Qualitätsmanagement & Definition of Done Standard (P2) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ENT-015.md |
+| ATC-AURORA-SWARM-001 | Aurora Swarm Network (ASN) — Neuronales KI-Schwarmnetzwerk: Neuron-Modell, Synapse-Protokoll, Schwarm-Kognition, Evidence-getriebene Verifikation und Authority-Integration | aurora-swarm | 0.1.0 | candidate | standards/aurora-swarm/ATC-AURORA-SWARM-001.md |
+| ATC-ENT-001 | Enterprise Governance Standard (P0) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-001.md |
+| ATC-ENT-002 | Rollen & Verantwortlichkeiten Standard (P0) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-002.md |
+| ATC-ENT-003 | Entscheidungsmanagement Standard (P0) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-003.md |
+| ATC-ENT-004 | Delegation & Berechtigungen Standard (P0) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-004.md |
+| ATC-ENT-005 | Unternehmensrichtlinien Standard (P1) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-005.md |
+| ATC-ENT-006 | Interessenkonflikte Standard (P2) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-006.md |
+| ATC-ENT-007 | Eskalationsmanagement Standard (P1) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-007.md |
+| ATC-ENT-008 | Organisationsstruktur Standard (P1) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-008.md |
+| ATC-ENT-009 | Repository Governance Standard (P1) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-009.md |
+| ATC-ENT-010 | Enterprise Change Management Standard (P0) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-010.md |
+| ATC-ENT-011 | Risiko-Management Standard (P0) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-011.md |
+| ATC-ENT-012 | Wissensmanagement & Consistency-Gate Standard (P1) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-012.md |
+| ATC-ENT-013 | KPI & Performance Standard (P2) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-013.md |
+| ATC-ENT-014 | Audit & Nachvollziehbarkeit Standard (P1) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-014.md |
+| ATC-ENT-015 | Qualitätsmanagement & Definition of Done Standard (P2) | enterprise | 1.1.0 | approved | standards/enterprise/ATC-ENT-015.md |
 | ATC-GATE-SEC-001 | Continuous Security & Technology Assurance Gate (14 Gate-Zeilen, RELEASE-READY-Regel, 5-Stufen-Security-Status, Evidence Store, Org-Audit-Zielarchitektur) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-GATE-SEC-001.md |
 | ATC-GOV-001 | A-TownChain Governance Constitution (Level-0-Verfassung: 5-Ebenen-Hierarchie, 8 Authorities ohne God Mode, Decision Rights Matrix, Quoren 2/3-of-5/4-of-7 mit Timelock, Emergency/Exception/COI/Appeals/Succession, AI-Agent-Pflichtkette, 8 Governance Gates, GitHub-Enforcement, G0-G4-Profile, Governance Score mit harten Deckeln, Amendment-Prozess) | governance | 1.0.0 | approved | governance/constitution/ATC-GOV-001.md |
 | ATC-ORG-BASELINE-001 | ATC Organization Engineering Baseline (5 Schutzschichten, Repo-Tiers T0-T4 mit Ableitungsregel, Merge-Gate je Tier, P0-P3-Roadmap mit ehrlichem IST-Stand) | enterprise | 1.0.0 | approved | standards/enterprise/ATC-ORG-BASELINE-001.md |
@@ -481,7 +483,7 @@ Sortiert nach ID; Version = aktuelle Registry-Version; Status = Registry-Status.
 | ATC-STD-585 | UX Consistency Standard | applications | 1.2.0 | approved | standards/applications/ATC-STD-585.md |
 | ATC-STD-586 | Error UI Standard | applications | 1.2.0 | approved | standards/applications/ATC-STD-586.md |
 | ATC-STD-587 | Admin UI Standard | applications | 1.2.0 | approved | standards/applications/ATC-STD-587.md |
-| ATC-STD-600 | Platform Architecture Standard | os | 1.2.0 | approved | standards/os/ATC-STD-600.md |
+| ATC-STD-600 | Chain Identity & Network Identification | blockchain | 1.3.0 | approved | standards/os/ATC-STD-600.md |
 | ATC-STD-601 | Mobile Standard | os | 1.2.0 | approved | standards/os/ATC-STD-601.md |
 | ATC-STD-602 | Desktop Standard | os | 1.2.0 | approved | standards/os/ATC-STD-602.md |
 | ATC-STD-603 | Globus OS Standard | os | 1.2.0 | approved | standards/os/ATC-STD-603.md |
@@ -521,26 +523,26 @@ Sortiert nach ID; Version = aktuelle Registry-Version; Status = Registry-Status.
 | ATC-STD-706 | Sustainability Standard | enterprise | 1.2.0 | approved | standards/enterprise/ATC-STD-706.md |
 | ATC-STD-999 | ATC Master-Audit — Enterprise Completeness & Consistency Audit: 16-Stufen-System-Audit-Kette, 13 Change-Nachweis-Fragen, Register-Abdeckung (11 Register), MAUD-Records, Orchestrierung von S-01..S-22/REPO-AUDIT/RR-G01..G08 | master-audit | 1.0.0 | approved | standards/master-audit/ATC-STD-999.md |
 | ATC-STD-AI-DECISION-001 | ATC Agent Decision-Making Standard — Entscheidungsmodell für KI-Agenten: Pipeline, D0-D5, L0-L5, Evidence-First, RK-Risiko, Decision Records DEC-NNNNNN, Separation of Duties | ai-decision | 1.0.0 | approved | standards/ai-decision/ATC-STD-AI-DECISION-001.md |
-| ATC-STD-AI-DEV-001 | Software Development AI Agent Identity & Workflow Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-001.md |
-| ATC-STD-AI-DEV-002 | Agent Capabilities & Permissions Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-002.md |
-| ATC-STD-AI-DEV-003 | Repository Discovery Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-003.md |
-| ATC-STD-AI-DEV-004 | AI Task Management Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-004.md |
-| ATC-STD-AI-DEV-005 | Finding & Evidence Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-005.md |
-| ATC-STD-AI-DEV-006 | AI Decision & Action Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-006.md |
-| ATC-STD-AI-DEV-007 | AI Git Commit & Pull Request Standard | ai-dev | 1.0.1 | approved | standards/ai/ATC-STD-AI-DEV-007.md |
-| ATC-STD-AI-DEV-008 | AI Testing & Validation Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-008.md |
-| ATC-STD-AI-DEV-009 | AI Audit Trail Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-009.md |
-| ATC-STD-AI-DEV-010 | AI Documentation Synchronization Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-010.md |
-| ATC-STD-AI-DEV-011 | Human Approval & Escalation Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-011.md |
-| ATC-STD-AI-DEV-012 | Multi-Agent Coordination Standard | ai-dev | 1.0.0 | approved | standards/ai/ATC-STD-AI-DEV-012.md |
+| ATC-STD-AI-DEV-001 | Software Development AI Agent Identity & Workflow Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-001.md |
+| ATC-STD-AI-DEV-002 | Agent Capabilities & Permissions Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-002.md |
+| ATC-STD-AI-DEV-003 | Repository Discovery Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-003.md |
+| ATC-STD-AI-DEV-004 | AI Task Management Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-004.md |
+| ATC-STD-AI-DEV-005 | Finding & Evidence Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-005.md |
+| ATC-STD-AI-DEV-006 | AI Decision & Action Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-006.md |
+| ATC-STD-AI-DEV-007 | AI Git Commit & Pull Request Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-007.md |
+| ATC-STD-AI-DEV-008 | AI Testing & Validation Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-008.md |
+| ATC-STD-AI-DEV-009 | AI Audit Trail Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-009.md |
+| ATC-STD-AI-DEV-010 | AI Documentation Synchronization Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-010.md |
+| ATC-STD-AI-DEV-011 | Human Approval & Escalation Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-011.md |
+| ATC-STD-AI-DEV-012 | Multi-Agent Coordination Standard | ai-dev | 1.1.0 | approved | standards/ai/ATC-STD-AI-DEV-012.md |
 | ATC-STD-AOS-001 | ATC Agent Operating Standard — Verbindliches Session-Mandat für alle KI-Agenten: 14 Session-Fragen, Session-Lifecycle, maschinenlesbarer Session-Record, Audit-Nachweis | agent-operating | 1.0.0 | approved | standards/agent-operating/ATC-STD-AOS-001.md |
 | ATC-STD-AUDIT-001 | ATC Completeness & Audit Standard — Vollständigkeitsprüfung & Audit: Kontrollschicht über allen Standards (20 Domänen, Traceability, Cross-System Integrity, Release-Gates) | audit | 1.0.0 | approved | standards/audit/ATC-STD-AUDIT-001.md |
 | ATC-STD-BUG-001 | Bug Finding Standard | bug | 1.0.0 | approved | standards/bug/ATC-STD-BUG-001.md |
-| ATC-STD-BUG-002 | Bug Documentation Standard | bug | 1.0.0 | approved | standards/bug/ATC-STD-BUG-002.md |
+| ATC-STD-BUG-002 | Bug Documentation Standard | bug | 1.1.0 | approved | standards/bug/ATC-STD-BUG-002.md |
 | ATC-STD-BUG-003 | Bug Fix Lifecycle Standard | bug | 1.0.0 | approved | standards/bug/ATC-STD-BUG-003.md |
 | ATC-STD-BUG-004 | Repository Synchronization & Merge Gate | bug | 1.0.0 | approved | standards/bug/ATC-STD-BUG-004.md |
 | ATC-STD-BUG-005 | Fehleranalyse- und Root-Cause-Analysis-Standard — Analyse- und QMS-Schicht der Bug-Familie: 4-Ebenen-RCA, Fault Tree, Evidence, Timeline, Impact, Metrics, Closure Gate, Corrective/Preventive | bug | 1.0.0 | approved | standards/bug/ATC-STD-BUG-005.md |
-| ATC-STD-CHANGE-001 | ATC Change Control Dachnorm — Eine Änderung, ein Kanal, eine Gate-Landkarte: konsolidierte Zuordnung von ATC-STD-000 §19–33 (SCR), VERSION-001, UPDATE-001 und COMPAT-001 zur verbindlichen Entscheidungsmatrix mit RACI, Notfallpfad und den 13 Change-Nachweis-Fragen als Prüfraster | governance-core | 1.0.1 | approved | standards/governance-core/ATC-STD-CHANGE-001.md |
+| ATC-STD-CHANGE-001 | ATC Change Control Dachnorm — Eine Änderung, ein Kanal, eine Gate-Landkarte: konsolidierte Zuordnung von ATC-STD-000 §19–33 (SCR), VERSION-001, UPDATE-001 und COMPAT-001 zur verbindlichen Entscheidungsmatrix mit RACI, Notfallpfad und den 13 Change-Nachweis-Fragen als Prüfraster | governance-core | 1.1.0 | approved | standards/governance-core/ATC-STD-CHANGE-001.md |
 | ATC-STD-CI-001 | Reproducible CI Dependencies — Deklaration, Installation, Reproduzierbarkeit, Fresh-Runner-Faehigkeit und Fehlerklassifikation von CI-Dependencies | cicd | 1.0.0 | approved | standards/cicd/ATC-STD-CI-001.md |
 | ATC-STD-COMPAT-001 | ATC Major Version Compatibility & Recovery Standard — Verbindliche Kompatibilitätsprüfung, -Wiederherstellung und -Migration nach MAJOR-Updates | compat | 1.0.0 | approved | standards/compat/ATC-STD-COMPAT-001.md |
 | ATC-STD-DESC-001 | Standard Description Standard — Standard zur Beschreibung von Standards | desc | 1.0.0 | approved | standards/desc/ATC-STD-DESC-001.md |
@@ -563,58 +565,58 @@ Sortiert nach ID; Version = aktuelle Registry-Version; Status = Registry-Status.
 | ATC-STD-ERR-015 | Error Prevention Gate | err | 1.0.0 | approved | standards/err/ATC-STD-ERR-015.md |
 | ATC-STD-FRAMEWORK-001 | ATC Enterprise Standards Framework — Master-Dokument (ATC-STANDARDS-MASTER): Zusammenführung aller Standards, Katalog, Kollisionsauflösung, einheitliche Status-/Change-/Traceability-Modelle, Register-Architektur | framework | 1.0.7 | approved | standards/framework/ATC-STD-FRAMEWORK-001.md |
 | ATC-STD-IMPLEMENTATION-001 | Standard Implementation Matrix | implementation | 1.0.0 | approved | standards/implementation/ATC-STD-IMPLEMENTATION-001.md |
-| ATC-STD-IMPROVEMENT-001 | ATC Improvement Standard — Systemverbesserungsstandard: Continuous Improvement Management System (Zyklus, 14 Quellen, 10 Klassen, ATC-IMP-Board, Root-Cause, Regression Prevention, Automatisierungsleiter, DoD, org-weite Anwendung) | improvement | 1.0.0 | draft | standards/improvement/ATC-STD-IMPROVEMENT-001.md |
-| ATC-STD-LEGAL-002 | Impressum & Anbieterkennzeichnung Standard | legal | 1.0.0 | draft | standards/legal/ATC-STD-LEGAL-002.md |
-| ATC-STD-LICENSE-001 | License Governance Standard | license | 1.0.0 | approved | standards/license/ATC-STD-LICENSE-001.md |
-| ATC-STD-LICENSE-002 | License Specification Standard | license | 1.0.0 | approved | standards/license/ATC-STD-LICENSE-002.md |
-| ATC-STD-LICENSE-003 | License Registry Standard | license | 1.0.0 | approved | standards/license/ATC-STD-LICENSE-003.md |
+| ATC-STD-IMPROVEMENT-001 | ATC Improvement Standard — Systemverbesserungsstandard: Continuous Improvement Management System (Zyklus, 14 Quellen, 10 Klassen, ATC-IMP-Board, Root-Cause, Regression Prevention, Automatisierungsleiter, DoD, org-weite Anwendung) | improvement | 1.0.0 | approved | standards/improvement/ATC-STD-IMPROVEMENT-001.md |
+| ATC-STD-LEGAL-002 | Impressum & Anbieterkennzeichnung Standard | legal | 1.0.0 | approved | standards/legal/ATC-STD-LEGAL-002.md |
+| ATC-STD-LICENSE-001 | License Governance Standard | license | 1.1.0 | approved | standards/license/ATC-STD-LICENSE-001.md |
+| ATC-STD-LICENSE-002 | License Specification Standard | license | 1.1.0 | approved | standards/license/ATC-STD-LICENSE-002.md |
+| ATC-STD-LICENSE-003 | License Registry Standard | license | 1.1.0 | approved | standards/license/ATC-STD-LICENSE-003.md |
 | ATC-STD-LICENSE-004 | License Manifest Standard | license | 1.0.0 | approved | standards/license/ATC-STD-LICENSE-004.md |
-| ATC-STD-LICENSE-005 | Third-Party License Management Standard | license | 1.0.0 | approved | standards/license/ATC-STD-LICENSE-005.md |
+| ATC-STD-LICENSE-005 | Third-Party License Management Standard | license | 1.1.0 | approved | standards/license/ATC-STD-LICENSE-005.md |
 | ATC-STD-LICENSE-006 | License Compliance Standard | license | 1.0.0 | approved | standards/license/ATC-STD-LICENSE-006.md |
-| ATC-STD-LICENSE-007 | License Audit Standard | license | 1.0.0 | approved | standards/license/ATC-STD-LICENSE-007.md |
-| ATC-STD-LICENSE-008 | Trademark Separation Standard | license | 1.0.0 | approved | standards/license/ATC-STD-LICENSE-008.md |
-| ATC-STD-LICENSE-009 | License Versioning Standard | license | 1.0.0 | approved | standards/license/ATC-STD-LICENSE-009.md |
-| ATC-STD-MAINT-000 | Maintenance Governance & Specification Standard (Parent Standard: Readiness Gate, RACI, M0-M3, Evidence, Machine-Readable Conformance) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-000.md |
-| ATC-STD-MAINT-001 | Maintenance Classification Standard (M0-Routine, M1-Operational, M2-Security, M3-Critical verbindlich) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-001.md |
-| ATC-STD-MAINT-002 | Maintenance Lifecycle Standard (DETECT..CLOSE, 13 Phasen, GSEPF-Mapping) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-002.md |
-| ATC-STD-MAINT-003 | Code Maintenance Standard (Refactoring, Technical Debt, Deprecation) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-003.md |
-| ATC-STD-MAINT-004 | Dependency Maintenance Standard (Dependencies, Lockfiles, SBOM, Updates, CVE-Reaktion) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-004.md |
-| ATC-STD-MAINT-005 | Security Maintenance Standard (CVEs, Hardening, Secrets, Keys, Sandbox, SoD) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-005.md |
-| ATC-STD-MAINT-006 | Infrastructure Maintenance Standard (CI/CD, Runner, Build-/Release-Infrastruktur) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-006.md |
-| ATC-STD-MAINT-007 | OS Maintenance Standard (Kernel, Treiber, Runtime, Systemdienste, TCB-Grenzen) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-007.md |
-| ATC-STD-MAINT-008 | Blockchain Maintenance Standard (Node, P2P, State, Storage, Consensus) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-008.md |
-| ATC-STD-MAINT-009 | VM & Runtime Maintenance Standard (ATC-VM, ABI/API, 7-Stufen-Pruefkette) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-009.md |
-| ATC-STD-MAINT-010 | AI Maintenance Standard (Modelle, Registry, Inference, Evaluation) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-010.md |
-| ATC-STD-MAINT-011 | Repository Maintenance Standard (Bindung an REPO-MAINT-001-SSOT) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-011.md |
-| ATC-STD-MAINT-012 | Standards Maintenance Standard (Standards, Registry, Schemas, Conformance) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-012.md |
-| ATC-STD-MAINT-013 | Documentation Maintenance Standard (README, Wiki, API, Architektur) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-013.md |
-| ATC-STD-MAINT-014 | Performance Maintenance Standard (CPU, RAM, I/O, Netzwerk, Latenz) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-014.md |
-| ATC-STD-MAINT-015 | Reliability Maintenance Standard (Monitoring, Backup, Recovery, Regression) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-015.md |
-| ATC-STD-MAINT-016 | Compatibility Maintenance Standard (Bindung an COMPAT-001-SSOT) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-016.md |
-| ATC-STD-MAINT-017 | Upgrade & Migration Standard (Version Upgrades, Migrationen, Schemaaenderungen) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-017.md |
-| ATC-STD-MAINT-018 | Rollback & Recovery Standard (Rollback, Restore, Failover, A/B-Prinzip) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-018.md |
-| ATC-STD-MAINT-019 | Maintenance Evidence Standard (maschinenlesbares Record-Schema, No Evidence No Trust) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-019.md |
-| ATC-STD-MAINT-020 | Maintenance Automation Standard (Scanner, Maintenance Engine, M0 Auto/M1 Review/M2-M3 Escalate) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-020.md |
-| ATC-STD-MAINT-021 | Emergency Maintenance Standard (M3-Emergency-Pfad, Incident Records, Post-Mortem-Evidence) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-021.md |
-| ATC-STD-MAINT-022 | End-of-Life & Retirement Standard (Deprecation-Sunset-Retirement, Consumer-Koordination, Retirement-Evidence) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-022.md |
-| ATC-STD-MAINT-023 | Vendor & Supply-Chain Maintenance Standard (Vendor-Abhaengigkeiten, Provenance/SBOM, Third-Party-Risiken, Ersatz-Strategien) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-023.md |
-| ATC-STD-MAINT-024 | Cross-Ecosystem Maintenance Standard (Multi-Repo-/Schicht-Koordination, konsolidierte Evidence, Schichtreihenfolge) | maint | 1.0.0 | draft | standards/maintenance/ATC-STD-MAINT-024.md |
+| ATC-STD-LICENSE-007 | License Audit Standard | license | 1.1.0 | approved | standards/license/ATC-STD-LICENSE-007.md |
+| ATC-STD-LICENSE-008 | Trademark Separation Standard | license | 1.1.0 | approved | standards/license/ATC-STD-LICENSE-008.md |
+| ATC-STD-LICENSE-009 | License Versioning Standard | license | 1.1.0 | approved | standards/license/ATC-STD-LICENSE-009.md |
+| ATC-STD-MAINT-000 | Maintenance Governance & Specification Standard (Parent Standard: Readiness Gate, RACI, M0-M3, Evidence, Machine-Readable Conformance) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-000.md |
+| ATC-STD-MAINT-001 | Maintenance Classification Standard (M0-Routine, M1-Operational, M2-Security, M3-Critical verbindlich) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-001.md |
+| ATC-STD-MAINT-002 | Maintenance Lifecycle Standard (DETECT..CLOSE, 13 Phasen, GSEPF-Mapping) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-002.md |
+| ATC-STD-MAINT-003 | Code Maintenance Standard (Refactoring, Technical Debt, Deprecation) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-003.md |
+| ATC-STD-MAINT-004 | Dependency Maintenance Standard (Dependencies, Lockfiles, SBOM, Updates, CVE-Reaktion) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-004.md |
+| ATC-STD-MAINT-005 | Security Maintenance Standard (CVEs, Hardening, Secrets, Keys, Sandbox, SoD) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-005.md |
+| ATC-STD-MAINT-006 | Infrastructure Maintenance Standard (CI/CD, Runner, Build-/Release-Infrastruktur) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-006.md |
+| ATC-STD-MAINT-007 | OS Maintenance Standard (Kernel, Treiber, Runtime, Systemdienste, TCB-Grenzen) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-007.md |
+| ATC-STD-MAINT-008 | Blockchain Maintenance Standard (Node, P2P, State, Storage, Consensus) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-008.md |
+| ATC-STD-MAINT-009 | VM & Runtime Maintenance Standard (ATC-VM, ABI/API, 7-Stufen-Pruefkette) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-009.md |
+| ATC-STD-MAINT-010 | AI Maintenance Standard (Modelle, Registry, Inference, Evaluation) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-010.md |
+| ATC-STD-MAINT-011 | Repository Maintenance Standard (Bindung an REPO-MAINT-001-SSOT) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-011.md |
+| ATC-STD-MAINT-012 | Standards Maintenance Standard (Standards, Registry, Schemas, Conformance) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-012.md |
+| ATC-STD-MAINT-013 | Documentation Maintenance Standard (README, Wiki, API, Architektur) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-013.md |
+| ATC-STD-MAINT-014 | Performance Maintenance Standard (CPU, RAM, I/O, Netzwerk, Latenz) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-014.md |
+| ATC-STD-MAINT-015 | Reliability Maintenance Standard (Monitoring, Backup, Recovery, Regression) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-015.md |
+| ATC-STD-MAINT-016 | Compatibility Maintenance Standard (Bindung an COMPAT-001-SSOT) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-016.md |
+| ATC-STD-MAINT-017 | Upgrade & Migration Standard (Version Upgrades, Migrationen, Schemaaenderungen) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-017.md |
+| ATC-STD-MAINT-018 | Rollback & Recovery Standard (Rollback, Restore, Failover, A/B-Prinzip) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-018.md |
+| ATC-STD-MAINT-019 | Maintenance Evidence Standard (maschinenlesbares Record-Schema, No Evidence No Trust) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-019.md |
+| ATC-STD-MAINT-020 | Maintenance Automation Standard (Scanner, Maintenance Engine, M0 Auto/M1 Review/M2-M3 Escalate) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-020.md |
+| ATC-STD-MAINT-021 | Emergency Maintenance Standard (M3-Emergency-Pfad, Incident Records, Post-Mortem-Evidence) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-021.md |
+| ATC-STD-MAINT-022 | End-of-Life & Retirement Standard (Deprecation-Sunset-Retirement, Consumer-Koordination, Retirement-Evidence) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-022.md |
+| ATC-STD-MAINT-023 | Vendor & Supply-Chain Maintenance Standard (Vendor-Abhaengigkeiten, Provenance/SBOM, Third-Party-Risiken, Ersatz-Strategien) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-023.md |
+| ATC-STD-MAINT-024 | Cross-Ecosystem Maintenance Standard (Multi-Repo-/Schicht-Koordination, konsolidierte Evidence, Schichtreihenfolge) | maint | 1.0.0 | approved | standards/maintenance/ATC-STD-MAINT-024.md |
 | ATC-STD-MD-001 | ATC Markdown & Documentation Standard | md | 1.0.0 | approved | standards/md/ATC-STD-MD-001.md |
 | ATC-STD-MILESTONE-001 | ATC Milestone Standard — Verbindliche Meilenstein-Governance: Zustandsnachweis, Lebenszyklus, Acceptance Gates, Evidence Packs, maschinenlesbare Registry | milestone | 1.0.0 | approved | standards/milestone/ATC-STD-MILESTONE-001.md |
 | ATC-STD-NET-001 | Devnet Standard | net | 1.0.0 | approved | standards/net/ATC-STD-NET-001.md |
 | ATC-STD-NET-002 | Testnet Standard | net | 1.0.0 | approved | standards/net/ATC-STD-NET-002.md |
 | ATC-STD-NET-003 | Mainnet Standard | net | 1.0.0 | approved | standards/net/ATC-STD-NET-003.md |
 | ATC-STD-NET-004 | Network Promotion Standard | net | 1.0.0 | approved | standards/net/ATC-STD-NET-004.md |
-| ATC-STD-NET-005 | Network Genesis Standard | net | 1.0.0 | approved | standards/net/ATC-STD-NET-005.md |
-| ATC-STD-NET-006 | Network Upgrade Standard | net | 1.0.0 | approved | standards/net/ATC-STD-NET-006.md |
-| ATC-STD-NET-007 | Network Security Standard | net | 1.0.0 | approved | standards/net/ATC-STD-NET-007.md |
-| ATC-STD-NET-008 | Network Recovery Standard | net | 1.0.0 | approved | standards/net/ATC-STD-NET-008.md |
-| ATC-STD-NET-009 | Network Release Maturity & Versioning Standard (NETWORK x MATURITY, Reifestufen-Matrix Alpha/Beta/Stable, 6 Release Gates GATE-DEV/TEST/MAINNET, Versionslogik 0.x-Prerelease/1.0.0+, Release State SSOT registry/networks.yaml) | net | 1.0.0 | draft | standards/net/ATC-STD-NET-009.md |
+| ATC-STD-NET-005 | Network Genesis Standard | net | 1.1.0 | approved | standards/net/ATC-STD-NET-005.md |
+| ATC-STD-NET-006 | Network Upgrade Standard | net | 1.1.0 | approved | standards/net/ATC-STD-NET-006.md |
+| ATC-STD-NET-007 | Network Security Standard | net | 1.1.0 | approved | standards/net/ATC-STD-NET-007.md |
+| ATC-STD-NET-008 | Network Recovery Standard | net | 1.1.0 | approved | standards/net/ATC-STD-NET-008.md |
+| ATC-STD-NET-009 | Network Release Maturity & Versioning Standard (NETWORK x MATURITY, Reifestufen-Matrix Alpha/Beta/Stable, 6 Release Gates GATE-DEV/TEST/MAINNET, Versionslogik 0.x-Prerelease/1.0.0+, Release State SSOT registry/networks.yaml) | net | 1.0.0 | approved | standards/net/ATC-STD-NET-009.md |
 | ATC-STD-PROTOCOL-001 | ATC Protocol Standards — Dachstandard oberhalb der Einzelprotokolle: einheitliche Regeln für Identität, Versionierung, Nachrichten, Sicherheit, Fehler, Kompatibilität, Governance und Auditing aller ATC-Protokolle (ATC-PROTO-*) | protocol | 1.0.0 | approved | standards/protocol/ATC-STD-PROTOCOL-001.md |
 | ATC-STD-PROTOCOL-002 | ATC Protocol Conformance- & Interoperabilitäts-Test-Standard — CONF-Pläne je Familie, 10 Pflicht-Testkategorien, Stufen CONF-BRONZE/SILBER/GOLD, Conformance-Registry, active-Gate-Verschärfung | protocol | 1.0.0 | approved | standards/protocol/ATC-STD-PROTOCOL-002.md |
 | ATC-STD-PROTOCOL-003 | ATC Protocol Threat-Model- & Security-Audit-Standard — 12 Pflicht-Angriffe je Familie, Ehrlichkeitsregel, Security-Registry, Audit-Kadenz, Crypto-HAL-Disziplin | protocol | 1.0.0 | approved | standards/protocol/ATC-STD-PROTOCOL-003.md |
 | ATC-STD-README-001 | README Standard | readme | 1.0.0 | approved | standards/readme/ATC-STD-README-001.md |
-| ATC-STD-REGISTRY-001 | ATC Registry Management Standard — Verbindliche SSOT-Verwaltung aller ATC-Registries: Inventar mit Zuständigkeiten, Single-Source-of-Truth-Prinzip, Generatoren statt Handarbeit, Cross-Registry-Konsistenz über Validator-Gates, Prozess für neue Registries, Manipulationsschutz | governance-core | 1.0.0 | approved | standards/governance-core/ATC-STD-REGISTRY-001.md |
+| ATC-STD-REGISTRY-001 | ATC Registry Management Standard — Verbindliche SSOT-Verwaltung aller ATC-Registries: Inventar mit Zuständigkeiten, Single-Source-of-Truth-Prinzip, Generatoren statt Handarbeit, Cross-Registry-Konsistenz über Validator-Gates, Prozess für neue Registries, Manipulationsschutz | governance-core | 1.1.0 | approved | standards/governance-core/ATC-STD-REGISTRY-001.md |
 | ATC-STD-REPO-AUDIT-001 | ATC Repository Audit Standard — Verbindlicher, reproduzierbarer Repository Health Check: 16 Prüfbereiche, Prüfmatrix, SOLL/IST, Gap Analysis, Findings, Health Score A-E | repo-audit | 1.0.0 | approved | standards/repo-audit/ATC-STD-REPO-AUDIT-001.md |
 | ATC-STD-REPO-AUDIT-002 | ATC Repository Audit Checklisten- & Health-Score-Standard — Konkrete automatisierbare Checks (CHECK-001, CHECK-002, …) und standardisierter Repository Health Score | repo-audit | 1.0.0 | approved | standards/repo-audit/ATC-STD-REPO-AUDIT-002.md |
 | ATC-STD-REPO-AUDIT-003 | Automatisierter ATC Repository Auditor — verbindliche Spezifikation des KI-/Automatisierungsagenten für reproduzierbare Repository-Audits: Mandat, 17-Schritte-Pipeline, Read-Only-Pflicht, Gates, AUD-Report-Erzeugung | repo-audit | 1.0.0 | approved | standards/repo-audit/ATC-STD-REPO-AUDIT-003.md |
@@ -630,45 +632,71 @@ Sortiert nach ID; Version = aktuelle Registry-Version; Status = Registry-Status.
 | ATC-STD-REPO-DISCOVERY-010 | Discovery Audit & Reporting | repo-discovery | 1.0.0 | approved | standards/repo-discovery/ATC-STD-REPO-DISCOVERY-010.md |
 | ATC-STD-REPO-MAINT-001 | Repository Maintenance & Lifecycle Standard | repo-maint | 1.0.0 | approved | standards/repo-maint/ATC-STD-REPO-MAINT-001.md |
 | ATC-STD-SC-001 | Smart Contract General Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-001.md |
-| ATC-STD-SC-002 | Smart Contract Identity Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-002.md |
-| ATC-STD-SC-003 | Smart Contract Security Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-003.md |
-| ATC-STD-SC-004 | Smart Contract Testing Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-004.md |
+| ATC-STD-SC-002 | Smart Contract Identity Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-002.md |
+| ATC-STD-SC-003 | Smart Contract Security Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-003.md |
+| ATC-STD-SC-004 | Smart Contract Testing Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-004.md |
 | ATC-STD-SC-005 | Smart Contract Audit Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-005.md |
-| ATC-STD-SC-006 | Smart Contract Deployment Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-006.md |
-| ATC-STD-SC-007 | Smart Contract Upgrade Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-007.md |
-| ATC-STD-SC-008 | Smart Contract Event Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-008.md |
-| ATC-STD-SC-009 | Smart Contract Access Control Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-009.md |
-| ATC-STD-SC-010 | Smart Contract Treasury Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-010.md |
-| ATC-STD-SC-011 | Token Contract Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-011.md |
-| ATC-STD-SC-012 | NFT Contract Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-012.md |
-| ATC-STD-SC-013 | DeFi Contract Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-013.md |
-| ATC-STD-SC-014 | Governance Contract Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-014.md |
-| ATC-STD-SC-015 | Bridge Contract Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-015.md |
-| ATC-STD-SC-016 | Oracle Contract Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-016.md |
-| ATC-STD-SC-017 | GameFi Contract Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-017.md |
-| ATC-STD-SC-018 | Mining Contract Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-018.md |
+| ATC-STD-SC-006 | Smart Contract Deployment Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-006.md |
+| ATC-STD-SC-007 | Smart Contract Upgrade Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-007.md |
+| ATC-STD-SC-008 | Smart Contract Event Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-008.md |
+| ATC-STD-SC-009 | Smart Contract Access Control Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-009.md |
+| ATC-STD-SC-010 | Smart Contract Treasury Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-010.md |
+| ATC-STD-SC-011 | Token Contract Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-011.md |
+| ATC-STD-SC-012 | NFT Contract Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-012.md |
+| ATC-STD-SC-013 | DeFi Contract Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-013.md |
+| ATC-STD-SC-014 | Governance Contract Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-014.md |
+| ATC-STD-SC-015 | Bridge Contract Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-015.md |
+| ATC-STD-SC-016 | Oracle Contract Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-016.md |
+| ATC-STD-SC-017 | GameFi Contract Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-017.md |
+| ATC-STD-SC-018 | Mining Contract Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-018.md |
 | ATC-STD-SC-019 | Contract Registry Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-019.md |
-| ATC-STD-SC-020 | AI-Assisted Smart Contract Development Standard | sc | 1.0.0 | approved | standards/sc/ATC-STD-SC-020.md |
+| ATC-STD-SC-020 | AI-Assisted Smart Contract Development Standard | sc | 1.1.0 | approved | standards/sc/ATC-STD-SC-020.md |
 | ATC-STD-STDDEV-001 | ATC Standards Development Standard — Verbindlicher Lebenszyklus für Standards: Erstellung im Hausformat, Review, §9-Freigabe, §30-Einfrierung, Wartung (MINOR/MAJOR), Review-Zyklen, Deprecation und Retirement | governance-core | 1.0.0 | approved | standards/governance-core/ATC-STD-STDDEV-001.md |
 | ATC-STD-TAXONOMY-001 | ATC Standards Taxonomy & Family Creation Standard — Meta-Governance: vierstufige Taxonomie (Domain→Familie→Kategorie→Standard), kontrollierte Familien-/Kategorie-Erstellung, Lifecycle, automatische ID-Vergabe, TAX-CHECK-001..018 | taxonomy | 1.0.0 | approved | standards/taxonomy/ATC-STD-TAXONOMY-001.md |
 | ATC-STD-TUD-001 | Technology Uniqueness & Differentiation Standard | governance | 1.0.0 | approved | standards/technology-uniqueness/ATC-STD-TUD-001.md |
 | ATC-STD-UPDATE-001 | ATC Update Standard — Change Control für Artefakt-Updates: Kategorien, Lifecycle, Impact/Dependency, Gates UPD-G01..G09, Rollback, Emergency, Manifeste, Review-Kadenzen | update | 1.0.0 | approved | standards/update/ATC-STD-UPDATE-001.md |
 | ATC-STD-V2S-000 | Vision-to-Software Lifecycle Master Standard | v2s | 1.0.0 | approved | standards/v2s/ATC-STD-V2S-000.md |
+| ATC-STD-V2S-001 | Vision Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-001.md |
+| ATC-STD-V2S-002 | Idea Intake Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-002.md |
+| ATC-STD-V2S-003 | Objectives Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-003.md |
+| ATC-STD-V2S-004 | Requirements Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-004.md |
+| ATC-STD-V2S-005 | Traceability Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-005.md |
+| ATC-STD-V2S-006 | Specification Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-006.md |
+| ATC-STD-V2S-007 | Architecture Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-007.md |
+| ATC-STD-V2S-008 | Software Design Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-008.md |
+| ATC-STD-V2S-009 | Development Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-009.md |
+| ATC-STD-V2S-010 | Integration Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-010.md |
+| ATC-STD-V2S-011 | Testing Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-011.md |
+| ATC-STD-V2S-012 | Verification Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-012.md |
+| ATC-STD-V2S-013 | Validation Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-013.md |
+| ATC-STD-V2S-014 | Security Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-014.md |
+| ATC-STD-V2S-015 | Software Audit Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-015.md |
+| ATC-STD-V2S-016 | Release Candidate Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-016.md |
+| ATC-STD-V2S-017 | Release Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-017.md |
+| ATC-STD-V2S-018 | Deployment Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-018.md |
+| ATC-STD-V2S-019 | Operations Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-019.md |
+| ATC-STD-V2S-020 | Monitoring Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-020.md |
+| ATC-STD-V2S-021 | Incident Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-021.md |
+| ATC-STD-V2S-022 | Feedback Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-022.md |
+| ATC-STD-V2S-023 | Improvement Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-023.md |
+| ATC-STD-V2S-024 | Version Upgrade Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-024.md |
+| ATC-STD-V2S-025 | Deprecation Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-025.md |
+| ATC-STD-V2S-026 | End-of-Life Standard | v2s | 1.0.0 | candidate | standards/v2s/ATC-STD-V2S-026.md |
 | ATC-STD-VERSION-001 | ATC Versioning Standard — einheitliche Versionierung von Software, Standards, APIs, Smart Contracts, Protokollen und Releases | version | 1.0.0 | approved | standards/version/ATC-STD-VERSION-001.md |
-| ATC-STD-ZKP-001 | ZKP Architecture Standard | zkp | 1.0.0 | approved | standards/zkp/ATC-STD-ZKP-001.md |
-| ATC-STD-ZKP-002 | Proof System Interface Standard | zkp | 1.0.0 | approved | standards/zkp/ATC-STD-ZKP-002.md |
-| ATC-STD-ZKP-003 | Circuit Standard | zkp | 1.0.0 | approved | standards/zkp/ATC-STD-ZKP-003.md |
-| ATC-STD-ZKP-004 | On-Chain Verification Standard | zkp | 1.0.0 | approved | standards/zkp/ATC-STD-ZKP-004.md |
-| ATC-STD-ZKP-005 | Commitment & Nullifier Standard | zkp | 1.0.0 | approved | standards/zkp/ATC-STD-ZKP-005.md |
-| ATC-STD-ZKP-006 | ZK Identity Standard | zkp | 1.0.0 | approved | standards/zkp/ATC-STD-ZKP-006.md |
-| ATC-STD-ZKP-007 | Private Transaction Standard | zkp | 1.0.0 | approved | standards/zkp/ATC-STD-ZKP-007.md |
-| ATC-STD-ZKP-008 | ZK Rollup Standard | zkp | 1.0.0 | approved | standards/zkp/ATC-STD-ZKP-008.md |
-| ATC-STD-ZKP-009 | ZKVM Standard | zkp | 1.0.0 | approved | standards/zkp/ATC-STD-ZKP-009.md |
-| ATC-STD-ZKP-010 | ZKP Security & Audit Standard | zkp | 1.0.0 | approved | standards/zkp/ATC-STD-ZKP-010.md |
+| ATC-STD-ZKP-001 | ZKP Architecture Standard | zkp | 1.1.0 | approved | standards/zkp/ATC-STD-ZKP-001.md |
+| ATC-STD-ZKP-002 | Proof System Interface Standard | zkp | 1.1.0 | approved | standards/zkp/ATC-STD-ZKP-002.md |
+| ATC-STD-ZKP-003 | Circuit Standard | zkp | 1.1.0 | approved | standards/zkp/ATC-STD-ZKP-003.md |
+| ATC-STD-ZKP-004 | On-Chain Verification Standard | zkp | 1.1.0 | approved | standards/zkp/ATC-STD-ZKP-004.md |
+| ATC-STD-ZKP-005 | Commitment & Nullifier Standard | zkp | 1.1.0 | approved | standards/zkp/ATC-STD-ZKP-005.md |
+| ATC-STD-ZKP-006 | ZK Identity Standard | zkp | 1.1.0 | approved | standards/zkp/ATC-STD-ZKP-006.md |
+| ATC-STD-ZKP-007 | Private Transaction Standard | zkp | 1.1.0 | approved | standards/zkp/ATC-STD-ZKP-007.md |
+| ATC-STD-ZKP-008 | ZK Rollup Standard | zkp | 1.1.0 | approved | standards/zkp/ATC-STD-ZKP-008.md |
+| ATC-STD-ZKP-009 | ZKVM Standard | zkp | 1.1.0 | approved | standards/zkp/ATC-STD-ZKP-009.md |
+| ATC-STD-ZKP-010 | ZKP Security & Audit Standard | zkp | 1.1.0 | approved | standards/zkp/ATC-STD-ZKP-010.md |
 
 ## 5. Statusmodell (Registry-Lifecycle)
 
-Registry-Statusverteilung (Ist): {'approved': 465, 'draft': 40}. Lifecycle der Standards-Entwicklung
+Registry-Statusverteilung (Ist): {'approved': 505, 'candidate': 27}. Lifecycle der Standards-Entwicklung
 gemäß ATC-STD-STDDEV-001 / ATC-STD-TAXONOMY-001: Entwurf (Owner-Entwurf/SCR) →
 §9-Freigabe (Owner, Human-Gate) → APPROVED (normativ, §30-eingefroren) → ggf.
 DEPRECATED/RETIRED via Change-Control (ATC-STD-CHANGE-001). Protokolle folgen
@@ -682,12 +710,12 @@ Klassifikation (ATC-STD-REPO-AUDIT-001/002).
 
 ## 7. Offene Punkte (Auszug — Details: STATUS.md)
 
-- Findings OPEN: 70 (aktuelle Liste: registry/findings.yaml)
+- Findings OPEN: 90 (aktuelle Liste: registry/findings.yaml)
 - Org-Audit-Ableitungen: Issues #94–98 (a-townchain-os) — CI 23/26, CodeQL,
   Versions-Baseline, verwaister Tag, ATC-STD-202-Klassifizierung
 - ATC-LICENSE: 5 Lizenztypen PLANNED (SOURCE, COMMERCIAL, PROPRIETARY, DATA,
   EXPERIMENTAL); ATC-LICENSE.yaml-Manifeste + License Scanner S-26 ausstehend
-- Protokollfamilien: 16 planned / 10 draft
+- Protokollfamilien: 15 planned / 11 draft
   (registry/protocol-registry.yaml)
 
 ## 8. Integrität & automatische Prüfung
@@ -711,10 +739,10 @@ die Kennung dieses generierten Dokuments.
 
 atc-standards/ · INDEX.md (generiert) · README.md · CHANGELOG.md · STATUS.md ·
 LICENSE (Apache-2.0) · AGENT_MANIFEST.md · AGENTS.md · governance/ (ATC-STD-000) ·
-standards/<kategorie>/ (Fachstandards, 505-Bestand) · registry/ (29
+standards/<kategorie>/ (Fachstandards, 532-Bestand) · registry/ (29
 SSOT-Dateien) · licenses/ (ATC-LICENSE-System) · schemas/ · tools/ (Generatoren +
 atc-std-validator) · approval/ (§9-Freigabe-Archiv) · change-requests/ (SCR-0001…) ·
 docs/ (Audits & Analysen) · templates/ · .github/workflows (Governance-CI, 2) +
 ai/agent.yaml (Agenten-Bindung).
 
-*ATC-STD-INDEX-001 v1.0.0 · generiert 2026-09-14 · tools/index/gen_index.py · SCR-0038 · Aurora (Superagent)*
+*ATC-STD-INDEX-001 v1.0.0 · generiert 2026-10-07 · tools/index/gen_index.py · SCR-0038 · Aurora (Superagent)*

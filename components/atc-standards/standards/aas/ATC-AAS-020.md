@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-020
   title: "ATC-AAS-020 — Agent Failure Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-020 — Agent Failure Standard (v1.0.0, APPROVED)
+# ATC-AAS-020 — Agent Failure Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -78,3 +78,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Tritt ein unbehebbarer Fehler auf, MUSS der Agent sofort den Zustand `ROLLBACK-REQUIRED` oder `FAILED` einnehmen.
+2. Wiederholte Fehlversuche MÜSSEN durch einen Circuit Breaker nach maximal 3 Versuchen unterbrochen werden.
+3. Bei Auslösung eines Rollbacks MÜSSEN alle seit dem letzten stabilen Zustand getätigten Änderungen rückgängig gemacht werden.
+4. Fehlerursachen MÜSSEN in einer strukturierten Root-Cause-Analyse (RCA) protokolliert werden.
+5. Nach Eintritt eines kritischen Fehlers MUSS eine sofortige Benachrichtigung an das Überwachungssystem erfolgen.
+6. Rollback-Prozeduren MÜSSEN automatisiert getestet und im Notfallplan hinterlegt sein.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% erfolgreiche Rollback-Ausführungen MÜSSEN im Fehlerfall garantiert werden.
+- 0 unendliche Wiederholungsschleifen MÜSSEN bei fehlgeschlagenen Aktionen vorkommen.
+- Circuit-Breaker-Auslösezeit MUSS unter 100ms liegen.
+- RCA-Berichte MÜSSEN innerhalb von 5 Minuten generiert sein.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch Validator-Läufe (S-01 bis S-25) überprüft werden. Abweichungen werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert. Fehlerzustände MÜSSEN dokumentiert werden.
+
+## 7. Security Considerations
+
+Automatische Rollbacks verhindern, dass das System in einem inkonsistenten oder unsicheren Zwischenzustand verbleibt. Fehlgeschlagene Rollbacks MÜSSEN den Notfall-Killswitch aktivieren.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-005, AI-DEV-006, AI-DEV-011, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

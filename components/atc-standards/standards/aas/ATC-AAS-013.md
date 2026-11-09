@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-013
   title: "ATC-AAS-013 — Agent Conflict Resolution Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-013 — Agent Conflict Resolution Standard (v1.0.0, APPROVED)
+# ATC-AAS-013 — Agent Conflict Resolution Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -74,3 +74,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Bei widersprüchlichen Vorgaben MUSS die Auflösung streng anhand der vorgegebenen Konflikt-Leiter erfolgen.
+2. Kann ein Konflikt nicht automatisch gelöst werden, MUSS der Agent sofort den Short-Circuit-Mechanismus auslösen.
+3. Es MUSS ein Konflikt-Protokoll mit allen beteiligten Quellen und der getroffenen Auflösungsentscheidung erstellt werden.
+4. Agenten DÜRFEN KEINE eigenmächtigen Kompromisse eingehen, die einer höherrangigen Vorgabe widersprechen.
+5. Wiederkehrende Konflikte MÜSSEN zur Klärung an das Governance-Board gemeldet werden.
+6. Konflikt-Entscheidungen MÜSSEN unverzüglich an abhängige Sub-Systeme weitergeleitet werden.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% aller erkannten Regelkonflikte MÜSSEN regelkonform nach der Konflikt-Leiter aufgelöst werden.
+- Reaktionszeit für die Auslösung des Short-Circuit MUSS unter 1 Sekunde liegen.
+- 0 ungelöste Konfigurationskonflikte MÜSSEN bei der Ausführung verbleiben.
+- Protokollierung von Konflikten MUSS zu 100% lückenlos erfolgen.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch Validator-Läufe (S-01 bis S-25) kontrolliert werden. Mängel werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 gemeldet. Konfliktfehler MÜSSEN korrigiert werden.
+
+## 7. Security Considerations
+
+Die eindeutige Priorisierung verhindert Sicherheitslücken, die durch widersprüchliche Sicherheitsrichtlinien entstehen könnten. Höherrangige Sicherheitsregeln MÜSSEN stets gewinnen.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-005, AI-DEV-006, AI-DEV-011, ATC-AAS-006, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

@@ -64,6 +64,16 @@ def main():
     std_files = sum(
         1 for dp, _, fs in os.walk(os.path.join(ROOT, "standards")) for f in fs if f.endswith(".md")
     )
+    repo_dirs = sorted(
+        x
+        for x in os.listdir(ROOT)
+        if not x.startswith(".")
+        and os.path.isdir(os.path.join(ROOT, x))
+        and x not in ("node_modules", "target", "venv", "__pycache__")
+    )
+    repo_structure = "\n".join(
+        ("├── " if i < len(repo_dirs) - 1 else "└── ") + x + "/" for i, x in enumerate(repo_dirs)
+    )
     sha = hashlib.sha256(open(REG, "rb").read()).hexdigest()
     now = datetime.now(timezone(timedelta(hours=2))).strftime("%Y-%m-%d %H:%M UTC+2")
 
@@ -183,6 +193,7 @@ def main():
         "@@ST000@@": v000.get("status", "NICHT IN REGISTRY").upper(),
         "@@COMPTABLE@@": comptable,
         "@@REPOVER@@": str(repover),
+        "@@REPOSTRUCT@@": repo_structure,
     }.items():
         tpl = tpl.replace(tok, val)
     open(p, "w", encoding="utf-8").write(tpl)

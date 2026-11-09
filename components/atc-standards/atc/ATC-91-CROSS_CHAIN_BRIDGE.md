@@ -1,7 +1,7 @@
 # ATC-91 — Cross-Chain Bridge
 
 > **Standard-ID:** ATC-91 (ehemals ATC-)
-> **Status:** ACCEPTED — Spezifikation vollständig, Implementation geplant in Sprint 2.6
+> **Status:** REVIEW — nicht als normativer Standard eingefroren; Implementation erst nach Registry-Freigabe
 > **Sprint:** 2.6 | **Issue:** — | **Wiki:** Kap. 31 (Issue-Registry)
 > **Autor:** Aurora (MasterBrain · Base44)
 > **Stand:** 05.07.2026 | Version 1.0.0

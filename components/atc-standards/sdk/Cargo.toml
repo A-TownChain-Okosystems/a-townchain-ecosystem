@@ -1,5 +1,3 @@
-[workspace]
-
 [package]
 name="atc-standards-sdk"
 version="0.1.0"

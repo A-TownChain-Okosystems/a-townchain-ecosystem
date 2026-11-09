@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-AI-DEV-003
   title: "ATC-STD-AI-DEV-003 — Repository Discovery Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: ai-dev
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-STD-AI-DEV-003 — Repository Discovery Standard (v1.0.0, APPROVED)
+# ATC-STD-AI-DEV-003 — Repository Discovery Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED — Owner-Sammelfreigabe 07.09.2026 (ATC-STD-000 §9)
 > **Reihe:** ATC-STD-AI-DEV-001…012 · **Basiert auf:** AI-DEV-001 §5 (Discovery-Protocol)
@@ -79,3 +79,91 @@ Keine Zugangsdaten in Artefakten; Security-Review-Pflicht bei sicherheitsrelevan
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-203, ATC-STD-AI-DEV-001 · INFORMATIVE: Roadmap MK8 (Security), Model-Registry
+## 5. Verbindliche Erweiterungsregeln
+
+- 5.1 Der Agent MUSS die Discovery-Kette in exakt der festgelegten Reihenfolge (Stufen 1 bis 12) ohne Überspringen durchlaufen.
+- 5.2 Entdeckte Abhängigkeiten MÜSSEN mit ihrer exakten Commit-SHA und Modulversion im Discovery-Record protokolliert werden.
+- 5.3 Die Caching-Dauer von Discovery-Ergebnissen MUSS auf maximal 15 Minuten begrenzt sein.
+- 5.4 Bei Abweichungen zwischen der lokalen Dateistruktur und dem Dependency-Graph MUSS eine Warnung erzeugt werden.
+- 5.5 Direkte Zugriffe auf nicht-entdeckte Repositories MÜSSEN als schwerwiegender Verfahrensfehler gewertet werden.
+
+## 6. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Vollständigkeit des Discovery-Records MUSS 100% erreichen.
+- **Metrik 2:** Ausführungszeit der gesamten Discovery-Kette MUSS unter 10 Sekunden liegen.
+- **Metrik 3:** Erfolgsrate der Validierung des Dependency-Graphs MUSS 100% betragen.
+- **Metrik 4:** Fehlerquote bei der Ermittlung von Governance-Artefakten MUSS 0% betragen.
+
+## 7. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 8. Security Considerations
+
+- Der Discovery-Prozess MUSS schreibgeschützt auf Repository-Metadaten zugreifen.
+- Das Einschleusen unechter Repositories in die Discovery-Kette MUSS durch Checksummenvalidierung verhindert werden.
+- Gefundene vertrauliche Pfade MÜSSEN aus öffentlichen Discovery-Logs gefiltered werden.
+
+## 9. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 10. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-204
+- ATC-STD-AI-DEV-001
+- ATC-STD-AI-DEV-003
+
+## 11. Verbindliche Erweiterungsregeln
+
+- 5.1 Der Agent MUSS die Discovery-Kette in exakt der festgelegten Reihenfolge (Stufen 1 bis 12) ohne Überspringen durchlaufen.
+- 5.2 Entdeckte Abhängigkeiten MÜSSEN mit ihrer exakten Commit-SHA und Modulversion im Discovery-Record protokolliert werden.
+- 5.3 Die Caching-Dauer von Discovery-Ergebnissen MUSS auf maximal 15 Minuten begrenzt sein.
+- 5.4 Bei Abweichungen zwischen der lokalen Dateistruktur und dem Dependency-Graph MUSS eine Warnung erzeugt werden.
+- 5.5 Direkte Zugriffe auf nicht-entdeckte Repositories MÜSSEN als schwerwiegender Verfahrensfehler gewertet werden.
+
+## 12. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Vollständigkeit des Discovery-Records MUSS 100% erreichen.
+- **Metrik 2:** Ausführungszeit der gesamten Discovery-Kette MUSS unter 10 Sekunden liegen.
+- **Metrik 3:** Erfolgsrate der Validierung des Dependency-Graphs MUSS 100% betragen.
+- **Metrik 4:** Fehlerquote bei der Ermittlung von Governance-Artefakten MUSS 0% betragen.
+- **Metrik 5:** Präzision der ermittelten Modulpfade MUSS 100% betragen.
+
+## 13. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 14. Security Considerations
+
+- Der Discovery-Prozess MUSS schreibgeschützt auf Repository-Metadaten zugreifen.
+- Das Einschleusen unechter Repositories in die Discovery-Kette MUSS durch Checksummenvalidierung verhindert werden.
+- Gefundene vertrauliche Pfade MÜSSEN aus öffentlichen Discovery-Logs gefiltert werden.
+
+## 15. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 16. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-204
+- ATC-STD-AI-DEV-001
+- ATC-STD-AI-DEV-003

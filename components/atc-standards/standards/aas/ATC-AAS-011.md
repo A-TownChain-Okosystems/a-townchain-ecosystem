@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-011
   title: "ATC-AAS-011 — Agent Verification Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-011 — Agent Verification Standard (v1.0.0, APPROVED)
+# ATC-AAS-011 — Agent Verification Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -73,3 +73,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Verifizierungen MÜSSEN mehrstufig auf Syntax-, Semantik- und Integrationsebene durchgeführt werden.
+2. Für Blockchain-Kernkomponenten MÜSSEN zwingend zusätzliche Verifikationsdimensionen (Determinismus, Gas-Verbrauch) geprüft werden.
+3. Die Verifikationsmatrix MUSS vor jeder Freigabe vollständig mit positiven Ergebnissen durchlaufen werden.
+4. Verifikationsprüfungen der Stufen V1 und V2 MÜSSEN automatisch in der CI/CD-Pipeline ausgeführt werden.
+5. Fehlgeschlagene Verifikationsschritte MÜSSEN mit einer detaillierten Ursachenanalyse dokumentiert werden.
+6. Verifikationsberichte MÜSSEN im Ziel-Repository abgelegt und gegen nachträgliche Modifikation geschützt werden.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% aller Blockchain-Smart-Contracts MÜSSEN die Verifizierungsstufe V3 erfolgreich bestehen.
+- Testabdeckung bei Verifizierungsprüfungen MUSS mindestens 95% betragen.
+- 0 Verifikationsumgehungen MÜSSEN bei Produktions-Releases vorkommen.
+- Verifikationsläufe MÜSSEN vor dem Merge abgeschlossen sein.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch Validator-Läufe (S-01 bis S-25) verifiziert werden. Abweichungen führen zu Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005. Mängel MÜSSEN behoben werden.
+
+## 7. Security Considerations
+
+Strenge Verifizierungsstandards verhindern die Ausführung von fehlerhaftem oder unsicherem Code in kritischen Systemumgebungen. Fehlgeschlagene Prüfungen MÜSSEN das Deployment sichern.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-008, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET, ATC-STD-NET-001

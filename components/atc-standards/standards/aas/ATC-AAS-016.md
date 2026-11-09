@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-016
   title: "ATC-AAS-016 — Agent PR Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-016 — Agent PR Standard (v1.0.0, APPROVED)
+# ATC-AAS-016 — Agent PR Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -71,3 +71,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Jeder Pull Request eines KI-Agenten MUSS den normierten KI-Kennzeichnungsblock am PR-Anfang enthalten.
+2. Alle geforderten Pflichtabschnitte MÜSSEN im PR-Body vollständig ausgefüllt vorliegen.
+3. PRs ohne bestandenes Merge-Gate MÜSSEN im Status `DRAFT` verbleiben und DÜRFEN NICHT gemergt werden.
+4. Änderungen an PR-Beschreibungen MÜSSEN auditierbar in der Revisionshistorie nachvollziehbar bleiben.
+5. Der Agent MUSS nach Erstellen des PRs automatisierte CI-Checks abwarten und Fehlschläge analysieren.
+6. Automatisch generierte PR-Inhalte MÜSSEN vor der Einreichung auf Syntax und Formatierung geprüft werden.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% der Agenten-PRs MÜSSEN die geforderte KI-Kennzeichnung tragen.
+- 0 PR-Merges ohne Erfüllung aller 8 Pflichtabschnitte MÜSSEN stattfinden.
+- PR-Validierungsdauer MUSS unter 1 Minute liegen.
+- Draft-Status MUSS bei nicht bestandenen Checks zu 100% beibehalten werden.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch Validator-Läufe (S-01 bis S-25) verifiziert werden. Mängel werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 erfasst. PR-Verstöße MÜSSEN behoben werden.
+
+## 7. Security Considerations
+
+Die PR-Kennzeichnung und Pflichtabschnitte stellen die menschliche Überprüfbarkeit von automatisierten Codeänderungen sicher. Manipulierte PR-Beschreibungen MÜSSEN gemeldet werden.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-001, AI-DEV-007, AI-DEV-011, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

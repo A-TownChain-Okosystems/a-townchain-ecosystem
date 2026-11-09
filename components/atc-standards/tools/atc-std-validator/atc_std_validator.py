@@ -210,7 +210,7 @@ def validate(path, registry_path):
             r"^ATC-STD-(?:BUG-|NET-|ZKP-|AI-DEV-|README-|MD-|SC-|DESC-|VERSION-|AUDIT-|AI-DECISION-|UPDATE-|IMPROVEMENT-|COMPAT-|MILESTONE-|FRAMEWORK-|REPO-AUDIT-|AOS-|PROTOCOL-|TAXONOMY-|STDDEV-|REGISTRY-|CHANGE-|LICENSE-|V2S-)?[0-9]{3,}$",
             sid,
         )
-        or re.match(r"^ATC-(?:AAS|ENT)-[0-9]{3,}$", sid)
+        or re.match(r"^ATC-(?:AAS|AURORA-SWARM|ENT)-[0-9]{3,}$", sid)
         or re.match(r"^ATC-AI-GOV-(?:[A-Z]+-)?[0-9]{3,}$", sid)
     )
     v.add(

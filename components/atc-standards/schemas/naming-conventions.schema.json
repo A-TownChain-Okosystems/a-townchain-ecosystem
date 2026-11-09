@@ -661,6 +661,16 @@
           "type": "string",
           "pattern": "^REQ-MAINT-[0-9]{3,}$",
           "description": "Maintenance requirement class MAINT — family-wide number space (Variante A, SCR-0120 v8)"
+        },
+        "auroraSwarmStandardId": {
+          "type": "string",
+          "pattern": "^ATC-AURORA-SWARM-[0-9]{3,}$",
+          "example": "ATC-AURORA-SWARM-001"
+        },
+        "auroraSwarmRequirementId": {
+          "type": "string",
+          "pattern": "^REQ-ASW-[0-9]{3,}$",
+          "example": "REQ-ASW-001"
         }
       }
     },
@@ -868,6 +878,11 @@
           "type": "string",
           "pattern": "^ATC-AI-GOV-(?:[A-Z]+-)?[0-9]{3,}[.]md$",
           "example": "ATC-AI-GOV-CHECK-001.md"
+        },
+        "auroraSwarmStandardDoc": {
+          "type": "string",
+          "pattern": "^ATC-AURORA-SWARM-[0-9]{3,}[.]md$",
+          "example": "ATC-AURORA-SWARM-001.md"
         }
       }
     },

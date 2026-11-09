@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-015
   title: "ATC-AAS-015 — Agent Git Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-015 — Agent Git Standard (v1.0.0, APPROVED)
+# ATC-AAS-015 — Agent Git Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -78,3 +78,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 5. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Agenten MÜSSEN bei Git-Operationen ausschließlich die zugelassenen Commit-Typen verwenden.
+2. Commit-Nachrichten MÜSSEN die zugehörige Task-ID oder Issue-Nummer enthalten.
+3. Direct Push auf geschützte Branches (wie `main`) MUSS für Agenten ausnahmslos gesperrt bleiben.
+4. Alle von Agenten erstellten Git-Commits MÜSSEN digital signiert werden.
+5. Vor jedem Push MUSS ein Rebase auf den aktuellen Stand des Ziel-Branches durchgeführt werden.
+6. Fehlgeschlagene Push-Versuche MÜSSEN analysiert und dürfen nicht in einer Endlosschleife wiederholt werden.
+
+## 6. Metriken & Akzeptanzkriterien
+
+- 100% aller Commits MÜSSEN den definierten Commit-Typen entsprechen.
+- 100% der Agenten-Commits MÜSSEN valide digitale Signaturen tragen.
+- 0 ungeplante Push-Konflikte MÜSSEN im Repository entstehen.
+- Direct-Push-Versuche auf geschützte Branches MÜSSEN zu 100% abgelehnt werden.
+
+## 7. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS über Validator-Läufe (S-01 bis S-25) geprüft werden. Abweichungen werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 protokolliert. Git-Mängel MÜSSEN bereinigt werden.
+
+## 8. Security Considerations
+
+Signierte Commits stellen sicher, dass Code-Änderungen fälschungssicher dem jeweiligen Agenten zugeordnet werden können. Nicht signierte Commits MÜSSEN vom Repository abgewiesen werden.
+
+## 9. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 10. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-007, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET, SCR-0003, SCR-0006

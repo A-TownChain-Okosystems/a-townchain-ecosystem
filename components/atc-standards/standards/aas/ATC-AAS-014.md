@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-014
   title: "ATC-AAS-014 — Agent Security Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-014 — Agent Security Standard (v1.0.0, APPROVED)
+# ATC-AAS-014 — Agent Security Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -77,3 +77,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 5. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Passwörter, API-Keys und private Schlüssel MÜSSEN strikt aus Code, Commits, Logs und PRs ferngehalten werden.
+2. Werden im Repository unbeabsichtigt Secrets entdeckt, MUSS der Agent sofort den Secret-Fund-Prozess einleiten.
+3. Die Laufzeitumgebung des Agenten MUSS in einer isolierten Sandbox mit eingeschränkten Privilegien betrieben werden.
+4. Der Zugriff auf Umgebungsvariablen MUSS über abgesicherte Secret-Management-Dienste erfolgen.
+5. Ausgehende Netzwerkverbindungen MÜSSEN auf eine explizit genehmigte Whitelist beschränkt sein.
+6. Secret-Scans MÜSSEN vor jedem Commit automatisiert im Workspace durchgeführt werden.
+
+## 6. Metriken & Akzeptanzkriterien
+
+- 0 im Repository freigelegte Secrets MÜSSEN im Codebasis-Bestand verbleiben (100% Secret-Free).
+- 100% der Laufzeitumgebungen MÜSSEN in isolierten Sandboxes betrieben werden.
+- Reaktionszeit bei Secret-Funden MUSS unter 10 Sekunden liegen.
+- Netzwerkverbindungen außerhalb der Whitelist MÜSSEN zu 100% blockiert werden.
+
+## 7. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch automatisierte Validator-Läufe (S-01 bis S-25) überwacht werden. Verstöße werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 eingeordnet. Secret-Funde MÜSSEN sofort behoben werden.
+
+## 8. Security Considerations
+
+Dieser Standard stellt die Kern-Sicherheitsanforderungen für den Betrieb von KI-Agenten dar. Schutz vor Secret-Leaks hat oberste Priorität. Umgebungsverletzungen MÜSSEN den Agenten isolieren.
+
+## 9. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 10. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-002, AI-DEV-005, AI-DEV-011, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

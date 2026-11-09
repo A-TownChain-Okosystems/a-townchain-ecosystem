@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-005
   title: "ATC-AAS-005 — Agent Discovery Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-005 — Agent Discovery Standard (v1.0.0, APPROVED)
+# ATC-AAS-005 — Agent Discovery Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -79,3 +79,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Beim Betreten eines Repositories MUSS der Agent als allererste Aktion die geforderte Entry-Chain gemäß `.github/ai/` durchführen.
+2. Sollten erforderliche Manifeste aus dem Dateiset fehlen oder fehlerhaft sein, MUSS der Agent die Arbeit sofort abbrechen.
+3. Die Selbstfragen vor Aktionen MÜSSEN im internen Befehlsprotokoll des Agenten nachvollziehbar beantwortet werden.
+4. Gecachte Discovery-Daten MÜSSEN nach spätestens 60 Minuten verworfen und neu eingelesen werden.
+5. Festgestellte Diskrepanzen in Manifesten MÜSSEN im Discovery-Bericht protokolliert und an das Überwachungssystem gemeldet werden.
+6. Agenten MÜSSEN sicherstellen, dass die Discovery-Ergebnisse vor der ersten Ausführungsphase vollständig validiert sind.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% der Repository-Interaktionen MÜSSEN mit einer vollständigen Entry-Chain beginnen.
+- Discovery-Laufzeit MUSS im Durchschnitt unter 300ms betragen.
+- 0 ignorierte fehlende Manifeste MÜSSEN beim Einstieg vorkommen.
+- Fehlerhafte Manifest-Einträge MÜSSEN zu 100% im Einstiegs-Log vermerkt werden.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch automatisierte Validator-Läufe (S-01 bis S-25) geprüft werden. Abweichungen werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 bewertet. Ungültige Einstiege MÜSSEN korrigiert werden.
+
+## 7. Security Considerations
+
+Ein vollständiges Discovery stellt sicher, dass der Agent aktuelle Sicherheits- und Compliance-Regeln vor Ausführung von Code kennt und anwendet. Unvollständige Discoveries MÜSSEN den Zugriff verweigern.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-001, AI-DEV-003, AI-DEV-006, ATC-AAS-001, ATC-AAS-002, ATC-AAS-003, ATC-AAS-004, ATC-AAS-006, ATC-AAS-007, ATC-AAS-008, ATC-AAS-025, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

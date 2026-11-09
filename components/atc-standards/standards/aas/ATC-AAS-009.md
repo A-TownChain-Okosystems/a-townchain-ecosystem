@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-009
   title: "ATC-AAS-009 — Agent Change Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-009 — Agent Change Standard (v1.0.0, APPROVED)
+# ATC-AAS-009 — Agent Change Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -70,3 +70,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 3. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Jede Code- oder Dokumentenänderung MUSS im Body des Pull Requests detailliert und nachvollziehbar begründet werden.
+2. Breaking Changes MÜSSEN im Change-Log und der PR-Beschreibung explizit hervorgehoben werden.
+3. Änderungen an normativen Vorgaben MÜSSEN die Dokumentenversion im Frontmatter gemäß SemVer anpassen.
+4. Agenten MÜSSEN zusammengehörige Modifikationen in atomaren Commits zusammenfassen.
+5. Vor dem Einreichen eines PRs MUSS ein lokales Git-Diff ausgeführt werden, um unbeabsichtigte Änderungen auszuschließen.
+6. Änderungsnachweise MÜSSEN mit den zugrundeliegenden Requirement-IDs verknüpft und validiert werden.
+
+## 4. Metriken & Akzeptanzkriterien
+
+- 100% aller PRs von Agenten MÜSSEN einen vollständigen Änderungsdokumentationsblock enthalten.
+- 0 unidentifizierte Breaking Changes MÜSSEN in freigegebenen PRs auftreten.
+- Diff-Prüfung MUSS vor jeder Commit-Erstellung durchgeführt werden.
+- Dokumentationspflichten MÜSSEN bei allen Commits eingehalten werden.
+
+## 5. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS über Validator-Läufe (S-01 bis S-25) sichergestellt werden. Mängel werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 festgehalten. Unvollständige PRs MÜSSEN abgewiesen werden.
+
+## 6. Security Considerations
+
+Transparent dokumentierte Änderungen verhindern das unbemerkte Einbringen von Sicherheitslücken oder unerwünschten Funktionen. Unbefugte Modifikationen MÜSSEN sofort zurückgerollt werden.
+
+## 7. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 8. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, ATC-ENT-002, ATC-STD-000, ATC-STD-204, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

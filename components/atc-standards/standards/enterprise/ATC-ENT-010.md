@@ -2,13 +2,13 @@
 standard:
   id: ATC-ENT-010
   title: "ATC-ENT-010 — Enterprise Change Management Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: enterprise
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-ENT-010 — Enterprise Change Management Standard (v1.0.0, APPROVED)
+# ATC-ENT-010 — Enterprise Change Management Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -81,3 +81,49 @@ Enterprise-Transaktionen: Buchungs- und Audit-Trails unveraenderbar (append-only
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-280ff (Security-Familie), ATC-ENT-001 · INFORMATIVE: Registry-Kategorie enterprise
+## 5. Verbindliche Change-Management-Regeln
+
+1. Sämtliche organisatorischen, technischen und strukturellen Änderungen MUSS die definierte Change-Pipeline lückenlos durchlaufen.
+2. Vor der Genehmigung einer Änderung MUSS eine schriftliche Impact-Analyse gemäß §3 erstellt und im Change-Request hinterlegt werden.
+3. Sicherheitsrelevante Änderungen MUSS zwingend ein Security Review nach ATC-STD-203 erfolgreich bestehen.
+4. Emergency-Änderungen MUSS unverzüglich an den Owner gemeldet und innerhalb von 72 Stunden vollständig nachdokumentiert werden.
+5. Jede genehmigte Änderung MUSS einen dokumentierten Migrations- und Rollback-Plan aufweisen (AAS-009 §1).
+
+## 6. Metriken & Akzeptanzkriterien
+
+1. **Pipeline-Konformität:** 100% aller produktiven Änderungen MUSS die Change-Pipeline ohne ungeplante Abkürzungen durchlaufen.
+2. **Impact-Analyse-Abdeckung:** 100% der Change Requests MUSS eine vollständige Impact-Analyse aufweisen.
+3. **Emergency-Nachdokumentationsrate:** 100% aller Notfall-Änderungen MUSS innerhalb der 72h-Frist nachdokumentiert sein.
+4. **Rollback-Fähigkeit:** 100% der freigegebenen Changes MUSS über einen getesteten Rollback-Plan verfügen.
+
+## 7. Compliance & Verifikation
+
+Die Einhaltung aller Vorgaben dieses Standards MUSS durch automatisierte Validator-Läufe (S-01 bis S-25) kontinuierlich geprüft werden. Etwaige Abweichungen oder Nicht-Konformitäten MUSS unverzüglich als Findings (F-NNN) gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 in `registry/findings.yaml` erfasst und kategorisiert werden. Abweichungen von Sicherheits- oder Governance-Invarianten MUSS priorisiert vor einem Release behoben werden.
+
+## 8. Security Considerations
+
+Ungeprüfte Änderungen sind die häufigste Ursache für Sicherheitsvorfälle. Jede Änderung MUSS vor der Freigabe auf unbeabsichtigte Nebeneffekte und Schwachstellen gescannt werden. Berechtigungen zum Durchführen von Änderungen MUSS rollenbasiert geschützt sein.
+
+## 9. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (Owner-Sammelfreigabe) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 10. References
+
+### Normative Referenzen
+- **ATC-STD-000**: Verfassung der A-TownChain Ökosystems
+
+### Informative Referenzen
+- **SCR-0041**: Owner-Auftrag zur Batch-Elaboration dünner Standards
+- **ATC-AAS-009**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-003**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-005**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-009**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-011**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-203**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-204**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-BUG-001**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-BUG-005**: Referenzierter Standard im ATC-Regelwerk

@@ -8,6 +8,7 @@ on:
       - "registry/framework.yaml"
       - "registry/standard-implementation.yaml"
       - "registry/compliance_state.yaml"
+      - "registry/repositories.yaml"
       - ".atc/repository.yaml"
       - "tools/gen_views/**"
       - "tools/gen_views/README.template.md"
@@ -16,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: regenerate-standards-views
@@ -28,7 +30,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
       - name: Install generator dependencies

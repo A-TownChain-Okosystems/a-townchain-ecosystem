@@ -1042,3 +1042,144 @@ findings:
   repo: (org-weit)
   title: 'Chain-Access-Layer fehlt: kein RPC/API-Dienst zwischen atc-node und Wallet/Explorer/SDK — atc-sdk ist Bibliothek ohne Dienstknoten, atc-explorer hat keine Node-Anbindung; IFC-Vertraege 0009/0010 ohne Consumer'
   resolution: 'SCR-0108/0109/0110/0111: Chain-Access beidseitig UND cross-repo CI-verifiziert — atc-node Devnet-RPC (Zeile + JSON-RPC-Subset, GRUEN 5b0af587), atc-sdk JSON-RPC-Client mit Mock-Roundtrip (GRUEN 9a237047), und jetzt echter Cross-Repo-Integrationstest in atc-sdk CI (GRUEN 6f4db211): SDK-Client gegen ECHTEN atc-node-Code via rev-gepinnter git-Dependency, verifiziert chain_id=658467, peers=2 und Boot-Hash-Identitaet Genesis-vs-RPC. Kein Mock mehr. Restoffen: Auth/TLS, Explorer/Wallet-Consumer (IFC-0009/0010), Gossip, Blockproduktion'
+
+- id: F-141
+  priority: P3
+  status: OPEN
+  repo: atc-ide
+  title: 'Fleet-Audit-Run-153: AUDIT-003 — 7 Dateien mit untriagierten TODO/FIXME-Markern (App/CustomLinterPanel/AutoSyncHubModal/AuditPanel/projectSyncEngine/auditEngine/TodoApp); SEC-AUDIT-001 GitHubSyncModal.tsx als FALSE POSITIVE triagiert (UI-Passwort-Platzhalter, kein Credential-Material, fixiert 16f034a); Owner: Repo-Owner (Marker-Triage)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-142
+  priority: P1
+  status: OPEN
+  repo: a-townchain-ecosystem
+  title: 'Fleet-Audit-Run-153: Compile-Fehler E0425 (MAX_SUPPLY nicht in Scope) + E0046 (Trait-Item send_to nicht implementiert) + SEC-AUDIT-003 (Workflow ohne permissions-Policy) + AUDIT-003/CONS-AUDIT-003; Owner: Repo-Owner (Build) + Security (Policy)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-143
+  priority: P1
+  status: OPEN
+  repo: globus-os
+  title: 'Fleet-Audit-Run-153: Bootloader-Build fehlgeschlagen (UEFI + BIOS stage-1..4, custom build command bootloader v0.11.17) + SEC-AUDIT-003 + AUDIT-003 + CONS-AUDIT-003 (Linux-Edition dupliziert Windows-Editions-Dateien); Owner: Repo-Owner (Build) + Security (Policy)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-144
+  priority: P1
+  status: OPEN
+  repo: atc-shivacore
+  title: 'Fleet-Audit-Run-153: SEC-AUDIT-003 — .github/workflows/sdk.yml ohne explizite permissions-Policy; Owner: Security'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-145
+  priority: P2
+  status: OPEN
+  repo: atc-contracts
+  title: 'Fleet-Audit-Run-153: CONS-AUDIT-003 — Duplikat-Dateiinhalte; Owner: Repo-Owner (Konsolidierung)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-146
+  priority: P1
+  status: OPEN
+  repo: atclang
+  title: 'Fleet-Audit-Run-153: E0614 (usize dereferenzieren) + E0502 (doppelter Borrow bytes) — atc-core (lib) kompiliert nicht; Owner: Repo-Owner (Build)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-147
+  priority: P1
+  status: OPEN
+  repo: a-townchain-os-docs
+  title: 'Fleet-Audit-Run-153: unparstbarer Legacy-Cargo.toml (docs/monorepo-legacy/src-legacy/shivacore/kernel) + npm ERESOLVE + AUDIT-003; Owner: Repo-Owner (Legacy-Bereinigung)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-148
+  priority: P1
+  status: OPEN
+  repo: atc-standards
+  title: 'Fleet-Audit-Run-153: SEC-AUDIT-003 — .github/workflows/sdk.yml ohne explizite permissions-Policy; Owner: Security'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-149
+  priority: P1
+  status: OPEN
+  repo: atc-toolchain
+  title: 'Fleet-Audit-Run-153: AUDIT-002 — erforderliche Governance-Datei docs/ENGINEERING_AUDIT.md fehlt komplett; Owner: Governance'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-150
+  priority: P1
+  status: OPEN
+  repo: a-townchain
+  title: 'Fleet-Audit-Run-153: poh::tests::slot_overflow_is_rejected FAILED (Assertion !c.verify()) — teilt Ursache mit atc-algorithm F-159 (gemeinsames poh-Modul) + SEC-AUDIT-003 + CONS-AUDIT-003; Owner: Repo-Owner (Test) + Security (Policy)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-151
+  priority: P2
+  status: OPEN
+  repo: genesis-chronicles
+  title: 'Fleet-Audit-Run-153: CONS-AUDIT-003 — Duplikat-Dateiinhalte; Owner: Repo-Owner (Konsolidierung)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-152
+  priority: P2
+  status: OPEN
+  repo: atc-explorer
+  title: 'Fleet-Audit-Run-153: CONS-AUDIT-003 — Duplikat-Dateiinhalte; Owner: Repo-Owner (Konsolidierung)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-153
+  priority: P2
+  status: OPEN
+  repo: atc-wallet
+  title: 'Fleet-Audit-Run-153: AUDIT-003 (TODO-Marker) + CONS-AUDIT-003 (src/-Spiegel dupliziert modules/atc-wallet: ecdsa.py, wallet.py, crypto.py, main.rs); Owner: Repo-Owner'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-154
+  priority: P2
+  status: OPEN
+  repo: atc-zkp
+  title: 'Fleet-Audit-Run-153: CONS-AUDIT-001 — Rust-Workspace ohne committete Cargo.lock-Evidence; Owner: Repo-Owner'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-155
+  priority: P1
+  status: OPEN
+  repo: atc-sdk
+  title: 'Fleet-Audit-Run-153: devnet-Integrationstest sdk_spricht_mit_echtem_node im Fleet-Runner FAILED (am 11.09. CI-gruen auf 6f4db211 — Triaging noetig: Runner-Umgebung vs. Regression) + SEC-AUDIT-003; Owner: Repo-Owner (Test-Triage) + Security (Policy)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-156
+  priority: P1
+  status: OPEN
+  repo: genesis-engine
+  title: 'Fleet-Audit-Run-153: gameplay_pipeline_remains_active + network_state_is_applied_to_existing_entity FAILED + SEC-AUDIT-003; Owner: Repo-Owner (Test) + Security (Policy)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-157
+  priority: P1
+  status: OPEN
+  repo: aurora-ai
+  title: 'Fleet-Audit-Run-153: SEC-AUDIT-003 (Workflow ohne permissions-Policy) + AUDIT-003 (TODO-Marker); Owner: Security + Repo-Owner'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-158
+  priority: P2
+  status: OPEN
+  repo: a-townchain-os
+  title: 'Fleet-Audit-Run-153: CONS-AUDIT-001 — kai-os/Cargo.toml Workspace ohne committete Cargo.lock-Evidence; Owner: Repo-Owner'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+- id: F-159
+  priority: P1
+  status: OPEN
+  repo: atc-algorithm
+  title: 'Fleet-Audit-Run-153: poh::tests::slot_overflow_is_rejected FAILED (17 passed/1 failed; Assertion !c.verify() — Test erwartet Reject bei Slot-Overflow); geteilter Ursachenkontext mit a-townchain F-150; Owner: Repo-Owner (Test)'
+  resolution: 'Fleet-Audit-Backlog Run 153 (06.10.2026, Head 7fd11b3, Artifact fleet-audit-results): Remediation mit Evidence-Gate, Wiedervorlage naechster Fleet-Lauf; Owner je Klasse (Owner-Tabelle 06.10.)'
+
+
+- id: F-160
+  priority: P1
+  status: RESOLVED
+  repo: atc-standards
+  title: 'Branch-Protection-Admin-Bypass atc-standards main (06.10.2026): Agent-Push 96d5f12 (Fleet-Backlog F-141..F-159, Owner-Sequenz-Direktive) lief als Admin-Bypass ueber Required-PR-Reviews und 14 Required Checks; Akteur Aurora-Superagent-Token mit Repo-Admin; Ursache strukturell: Enforce-Admins=False (GitHub-Default, kein dokumentiertes Break-Glass — unkontrollierter Pfad); alle 14 umgangenen Checks (ruff, Ruff format baseline, quality, validate, analyze, registry-consistency, Cross-Registry-Konsistenztest, atc-repo-audit, tools-smoke, version-gate, allocation-gate, matrix, dependency-security, cargo) liefen post-hoc auf 96d5f12 mit SUCCESS — Gating wurde umgangen, Verifikation nicht; Owner-Entscheidung noetig: enforce_admins aktivieren (Agent UND Owner via PR) plus dokumentiertes Break-Glass-Verfahren, oder Admin-Bypass explizit als Policy akzeptieren; Kontext: F-122 Branch-Protection-Rollout'
+  resolution: 'Dokumentiert per Owner-Anforderung 06.10. (5 Pruefpunkte: Vorgang, Akteur, umgangene Checks, Break-Glass-Status, Policy-Frage); Registrierung dieses Befunds bewusst ueber PR-Pfad statt erneutem Bypass; P1 bis Policy-Entscheidung des Owners; RESOLVED 06.10. per Owner-Direktive ''enforce_admins aktivieren'': Aktivierung via POST /branches/main/protection/enforce_admins (HTTP 200, enabled:true, 2026-10-06T17:41:24Z, Aurora-Superagent-Token = gleiches Credential wie historischer Bypass 96d5f12); Expected Result VORHER dokumentiert (Admin-/Agent-Push auf main muss abgewiesen werden); kontrollierter Bypass-Versuch: Leer-Commit fc058ce071a7ac37af2c1b4b60cfc10e472a7f5a auf main (Basis d057531), GitHub-Ablehnung als primaere Evidence: GH006 Protected branch update failed, ''Changes must be made through a pull request'', ''14 of 14 required status checks are expected'', Push-Exit 1 (17:42 UTC); Enforcement-Layer wirksam auch fuer Admins/Agenten; Statusflip bewusst per PR (Human-Merge); Break-Glass-Entwurf registry/BREAK_GLASS.md (Owner-Review in diesem PR); Checker-v1.1.0-Rollout startet nach Merge'

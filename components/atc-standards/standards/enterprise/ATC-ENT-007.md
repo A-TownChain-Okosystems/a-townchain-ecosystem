@@ -2,13 +2,13 @@
 standard:
   id: ATC-ENT-007
   title: "ATC-ENT-007 — Eskalationsmanagement Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: enterprise
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-ENT-007 — Eskalationsmanagement Standard (v1.0.0, APPROVED)
+# ATC-ENT-007 — Eskalationsmanagement Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -74,3 +74,50 @@ Enterprise-Transaktionen: Buchungs- und Audit-Trails unveraenderbar (append-only
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-280ff (Security-Familie), ATC-ENT-001 · INFORMATIVE: Registry-Kategorie enterprise
+## 5. Verbindliche Eskalationsregeln
+
+1. Bei Eintritt eines definierten Eskalationsgrundes MUSS innerhalb von maximal 2 Stunden ein formeller ESC-Record (ESC-NNNN) angelegt werden.
+2. Eskalationen der Priorität S0/S1 MUSS innerhalb von 24 Stunden von der zugewiesenen Eskalationsstufe entschieden und beantwortet werden.
+3. KI-Agenten MUSS bei jedem ungelösten Governance- oder Blockade-Problem unverzüglich die Eskalation auf mindestens Stufe E2 einleiten.
+4. Jede Eskalationsentscheidung MUSS in einem gekoppelten DEC-Record gemäß ATC-ENT-003 dokumentiert und archiviert werden.
+5. Bei Nicht-Einhalten der Beantwortungsfrist MUSS die Eskalation automatisch auf die nächsthöhere Organisationsstufe (E3/E4) steigen.
+
+## 6. Metriken & Akzeptanzkriterien
+
+1. **ESC-Record-Quote:** 100% aller organisatorischen Eskalationen MUSS über einen gültigen ESC-Record erfasst sein.
+2. **SLA-Einhaltung S0/S1:** Mindestens 95% der S0/S1-Eskalationen MUSS innerhalb der 24h-Frist entschieden werden.
+3. **Agenten-Eskalationskonformität:** 100% der von Agenten initiierten Eskalationen MUSS an eine menschliche Rolle (E2+) gerichtet sein.
+4. **Kopplungsquote:** 100% der abgeschlossenen ESC-Records MUSS auf einen entsprechenden DEC-Record verweisen.
+
+## 7. Compliance & Verifikation
+
+Die Einhaltung aller Vorgaben dieses Standards MUSS durch automatisierte Validator-Läufe (S-01 bis S-25) kontinuierlich geprüft werden. Etwaige Abweichungen oder Nicht-Konformitäten MUSS unverzüglich als Findings (F-NNN) gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 in `registry/findings.yaml` erfasst und kategorisiert werden. Abweichungen von Sicherheits- oder Governance-Invarianten MUSS priorisiert vor einem Release behoben werden.
+
+## 8. Security Considerations
+
+Unbehandelte Eskalationen können kritische Sicherheitsrisiken ungelöst lassen. Notfall-Eskalationen (S0) MUSS direkte Benachrichtigungskanäle an die Sicherheitsverantwortlichen (ROLE-CISO) nutzen. Audit-Trails von Eskalationen MUSS vor nachträglicher Manipulation geschützt sein.
+
+## 9. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (Owner-Sammelfreigabe) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 10. References
+
+### Normative Referenzen
+- **ATC-STD-000**: Verfassung der A-TownChain Ökosystems
+
+### Informative Referenzen
+- **SCR-0041**: Owner-Auftrag zur Batch-Elaboration dünner Standards
+- **ATC-AAS-013**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-AAS-017**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-AAS-020**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-003**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-006**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-011**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-ENT-014**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-AI-DEV-011**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-BUG-001**: Referenzierter Standard im ATC-Regelwerk
+- **ATC-STD-BUG-005**: Referenzierter Standard im ATC-Regelwerk

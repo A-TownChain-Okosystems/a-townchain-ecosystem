@@ -1097,3 +1097,44 @@ standards:
   ATC-AI-GOV-FINDING-001: {depends: [ATC-STD-000, ATC-STD-BUG-001, ATC-AI-GOV-CHECK-001]}
   ATC-AI-GOV-ACCESS-001: {depends: [ATC-STD-000, ATC-AI-GOV-CAPABILITY-001]}
   ATC-STD-NET-009: {depends: [ATC-STD-NET-004, ATC-STD-VERSION-001, ATC-STD-COMPAT-001]}
+
+
+# ============================================================================
+# REPOSITORY-LEVEL DEPENDENCY EDGES (ATC-STD-204 §1, F-001) - 2026-10-12
+# SSOT fuer `uses:`-Kanten zwischen Repositories. Jede Kante ist ueber ein
+# registriertes Interface (registry/interfaces.yaml) gekapselt; Kanten ohne
+# Interface-Eintrag existieren nicht (fail-closed).
+# Herkunft: abgeleitet aus den provider->consumers-Listen der IFC-0001..0007
+# (Seed-Stand 07.09.2026). Archivierte Repos (atc-storage, atc-wallet,
+# atc-indexer, atc-interop, atc-oracle, atc-mining, atc-explorer) sind nicht
+# Teil des aktiven Graphen; ihre historischen Kanten sind nur in
+# interfaces.yaml dokumentiert.
+# Freie Repos ohne Abhaengigkeiten: [] (explizit, nicht implizit).
+# ============================================================================
+repositories:
+  atclang: {uses: [], ifc_provides: [IFC-0001]}
+  atc-shivacore: {uses: [atclang], ifc_provides: [IFC-0002], ifc_uses: [IFC-0001]}
+  a-townchain: {uses: [atclang, atc-shivacore], ifc_provides: [IFC-0003], ifc_uses: [IFC-0001, IFC-0002]}
+  atc-contracts: {uses: [atclang, a-townchain], ifc_provides: [IFC-0005], ifc_uses: [IFC-0001, IFC-0003]}
+  atc-sdk: {uses: [atclang, a-townchain], ifc_provides: [IFC-0004], ifc_uses: [IFC-0001, IFC-0003]}
+  atc-node: {uses: [atc-shivacore, a-townchain], ifc_uses: [IFC-0002, IFC-0003]}
+  atc-compute: {uses: [atc-shivacore], ifc_uses: [IFC-0002]}
+  aurora-ai: {uses: [atc-shivacore], ifc_provides: [IFC-0007], ifc_uses: [IFC-0002]}
+  globus-os: {uses: [atc-shivacore], ifc_uses: [IFC-0002]}
+  atc-marketplace: {uses: [atc-sdk, atc-contracts], ifc_uses: [IFC-0004, IFC-0005]}
+  atc-launchpad: {uses: [atc-sdk], ifc_uses: [IFC-0004]}
+  genesis-engine: {uses: [atc-sdk], ifc_provides: [IFC-0006], ifc_uses: [IFC-0004]}
+  genesis-chronicles: {uses: [genesis-engine, atc-contracts], ifc_uses: [IFC-0006, IFC-0005]}
+  a-townchain-os: {uses: [atclang, atc-shivacore, a-townchain, aurora-ai], ifc_uses: [IFC-0001, IFC-0002, IFC-0003, IFC-0007], integration_layer: L7-Build-API}
+  atc-vm: {uses: [], note: 'FREEZE per SCR-0127 - kanonischer Build-Standort a-townchain/components/vm; Quellrepo nur Referenz/Verification'}
+  atc-algorithm: {uses: [], note: 'FREEZE per SCR-0127 - kanonisch a-townchain/components/algorithm'}
+  atc-zkp: {uses: []}
+  atc-ide: {uses: []}
+  atc-toolchain: {uses: []}
+  atc-engineering: {uses: []}
+  atc-standards: {uses: []}
+  .github: {uses: []}
+  a-townchain-ecosystem: {uses: [], note: 'Integrations-/Audit-Layer, konsumiert Registry-Exports per SHA-gebundenem Snapshot'}
+  a-townchain-os-docs: {uses: []}
+  genesis-franchise-factory: {uses: []}
+  demo-repository: {uses: [], note: 'privat, Fixture - kein Produktionspfad'}

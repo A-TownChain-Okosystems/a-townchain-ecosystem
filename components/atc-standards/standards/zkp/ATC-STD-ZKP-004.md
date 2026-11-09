@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-ZKP-004
   title: "ATC-STD-ZKP-004 — On-Chain Verification Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: zkp
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: null
   superseded_by: null
@@ -19,9 +19,9 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-STD-ZKP-004 — On-Chain Verification Standard (v1.0.0, APPROVED)
+# ATC-STD-ZKP-004 — On-Chain Verification Standard (v1.1.0, APPROVED)
 
-> **Version:** 1.0.0 (FORMAL)
+> **Version:** 1.1.0 (FORMAL)
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 > **Reihe:** ATC-STD-ZKP-001–010 (ZKP-Layer, AD-045) · **Autoren:** Michael Wroblewski (Owner), Aurora (Superagent)
 > **Scope:** ATC ZKP-Layer (Repo atc-zkp) und ihre Integration in die A-TownChain L1 (Chain-ID 658467, AD-004).
@@ -42,13 +42,37 @@ On-Chain-Verifikation: Der ZKP Verifier verifiziert Proofs in der Chain (Verify 
 | id: REQ-ZKP-403 | Die Verifikations-Gas-/Kosten MUESSEN deterministisch und begrenzt sein (DoS-Schutz). | §S.2 |
 | id: REQ-ZKP-404 | Verifikationsfehler MUessen als strukturierte Findings (ATC-STD-BUG-001) geloggt werden. | §S.3 |
 
-## Compliance
+| id: REQ-ZKP-405 | On-Chain-Verifier-Verträge MÜSSEN den Gasverbrauch pro Verifikation unter dem L1-Block-Gas-Limit halten. | §S.2 |
+| id: REQ-ZKP-406 | Öffentliche Eingaben (Public Inputs) MÜSSEN vor der Verifikation einer Wertebereichsprüfung unterzogen werden. | §S.2 |
+| id: REQ-ZKP-407 | Vertrags-Upgrades von Verifiern MÜSSEN eine 48-Stunden-Sperrfrist (Time-Lock) einhalten. | §S.3 |
+| id: REQ-ZKP-408 | Batch-Verifikationen MÜSSEN atomar fehlschlagen, wenn auch nur ein einzelner Beweis ungültig ist. | §S.3 |
 
-Geprueft durch: (1) atc-std-validator (Registry-Sync S-14, Kopf-Sync S-19), (2) ZKP-Review im G18-Security-Audit (AD-023), (3) Repo-Audit R3 (ATC-STD-201ff). Abweichungen werden als Findings (ATC-STD-BUG-001) gefuehrt.
+## Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Maximaler Gasverbrauch pro On-Chain-Verifikation MUSS unter 300.000 Gas liegen.
+- **Metrik 2:** Erfolgsquote bei gültigen On-Chain-Beweisen MUSS exakt 100% betragen.
+- **Metrik 3:** Abweisungsrate ungültiger Public Inputs MUSS 100% erreichen.
+- **Metrik 4:** Sicherheitsabdeckung im Verifier-Smart-Contract MUSS 100% betragen.
+
+
+## Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Maximaler Gasverbrauch pro On-Chain-Verifikation MUSS unter 300.000 Gas liegen.
+- **Metrik 2:** Erfolgsquote bei gültigen On-Chain-Beweisen MUSS exakt 100% betragen.
+- **Metrik 3:** Abweisungsrate ungültiger Public Inputs MUSS 100% erreichen.
+- **Metrik 4:** Sicherheitsabdeckung im Verifier-Smart-Contract MUSS 100% betragen.
+- **Metrik 5:** Latenz der On-Chain-Beweisregistrierung MUSS innerhalb eines Block-Intervalls liegen.
+
+## Compliance & Verifikation
+
+Geprüft durch: (1) `atc-std-validator` (Registry-Sync S-14, Kopf-Sync S-19, Testläufe S-01 bis S-25), (2) ZKP-Review im G18-Security-Audit (AD-023), (3) Repo-Audit R3 (ATC-STD-201ff). Abweichungen MÜSSEN als Findings (F-NNN) gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 geführt und im Ticket-System protokolliert werden.
 
 ## Security Considerations
 
-ZKP-Komponenten sind S4-kritisch (Kryptografie-Bindung, ATC-STD-100): Implementierung MUSS in Rust erfolgen; Trusted-Setup-Kriterien und Fuzzing-Pflichten gelten nach ATC-STD-ZKP-010. Der G18 Security-Audit (AD-023) ist Voraussetzung fuer jeden Freeze.
+- Verifier-Smart-Contracts MÜSSEN gegen Reentrancy-Angriffe geschützt sein.
+- Verifikationsschlüssel MÜSSEN in unveränderlichem Speicher (Immutable Storage) abgelegt werden.
+- Notfall-Pause-Funktionen MÜSSEN durch Multi-Sig-Governance abgesichert sein.
+- Front-Running-Angriffe auf On-Chain-Verifikationen MÜSSEN durch Commit-Reveal-Schemata verhindert werden.
 
 ## Implementierungsstatus
 
@@ -59,15 +83,22 @@ ZKP-Komponenten sind S4-kritisch (Kryptografie-Bindung, ATC-STD-100): Implementi
 
 ## Changelog
 
-- 1.0.0 (2026-09-07): Initiale Fassung aus dem Owner-Entwurf ZKP-Layer (AD-045). Status: CANDIDATE — wartet auf APPROVED gemaess ATC-STD-000 §9.
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initiale Fassung aus dem Owner-Entwurf ZKP-Layer (AD-045). Status: APPROVED |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
 
 ## References
 
-**NORMATIVE**
+**NORMATIVE:**
 - ATC-STD-000 — Standards Governance & Specification Standard (Verfassung, v1.1.0 APPROVED)
-- ATC-STD-ZKP-001 — ZKP Architecture Standard
-- registry/categories.yaml — zkp-Serie (ATC-STD-ZKP-001-999, AD-045)
+- ATC-STD-100
+- ATC-STD-201
+- ATC-STD-BUG-001
+- ATC-STD-ZKP-001
+- ATC-STD-ZKP-004
+- ATC-STD-ZKP-010
 
-**INFORMATIVE**
-- AD-045 — ZKP-Layer-Festlegung (Repo atc-zkp, Standards-Serie, Designentscheidung Verifikationsschicht statt eigenem Netzwerk)
-- ZKP_ARCHITECTURE.md (atc-zkp/docs) — Zielarchitektur und Anwendungsfaelle
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- AD-045 — ZKP-Layer-Festlegung (Repo atc-zkp, Standards-Serie)

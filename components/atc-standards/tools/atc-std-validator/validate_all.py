@@ -53,7 +53,7 @@ def file_id(path):
     try:
         head = open(path, encoding="utf-8").read(2500)
         m = re.search(
-            r"^\s*id:\s*(ATC-STD-(?:BUG-|NET-|ZKP-|AI-DEV-|MD-|SC-|README-|DESC-|VERSION-|AUDIT-|AI-DECISION-|UPDATE-|IMPROVEMENT-|COMPAT-|MILESTONE-|FRAMEWORK-|REPO-AUDIT-|AOS-|PROTOCOL-|TAXONOMY-|STDDEV-|REGISTRY-|CHANGE-)?[0-9]{3,}|ATC-AAS-[0-9]{3,}|ATC-ENT-[0-9]{3,}|ATC-AI-GOV-(?:[A-Z]+-)?[0-9]{3,})\s*$",
+            r"^\s*id:\s*(ATC-STD-(?:BUG-|NET-|ZKP-|AI-DEV-|MD-|SC-|README-|DESC-|VERSION-|AUDIT-|AI-DECISION-|UPDATE-|IMPROVEMENT-|COMPAT-|MILESTONE-|FRAMEWORK-|REPO-AUDIT-|AOS-|PROTOCOL-|TAXONOMY-|STDDEV-|REGISTRY-|CHANGE-)?[0-9]{3,}|ATC-AAS-[0-9]{3,}|ATC-AURORA-SWARM-[0-9]{3,}|ATC-ENT-[0-9]{3,}|ATC-AI-GOV-(?:[A-Z]+-)?[0-9]{3,})\s*$",
             head,
             re.M,
         )

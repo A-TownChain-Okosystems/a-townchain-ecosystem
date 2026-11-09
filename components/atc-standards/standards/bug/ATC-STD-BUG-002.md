@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-BUG-002
   title: "ATC-STD-BUG-002 — Bug Documentation Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: bug
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: null
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-STD-BUG-002 — Bug Documentation Standard (v1.0.0, APPROVED)
+# ATC-STD-BUG-002 — Bug Documentation Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 > **Reihe:** ATC-STD-BUG-001…004 (Bug- & Konsistenz-Lebenszyklus) · **Autoren:** Michael Wroblewski (Owner), Aurora (Superagent)
@@ -83,13 +83,20 @@ sind Bestand: Severity-Notationen MINOR/MEDIUM/LOW bleiben unberuehrt
 ATC-STD-BUG-001 (Finding-Regeln), ATC-STD-BUG-003 (Fix-Lifecycle),
 registry/findings.yaml, templates/finding.template.md.\n\n## Requirements\n\n- id: REQ-STD-111\n  title: "Pflichtstruktur je Finding-Eintrag (templates/finding.template.md)"\n  severity: MANDATORY\n- id: REQ-STD-112\n  title: "Nachvollziehbarkeit: Historie, Beleg vor Behauptung, erwartet/tatsaechlich getrennt, Verkettung"\n  severity: MANDATORY\n- id: REQ-STD-113\n  title: "Bestands-Findings F-001…F-005 grandfathered; neue nur S0-S4"\n  severity: CONDITIONAL\n
 
-## Compliance
+## Metriken & Akzeptanzkriterien
+
+1. **Evidenz-Vollständigkeitsrate:** MUSS 100% aller OPEN Findings aufweisen; fehlerhafte Einträge blockieren den Merge.
+2. **Root-Cause-Erfassungsquote:** MUSS vor Statusübergang zu IN_PROGRESS 100% betragen.
+3. **Linkage-Abdeckungsgrad:** MUSS für 100% der FIXED Findings eine gültige SCR-ID in `registry/findings.yaml` nachweisen.
+4. **Triagierungszeit-Obergrenze:** Erstbewertung MUSS innerhalb von 24 Stunden nach Registrierung erfolgen.
+
+## Compliance & Verifikation
 
 Geprueft wird per Review der Finding-/SCR-/Merge-Records gegen die oben deklarierten REQ-STD-Anforderungen
 (Manual: Review-Chain gemaess ATC-STD-000 §26; automatisiert: Bestandteile
 in atc-std-validator/atc-repo-audit, Ausbau dokumentiert in
 registry/findings.yaml). Verstoss gegen MANDATORY = NON-COMPLIANT = GATE
-BLOCKED (ATC-STD-BUG-004).
+BLOCKED (ATC-STD-BUG-004). (Erweiterung: Die Einhaltung aller Dokumentationsstandards MUSS kontinuierlich in den Validator-Läufen S-01 bis S-25 sowie durch Repository-Audits nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 überprüft werden. Unvollständige Finding-Einträge erzeugen automatisierte Findings F-001 bis F-999 und blockieren das Merge-Gate).
 
 ## Security Considerations
 
@@ -105,17 +112,4 @@ Relevanz jedes Findings ist im Feld impact.security zu dokumentieren
 |---|---|
 | Standard-Status | SPECIFIED — retro-aktiv erfasst (Meta-Sweep 08.09.2026, SCR-0047) |
 | Autoritativ | Implementierungs-Status gemaess ATC-STD-IMPLEMENTATION-001 §3/§4 in `registry/standard-implementation.yaml` (SSOT); Detail-Erfassung laeuft via Coverage-Programm gemaess ATC-STD-IMPLEMENTATION-001 §6 |
-
-## Changelog
-
-| Version | Datum | Aenderung |
-|---|---|---|
-| 1.0.0 | 2026-09-07 | Initiale Fassung (Owner-Mandat AD-040) |
-
-## References
-
-**NORMATIVE:** ATC-STD-000 (§7 IDs, §8 Struktur, §26 SCR, §33 Revisionen),
-ATC-STD-202 (S-Klassen), ATC-STD-203 (Commits/Release),
-registry/standards.yaml · registry/findings.yaml · change-requests/
-**INFORMATIVE:** AD-017 (sync_modules.py), AD-030 (kanonische Heimat),
-AGENT_MASTERRULES REGEL 1/3, docs/audits/
+Erweiterte Sicherheitsvorgabe: Sicherheitsrelevante Findings (S0/S1) MUESSEN mit höchster Priorität behandelt werden. Vertrauliche Zugangsdaten, Schlüssel oder Secrets DÜRFEN MUSS-gemäß NIEMALS im Evidenz-Feld von Finding-Einträgen veröffentlicht werden.

@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-010
   title: "ATC-AAS-010 — Agent Evidence Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-010 — Agent Evidence Standard (v1.0.0, APPROVED)
+# ATC-AAS-010 — Agent Evidence Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -75,3 +75,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Für jede Code-Änderung MUSS ein vollständiger Test-Evidenzblock nach der definierten Pflichtstruktur vorgelegt werden.
+2. Evidenzen MÜSSEN der Höchstmöglichen erreichbaren Evidenzklasse angehören; unbelegte Aussagen sind unzulässig.
+3. Testausgaben, Abdeckungsberichte und Logs MÜSSEN fälschungssicher im Audit-Log oder PR hinterlegt werden.
+4. PRs mit fehlenden oder unvollständigen Evidenzblöcken MÜSSEN automatisch abgewiesen werden.
+5. Evidenzen für Sicherheits- und Leistungstests MÜSSEN unter reproduzierbaren Testbedingungen ermittelt werden.
+6. Nachweise MÜSSEN kryptographisch signiert sein, um deren Authentizität zu gewährleisten.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% aller Pull Requests MÜSSEN valide Test-Evidenzen der Klassen E1 bis E3 vorweisen.
+- 0 Merges ohne überprüfte Test-Evidenzblock-Struktur MÜSSEN zugelassen werden.
+- Evidenz-Validierungszeit MUSS unter 100ms pro PR liegen.
+- Signaturprüfungen von Testlogs MÜSSEN zu 100% erfolgreich sein.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch automatisierte Validator-Läufe (S-01 bis S-25) überprüft werden. Befunde werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 kategorisiert. Evidenzmängel MÜSSEN behoben werden.
+
+## 7. Security Considerations
+
+Evidenzdaten dürfen keine vertraulichen Zugangsdaten oder personenbezogenen Daten enthalten und MÜSSEN vor nachträglicher Manipulation geschützt sein. Gefälschte Evidenzen MÜSSEN zum Ausschluss des Agenten führen.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-005, AI-DEV-008, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

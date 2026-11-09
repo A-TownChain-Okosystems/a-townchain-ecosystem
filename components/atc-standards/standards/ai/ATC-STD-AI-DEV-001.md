@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-AI-DEV-001
   title: "ATC-STD-AI-DEV-001 — Software Development AI Agent Identity & Workflow Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: ai-dev
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,9 +18,9 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-STD-AI-DEV-001 — Software Development AI Agent Identity & Workflow Standard (v1.0.0, APPROVED)
+# ATC-STD-AI-DEV-001 — Software Development AI Agent Identity & Workflow Standard (v1.1.0, APPROVED)
 
-> **Status:** APPROVED (v1.0.0) — Owner-Freigabe 07.09.2026 (ATC-STD-000 §9); Übergangsfristen §14/§16 (30 Tage) laufen ab 07.09.2026
+> **Status:** APPROVED (v1.1.0) — Owner-Freigabe 07.09.2026 (ATC-STD-000 §9); Übergangsfristen §14/§16 (30 Tage) laufen ab 07.09.2026
 > **Reihe:** ATC-STD-AI-DEV-001…012 (AI Development Governance Family, §23) · **Autoren:** Michael Wroblewski (Owner), Aurora (Superagent)
 > **Kernprinzip:** Ein KI-Agent ist kein unsichtbarer Bot. Jede Aktion folgt der Kette
 > **Identität → Kontext → Fundstelle → Entscheidung → nächste Aktion → Ergebnis.**
@@ -236,3 +236,93 @@ Keine Zugangsdaten in Artefakten; Security-Review-Pflicht bei sicherheitsrelevan
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-203, ATC-STD-AI-DEV-002 · INFORMATIVE: Roadmap MK8 (Security), Model-Registry
+## 17. Verbindliche Erweiterungsregeln
+
+- 17.1 Der Agent MUSS bei jedem Start seine eindeutige Agenten-ID aus dem Manifest lesen und im Runtime-Kontext verankern.
+- 17.2 Jede Zustandsänderung der Task State Machine MUSS atomares Logging ausführen, bevor Folgeaktionen gestartet werden.
+- 17.3 Vor der Durchführung von Schreiboperationen MUSS der Agent alle im Assumption Register erfassten Hypothesen gegen den tatsächlichen Repository-Zustand validieren.
+- 17.4 Bei Erkennung von Cross-Repository-Abhängigkeiten MUSS der Agent den Verifikationsstatus über das Completion Gate prüfen.
+- 17.5 Sämtliche generierten Commits MÜSSEN den vollständigen Trail-Block inklusive Task-ID und Evidence-Referenz enthalten.
+
+## 18. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Traceability-Rate aller Agentenaktionen MUSS exakt 100% betragen.
+- **Metrik 2:** Latenz für das Schreiben des Audit Records MUSS unter 500 ms liegen.
+- **Metrik 3:** Erfolgsquote der Assumption-Register-Validierungen MUSS mindestens 98% betragen.
+- **Metrik 4:** Fehlerquote bei der Commit-Trailer-Formatierung MUSS exakt 0% sein.
+
+## 19. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 20. Security Considerations
+
+- Die Agenten-Identität MUSS kryptografisch gegen Spoofing und Identitätsdiebstahl geschützt werden.
+- Schreibrechte auf Arbeitszweige MÜSSEN auf das deklarierte Scope beschränkt bleiben.
+- Ein unautorisierter Wechsel der Agenten-Rolle MUSS zum sofortigen Abbruch der Ausführung führen.
+
+## 21. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 22. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-203
+- ATC-STD-204
+- ATC-STD-AI-DEV-001
+- ATC-STD-BUG-001
+
+## 23. Verbindliche Erweiterungsregeln
+
+- 17.1 Der Agent MUSS bei jedem Start seine eindeutige Agenten-ID aus dem Manifest lesen und im Runtime-Kontext verankern.
+- 17.2 Jede Zustandsänderung der Task State Machine MUSS atomares Logging ausführen, bevor Folgeaktionen gestartet werden.
+- 17.3 Vor der Durchführung von Schreiboperationen MUSS der Agent alle im Assumption Register erfassten Hypothesen gegen den tatsächlichen Repository-Zustand validieren.
+- 17.4 Bei Erkennung von Cross-Repository-Abhängigkeiten MUSS der Agent den Verifikationsstatus über das Completion Gate prüfen.
+- 17.5 Sämtliche generierten Commits MÜSSEN den vollständigen Trail-Block inklusive Task-ID und Evidence-Referenz enthalten.
+
+## 24. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Traceability-Rate aller Agentenaktionen MUSS exakt 100% betragen.
+- **Metrik 2:** Latenz für das Schreiben des Audit Records MUSS unter 500 ms liegen.
+- **Metrik 3:** Erfolgsquote der Assumption-Register-Validierungen MUSS mindestens 98% betragen.
+- **Metrik 4:** Fehlerquote bei der Commit-Trailer-Formatierung MUSS exakt 0% sein.
+- **Metrik 5:** Verfügbarkeit der State Machine Logging-Schnittstelle MUSS mindestens 99.9% betragen.
+
+## 25. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 26. Security Considerations
+
+- Die Agenten-Identität MUSS kryptografisch gegen Spoofing und Identitätsdiebstahl geschützt werden.
+- Schreibrechte auf Arbeitszweige MÜSSEN auf das deklarierte Scope beschränkt bleiben.
+- Ein unautorisierter Wechsel der Agenten-Rolle MUSS zum sofortigen Abbruch der Ausführung führen.
+
+## 27. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 28. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-203
+- ATC-STD-204
+- ATC-STD-AI-DEV-001
+- ATC-STD-BUG-001

@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-019
   title: "ATC-AAS-019 — Agent Handoff Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-019 — Agent Handoff Standard (v1.0.0, APPROVED)
+# ATC-AAS-019 — Agent Handoff Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -75,3 +75,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 3. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Bei der Übergabe einer Aufgabe an einen anderen Agenten oder Menschen MUSS ein vollständiger Handoff-Record erstellt werden.
+2. Der Handoff-Record MUSS den bisherigen Fortgang, offene Punkte, Blockaden und den aktuellen Kontext enthalten.
+3. Der empfangende Agent MUSS den Handoff-Record validieren und die Übernahme im Audit-Trail bestätigen.
+4. Unvollständige Handoff-Records MÜSSEN vom Empfänger zurückgewiesen werden.
+5. Während des Handoff-Prozesses MÜSSEN schreibende Aktionen auf den betroffenen Ressourcen pausiert werden.
+6. Handoff-Protokolle MÜSSEN in einem zentralen Register zur Einsichtnahme abgelegt werden.
+
+## 4. Metriken & Akzeptanzkriterien
+
+- 100% aller Task-Übergaben MÜSSEN über einen validen Handoff-Record verfügen.
+- 0 Informationsverluste oder doppelte Task-Ausführungen MÜSSEN bei Übergaben auftreten.
+- Übergabedauer MUSS unter 2 Sekunden liegen.
+- Bestätigungen durch den Empfänger MÜSSEN in < 500ms vorliegen.
+
+## 5. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS über Validator-Läufe (S-01 bis S-25) verifiziert werden. Verstöße werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 dokumentiert. Fehlerhafte Handoffs MÜSSEN korrigiert werden.
+
+## 6. Security Considerations
+
+Strukturierte Übergaben verhindern Kontextverlust und unbeabsichtigte Mehrfachausführungen kritischer Operationen. Nicht verifizierte Handoffs MÜSSEN blockiert werden.
+
+## 7. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 8. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-003, AI-DEV-004, AI-DEV-006, AI-DEV-012, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

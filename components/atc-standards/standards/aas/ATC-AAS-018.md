@@ -2,13 +2,13 @@
 standard:
   id: ATC-AAS-018
   title: "ATC-AAS-018 — Agent Audit Trail Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: aas
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-AAS-018 — Agent Audit Trail Standard (v1.0.0, APPROVED)
+# ATC-AAS-018 — Agent Audit Trail Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED (Owner-Sammelfreigabe 07.09.2026, ATC-STD-000 §9) — normativ in Kraft
 
@@ -76,3 +76,38 @@ Agenten-spezifisch: Agent-Identitaet via AGENT_MANIFEST verifizierbar; Permissio
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-201..203, ATC-AAS-001 · INFORMATIVE: AGENT_MANIFEST.md v3.1.7, Registry-Kategorie aas
+## 4. Ergänzende Verbindliche Betriebs- und Governance-Regeln
+
+1. Sämtliche Aktionen des Agenten MÜSSEN fälschungssicher im zweistufigen Audit-Log protokolliert werden.
+2. Audit-Einträge MÜSSEN den Zeitstempel (UTC), die `agent_id`, den Kontext sowie den Aktions-Hash enthalten.
+3. Die Integrität des Audit-Trails MUSS durch fortlaufende Hash-Ketten gesichert werden.
+4. Audit-Logs MÜSSEN mindestens 365 Tage revisionssicher aufbewahrt werden.
+5. Schreibfehler im Audit-System MÜSSEN zum sofortigen Stopp weiterer Agenten-Aktionen führen.
+6. Audit-Logs MÜSSEN regelmäßig auf Vollständigkeit und unerlaubte Modifikationen gescannt werden.
+
+## 5. Metriken & Akzeptanzkriterien
+
+- 100% Lückenlosigkeit im Audit-Trail MUSS durch das System nachgewiesen werden (0 fehlende Log-Einträge).
+- 100% valide Hash-Ketten MÜSSEN im Audit-Protokoll vorhanden sein.
+- Latenz beim Schreiben von Audit-Logs MUSS unter 15ms liegen.
+- Log-Schreibfehler MÜSSEN in < 1 Sekunde zum Ausführungsstopp führen.
+
+## 6. Compliance & Verifikation
+
+Die Einhaltung dieses Standards MUSS durch Validator-Läufe (S-01 bis S-25) verifiziert werden. Fehler werden als Findings F-001 bis F-005 gemäß ATC-STD-BUG-001 bis ATC-STD-BUG-005 gemeldet. Log-Lücken MÜSSEN sofort geschlossen werden.
+
+## 7. Security Considerations
+
+Revisionssichere Audit-Trails ermöglichen die lückenlose Nachvollziehbarkeit aller Aktionen im Sicherheits- und Incident-Fall. Manipulationen am Audit-Trail MÜSSEN einen Alarm auslösen.
+
+## 8. Changelog
+
+| Version | Datum | Beschreibung |
+| :--- | :--- | :--- |
+| 1.0.0 | 2026-09-07 | Initialversion (APPROVED) |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 9. References
+
+- **NORMATIVE:** ATC-STD-000
+- **INFORMATIVE:** SCR-0041, AI-DEV-009, ATC-ENT-002, ATC-STD-000, ATC-STD-BUG-001, ATC-STD-BUG-002, ATC-STD-BUG-003, ATC-STD-BUG-004, ATC-STD-BUG-005, ATC-STD-NET

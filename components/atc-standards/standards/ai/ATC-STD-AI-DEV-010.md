@@ -2,13 +2,13 @@
 standard:
   id: ATC-STD-AI-DEV-010
   title: "ATC-STD-AI-DEV-010 — AI Documentation Synchronization Standard"
-  version: "1.0.0"
+  version: "1.1.0"
   status: approved
   category: ai-dev
   authority: A-TownChain Ecosystems
   owner: ShivaCoreDev
   created: "2026-09-07"
-  updated: "2026-09-07"
+  updated: "2026-09-08"
   normative: true
   supersedes: []
   superseded_by: null
@@ -18,7 +18,7 @@ standard:
   applies_to: "Alle ATC-Repositories"
 ---
 
-# ATC-STD-AI-DEV-010 — AI Documentation Synchronization Standard (v1.0.0, APPROVED)
+# ATC-STD-AI-DEV-010 — AI Documentation Synchronization Standard (v1.1.0, APPROVED)
 
 > **Status:** APPROVED — Owner-Sammelfreigabe 07.09.2026 (ATC-STD-000 §9)
 > **Reihe:** ATC-STD-AI-DEV-001…012 · **Basiert auf:** AI-DEV-001 §12 (Konsistenzmatrix), ATC-STD-BUG-004 (Sync)
@@ -76,3 +76,91 @@ Keine Zugangsdaten in Artefakten; Security-Review-Pflicht bei sicherheitsrelevan
 ## References
 
 NORMATIV: ATC-STD-000, ATC-STD-203, ATC-STD-AI-DEV-001 · INFORMATIVE: Roadmap MK8 (Security), Model-Registry
+## 5. Verbindliche Erweiterungsregeln
+
+- 5.1 Nach jeder Code-Änderung MUSS die zugehörige Dokumentation im selben Task-Durchlauf aktualisiert werden.
+- 5.2 Abweichungen zwischen Code-Implementierung und Dokumentation MÜSSEN den Status COMPLETED des Tasks verhindern.
+- 5.3 Sync-Records MÜSSEN die geänderten Code-Dateien und die entsprechenden Dokumentationsdateien explizit gegenüberstellen.
+- 5.4 Automatisierte Sync-Tools MÜSSEN bei jedem CI-Build die Konsistenz der Querverweise überprüfen.
+- 5.5 Veraltete Dokumentationsabschnitte MÜSSEN als deprecated markiert oder umgehend entfernt werden.
+
+## 6. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Synchronisationsgrad zwischen Code und Dokumentation MUSS 100% betragen.
+- **Metrik 2:** Fehlerrate bei automatisierten Querverweisprüfungen MUSS 0% sein.
+- **Metrik 3:** Maximale Zeitspanne für Doku-Updates nach Code-Änderung MUSS innerhalb desselben PRs liegen.
+- **Metrik 4:** Abdeckung dokumentierter API-Endpunkte MUSS 100% erreichen.
+
+## 7. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 8. Security Considerations
+
+- Dokumentationsinhalte dürfen KEINE sensiblen Systemdaten oder Passwörter enthalten.
+- Alle Codebeispiele MÜSSEN mit anonymisierten Beispieldaten arbeiten.
+- Automatisch generierte Dokumentationspfade MÜSSEN auf zulässige Ausgabeverzeichnisse beschränkt sein.
+
+## 9. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 10. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-BUG-004
+- ATC-STD-AI-DEV-001
+- ATC-STD-AI-DEV-010
+
+## 11. Verbindliche Erweiterungsregeln
+
+- 5.1 Nach jeder Code-Änderung MUSS die zugehörige Dokumentation im selben Task-Durchlauf aktualisiert werden.
+- 5.2 Abweichungen zwischen Code-Implementierung und Dokumentation MÜSSEN den Status COMPLETED des Tasks verhindern.
+- 5.3 Sync-Records MÜSSEN die geänderten Code-Dateien und die entsprechenden Dokumentationsdateien explizit gegenüberstellen.
+- 5.4 Automatisierte Sync-Tools MÜSSEN bei jedem CI-Build die Konsistenz der Querverweise überprüfen.
+- 5.5 Veraltete Dokumentationsabschnitte MÜSSEN als deprecated markiert oder umgehend entfernt werden.
+
+## 12. Metriken & Akzeptanzkriterien
+
+- **Metrik 1:** Synchronisationsgrad zwischen Code und Dokumentation MUSS 100% betragen.
+- **Metrik 2:** Fehlerrate bei automatisierten Querverweisprüfungen MUSS 0% sein.
+- **Metrik 3:** Maximale Zeitspanne für Doku-Updates nach Code-Änderung MUSS innerhalb desselben PRs liegen.
+- **Metrik 4:** Abdeckung dokumentierter API-Endpunkte MUSS 100% erreichen.
+- **Metrik 5:** Erfolgsrate automatisierter Sync-Validation-Runs MUSS 100% betragen.
+
+## 13. Compliance & Verifikation
+
+Die Einhaltung aller normativen Vorgaben dieses Standards MUSS kontinuierlich durch den `atc-std-validator` über die automatisierte Testsuite (Läufe S-01 bis S-25) verifiziert werden.
+Jegliche Feststellung einer Abweichung MUSS unverzüglich als strukturierte Fehlermeldung (Finding F-NNN) nach ATC-STD-BUG-001 bis ATC-STD-BUG-005 klassifiziert und im Ticket-System registriert werden.
+
+## 14. Security Considerations
+
+- Dokumentationsinhalte dürfen KEINE sensiblen Systemdaten oder Passwörter enthalten.
+- Alle Codebeispiele MÜSSEN mit anonymisierten Beispieldaten arbeiten.
+- Automatisch generierte Dokumentationspfade MÜSSEN auf zulässige Ausgabeverzeichnisse beschränkt sein.
+
+## 15. Changelog
+
+| Version | Datum | Beschreibung |
+|---|---|---|
+| 1.0.0 | 2026-09-07 | Initial release / Sammelfreigabe |
+| 1.1.0 | 2026-09-08 | Additive Elaboration SCR-0041 — neue Regeln und Sektionen, keine bestehende Regel geändert |
+
+## 16. References
+
+**NORMATIVE:**
+- ATC-STD-000 — Standards Governance & Specification Standard
+
+**INFORMATIVE:**
+- SCR-0041 — Standards Consolidation & Elaboration
+- ATC-STD-BUG-004
+- ATC-STD-AI-DEV-001
+- ATC-STD-AI-DEV-010
