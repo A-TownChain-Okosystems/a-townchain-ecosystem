@@ -154,8 +154,10 @@ impl CollisionWorld {
     pub fn len(&self) -> usize {
         self.colliders.len()
     }
+
+    /// Gegenstueck zu `len` (Clippy: `len_without_is_empty`).
     pub fn is_empty(&self) -> bool {
-        self.colliders.is_empty()
+        self.len() == 0
     }
 }
 
