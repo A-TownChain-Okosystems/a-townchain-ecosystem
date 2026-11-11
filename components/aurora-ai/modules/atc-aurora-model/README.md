@@ -23,6 +23,26 @@ Finale Norm            256                   256
 gesamt                                 5 868 800
 ```
 
+## Vorwaertslauf
+
+`forward(&cfg, &weights, &tokens, &mut budget)` rechnet Tokens zu Logits `(T, vocab)`.
+Der Pfad ist: Einbettung ziehen, je Block RMSNorm -> Q/K/V -> RoPE -> kausale
+Multi-Head-Attention (`j <= i`, sonst `-inf`) -> Ausgabeprojektion -> Restpfad,
+dann RMSNorm -> SwiGLU (`wgu` haelt Gate und Up in einer Matrix) -> Down ->
+Restpfad. Am Ende abschliessende Norm und gebundener Ausgabekopf.
+
+`Weights::from_seed(&cfg, seed)` erzeugt Gewichte deterministisch (splitmix64,
+kein `rand`, keine Betriebssystemzufall). `Weights::param_count()` muss
+`param_count(&cfg)` entsprechen; ein Test haelt diese Invariante fuer die kleine
+Konfiguration und fuer Ref-1 fest.
+
+Gerechnet wird ausschliesslich mit `atc-aurora-tensor`; dieses Crate enthaelt
+keine eigene Tensor-, Norm- oder Attention-Mathematik, nur die Verdrahtung.
+
+Grenzen: initialisierte, nicht trainierte Gewichte. Die Tests pruefen Rechnung
+und Grenzen (B-19 Kausalitaet, B-20 512 Token mit endlichen Werten), nicht
+Sprachqualitaet. Kein KV-Cache, kein Batching, kein Sampler.
+
 ## Befund zu B-18
 
 Das Blueprint nennt fuer B-18 den Sollwert **5 771 776**. Die Ableitung aus der
@@ -44,8 +64,12 @@ Die Differenz laesst sich zerlegen: 97 024 = 379 x 256, ohne die abschliessende
 Norm 96 768 = 6 x 63 Zeilen. Sie entspricht damit genau der abschliessenden Norm
 plus 63 Zeilen je Block, also `d_ff` 683 statt 704. Mit `d_ff` 683 und ohne
 abschliessende Norm ergibt die Ableitung exakt 5 771 776, und 683 ist gerade
-aufgerundetes 8/3 x 256. Der Sollwert sieht damit nach einer Rechnung aus, die vor
-der Einfrierung von K5 und vor der Aufnahme der finalen Norm entstanden ist.
+aufgerundetes 8/3 x 256. Der Sollwert ist damit belegt die Zahl **vor** der K5-Entscheidung: der Blueprint
+nennt in §6 selbst `d_ff` 683 oder 704 als offenen Punkt, und 683 gegen 704 sind
+genau 96 768 Parameter, also 1,68 Prozent. Die Modellspezifikation nennt in
+Abschnitt 7.1.1 nach K5 5 868 544 aus der Formel
+`P = L(4d^2 + 3 d d_ff + 2d) + V d`. Diese Formel zaehlt die abschliessende Norm
+allerdings nicht mit; mit ihr sind es 5 868 800, und so rechnet dieses Crate.
 
 Entscheidungsvorlage mit Rechenweg, Suchraum, zwei exakten Aufloesungen und drei
 Optionen: [`docs/decisions/AD-B18-PARAMETERHAUSHALT.md`](../../docs/decisions/AD-B18-PARAMETERHAUSHALT.md).
