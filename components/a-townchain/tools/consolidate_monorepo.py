@@ -45,11 +45,8 @@ LAYOUT = {
     "atc-contracts": "apps/atc-contracts",
     "atc-mining": "apps/atc-mining",
     # kernel/ — Betriebssystem- und Kernel-Ebene
-    "a-townchain-os": "kernel/kai-os",
     "atc-shivacore": "kernel/atc-shivacore",
-    "globus-os": "kernel/globus-os",
     # ai/
-    "aurora-ai": "ai/aurora-ai",
     "atclang": "ai/atclang",
     "genesis-engine": "ai/genesis-engine",
     "genesis-chronicles": "ai/genesis-chronicles",
@@ -65,6 +62,23 @@ LAYOUT = {
 
 # Repos, die bereits als components/* im Ziel liegen oder sich selbst sind.
 SKIP = {"a-townchain"}
+
+# Repos, die NICHT in das Monorepo kopiert werden (AD-052 / K2, 11.11.2026):
+# aurora-ai ist eigenstaendige Implementierungsautoritaet (Ebene L2, AD-017/AD-026).
+# Eine physische Kopie unter ai/aurora-ai erzeugte eine zweite Quelle; sie wurde am
+# 11.11.2026 entfernt. Die Integration erfolgt ueber den Code-Mirror in
+# a-townchain-ecosystem (scripts/sync_modules.py), nicht ueber dieses Skript.
+NOT_CONSOLIDATED = {
+    "aurora-ai": "eigene Implementierungsautoritaet (AD-052), Mirror via sync_modules.py",
+    # Doppelungsaufloesung 11.11.2026: Die Kernel-Ebene hat genau eine Quelle je
+    # Repository. Beide Kopien unter kernel/ waren veraltet und nicht baubar:
+    # kernel/globus-os wich in 54 Dateien ab und trug 18 Dateien, die im Kanon
+    # unter legacy/kernel-src-uncompiled liegen; kernel/kai-os war bis auf die
+    # README datei-identisch zu a-townchain-os/kai-os. Damit gab es zwei
+    # Kernel-Wahrheiten und einen stillen Bau aus dem falschen Baum.
+    "globus-os": "kanonisch im Repo globus-os, Kopie kernel/globus-os am 11.11.2026 entfernt",
+    "a-townchain-os": "kanonisch im Repo a-townchain-os, Kopie kernel/kai-os am 11.11.2026 entfernt",
+}
 
 # ecosystem: nur die produktiven Teile, nicht die 26 Spiegel unter components/
 ECOSYSTEM_KEEP = {"catalog", "control-plane", "schemas", "integration", "tools", "docs", "tests"}
@@ -109,6 +123,11 @@ def main():
     counter = [0]
     missing = []
 
+    overlap = sorted(set(LAYOUT) & set(NOT_CONSOLIDATED))
+    if overlap:
+        print("FEHLER: Repos stehen in LAYOUT und NOT_CONSOLIDATED: " + ", ".join(overlap))
+        return 2
+
     for repo, rel_target in sorted(LAYOUT.items()):
         src = os.path.join(src_root, repo)
         if not os.path.isdir(src):
@@ -149,6 +168,9 @@ def main():
         print(f"  {m['source_repo']:45s} -> {m['target_path']:32s} {m['files']:5d} Dateien")
     if missing:
         print("  FEHLEND (nicht geklont):", ", ".join(missing))
+    skipped = sorted(set(NOT_CONSOLIDATED) - set(LAYOUT))
+    if skipped:
+        print("  NICHT KONSOLIDIERT (eigene Autoritaet):", ", ".join(skipped))
 
     if not args.dry_run:
         path = os.path.join(dst_root, "MIGRATION_MANIFEST_MONOREPO.json")
