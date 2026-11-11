@@ -144,7 +144,9 @@
       "name": "demo-repository",
       "archived": false,
       "role": "demo/reference",
-      "private": true
+      "private": true,
+      "exclude_from_live_drift_gate": true,
+      "live_drift_gate_exclusion_reason": "Template/integration fixture; excluded from the live source-symbol drift gate. Retained in the repository manifest as an EXCLUDED reference entry."
     },
     {
       "name": "atc-ide",
