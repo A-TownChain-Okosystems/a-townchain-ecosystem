@@ -76,6 +76,19 @@ def catalog_bindings(catalog: dict) -> tuple[set, list, list, list]:
                 delegated.append({"function_id": function["id"],
                                   "delegates_to_function_id": binding["delegates_to_function_id"]})
                 continue
+            # A catalog record can carry explanatory placeholder strings while
+            # explicitly declaring that no executable source binding exists.
+            # Those records must not enter the source-binding uniqueness index.
+            if binding.get("binding_kind") in {"specification_only", "exempt_no_source_binding"}:
+                continue
+            if binding.get("status") in {
+                "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+                "UNBOUND_RESIDUAL",
+                "SOURCE_SURFACE_NOT_IDENTIFIED",
+                "BLOCKED_ARCHIVED_REFERENCE_ONLY",
+                "NO_SOURCE_SYMBOLS_IN_CENSUS",
+            }:
+                continue
             path = binding.get("source_path")
             symbol = binding.get("symbol_or_entrypoint")
             if path and symbol:
