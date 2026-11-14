@@ -7,7 +7,6 @@ on:
   pull_request:
     paths:
       - "components/atc-wallet/**"
-      - "components/a-townchain/modules/atc-blockchain/kernel/src/crypto.rs"
 
 permissions:
   contents: read
