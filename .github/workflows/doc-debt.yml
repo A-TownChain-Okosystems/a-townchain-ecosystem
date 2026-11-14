@@ -1,0 +1,37 @@
+name: Rustdoc Debt Ratchet (Workspace)
+
+# Workspace-weites Gegenstueck zu .github/workflows/doc-debt.yml in globus-os.
+# Der Zaehler ist ein Proxy (Top-Level-Items), kein Ersatz fuer den Compiler-Lint
+# RUSTDOCFLAGS="-D missing_docs"; Felder und Enum-Varianten zaehlt er nicht mit.
+# Die Baseline darf nur sinken.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "components/**/*.rs"
+      - "governance/doc-debt-baseline.json"
+      - "scripts/doc_debt.py"
+      - ".github/workflows/doc-debt.yml"
+  pull_request:
+    paths:
+      - "components/**/*.rs"
+      - "governance/doc-debt-baseline.json"
+      - "scripts/doc_debt.py"
+  schedule:
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ratchet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Rustdoc-Debt der Komponenten gegen Baseline
+        run: python3 scripts/doc_debt.py --root . --base governance/doc-debt-baseline.json
