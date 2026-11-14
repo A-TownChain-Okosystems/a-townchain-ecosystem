@@ -2,6 +2,7 @@
 name = "kai-os-syncd"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.100"
 description = "KAI-OS Sync Daemon: Multi-Node State-Sync + Disaster Recovery (Issue #113, GATE-KAI-001 Kat. 12)"
 license = "Apache-2.0"
 
