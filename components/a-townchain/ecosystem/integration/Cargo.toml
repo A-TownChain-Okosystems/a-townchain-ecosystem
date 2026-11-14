@@ -8,5 +8,10 @@ publish = false
 [dependencies]
 atc-node = { path = "../../components/node" }
 atc-sdk = { path = "../../components/sdk/modules/atc-sdk/rust" }
+# HINWEIS 14.11.2026: Das Ziel dieser Pfad-Dependency existiert nicht mehr.
+# atc-blockchain/kernel war eine minifizierte Kopie von
+# globus-os/.../service_space/src/blockchain.rs und wurde nach E4 geloescht.
+# Dieses Crate ist deshalb weiterhin nicht baubar und bleibt ausserhalb der
+# Workspaces; die Zeile bleibt als Beleg der offenen Abhaengigkeit stehen.
 atc-blockchain = { path = "../../modules/atc-blockchain/kernel" }
 ed25519-dalek = { version = "2", features = ["rand_core"] }
