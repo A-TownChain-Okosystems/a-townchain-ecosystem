@@ -1,5 +1,226 @@
 # Changelog
 
+## 2026-11-11 nachgetragen — Korrektur meiner eigenen Veröffentlichung (14.11.2026)
+
+- **Was falsch lief:** Am 14.11. habe ich `README.md` und `STATUS.md` des Crates
+  `atc-aurora-model` mit einem Stand vom 11.11. ueberschrieben und dabei den
+  Fortschritt vom 13.11. (Vorwaertslauf, Gewichte, Artefakt, Graph, Dekodierung,
+  69 Tests) aus der Dokumentation entfernt. Zusaetzlich habe ich ein zweites
+  Entscheidungsdokument `docs/decisions/M-05-B18-PARAMETERHAUSHALT.md` angelegt,
+  das B-18 als offen fuehrte, obwohl B-18 am 11.11. durch **A + F1** geschlossen
+  wurde.
+- **Korrektur:** beide Dateien auf den Stand 8ff18a2 zurueckgefuehrt; das doppelte
+  Dokument wird geloescht. Massgeblich bleibt
+  `docs/decisions/AD-B18-PARAMETERHAUSHALT.md` (Sollwert 5 868 800, Formel
+  `P = L(4d^2 + 3 d d_ff + 2d) + V d + d`, Revision 1.4.0 in `ATC-AI-LLM-001-A`;
+  5 771 776 ist der Stand **vor** K5, also `d_ff` 683).
+- **Lehre:** vor dem Ueberschreiben einer Datei den Remote-Stand lesen und
+  vergleichen, nicht den lokalen. Ein Stand von vor drei Tagen ist keine
+  Aktualisierung.
+- **Unveraendert:** kein Code, kein Gewicht, kein Test. Die zwei Clippy-Befunde
+  (`config.rs` `%` statt `is_multiple_of`, `artifact/read.rs` `chunks_exact`) sind
+  gewollt und stammen aus der Stable-Entscheidung vom 13.11., nicht aus dieser
+  Korrektur.
+
+## 2026-11-13 — Stable Rust als Produktionsbasis (Nachtrag zu P4)
+
+- **Entscheidung des Eigentuemers:** Stable ist die regulaere Produktionsbasis,
+  Nightly nur fuer ausdruecklich begruendete Entwicklungsfunktionen. Variante
+  „Nightly festschreiben" (ein `rust-toolchain.toml` auf `nightly-2026-08-01`)
+  ist damit verworfen; es wird **keine** Toolchain-Datei angelegt.
+- **Vier instabile Bibliotheksfunktionen ersetzt, semantisch identisch:**
+  `n_heads.is_multiple_of(n_kv_heads)` → `%` (Model, `config.rs`),
+  `bytes.as_chunks::<4>()` → `bytes.chunks_exact(4)` (Model, `artifact/read.rs`),
+  `d_head.is_multiple_of(2)` / `cols.is_multiple_of(d_head)` → `%`
+  (Tensor, `autograd.rs`), `bytes.len().is_multiple_of(2)` → `%`
+  (Tokenizer, `bpe.rs`). Kein Ersatz durch eine eigene Hilfsimplementierung.
+- **Zwei Clippy-Befunde des Stable-Linters** (der Nightly-Linter 1.99 kennt sie
+  nicht mehr): `format!` je Byte in zwei Digest-Pruefungen → `write!` in einen
+  `String` (gleiche Ausgabe, `tests/digest_vectors.rs` und
+  `src/artifact/tests.rs`), entbehrliche Lifetime in `train::state::Cursor`.
+- **Nachweis mit Stable 1.83.0**, aus lokalem Klon: tokenizer 34, tensor 61,
+  model 70 (+1 ignoriert), train 15, digest 5 — **185 gruen, 0 rot**;
+  `cargo fmt --check` 5/5, clippy `-D warnings` 5/5. Gegenprobe mit
+  nightly-1.99.0: dieselben 185 gruen, fmt 5/5. Clippy `-D warnings` ist auf
+  Nightly **nicht** sauber, weil der dortige Linter `manual_is_multiple_of`
+  genau die instabile Methode verlangt, die hier entfernt wurde — das Gate ist
+  Stable, wie dokumentiert.
+- **Unveraendert:** Modellarchitektur, Tensorsemantik, Gradientenrechnung,
+  Pruefpunktformat (`ATCM` + `AURST001`), Testnamen und Testergebnisse.
+- **CI:** der Rust-Job in `test-suite.yml` bleibt auf `stable` (keine
+  Aenderung noetig, `rustup default stable`), untere geprueft Grenze ist 1.83.0.
+- **Offener Punkt, nicht Teil dieser Aenderung:** `atc-aurora-core` zieht
+  `getrandom 0.4.3`, das Cargo mit Edition-2024-Unterstuetzung verlangt; mit
+  Cargo 1.83 bricht der Download ab. Vor einer Stable-CI ueber alle acht Crates
+  zu entscheiden.
+- `CI_VERIFIED` bleibt offen (F-T2). Der Stand `a654387` bleibt als
+  dokumentierter historischer Verifikationsstand erhalten; diese Aenderung
+  erzeugt einen neuen HEAD, an den die Evidenz neu gebunden wird.
+
+## 2026-11-13 — P4: Trainingskette geschlossen (Autograd-Bruecke, Optimierer, Registry, Inferenz)
+
+- **Neu: `modules/atc-aurora-train` (M-06)** — Gradientenspeicher in kanonischer
+  Parameterfolge, Adam mit entkoppelter Gewichtsdaempfung (AdamW), Trainingsschleife,
+  Bewertung (Verlust, Perplexitaet, Trefferquote), Pruefpunktregister. 15 Tests.
+  Pruefpunkte bestehen aus dem ATCM-Artefakt mit externem Digest-Anker und dem
+  Zustandsformat `AURST001` mit eigener Pruefsumme; ein veraenderter Teil wird
+  abgelehnt, ein fortgesetzter Lauf ergibt denselben naechsten Schritt.
+- **Neu im Tensor-Kern: drei Graphoperationen mit Ableitung** — `gather`
+  (Einbettungs-Lookup, Streuung auf gelesene Zeilen), `slice_cols` (Kopfzerlegung)
+  und `rope` (Rotation je Kopf, Ableitung als Rotation um `-angle`). Jede gegen die
+  zentrale Finitedifferenz geprueft; `cos`/`sin` bleiben gradientenfrei. 61 Tests
+  (vorher 53).
+- **Neu im Modell: differenzierbarer Vorwaertslauf und Dekodierung** —
+  `atc_aurora_model::graph::forward_graph` verdrahtet denselben Baum als Graphen;
+  die Logits stimmen mit `forward` auf 1e-4 relativ ueberein (gebundene und nicht
+  gebundene Einbettung). `decode::generate` ist die kleinste inferenzfaehige Form
+  (argmax, je Schritt ein Vorwaertslauf, kein KV-Cache). 69 Tests (1 ignoriert).
+- **Zwei Befunde geschlossen.** `Graph::cross_entropy` reservierte den verworfenen
+  Vorwaertsgradienten im Budget und gab ihn nie zurueck; behoben und dauerhaft
+  geprueft (`p4_graph_gibt_budget_zurueck`). `AUTOGRAD-CONTRACT.md` fuehrte
+  Einbettungs-Lookup, RoPE und Kopfzerlegung als offen (K6); jetzt implementiert und
+  im Contract dokumentiert, samt Befund zum Budget.
+- **Gradientennachweis ohne Selbstbestaetigung:** die Richtungsableitung des
+  Graphen wird gegen die zentrale Finitedifferenz des **unabhaengigen**
+  Vorwaertslaufs geprueft, nicht gegen den Graphen selbst.
+- **Teststand:** tensor 61, model 69 (+1 ignoriert), train 15, digest 5,
+  tokenizer 34 — 184 gruen, 0 rot. `cargo fmt --check` und clippy `-D warnings`
+  fuer alle fuenf Crates sauber (nightly-2026-08-01). `AD-P4` dokumentiert
+  Entscheidungen und offene Punkte.
+- `CI_VERIFIED` bleibt offen (F-T2); Actions enden weiterhin mit `startup_failure`.
+
+## 2026-11-13 — Formatierungsbereinigung, vollständiges blockierendes Format-Gate
+
+- **Rein mechanischer `cargo fmt`-Commit** für `atc-aurora-agents`,
+  `atc-aurora-localization` und `atc-aurora-memory`: 10 Dateien, +295/−77 Zeilen.
+  Keine fachliche Änderung, keine API-Änderung, keine Teständerung außer Formatierung.
+- **Nachweis der Semantikfreiheit:**
+  - rustdoc-JSON-Vergleich vorher/nachher (nightly, `--output-format json`): die
+    Item-Multisets sind identisch — agents 358, localization 283, memory 190 Items,
+    inklusive Signaturen, Feldern, Varianten und Trait-Item-Zahlen.
+  - Testnamen vorher/nachher identisch (17 Tests in den drei Crates), Ergebnisse
+    unverändert grün.
+  - Die einzigen Ordnungsänderungen sind rustfmt-Defaults (`reorder_modules`,
+    `reorder_imports`) in den `lib.rs`-Dateien. Item- und `use`-Reihenfolge ist in Rust
+    namensauflösungsneutral; das einzige ordnungsabhängige Konstrukt (`macro_rules!
+    impl_agent!` in `agents.rs`) liegt dateilokal und wurde nicht bewegt.
+- **Vollständiges Format-Gate aktiviert:** `.github/workflows/test-suite.yml` prüft
+  jetzt `cargo fmt --check` blockierend für alle acht Crates. Die Ausnahmebehandlung
+  (blockierend nur auf geänderten Dateien, Vollprüfung als Warnung) ist entfernt.
+- **Teststand unverändert 218 grün, 0 rot:** agents 4, core 47, digest 5,
+  localization 4, memory 9, model 62, tensor 53, tokenizer 34. Clippy `-D warnings`
+  für alle acht Crates sauber, `cargo fmt --check` für alle acht grün.
+- `ATC-AI-LLM-004` bleibt `proposed`; `CI_VERIFIED` bleibt offen (F-T2).
+
+## 2026-11-13 — AD-FT1 Digest-Autorität, P1-C Rust-CI-Job
+
+- **Neu: `atc-aurora-digest` v1.0.0** als einzige SHA-256-Autorität. Streaming-API ist
+  die normative Form, keine Abhängigkeit, kein `unsafe`, `no_std` plus `alloc` für Hex.
+  `atc-aurora-model` und `atc-aurora-tokenizer` enthalten keine eigene
+  Hash-Implementierung mehr, ihre Module `artifact::sha256` und `sha256` sind
+  Re-Exporte. Abhängigkeitsrichtung strikt Model → Digest und Tokenizer → Digest.
+- **Neu: `ATC-AI-DIGEST-001` v1.0.0** (Digest-API-Vertrag, Klauseln D-01 bis D-12,
+  Status `proposed`) und **`AD-FT1`** als Entscheidungsakte mit Befund, verworfene
+  Alternativen und Konsequenzen.
+- **Nachweis nicht zirkulär:** `modules/atc-aurora-digest/tests/vectors.txt` enthält 301
+  Sollwerte aus python hashlib über ein festes Byte-Muster; das Digest-Crate prüft sie
+  selbst, Model und Tokenizer prüfen sie gegen ihre eigenen Fassaden
+  (`tests/digest_vectors.rs`). Dazu FIPS-180-4-Beispiele und Chunking-Invarianz über 11
+  Schrittweiten.
+- **P1-C: Rust-Job in `.github/workflows/test-suite.yml`.** Kein Root-Workspace, jedes
+  Crate unter `modules/` einzeln; `cargo clippy --all-targets -- -D warnings` und
+  `cargo test` je Crate blockierend; Toolchain stable; ein Fehler in einem Crate lässt
+  den Job scheitern, nachdem alle Crates gelaufen sind.
+- **Befund zum Format-Gate:** drei Crates sind historisch nicht rustfmt-sauber
+  (`agents`, `localization`, `memory`; `core`, `digest`, `model`, `tensor`, `tokenizer`
+  sind es). Ein blockierendes `cargo fmt --check` über alles wäre ab dem ersten Lauf
+  rot. Der Job prüft deshalb blockierend die in diesem Lauf geänderten Rust-Dateien und
+  meldet die Vollprüfung je Crate als Warnung. Dieselbe Entscheidung traf der frühere,
+  inzwischen aus dem Baum verschwundene Workflow `rust-module-validation.yml`
+  (Commit `7f1dcff`).
+- **Befund zu F-T2:** es gab bereits einen Rust-Workflow (`Aurora AI Rust Module
+  Validation`, ID 389679408). Seine Datei fehlt im Baum, der Workflow ist bei GitHub
+  aber weiter als `active` registriert; die letzten Läufe (19.10.2026) endeten mit
+  `failure`. Ebenfalls ohne Datei registriert: `agentpool-authorization`,
+  `aurora-core-exact-sha`, `markdownlint`. Aufräumen oder Wiederherstellen ist eine
+  eigene Entscheidung.
+- **Teststand:** digest 1 + 4, model 61 (1 ignoriert) + 1 Cross-Crate, tokenizer 33 + 1
+  Cross-Crate, tensor 53, core 47, memory 9, agents 4, localization 4 = 212 + 2 = 214
+  grüne Tests, 0 rot, auf stable und (Tokenizer, Model) nightly.
+- **`ATC-AI-LLM-004` 1.0.1:** F-T1 als geschlossen geführt, keine Klausel geändert,
+  Lifecycle-Status bleibt `proposed`.
+- **Weiter offen:** `CI_VERIFIED` (Actions `startup_failure`, F-T2), P1-E
+  Vokabular-Benchmark (braucht den P1-Zielkorpus).
+
+## 2026-11-13 — K-T1 normativ geschlossen, P1-B Vertragskonformität
+
+- **Neu: `ATC-AI-LLM-004` v1.0.0 „Kanonisches Tokenizer-Artefaktformat (K-T1)"**,
+  Status `proposed`. Klauseln C-01 bis C-26: Zeichenvorrat (ASCII, LF), Feldreihenfolge,
+  Trennzeichen ohne Escape-Mechanismus, Token- und Merge-Darstellung, Sortierung und
+  Eindeutigkeit, Zahlenformate (0 oder `[1-9][0-9]*`), Digest über exakt die
+  Datei-Bytes als 64 Zeichen kleingeschriebenes Hex, Prüfreihenfolge in zehn Schritten,
+  Fehlerklassen E-01 bis E-18, Einfrieren der Fassung 1. §12 ist die
+  Konformitätsmatrix der Referenzimplementierung, alle Klauseln PASS.
+- **P1-B umgesetzt:** `from_canonical` folgt der Prüfreihenfolge. Neu durchgesetzt:
+  Basisidentität der Token 0..255 (E-06), Eindeutigkeit der Merge-Paare (E-14),
+  abschließendes LF als Kanonizitätsbedingung (E-16), CRLF und Nicht-ASCII (E-18),
+  strikte Dezimalfelder ohne führende Null (E-02/E-04/E-10), Hex nur kleingeschrieben
+  (E-07), Digestformat nur 64 Zeichen kleingeschriebenes Hex (E-17), Digestvergleich
+  exakt statt schreibweisen-tolerant. Kanonizität wird durch Re-Serialisierung
+  geprüft: der Import akzeptiert nie mehr als der Export erzeugt.
+- **Tests:** 33 grün auf stable und nightly (vorher 15), clippy `-D warnings` und fmt
+  sauber. Neu 18 Vertragsprüfungen, benannt nach Klausel.
+- **Unverändert:** K4, K5, K6, Ref-1, kein neues Root-Verzeichnis, keine
+  Zusatzabhängigkeit. Offen bleiben F-T1 (Digest-Autorität), F-T2 (Rust-CI-Job) und
+  P1-E (Vokabular-Benchmark auf dem P1-Zielkorpus).
+
+## 2026-11-13 — §8 bleibt unverändert, Freigabestand festgehalten
+
+- **Keine Umnummerierung von `ATC-AI-LLM-001` §8** (Owner, 13.11.2026): P3 bleibt
+  Transformer/Ref-1, P4 bleibt Trainings-Engine. Die Ergänzung in 7.2.1 fügt Zeilen
+  in einem bestehenden Abschnitt ein, erzeugt keinen neuen Hauptabschnitt und
+  rechtfertigt keine Verschiebung von Querverweisen oder Evidenzbindungen.
+  Normative Kontinuität vor kosmetischer Nummerierung. Dokumentstand **1.6.2**.
+- **Freigabestand:** `ATC-AI-LLM-001` v1.6.2 · Modellname `Aurora-LLM-1B (Prototyp)`
+  · exakte Profilgröße 1 036 077 056 · 7.2.1 ergänzt · §8 unverändert · K4, K5, K6
+  und Ref-1 unverändert · Tests `TESTED` · CI `BLOCKED` (keine verwertbare
+  CI-Evidenz, Actions endet mit `startup_failure` ohne Job).
+- **P1 beginnt:** Tokenizer auf dem bestehenden Codebestand, ohne neue
+  Root-Verzeichnisse und ohne zusätzliche Crates über den Blueprint hinaus. P2 folgt
+  danach, Training bleibt bis zum Abschluss beider Schritte zurückgestellt.
+
+## 2026-11-13 — Modellbezeichnung `Aurora-LLM-1B (Prototyp)`
+
+- **Zielmodell benannt:** `Aurora-LLM-1B (Prototyp)`, Entwicklungsstatus
+  `PROTOTYPE`, festgehalten in `ATC-AI-LLM-001` **1.6.1**, Abschnitt 7.2.1. Die
+  Bezeichnung `1B` ist ein Modellname, kein gerundeter Ersatz für die Parameterzahl.
+- **Exakte Größe bleibt technisch bindend:** 1 036 077 056 Parameter, `d_ff` 5632.
+  Der Name ersetzt die Zahl nicht; bei Profiländerungen wird die Zahl neu
+  nachgerechnet, nicht aus dem Namen abgeleitet.
+- **Reihenfolge unverändert:** P1 Tokenizer zuerst abschließen, P2 Autograd danach,
+  Training erst nach P1 und P2. K4, K5, K6 und Ref-1 bleiben unangetastet; kein Code,
+  keine Parameterzählung, kein Test geändert.
+
+## 2026-11-13 — 1B-Zielprofil 1 036 077 056, B-18-Dokumentationsdrift geschlossen
+
+- **B-18-Dokumentationsdrift geschlossen.** `modules/atc-aurora-model/STATUS.md`
+  (`d1b5235`) und `modules/atc-aurora-model/README.md` (`22a31fb`) führen B-18 jetzt
+  als entschieden (A + F1 vom 11.11.2026: Sollwert 5 868 800, `d_ff` 704, abschließende
+  Norm zählt mit), statt eine offene Owner-Entscheidung zu behaupten. Die historische
+  Herleitung (5 771 776 = Stand vor K5, `d_ff` 683) bleibt als Beleg stehen. Kein
+  Modellcode, keine Parameterzählung, keine AD geändert; 61 Tests grün.
+- **Zielprofil Aurora-1B** in `ATC-AI-LLM-001` **1.6.0**, neuer Abschnitt 7.2.1:
+  20 Blöcke, `d_model` 2048, 16 Köpfe zu 128, `d_ff` 5632, Vokabular 4096 als
+  **Zielwert**; Parameterzahl **1 036 077 056**, aus der Formel nachgerechnet.
+  Ausdrücklich nicht normativ für Ref-1: K4, K5 und K6 bleiben unverändert.
+- **Umsetzungsreihenfolge bestätigt:** P1 Tokenizer (Architektur, Benchmark,
+  Zielkorpus), P2 Autograd (Backward-Pass, Gradienten, numerische Tests), danach
+  Training. Ein lizenziertes Basismodell wird **nicht** als Beschleunigungsweg
+  verfolgt; die native Aurora-Entwicklung bleibt der Pfad. Bestehende Module werden
+  erweitert, keine zusätzlichen Crates und Root-Ordner.
+- CI-Evidenz gibt es für diese Commits nicht: GitHub Actions endet weiterhin mit
+  `startup_failure` ohne Job, Step und Log. Status ist `TESTED`, nicht `CI_VERIFIED`.
+
 ## 2026-11-11 — K7-Vertrag 1.0.0, K6 normativ entschieden, wöchentlicher Sicherheitscheck
 
 Entscheidungen des Owners vom 11.11.2026 umgesetzt:
@@ -109,6 +330,7 @@ G2 **PASS**, G3 **PASS**, G4 **RESIDUAL**, G5 BLOCKED → **PASS**. Gesamt: PASS
 RESIDUAL. Freigabe für `write` und `read` damit erteilt, Auflagen dokumentiert.
 
 **Zwei blockierende Befunde, beide echt und beide behoben:**
+
 - **F-01 Header-Arithmetik:** Der Vertrag sagte an vier Stellen „96 Byte", die Feldtabelle
   summiert sich aber auf **104** (4+2+2+44+4+4+4+8+32), Digest bei 72..104. Ein Leser nach
   Textangabe hätte acht Byte zu früh die Tabelle begonnen. 104 an allen Stellen, Rechenweg
@@ -154,6 +376,7 @@ Norm bleiben bestehen.
 
 **B-21 Artefaktvertrag spezifiziert, nicht implementiert:**
 `docs/specs/ATC-AI-LLM-002-ATCM-ARTIFACT-CONTRACT.md` v1.0.0 (status `proposed`) legt
+
 - einen 96-Byte-Header mit Magic `ATCM`, Formatversion, Architekturparametern, `rope_base`,
   `norm_eps`, `reserved` und `tensor_data_bytes`,
 - 64-Byte-Tabelleneinträge (Name, Rang, Form, Offset, `byte_len`),
@@ -369,19 +592,23 @@ Alle wesentlichen Änderungen an diesem Projekt werden in dieser Datei dokumenti
 ## [Unreleased] - 2026-11-10
 
 ### Added
+
 - `docs/specs/ATC-AI-LLM-001-AURORA-FOUNDATION-MODEL.md`: P0 specification for the native Aurora Foundation Model (Aurora LLM). Covers verified baseline inventory, numeric and determinism contract, crate layout, artifact format `.atcm`, parameter and compute sizing, phase plan P0-P10, test matrix, and the three-level learning acceptance criterion.
 
 ### Changed (Blueprint ATC-AI-LLM-001-B v1.1.0, Abschlusszustand getrennt)
+
 - Neuer Abschnitt "P2: Implementation Completion vs. Verification Completion" im Blueprint: vier Statusdimensionen (Implementierung, Funktionale Prüfung, Performance-Referenz, Gesamtabnahme) statt eines pauschalen P2-Status.
 - P2-Austrittsbedingung in vier einzeln prüfbare Bedingungen zerlegt: P2_IMPLEMENTATION_COMPLETE, P2_FUNCTIONALLY_TESTED, P2_PERFORMANCE_VERIFIED, P2_ACCEPTED. Inhaltlich unverändert, die 24 Testfälle bleiben unangetastet.
 - Governance: BLOCKED_EXTERNAL wird nie automatisch zu VERIFIED, CI_VERIFIED oder E2E_VERIFIED. Eine fehlende Messumgebung ist kein Implementierungsfehler und rechtfertigt keine Absenkung von Prüfungen. Keine Gesamtfreigabe ohne alle drei Bedingungen. Nach der Hardwarequalifikation wird die Performance-Verifikation ohne erneute Implementierungsarbeit nachgeholt.
 
 ### Added (Revision 1.3.0, K3 entschieden)
+
 - Referenzregel First Qualified Hardware in Abschnitt 14.3: die erste Maschine, die das vollständige Qualifikationsprofil erfüllt und exklusiv messen darf, wird die verbindliche CPU-Referenz. Keine CPU wird auf Verdacht benannt.
 - Neues Dokument `ATC-AI-LLM-001-C`, T2.6-Messprotokoll: Qualifikationsprofil, Pflichtfelder der Umgebung, Messablauf mit fünf Aufwärm- und drei Messläufen, Median, Streuungsgrenze 5 Prozent, Rohdatenpflicht.
 - Governance für den Wechsel der Referenz: neuer Fingerprint, neues Protokoll, Vergleich gegen die bisherige Referenz, dokumentierte Freigabe. Keine stillschweigende Ersetzung.
 
 ### Changed (Revision 1.2.0, K4 und K5 entschieden)
+
 - `d_ff` von 683 auf 704, Parameterzahl 5.868.544 statt 5.771.776, also 1,68 Prozent mehr. Grund: 2.816 Byte je Zeile sind exakt 44 Cache-Lines zu 64 Byte und exakt 88 AVX2-Vektoren, Rest 0. Mit 683 überquert jede Zeile eine Cache-Line.
 - Vokabular bleibt 4096 und ist jetzt verbindlich, mit Falsifikator: unter 2,2 Byte je Token auf dem P1-Zielkorpus wird neu bewertet.
 - Neue verbindliche Modellkonfiguration in Abschnitt 7.1.1 als einzige Quelle. Kein Crate darf einen eigenen Default für diese Werte definieren.
@@ -389,18 +616,22 @@ Alle wesentlichen Änderungen an diesem Projekt werden in dieser Datei dokumenti
 - K1 und K2 als geschlossen geführt, K3 offen mit entschiedenem Messverfahren.
 
 ### Added (Revision 1.1.0 und Anhang)
+
 - `docs/specs/ATC-AI-LLM-001-A-REF1-IMPLEMENTATION-ENVELOPE.md`: Implementierungsgrenzen fuer Ref-1. Korrigiertes Rechenmodell (Attention-Term, 16 bis 27 Prozent Aufschlag gegen die 6ND-Naeherung), Speichermodell als eigentliche Grenze, Schrittbudget fuer L1 bis L3, Determinismusverfahren, hergeleitete Toleranzen, festgelegte API-Flaeche, Abgrenzung zu AD-021 und zu den bestehenden aurora-ai-Kopien.
 - `ATC-AI-LLM-001` auf Version 1.1.0: Entscheidungen D1 bis D5 angenommen, vier neue Entscheidungen K1 bis K4 offen.
 
 ### Fixed
+
 - `modules/atc-aurora-runtime/STATUS.md`: behauptete "0 .atc Dateien" bei fuenf vorhandenen und verschwieg das fehlende `Cargo.toml` und die fehlenden Rust-Quellen. Fassung vom 2026-08-08 ersetzt.
 - `modules/atc-aurora-runtime/COMPONENT_PLAN.md`: Status der fuenf Dateien von "GEPLANT" auf "Notiz vorhanden, nicht ausfuehrbar" korrigiert.
 - `FILE_REGISTER.md`: von 425 auf 476 Dateien neu erzeugt. Die alte Fassung nannte 16 `.rs` statt 31 und 61 `.md` statt 78.
 
 ### Changed
+
 - Nothing in code. Specification, two documentation corrections and a regenerated file register. 0 lines of production code.
 
 ### Verification
+
 - Baseline inventory is bound to commit `b4858f350fcc8db4d48c1cb20b2f116be53c41fe` (file list via Git Trees API, keyword scan over all `*.rs`).
 - Parameter counts are computed from a stated formula, not measured, and are labelled as computed.
 - Throughput figures are assumptions with a measurement planned as P2 exit criterion T2.6.
@@ -409,12 +640,14 @@ Alle wesentlichen Änderungen an diesem Projekt werden in dieser Datei dokumenti
 ## [Unreleased] — 2026-10-18
 
 ### Added
+
 - Validated Rust agent registry with unique caller-assigned IDs, capability metadata and typed errors.
 - Bounded task scheduler with explicit lifecycle states, dependency gating, timeout handling and cancellation.
 - Result collector with expected-agent attribution, duplicate/empty-result rejection and deterministic ordering.
 - Unit tests for registry, scheduling, dependency, timeout/cancellation and result aggregation invariants.
 
 ### Verification
+
 - Implementation commit evidence is recorded in the pull request.
 - Build/test and GitHub Actions results remain pending until the exact PR head SHA has completed its checks.
 - The existing .atc files are legacy/planned stubs; this implementation is in the canonical Rust atc-aurora-core crate and does not claim the ATCLang stubs are implemented.
@@ -422,6 +655,7 @@ Alle wesentlichen Änderungen an diesem Projekt werden in dieser Datei dokumenti
 ## [0.1.0] - 2026-09-09
 
 ### Added
+
 - Standards-Konformität hergestellt gemäß ATC-STD-README-001 und ATC-STD-MD-001.
 - Erstellung von STATUS.md, ROADMAP.md, ARCHITECTURE.md, CONTRIBUTING.md, GOVERNANCE.md, CODE_OF_CONDUCT.md.
 - Aktualisierung der AI Agent Instructions in AGENTS.md.
@@ -429,5 +663,6 @@ Alle wesentlichen Änderungen an diesem Projekt werden in dieser Datei dokumenti
 ## [0.0.1] - 2026-09-07
 
 ### Added
+
 - Governance-Überarbeitung nach ATC-STD-201/202/203.
 - Rust Core und Python AI Services Grundstruktur.
