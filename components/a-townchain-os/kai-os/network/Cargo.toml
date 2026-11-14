@@ -2,6 +2,7 @@
 name = "kai-os-network"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.100"
 description = "KAI-OS Network: P2P Transport + Discovery + Peer Security (S07-S09, AD-008)"
 license = "Apache-2.0"
 
