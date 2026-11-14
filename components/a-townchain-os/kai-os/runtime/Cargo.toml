@@ -2,6 +2,7 @@
 name = "kai-os-runtime"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.100"
 description = "KAI-OS Runtime: Resource Manager + Sandbox + Scheduler (S04-S06, AD-008)"
 license = "Apache-2.0"
 
