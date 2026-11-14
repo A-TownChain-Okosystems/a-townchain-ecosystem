@@ -16,7 +16,7 @@ standard: ATC-STD-MD-001
 **Status:** ARCHITECTURE_ONLY  
 **Normative authority:** atc-standards
 
-# Canonical System Role — GlobusOS AI Control Plane
+## Canonical System Role — GlobusOS AI Control Plane
 
 Aurora AI is the **AI Control / Intelligence Plane of GlobusOS**.
 
@@ -234,4 +234,3 @@ Exact-SHA CI evidence is required before marking a capability VERIFIED. CI succe
 ### Explicit residuals
 
 Full capability-token enforcement remains a separate gate: expiry, nonce/replay protection, audience validation, revocation, identity authentication, and enforcement at the GlobusOS/ShivaCore boundary must be implemented and evidenced. Production model-provider inference, full RAG, multimodal providers, complete agent planning/execution, blockchain signing execution, deployment automation, and end-to-end verification remain unverified until supported by source and exact-SHA evidence.
-
