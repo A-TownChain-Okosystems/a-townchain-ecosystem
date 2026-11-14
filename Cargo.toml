@@ -10,9 +10,12 @@ exclude = [
   # integration haengt per Pfad an components/atc-sdk (kein Manifest) und macht
   # damit das Laden des gesamten Workspace unmoeglich.
   "integration",
-  # Extrahiertes Einzeldatei-Crate: src/blockchain.rs importiert crate::mempool,
-  # crate::consensus und crate::security, die es hier nicht gibt, und nutzt
-  # alloc/spin ohne deklarierte Abhaengigkeiten. Muss erst repariert werden.
+  # Extrahiertes Einzeldatei-Crate, nicht uebersetzbar (importiert crate::mempool,
+  # crate::consensus, crate::security; nutzt alloc/spin ohne Abhaengigkeiten).
+  # Inhaltlich eine aeltere, minifizierte Kopie von
+  # globus-os/modules/atc-shivacore/service_space/src/blockchain.rs, also nach
+  # E4/E5 Duplikation: hier nicht reparieren, nur ausschliessen. Siehe
+  # components/a-townchain/modules/atc-blockchain/kernel/NON_CANONICAL.md.
   "components/a-townchain/modules/atc-blockchain/kernel",
   # Legacy duplicate snapshots; retained for history, not workspace members.
   "components/atc-algorithm",
