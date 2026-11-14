@@ -2,6 +2,7 @@
 name = "kai-os-cli"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.100"
 description = "KAI-OS CLI: Komposition über bestehende Crates (S21-S22, AD-008.2)"
 license = "Apache-2.0"
 
