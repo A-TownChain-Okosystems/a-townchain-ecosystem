@@ -2,6 +2,7 @@
 name = "atc_cli"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.100"
 description = "CLI-Tool for Kernel/Blockchain interaction"
 authors = ["Michael Wroblewski"]
 license = "Apache-2.0"
