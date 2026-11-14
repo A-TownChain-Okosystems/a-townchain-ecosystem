@@ -5,7 +5,9 @@ pub mod balance;
 pub mod gui;
 pub mod history;
 pub mod keys;
-pub mod tx;\npub mod wallet;
+pub mod tx;
+pub mod wallet;
 
 pub use keys::KeyPair;
-pub use tx::{SignedTransaction, Transaction, TransactionDomain, TxError};\npub use wallet::Wallet;
+pub use tx::{SignedTransaction, Transaction, TransactionDomain, TxError};
+pub use wallet::Wallet;
