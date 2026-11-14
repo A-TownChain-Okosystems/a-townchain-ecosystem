@@ -2,6 +2,7 @@
 name = "kai-os-ai"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.100"
 description = "KAI-OS AI Runtime: IPC + Proposals + Audit Trail (S13-S15, AD-008)"
 license = "Apache-2.0"
 
