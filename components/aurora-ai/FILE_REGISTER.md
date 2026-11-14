@@ -4,6 +4,8 @@
 > **Neu erzeugt:** 2026-11-11 | Quelle: Git-Trees-API `aurora-ai` main, Zielbaum dieses Commits
 > **Korrektur:** Die Fassung vom 2026-09-10 nannte 425 Dateien und war gegenüber dem Bestand veraltet (`*.rs` 16 statt 31, `*.md` 61 statt 78, `*.ts` 40 statt 43, sechs Workflow-Dateien fehlend).
 > **Zählweise:** Gezählt werden Blobs, also echte Dateien. Verzeichnisse zählen nicht mit. Der Baum enthält 59 Verzeichnisse zusätzlich.
+>
+> **Stand-Vermerk 13.11.2026 (P4 Trainingskette):** 19 Dateien ergaenzt — Crate `modules/atc-aurora-train` (Manifest, Lock, README, STATUS und neun `src`-Dateien), `modules/atc-aurora-model/src/{graph,decode,tests_graph}.rs`, `modules/atc-aurora-tensor/src/tests_model_ops.rs`, `modules/atc-aurora-tensor/Cargo.lock`, `docs/decisions/AD-P4-TRAINING-CHAIN.md`. Damit 556 Dateien, 70 Verzeichnisse, `.rs` 75, `.md` 101.
 > **Stand-Vermerk 11.11.2026 (K7/K6/Messung):** drei Dateien ergänzt — `docs/specs/ATC-AI-LLM-003-ARTIFACT-PROVENANCE.md`, `docs/decisions/AD-K6-ROPE-BASE.md`, `docs/measurements/2026-11-11-artifact-decode-cost.md`; ein Verzeichnis (`docs/measurements`). Damit 515 Dateien, 61 Verzeichnisse, `.md` 91.
 > **Stand-Vermerk 11.11.2026 (B-21 implementiert):** fünf Dateien ergänzt — `modules/atc-aurora-model/src/artifact/{mod,sha256,write,read,tests}.rs`. Damit 512 Dateien, 60 Verzeichnisse, `.rs` 53.
 > **Stand-Vermerk 11.11.2026 (Gate-Prüfung G1–G5):** eine Datei ergänzt — `docs/audits/2026-11-11-ATC-AI-LLM-002-GATE-REVIEW.md`. Damit 507 Dateien, `.md` 88.
@@ -12,7 +14,15 @@
 > **Stand-Vermerk 11.11.2026 (B-18):** eine Datei ergänzt — `docs/decisions/AD-B18-PARAMETERHAUSHALT.md` (Entscheidungsvorlage, neues Verzeichnis `docs/decisions`). Damit 501 Dateien, 59 Verzeichnisse, `.md` 86.
 > **Stand-Vermerk 11.11.2026 (M-05):** sieben Dateien ergänzt — Crate `modules/atc-aurora-model` (`Cargo.toml`, `README.md`, `STATUS.md`, `src/{lib,config,params,tests}.rs`). Damit 500 Dateien, 58 Verzeichnisse, `.md` 85, `.rs` 45, `.toml` 7.
 > **Stand-Vermerk 11.11.2026 (M-03):** fünf Dateien ergänzt — `AUTOGRAD-CONTRACT.md` sowie `src/autograd.rs`, `src/layers.rs`, `src/loss.rs`, `src/tests_autograd.rs`. Damit 493 Dateien und `.rs` 41.
+> **Stand-Vermerk 13.11.2026 (Markdown-Qualitaet):** eine Datei ergaenzt — `.github/workflows/markdownlint.yml` (Caller des zentralen reusable Workflows). Dazu 41 Dateien strukturell nach der Org-Policy bereinigt (263 auf 0 Treffer, markdownlint-cli2 0.19.1). Damit 537 Dateien, 68 Verzeichnisse, `.md` 98, `.yml` 8.
+
 > **Standards:** ATC-STD-201 · Evidence: `.atc/evidence/evidence.yaml`
+>
+> **Stand-Vermerk 13.11.2026 (M-04 Tokenizer):** neun Dateien ergaenzt — Crate `modules/atc-aurora-tokenizer` (`Cargo.toml`, `Cargo.lock`, `README.md`, `STATUS.md`, `src/{lib,error,sha256,bpe,tests}.rs`); zwei Verzeichnisse. Damit 524 Dateien, 63 Verzeichnisse, `.rs` 58.
+>
+> **Stand-Vermerk 13.11.2026 (K-T1):** eine Datei ergaenzt — `docs/specs/ATC-AI-LLM-004-TOKENIZER-ARTIFACT-CONTRACT.md`. Damit 525 Dateien, 63 Verzeichnisse, `.md` 94.
+>
+> **Stand-Vermerk 13.11.2026 (AD-FT1 / P1-C):** elf Dateien ergaenzt — Crate `modules/atc-aurora-digest` (Manifest, Lock, README, STATUS, `src/lib.rs`, `tests/vectors.rs`, `tests/vectors.txt`), Cross-Crate-Tests in Model und Tokenizer, `ATC-AI-DIGEST-001`, `AD-FT1`. Dazu fuenf Verzeichnisse. Damit 536 Dateien, 68 Verzeichnisse, `.rs` 62, `.md` 98.
 
 ---
 
@@ -20,27 +30,27 @@
 
 | Metrik | Wert |
 |--------|------|
-| **Total Dateien** | 515 |
-| **Verzeichnisse** | 61 |
+| **Total Dateien** | 556 |
+| **Verzeichnisse** | 70 |
 | **.tsx** | 157 |
+| **.md** | 101 |
 | **.atc** | 80 |
-| **.md** | 91 |
+| **.rs** | 75 |
 | **.ts** | 43 |
-| **.rs** | 53 |
 | **.js** | 17 |
-| **.json** | 11 |
 | **.cjs** | 11 |
+| **.json** | 11 |
+| **.toml** | 10 |
 | **.yaml** | 9 |
 | **(keine)** | 8 |
-| **.yml** | 7 |
 | **.gitignore** | 7 |
-| **.toml** | 7 |
+| **.yml** | 8 |
 | **.py** | 6 |
-| **.txt** | 3 |
+| **.lock** | 6 |
+| **.txt** | 4 |
+| **.css** | 1 |
 | **.example** | 1 |
 | **.html** | 1 |
-| **.css** | 1 |
-| **.lock** | 2 |
 
 ---
 
@@ -57,6 +67,7 @@
 - `.github/workflows/codeql.yml`
 - `.github/workflows/dependency-review.yml`
 - `.github/workflows/governance-ci.yml`
+- `.github/workflows/markdownlint.yml`
 - `.github/workflows/sdk.yml`
 - `.github/workflows/test-suite.yml`
 - `.gitignore`
@@ -91,15 +102,19 @@
 - `docs/audits/AURORA-CHATGPT-SCOPE-SOURCE-AUDIT.md`
 - `docs/aurora-swarm-orchestration.md`
 - `docs/decisions/AD-B18-PARAMETERHAUSHALT.md`
+- `docs/decisions/AD-FT1-DIGEST-SSOT.md`
 - `docs/decisions/AD-K6-ROPE-BASE.md`
+- `docs/decisions/AD-P4-TRAINING-CHAIN.md`
 - `docs/measurements/2026-11-11-artifact-decode-cost.md`
 - `docs/specs/ATC-AI-CAP-001-CAPABILITY-TOKENS.md`
+- `docs/specs/ATC-AI-DIGEST-001-DIGEST-API-CONTRACT.md`
 - `docs/specs/ATC-AI-LLM-001-A-REF1-IMPLEMENTATION-ENVELOPE.md`
 - `docs/specs/ATC-AI-LLM-001-AURORA-FOUNDATION-MODEL.md`
 - `docs/specs/ATC-AI-LLM-001-B-P1-P2-BLUEPRINT.md`
 - `docs/specs/ATC-AI-LLM-001-C-T2.6-MESSPROTOKOLL.md`
 - `docs/specs/ATC-AI-LLM-002-ATCM-ARTIFACT-CONTRACT.md`
 - `docs/specs/ATC-AI-LLM-003-ARTIFACT-PROVENANCE.md`
+- `docs/specs/ATC-AI-LLM-004-TOKENIZER-ARTIFACT-CONTRACT.md`
 - `docs/specs/ATC-AI-LOC-001-LOCALIZATION.md`
 - `docs/specs/ATC-AI-MEM-001-MEMORY-SECURITY.md`
 - `docs/specs/ATC-AI-S2-001-S2-CONTROLS.md`
@@ -477,6 +492,13 @@
 - `modules/atc-aurora-core/src/result_collector.rs`
 - `modules/atc-aurora-core/src/state.rs`
 - `modules/atc-aurora-core/src/task_scheduler.rs`
+- `modules/atc-aurora-digest/Cargo.lock`
+- `modules/atc-aurora-digest/Cargo.toml`
+- `modules/atc-aurora-digest/README.md`
+- `modules/atc-aurora-digest/STATUS.md`
+- `modules/atc-aurora-digest/src/lib.rs`
+- `modules/atc-aurora-digest/tests/vectors.rs`
+- `modules/atc-aurora-digest/tests/vectors.txt`
 - `modules/atc-aurora-localization/Cargo.lock`
 - `modules/atc-aurora-localization/Cargo.toml`
 - `modules/atc-aurora-localization/README.md`
@@ -518,12 +540,16 @@
 - `modules/atc-aurora-model/src/artifact/tests.rs`
 - `modules/atc-aurora-model/src/artifact/write.rs`
 - `modules/atc-aurora-model/src/config.rs`
+- `modules/atc-aurora-model/src/decode.rs`
 - `modules/atc-aurora-model/src/forward.rs`
+- `modules/atc-aurora-model/src/graph.rs`
 - `modules/atc-aurora-model/src/lib.rs`
 - `modules/atc-aurora-model/src/params.rs`
 - `modules/atc-aurora-model/src/tests.rs`
 - `modules/atc-aurora-model/src/tests_forward.rs`
+- `modules/atc-aurora-model/src/tests_graph.rs`
 - `modules/atc-aurora-model/src/weights.rs`
+- `modules/atc-aurora-model/tests/digest_vectors.rs`
 - `modules/atc-aurora-runtime/.gitignore`
 - `modules/atc-aurora-runtime/ARCHITECTURE.md`
 - `modules/atc-aurora-runtime/CHANGELOG.md`
@@ -539,6 +565,7 @@
 - `modules/atc-aurora-runtime/src/task_scheduler.atc`
 - `modules/atc-aurora-runtime/src/tool_executor.atc`
 - `modules/atc-aurora-tensor/AUTOGRAD-CONTRACT.md`
+- `modules/atc-aurora-tensor/Cargo.lock`
 - `modules/atc-aurora-tensor/Cargo.toml`
 - `modules/atc-aurora-tensor/README.md`
 - `modules/atc-aurora-tensor/STATUS.md`
@@ -552,6 +579,30 @@
 - `modules/atc-aurora-tensor/src/tensor.rs`
 - `modules/atc-aurora-tensor/src/tests.rs`
 - `modules/atc-aurora-tensor/src/tests_autograd.rs`
+- `modules/atc-aurora-tensor/src/tests_model_ops.rs`
+- `modules/atc-aurora-tokenizer/Cargo.lock`
+- `modules/atc-aurora-tokenizer/Cargo.toml`
+- `modules/atc-aurora-tokenizer/README.md`
+- `modules/atc-aurora-tokenizer/STATUS.md`
+- `modules/atc-aurora-tokenizer/src/bpe.rs`
+- `modules/atc-aurora-tokenizer/src/error.rs`
+- `modules/atc-aurora-tokenizer/src/lib.rs`
+- `modules/atc-aurora-tokenizer/src/sha256.rs`
+- `modules/atc-aurora-tokenizer/src/tests.rs`
+- `modules/atc-aurora-tokenizer/tests/digest_vectors.rs`
+- `modules/atc-aurora-train/Cargo.lock`
+- `modules/atc-aurora-train/Cargo.toml`
+- `modules/atc-aurora-train/README.md`
+- `modules/atc-aurora-train/STATUS.md`
+- `modules/atc-aurora-train/src/error.rs`
+- `modules/atc-aurora-train/src/eval.rs`
+- `modules/atc-aurora-train/src/gradients.rs`
+- `modules/atc-aurora-train/src/lib.rs`
+- `modules/atc-aurora-train/src/optim.rs`
+- `modules/atc-aurora-train/src/registry.rs`
+- `modules/atc-aurora-train/src/state.rs`
+- `modules/atc-aurora-train/src/tests.rs`
+- `modules/atc-aurora-train/src/trainer.rs`
 - `schemas/aurora-action-request.schema.yaml`
 - `schemas/memory/capability.schema.json`
 - `schemas/memory/federation_handshake.schema.json`
