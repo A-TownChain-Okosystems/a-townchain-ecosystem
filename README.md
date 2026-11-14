@@ -17,7 +17,7 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 | ATCLang (Programmiersprache) | `components/atclang` | atclang |
 | ATC-VM | `components/a-townchain/components/vm` | a-townchain (L1-Monorepo) |
 | Algorithmus/Konsens | `components/a-townchain/components/algorithm` | a-townchain (L1-Monorepo) |
-| ShivaCore-Kernel | `components/globus-os/modules/atc-shivacore/kernel` (Importpfad, falls vorhanden) | globus-os (kanonische Kernel-Quelle) |
+| ShivaCore-Kernel | kein Mirror (seit 14.11.2026); Quelle `globus-os/modules/atc-shivacore/kernel` | globus-os (alleinige Kernel-SSOT, HEAD `9472b4c`) |
 | A-TownChain (L1, 13 Komponenten) | `components/a-townchain` | a-townchain |
 | Aurora AI | `components/aurora-ai` | aurora-ai |
 | Genesis Engine | `components/genesis-engine` | genesis-engine |
