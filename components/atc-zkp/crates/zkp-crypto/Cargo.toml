@@ -2,6 +2,7 @@
 name = "zkp-crypto"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.100"
 license = "Apache-2.0"
 description = "zkp-crypto — bounded cryptographic primitives for the ATC ZKP boundary"
 
