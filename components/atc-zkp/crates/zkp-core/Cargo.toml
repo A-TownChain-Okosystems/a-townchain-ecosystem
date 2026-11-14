@@ -2,6 +2,7 @@
 name = "zkp-core"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.100"
 license = "Apache-2.0"
 description = "zkp-core — ATC ZKP-Stack (R1-MVP, AD-045)"
 
