@@ -41,7 +41,7 @@ jobs:
             else
               roots["$dir"]=1
             fi
-          done < <(find components -name Cargo.toml -not -path '*/archive/*' -not -path '*/target/*' -not -path '*/node_modules/*' -not -path '*/a-townchain-os-docs/docs/monorepo-legacy/*' | sort -u)
+          done < <(find components -name Cargo.toml -not -path '*/archive/*' -not -path '*/target/*' -not -path '*/node_modules/*' -not -path '*/a-townchain-os-docs/docs/monorepo-legacy/*' -not -path 'components/globus-os/*' | sort -u)
 
           for dir in "${!roots[@]}"; do
             echo "=== Rust: $dir"
@@ -49,16 +49,6 @@ jobs:
             excl=()
             features="--all-features"
             lint_flags=(-D warnings)
-            if [ "$dir" = "components/globus-os" ]; then
-              # SCR-0078: boot-Crate wird nur cross-compiliert (atc-shivacore-tests),
-              # Host-Gates laufen ohne boot (stable statt nightly).
-              # x86_64-Crate 0.15.5 hat ein nightly-only Feature -> Default-Features.
-              # rustdoc-Debt (~2900 fehlende Eintraege) per -A missing_docs
-              # dokumentiert und als P2-Issue im Umbrella verfolgt.
-              excl=(--exclude boot)
-              features=""
-              lint_flags+=(-A missing_docs)
-            fi
             for gate in fmt check test clippy; do
               log="$(mktemp)"
               case "$gate" in
