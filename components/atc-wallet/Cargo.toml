@@ -1,7 +1,8 @@
 [package]
 name = "atc_wallet"
 version = "0.2.0"
-edition = "2021"
+edition = "2024"
+rust-version = "1.100"
 description = "A-TownChain wallet core — Ed25519 key management and transaction signing"
 authors = ["A-TownChain-Okosystems"]
 license = "Apache-2.0"
