@@ -2,11 +2,6 @@
 version: 2
 updates:
   - package-ecosystem: cargo
-    directory: "modules/atc-blockchain/kernel"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 5
-  - package-ecosystem: cargo
     directory: "modules/atc-dns"
     schedule:
       interval: "weekly"
