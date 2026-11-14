@@ -2,6 +2,7 @@
 name = "atc-sdk"
 version = "0.2.0"
 edition = "2021"
+rust-version = "1.100"
 license = "Apache-2.0"
 description = "Canonical Rust client SDK for the A-TownChain protocol."
 
