@@ -2,6 +2,7 @@
 name = "atc_assets"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.100"
 description = "Asset-Management — Fungible Tokens, NFTs, Royalties"
 authors = ["Michael Wroblewski"]
 license = "Apache-2.0"
