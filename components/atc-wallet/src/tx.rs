@@ -27,7 +27,14 @@ pub struct Transaction {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum TxError { InvalidDomain, InvalidSignature, NonceOverflow }
 
-#[derive(Debug, Clone, PartialEq, Eq)]\npub struct SignedTransaction {\n    pub transaction: Transaction,\n    pub public_key: VerifyingKey,\n    pub signature: Signature,\n}\n\nimpl TransactionDomain {
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct SignedTransaction {
+    pub transaction: Transaction,
+    pub public_key: VerifyingKey,
+    pub signature: Signature,
+}
+
+impl TransactionDomain {
     pub fn validate(&self) -> Result<(), TxError> {
         if self.chain_id != "atc" || !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") || self.protocol_version.is_empty() || self.transaction_type.is_empty() {
             return Err(TxError::InvalidDomain);
