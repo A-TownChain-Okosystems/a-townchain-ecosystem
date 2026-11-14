@@ -4,8 +4,9 @@
 #  - die sieben Unter-Workspaces (eigene Manifeste)
 #    (das Doku-Archiv enthaelt seit dem Manifest-Cleanup keine Crates mehr)
 #  - apps/-Spiegel bereits vorhandener components-Crates
-#  - modules/atc-blockchain/kernel und ecosystem/integration: durch FV-002
-#    blockiert (Kernel-Crate unvollstaendig, src enthaelt nur blockchain.rs)
+#  - ecosystem/integration: haengt per Pfad an ein Crate ohne Manifest.
+#    modules/atc-blockchain/kernel wurde am 14.11.2026 nach E4 geloescht
+#    (minifizierte Kopie von globus-os/.../service_space/src/blockchain.rs).
 [workspace]
 resolver = "2"
 members = [
@@ -47,6 +48,5 @@ exclude = [
     "apps/atc-storage",
     "components/zkp",
     "ecosystem/integration",
-    "modules/atc-blockchain/kernel",
     "tooling/atc-engineering",
 ]
