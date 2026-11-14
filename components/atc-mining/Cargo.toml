@@ -1,7 +1,8 @@
 [package]
 name = "atc-mining"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
+rust-version = "1.100"
 license = "Apache-2.0"
 description = "ATC Mining — execution and deterministic mining primitives; consensus remains canonical in atc-algorithm"
 
