@@ -3,6 +3,17 @@ resolver = "2"
 # Legacy snapshots remain in-tree but are not production workspace members.
 # Canonical algorithm and VM crates own separate workspaces under components/a-townchain.
 exclude = [
+  # Kein Cargo.toml vorhanden, nur Doku: koennen keine Workspace-Mitglieder sein.
+  "components/atc-marketplace/modules/atc-dex",
+  "components/atc-sdk",
+  "components/atc-indexer",
+  # integration haengt per Pfad an components/atc-sdk (kein Manifest) und macht
+  # damit das Laden des gesamten Workspace unmoeglich.
+  "integration",
+  # Extrahiertes Einzeldatei-Crate: src/blockchain.rs importiert crate::mempool,
+  # crate::consensus und crate::security, die es hier nicht gibt, und nutzt
+  # alloc/spin ohne deklarierte Abhaengigkeiten. Muss erst repariert werden.
+  "components/a-townchain/modules/atc-blockchain/kernel",
   # Legacy duplicate snapshots; retained for history, not workspace members.
   "components/atc-algorithm",
   "components/atc-vm",
@@ -11,16 +22,13 @@ exclude = [
   "components/a-townchain/components/vm",
 ]
 members = [
-  "integration",
-  "components/a-townchain/modules/atc-blockchain/kernel",
-  "components/atc-marketplace/modules/atc-dex",
   "components/atc-mining",
   "components/atc-node",
-  "components/atc-sdk",
-  "components/atc-indexer",
   "components/atc-wallet",
 ]
 
 [workspace.package]
-edition = "2021"
+edition = "2024"
+# Aktuelles Rust Stable (1.100.0, 09.11.2026).
+rust-version = "1.100"
 license = "Apache-2.0"
