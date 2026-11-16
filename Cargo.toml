@@ -3,6 +3,13 @@ resolver = "2"
 # Legacy snapshots remain in-tree but are not production workspace members.
 # Canonical algorithm and VM crates own separate workspaces under components/a-townchain.
 exclude = [
+  # Importierte Komponenten ohne eigenes Workspace-Root: keine Mitgliedschaft
+  # hier (SCR-0129 Standalone First). Ohne Eintrag bricht `cargo test` in diesen
+  # Verzeichnissen mit "believes it's in a workspace" ab — genau die Pakete, die
+  # die Jobs shivacore-tests und atclang-quality testen.
+  "components/atc-shivacore/modules/atc-security",
+  "components/atc-shivacore/sdk",
+  "components/atclang/crates/atc-core",
   # Kein Cargo.toml vorhanden, nur Doku: koennen keine Workspace-Mitglieder sein.
   "components/atc-marketplace/modules/atc-dex",
   "components/atc-sdk",
