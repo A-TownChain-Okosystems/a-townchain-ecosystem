@@ -62,10 +62,16 @@ reduced to it: marked `DEPRECATED`, linked to the source, and removed from agent
 
 | ID | Blocker | Repos (HEAD) | Blocked by | Acceptance (measurable) | Owner |
 |---|---|---|---|---|---|
-| **BLK-P0-01** | CI `startup_failure` org-wide: 19 of 33 repos start zero jobs | org-wide (see Annex A) | — | 26/26 governed repos: workflow starts on every push to main on the exact SHA; 19 → 0 startup failures; common cause separated from repo-specific ones | RepositoryAgent + Owner (GitHub Support) |
+| **BLK-P0-01** | CI `startup_failure`: platform incident 06.11.–16.11., **recovered 16.11. ~14:56Z**; historically 19 repos, currently 0 proven broken, 9 active repos unverified. Sub-blockers 01a–01e | org-wide (see Annex A) | — | 26/26 governed repos: started run on exact HEAD after 2026-11-16T14:56Z; policy-markdown defect fixed; `CI_VERIFIED` only on green exact-SHA run | RepositoryAgent + Owner (GitHub Support) |
 | **BLK-P0-02** | ATC-BC-001: no normative bytecode spec; compiler has 19 instructions, VM has 16 opcodes, ~5 shared | atc-vm@21132a49, atclang@516482ab, a-townchain@2c918207 | — | Opcode IDs, semantics, operands, stack, types, gas, traps, versioning fixed; compiler and VM reference one table; compiler↔VM conformance test green | ArchitectAgent + CodingAgent |
 | **BLK-P0-03** | Contract lowering missing: 2/27 contracts compile (7.4%); `contract` bodies are token streams only | atclang@516482ab, atc-contracts@876c03b2 | BLK-P0-02 | Defined contract scope 100% passes `atc check --profile consensus`; lowering covers state/require/events; ≥3 real contracts run `.atc → .ops → ATVM` with state assertions | CodingAgent + QAAgent |
 | **BLK-P0-04** | No E2E proof of the chain: consensus-verified contract execution unproven | a-townchain@2c918207, atc-vm@21132a49, atclang@516482ab, atc-contracts@876c03b2 | BLK-P0-02, -03 | One transaction executes an ATCLang contract, verified by ≥2 nodes; identical state roots; replay determinism | QAAgent + SecurityAgent |
+
+**Phase 0 assessment (2026-11-16):** [`PHASE0_CI_ROOT_CAUSE.md`](PHASE0_CI_ROOT_CAUSE.md) / [`.yaml`](PHASE0_CI_ROOT_CAUSE.yaml).
+Findings: platform-side initialization fault (push/dispatch/schedule, 06.11.–16.11.), recovered without config change;
+commit-signature hypothesis refuted; org policy markdown defect blocks Markdown Lint in 7 repos (R-3);
+a-townchain job logs HTTP 403 (R-4); a-townchain 5 red gates on one Dependabot PR (R-5).
+Sub-blockers: **01a** verification sweep, **01b** policy markdown, **01c** log access, **01d** content failures, **01e** support status.
 
 ### P1
 
@@ -94,7 +100,7 @@ Phases may be **prepared** in parallel; **implementation and release dependencie
 
 | Phase | Work package | Blockers | Completion criterion |
 |---|---|---|---|
-| 0 | CI repair | BLK-P0-01 | Reproducible workflows on exact SHAs |
+| 0 | CI repair | BLK-P0-01 (01a–01e) | Reproducible workflows on exact SHAs — **assessment done, recovery observed, verification sweep open** |
 | 1 | Architecture consolidation | BLK-P1-04, BLK-P2-03 | One binding layer model (ATC-ARCH-001) |
 | 2 | ATC-BC-001 | BLK-P0-02 | Shared compiler/VM specification approved |
 | 3 | Contract lowering | BLK-P0-03 | Real compilable contracts |
