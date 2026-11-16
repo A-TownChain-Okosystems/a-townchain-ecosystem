@@ -38,17 +38,17 @@ entries:
   evidence_complete: true
   note: 'artifact anchor: hash of the file as committed in this commit'
 - artifact: docs/system-readiness/BLOCKER_REGISTER.yaml
-  sha256: 450355a46db518d7e94bec406b5fb46fb92972dbcb45820aafca4d66a81cebe8
-  commit: df5bd373efb9735d965c627b51a9eefb484e882c
-  collected_at: 2026-11-16T17:58Z
+  sha256: a189fec51666b674d0fc33dd189e0ecaef5a5d73906663d04ac236ae588cd83e
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
   collector: aurora-agent
   status: BOUND
   evidence_complete: true
   note: 'artifact anchor: hash of the file as committed in this commit'
 - artifact: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.md
-  sha256: 6ff5a57fc980ec597de81520f07a0d6c9656c77d830faea512482e2318036f27
-  commit: df5bd373efb9735d965c627b51a9eefb484e882c
-  collected_at: 2026-11-16T17:58Z
+  sha256: d8caabc85564980fb3e0b6a2ff4e381f20e1e3e7523259742937a1ad15c2653f
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
   collector: aurora-agent
   status: BOUND
   evidence_complete: true
@@ -62,21 +62,35 @@ entries:
   evidence_complete: true
   note: 'artifact anchor: hash of the file as committed in this commit'
 - artifact: docs/system-readiness/EVIDENCE_MODEL.md
-  sha256: adf466e456d9dc4fc9baffc9ca72967a54667a717d77f7c48e1d4f74d0efed59
-  commit: df5bd373efb9735d965c627b51a9eefb484e882c
-  collected_at: 2026-11-16T17:58Z
+  sha256: 9ef8ba194dff9d4580888d0d6145d6e4746f8301a31f4317652fb08d02ff1a93
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
   collector: aurora-agent
   status: BOUND
   evidence_complete: true
   note: 'artifact anchor: hash of the file as committed in this commit'
 - artifact: docs/system-readiness/system-readiness.yaml
-  sha256: 7b8abf6a08bdbddb2799da5200bf3a92c0ccb908b5050d3910975e02b5a52e97
-  commit: df5bd373efb9735d965c627b51a9eefb484e882c
-  collected_at: 2026-11-16T17:58Z
+  sha256: 37861fecd7ad58c9bfa45542fa1ea1965e65ba7c71df9a0977f3fb5b173cff5a
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
   collector: aurora-agent
   status: BOUND
   evidence_complete: true
   note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/ORG_SNAPSHOT.md
+  sha256: def75b9d60723c55b050994d6dc1fa55dbd694b45b988931d30711ea4a97da15
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+- artifact: docs/system-readiness/tools/org_snapshot.sh
+  sha256: 1106b0f919e5b41dd99ecc9e3772d38d06988134476276e57d3f6d4614653d76
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
 r3_consumer_evidence:
   collector: github-ci-fix/evidence.sh
   log_hash_spec: sha256 over gzip-decoded response bytes, no normalisation
@@ -108,3 +122,8 @@ r3_runs:
   note: appended by evidence.sh archive; entries are immutable
   evidence_complete_required: true
   entries: []
+org_snapshot:
+  tool: docs/system-readiness/tools/org_snapshot.sh
+  archive: SNAPSHOTS.jsonl (append-only, local)
+  repos: 33
+  baseline: 2026-11-16T18:09Z drift=0 unpushed=0 dirty=0
