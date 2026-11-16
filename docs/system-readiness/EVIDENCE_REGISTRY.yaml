@@ -108,7 +108,7 @@ r3_consumer_evidence:
   - log_bytes
   - evidence_complete
   complete_definition: conclusion=success AND run_head_sha=consumer_head AND log_status=OK AND workflow_pin=approved AND policy_ref=approved
-  state: PENDING - R-3 not executed; baseline collection 2026-11-16 shows 0/7 complete and policy_ref=1c198f3c/daf4b6e (unmerged)
+  state: policy defect resolved (merge 7f76c50); workflow pin commit still outstanding; 0/7 evidence_complete
   consumers:
   - a-townchain
   - atc-contracts
@@ -127,3 +127,17 @@ org_snapshot:
   archive: SNAPSHOTS.jsonl (append-only, local)
   repos: 33
   baseline: 2026-11-16T18:09Z drift=0 unpushed=0 dirty=0
+r3_merges:
+- object: 'PR #35 (.github)'
+  merge_sha: 7f76c5092ceeadb2bd5be4cc4a1161decd53f1a8
+  merged_at: 2026-11-16T18:52Z
+  review: A-TownChain APPROVED 2026-11-16T18:45:39Z
+  checks:
+    quality: success
+    Analyze (python): success
+  post_merge:
+    main_head: 7f76c5092ceeadb2bd5be4cc4a1161decd53f1a8
+    compare_main: identical
+    policy_file_sha256: 6f5a0f1e1d0b780717a309dc586ea9e520adf45b6d7b31386a2b2bd7b8bce381
+    config_file_sha256: 0317b55519061201e21b33593e1e027f14f435fab70f50a8c3995589992c199b
+  collector: aurora-agent via GitHub API
