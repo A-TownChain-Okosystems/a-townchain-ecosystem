@@ -1,192 +1,211 @@
 ---
 document_id: ATC-PHASE0-CI-RCA-001
 title: Phase 0 — CI Root Cause Assessment
-version: 0.1.0
-status: ASSESSED
+version: 0.2.0
+status: PARTIAL
 owner: A-TownChain-Okosystems
 updated: 2026-11-16
 standard: ATC-STD-MD-001
 tracking_issue: https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/116
-related: [ATC-BLOCKER-REGISTER-001, ATC-SYSTEM-READINESS-001]
+related: [ATC-BLOCKER-REGISTER-001, ATC-SYSTEM-READINESS-001, ATC-PHASE0-CI-RECOVERY-VERIFICATION-001]
 ---
 
 # Phase 0 — CI Root Cause Assessment
 
 > **Scope:** read-only investigation. No workflow was changed, no gate weakened, no run without jobs
 > counted as success, no historical evidence overwritten.
+> **Status decision (Owner, 2026-11-16): PARTIAL — 7 of 8 acceptance criteria MET. `CI_VERIFIED` = 0.**
 > **Machine-readable twin:** [`PHASE0_CI_ROOT_CAUSE.yaml`](PHASE0_CI_ROOT_CAUSE.yaml).
 > **Register entry:** BLK-P0-01 in [`BLOCKER_REGISTER.md`](BLOCKER_REGISTER.md).
 
 ## 1. Headline finding
 
-From **2026-11-06T17:23Z until 2026-11-16 ~14:56Z** the organization's user-initiated events
-(`push`, `workflow_dispatch`) and most `schedule` events produced runs with **zero jobs**
-(`conclusion: startup_failure`, empty name, `path: BuildFailed`), while `pull_request` and
-GitHub-managed `dynamic` runs (CodeQL, Code Quality) started normally in the same repositories,
-on the same branches, under the same permissions.
+The original 19 `startup_failure` reports were **not 19 independent repository defects**. They are
+predominantly symptoms of a **time-bounded, organization-wide GitHub Actions initialization incident**,
+plus four genuinely independent residual defects (§8).
 
-**The incident recovered during 2026-11-16 without any workflow or configuration change in the
-organization.** The decisive boundary is between 10:54Z (last failing push) and 14:56Z (first
-starting push); every observed run after 14:56Z starts and produces jobs.
+The incident produced runs with **zero jobs** (`conclusion: startup_failure`, empty name,
+`path: BuildFailed`) for user-initiated events (`push`, `workflow_dispatch`) and for `schedule` events.
+`pull_request` events were **never** affected: 0 startup failures in **2,067** pull_request runs across
+all 33 repositories.
 
-Consequence for the register: the earlier count of "19 repositories with startup failures" describes
-the **historical** state. Of those, several now start again; the rest have **no run since recovery**
-and are therefore *unverified*, not *broken*.
+**The incident recovered on 2026-11-16 without any workflow or configuration change in the
+organization.** Evidence-bracketed recovery window:
+
+| Event class | Last failing run (0 jobs) | First starting run | Recovery bracket |
+|---|---|---|---|
+| `push` | atc-node `43852994457`, 10:54:30Z | globus-os `43894367069` / atc-node `43891148071`, 14:56:52Z | (10:54:30Z, 14:56:52Z] |
+| `schedule` | atc-launchpad, 14:52Z | atclang, 14:58Z | (14:52Z, 14:58Z) |
+| `dynamic` | a-townchain, 2026-11-13T12:55Z | a-townchain, 2026-11-14T07:53Z | earlier, per repository |
+
+Consequence: the "19 repositories with startup failures" describes the **historical** state. Of those,
+some start again; the rest have **no run since recovery** and are therefore *unverified*, not *broken*.
 
 ## 2. Method and snapshot
 
 - Source: GitHub REST API (runs, jobs, check-runs, commits) plus local org snapshot (33 repos).
 - Snapshot 2026-11-16: 33 repositories, HEAD SHAs identical to Annex A of the blocker register.
-- Sampling: last 40 runs per repository; job counts for the last 8 runs per repository; workflow
-  files parsed locally for all 33 repositories.
+- Corpus: **6,005 workflow runs** across all 33 repositories (paged, not sampled), job counts for the
+  last 8 runs per repository, workflow files parsed locally for all 33 repositories.
+- No workflow was triggered by this investigation; the only runs created were those caused by normal
+  pushes to PR #247.
 
-## 3. Failure classification (0.2)
+## 3. Event-class evidence (corpus 6,005 runs)
 
-| Class | Description | Repositories | Evidence |
-|---|---|---|---|
-| **A** | Initialization failure, zero jobs (pre-recovery) | 19 historical; see §7 for the current split | globus-os run `43662920291` (15.11., 0 jobs), atc-standards `43830111537`, a-townchain-os-docs `43830162044`, atc-node `43852994457` (all 16.11. pre-recovery) |
-| **B** | Content failures in *running* pipelines | a-townchain (5 gates on one PR), atc-oracle (historical) | §6, run `43893675443` etc. |
-| **C** | Evidence access gap (job logs) | a-townchain | logs HTTP 403 vs. HTTP 200 for globus-os `43895261915` |
-| **D** | Pending verification (no run since recovery) | 16 repos (9 active, 7 archived/inactive) | §7 |
+| Event | Runs | `startup_failure` | Share | Assessment |
+|---|---:|---:|---:|---|
+| `pull_request` | 2,067 | **0** | 0.0 % | never affected |
+| `push` | 2,423 | 493 | 20.3 % | affected in cohorts, recovered 16.11. |
+| `dynamic` (CodeQL / Code Quality) | 1,126 | 399 | 35.4 % | **also affected**, recovered earlier and per repository |
+| `schedule` | 368 | 82 | 22.3 % | affected in a mass cohort 09.11., recovered 16.11. |
+| `workflow_dispatch` | 20 | 10 | 50.0 % | affected; no post-recovery probe yet |
 
-## 4. Common causes (0.3)
+**Correction to v0.1.0:** the earlier statement "`dynamic` never affected" was wrong; it was affected
+in a subset of repositories with an earlier recovery. The `pull_request` finding stands on 2,067 runs.
 
-**Confirmed:** the failure is event-class-specific and time-bounded, org-wide, and independent of
-repository content. It affects `push`, `workflow_dispatch` and most `schedule` runs, but never
-`pull_request` or `dynamic` runs in the same repositories during the same period.
+## 4. Onset cohorts (0.2/0.3) — the window is not uniform
+
+The incident started at **different times per repository and per event class**. Applying
+06.11.–16.11. to every workflow would be wrong.
+
+| Onset | Event | Repositories (first `startup_failure`) |
+|---|---|---|
+| 05.11. 11:21 | push, dynamic | atc-ide, a-townchain-os-docs |
+| 05.11. 12:47 | schedule | atc-standards |
+| 06.11. 17:18–17:23 | push, dispatch, dynamic | atc-standards, demo-repository, atc-node, genesis-chronicles |
+| 08.11. 09:05–18:35 | push | a-townchain-os, atc-node, atc-shivacore |
+| **09.11. 13:26–13:45** | schedule | 17 repositories within one 19-minute block (mass cohort) |
+| 12.11. 15:46–21:55 | push, dispatch | a-townchain, atclang |
+| 13.11. 17:58–18:22 | push, dynamic, schedule | aurora-ai, .github |
+| 14.11. 09:14–22:15 | push, dispatch | a-townchain-os, a-townchain-ecosystem |
+| 15.11. 00:32–01:24 | push, dispatch | globus-os |
+| 16.11. 12:22–13:22 | schedule | globus-os, a-townchain, aurora-ai (last tick before recovery) |
+
+The 09.11. schedule cohort (17 repositories failing within 19 minutes) is the strongest single
+pointer to a platform-side change rather than repository configuration.
+
+## 5. Common causes (0.3)
+
+**Confirmed:** event-class-specific, time-bounded initialization failure, independent of repository
+content, branch, permissions and workflow definition.
 
 **Excluded, with evidence:**
 
 | Candidate | Verdict | Evidence |
 |---|---|---|
-| Workflow YAML syntax | excluded | all workflow files in all 33 repos parse; a syntax error would hit one workflow, not CodeQL and not every repo |
-| Actions disabled / allowed_actions | excluded | `actions/permissions`: `enabled: true`, `allowed_actions: all`; recovery without policy change |
-| Billing / minutes | excluded | 805 included minutes, `netAmount 0.0`, all repos public (globus-os forensics 15.11.) |
-| Runner availability | excluded | zero jobs are created; no runner is requested; no self-hosted labels used |
-| Workflow definition / dispatch resolution | excluded | dispatch accepted (204), run correctly named, still zero jobs |
-| Reusable-workflow references | excluded | all pinned org SHAs exist and contain the referenced file (verified at `f7656d5b`, `2783846f`, `a41d9a93`, `b4ec342a`, `05607bf5`); `review-conflict-free.yml@main` is a floating ref (risk noted, not the cause) |
-| Commit signature / verification | **excluded (hypothesis refuted)** | post-recovery pushes started with `verified: false, reason: unsigned` (globus-os `43894367069`, atc-standards `43898277268`) |
-| Repository-specific configuration | excluded | affected and unaffected repositories share the same workflow structure; `pull_request` started everywhere |
-| Organization/repository policy | not supported | same repos, same rights, `pull_request` runs started |
+| YAML syntax | excluded | all workflow files in all 33 repos parse; 0 syntax errors; a syntax error would affect one workflow, not all workflows plus CodeQL |
+| Actions permissions | excluded | `actions/permissions`: `enabled: true`, `allowed_actions: all` |
+| Billing / spending limit | excluded | 805 of 2,000 included minutes; `net_amount_due: 0.00` |
+| Runners | excluded | no workflow requires a self-hosted runner; all `ubuntu-latest` |
+| Workflow definition / naming | excluded | runs keep correct names on `workflow_dispatch` (accepted with 204) yet produce 0 jobs |
+| Reusable workflow references | excluded | all pinned refs resolve; file existence verified at every pinned SHA (`reusable-markdownlint.yml` @ `f7656d5b`, `2783846f`, `a41d9a93`; `reusable-ruff.yml` @ `b4ec342a`, `05607bf5`) |
+| Commit signature / verification | **refuted** | post-recovery pushes that started are unsigned (`verified: false`): globus-os `43894367069` @ `91fc29e9c2`, atc-standards `43898277268` @ `3fce0b37b3` |
+| Repository-specific configuration | excluded | affected and unaffected repositories share the same workflow structure (`schedule`/`reusable`/`environment` feature comparison in §7) |
+| Pull request events | unaffected | 0 of 2,067 |
 
-**Open:** the GitHub-internal cause. The incident is consistent with a platform-side initialization
-fault affecting user-initiated event classes; a support ticket text exists in
-`globus-os/.atc/ci-forensics/2026-11-15-startup-failure.md`. Ticket status is an owner action (R-1).
+**Open:** the GitHub-internal cause and the status of the support escalation (Owner action, R-1).
 
-## 5. Reproducibility (0.7)
+## 6. Reproducibility (0.7)
 
-| Time (UTC) | Repo | Event | Result | Run |
-|---|---|---|---|---|
-| 2026-11-15 01:24 | globus-os | push | startup_failure, 0 jobs | 43662920291 |
-| 2026-11-16 08:18 | atc-standards | push | startup_failure, 0 jobs | 43830111537 |
-| 2026-11-16 08:18 | a-townchain-os-docs | push | startup_failure, 0 jobs | 43830162044 |
-| 2026-11-16 10:54 | atc-node | push | startup_failure, 0 jobs | 43852994457 |
-| **2026-11-16 14:56** | atc-node | push | started (`success`) | 43891148071 |
-| 2026-11-16 15:15 | globus-os | push | started (`success`) | 43894367069 |
-| 2026-11-16 15:37 | atc-standards | push | started (`failure`, 2 jobs) | 43898277268 |
-| 2026-11-16 17:05 | a-townchain-ecosystem | push | started (`success`) | 43914636413 |
+- Pre-recovery: 0 jobs for `push`, `workflow_dispatch` and `schedule`; reproducible across four
+  repositories at four different times (globus-os 15.11. 01:24, atc-standards 16.11. 08:18,
+  a-townchain-os-docs 16.11. 08:18, atc-node 16.11. 10:54).
+- Control: `pull_request` runs started throughout the same period in the same repositories.
+- Post-recovery: every observed run after 14:56:52Z started and produced jobs.
+- No configuration changed in the organization between the failing and the starting runs.
 
-Control: `pull_request` runs started continuously throughout the incident (e.g. a-townchain
-`43893673792`, a-townchain-ecosystem `43914664210`), proving the workflows, permissions and runners
-themselves were intact. The recovery happened without any change in this organization.
+## 7. Repository-specific findings (0.4) and red-but-running pipelines (0.5)
 
-## 6. Repository-specific findings (0.4) and red-but-running pipelines (0.5)
+### 7.1 Organization policy markdown defect (org-wide, single fix location)
+`reusable-markdownlint.yml` checks out `.github` at `1c198f3c6a73…` into `.org-github-policy` and lints
+`**/*.md`, including the policy file itself. `.org-github-policy/AGENT_MANIFEST.md` has **11
+markdownlint findings** (MD056 table-column-count ×3, MD058 blanks-around-tables, MD022
+blanks-around-headings, and further MD056 entries). Therefore **Markdown Lint fails in all 7 consuming
+repositories**: a-townchain, atc-contracts, atc-engineering, atc-ide, atc-node, atc-shivacore,
+aurora-ai. Evidence: a-townchain run `43893675443`, job `markdownlint / markdownlint-cli2`, 12
+annotations.
 
-### 6.1 Organization policy markdown defect (org-wide, single fix location)
+Fix is single-location, but the pin chain must be moved: policy file → internal ref in
+`reusable-markdownlint.yml` → pinned reusable-workflow SHA in each of the 7 consumers.
 
-`reusable-markdownlint.yml` (referenced by 7 repositories) checks out `.github@1c198f3c` into
-`.org-github-policy` and lints it with the caller's markdown set. That policy file itself violates
-the configured rules:
+### 7.2 a-townchain — one Dependabot PR blocks five gates
+All five red workflows belong to **one** pull request
+(`dependabot/npm_and_yarn/modules/atc-blockchain/lucide-react-1.72.0`, sha `acce944f9`):
+Markdown Lint (policy defect, §7.1), Ruff Code Quality, ATC Code Quality (STD-081/082), Determinism
+Gate, ATC Test Suite. Runs: `43893675443`, `43893675171`, `43893674072`, `43893673988`, `43893673930`.
+Markdown failure is fully explained by §7.1; the other four exit code 1 with logs unavailable (§7.3).
 
-- `.org-github-policy/AGENT_MANIFEST.md:53-58` — 11 findings: MD056 (table column count, lines 50-58),
-  MD058 (blanks around tables), MD022 (blanks around headings).
+### 7.3 Evidence access gap (Class C)
+Job logs for a-townchain return HTTP 403 (Azure SAS signature error) while the same call for globus-os
+returns HTTP 200 (`43895261915`). **A 403 is an evidence-procurement problem, not proof that a step
+failed.** For a-townchain the binding is therefore step-level only, not log-level. This is a hard gap
+for §11 criterion "each finding bound to run, job, step and log".
 
-Result: **Markdown Lint fails in every consuming repository** — a-townchain, atc-contracts,
-atc-engineering, atc-ide, atc-node, atc-shivacore, aurora-ai. Evidence: check-run annotations of
-a-townchain run `43893675443` (step "Lint Markdown").
+### 7.4 atc-oracle — historical, not current
+`ATC Test Suite` fails since 2026-10-07 in the evidence-binding step (SCR-0086); archived repository,
+no activity since. Not part of the incident.
 
-### 6.2 a-townchain — one Dependabot PR blocks five gates
+### 7.5 a-townchain-ecosystem — integration gates red after recovery (Class B)
+First post-recovery run on `849186604` started **10 workflows**: 5 success (Repository Governance ×2,
+Security Assurance Pipeline, CodeQL, Code Quality PR #247), 5 failure (ATC Test Suite, Blockchain Core
+Integration, Determinism Gate, Ecosystem Integration, Ecosystem Release Readiness). The 10th workflow
+(`CodeQL`) completed **success**; the earlier "1 in progress" was a snapshot, now resolved — final
+count 5 success / 5 failure / 0 open. All failures are content gates over imported component
+snapshots (fmt/clippy/tests/determinism/integration crate), **not** caused by the documentation commit
+under test. Confirmed again on `2c3824d4c` with the identical 5/5 split.
 
-All five red runs (15:11Z) belong to a single `pull_request` from
-`dependabot/npm_and_yarn/modules/atc-blockchain/lucide-react-1.72.0` (sha `acce944f9`):
+## 8. Historical vs. current state
 
-| Workflow | Failing step | Evidence |
-|---|---|---|
-| Markdown Lint | Lint Markdown | 11 annotations, policy defect (§6.1) |
-| Ruff Code Quality | Ruff | exit 1, no annotation detail — logs HTTP 403 |
-| ATC Code Quality (STD-081/082) | quality | exit 1 — logs HTTP 403 |
-| Determinism Gate | determinism | exit 1 — logs HTTP 403 |
-| ATC Test Suite | pytest, npm-tests | exit 1 — logs HTTP 403 |
+- Historical: 19 repositories with `startup_failure` in their last runs.
+- Current verified: `push` started in 5 repositories (a-townchain, a-townchain-ecosystem, atc-node,
+  atc-standards, globus-os); `schedule` started in 8 (a-townchain-ecosystem, atc-algorithm,
+  atc-engineering, atc-node, atc-vm, atc-zkp, atclang, globus-os); `pull_request` in 3; `dynamic` in 6;
+  `workflow_dispatch` in **0** — no dispatch probe exists after recovery.
+- **21 repositories have no run at all after 14:56Z** and are unverified (R-2 sweep target).
+- Verified-broken at this moment: **0**. Verified-green: only the runs listed above, on their SHAs.
 
-### 6.3 Evidence access gap (Class C)
+## 9. Repair plan and dependencies (Owner order 16.11.)
 
-Job logs for a-townchain return **HTTP 403** ("Server failed to authenticate the request… signature")
-while globus-os logs return HTTP 200 (7,597 bytes). Findings for four of the five gates can therefore
-only be bound to run/job/step level, not to log content. This is itself an evidence defect (R-4).
-
-### 6.4 atc-oracle — historical, not current
-
-The last run (2026-10-07, push) fails in "Evidence-Bindung (SCR-0086 idempotentes test_run-Update)".
-The repository is archived; the failure is historical and does not affect current readiness.
-
-### 6.5 a-townchain-ecosystem — integration gates red after recovery (Class B)
-
-The first post-recovery run set on `849186604` (PR #247, docs-only change) started 10 workflows with jobs:
-4 green (Repository Governance ×2, Security Assurance, Code Quality), 5 red — all in **content gates over
-imported component snapshots**, not in the changed files:
-
-- **ATC Test Suite** — aurora-ai npm, shivacore cargo, atclang quality, a-townchain ruff (4 jobs, exit 1)
-- **Blockchain Core Integration** — Format fails for atc-indexer, atc-vm, atc-node, atc-sdk, atc-governance, atc-mining
-- **Determinism Gate** — a-townchain rust/python and shivacore rust static scans fail
-- **Ecosystem Integration** — integration crate exits 101
-- **Ecosystem Release Readiness** — clippy/fmt in `components/a-townchain/apps/atc-marketplace`, plus python/js project validation
-
-Interpretation: the integration control plane is green on governance/security, but the imported component
-snapshots do not pass their own quality gates. This is pre-existing drift between snapshots and their
-canonical sources (expected: the repo declares snapshots non-canonical), not a regression from this PR.
-It must be resolved in the canonical repositories or by re-sync, not by weakening gates here.
-
-## 7. Historical vs. current state
-
-| Status | Repositories |
-|---|---|
-| **Started after recovery (verified)** | globus-os, atc-node, a-townchain, atc-standards, a-townchain-ecosystem (push 17:05Z), atc-algorithm, atc-engineering, atc-vm, atc-zkp, atclang (schedule), globus-os (schedule) |
-| **Unverified — no run since 14:56Z** | .github, a-townchain-os, a-townchain-os-docs, atc-contracts, atc-marketplace, aurora-ai, genesis-chronicles, genesis-franchise-factory, demo-repository (governance-excluded) |
-| **Inactive / archived** | atc-explorer, atc-indexer, atc-interop, atc-mining, atc-oracle, atc-storage, atc-toolchain, atc-wallet |
-| **Red but running (content)** | a-townchain (5 gates, §6.2) |
-
-No repository is currently **proven** broken by the platform incident. `CI_VERIFIED` is still not
-awarded anywhere: that requires a green run on the exact HEAD (registry: ATC-STD-003).
-
-## 8. Repair plan and dependencies
-
-| ID | Action | Depends on | Owner |
+| ID | Work | Depends on | Acceptance |
 |---|---|---|---|
-| **R-1** | Record the GitHub Support ticket status; confirm the incident window (06.11.–16.11.) or obtain the official cause | — | Owner (Michael) |
-| **R-2** | Verification sweep: obtain one fresh run per unverified repo (natural push or approved dispatch); bind run IDs | R-1 (or next natural push) | RepositoryAgent |
-| **R-3** | Fix markdownlint findings in `.github@1c198f3c` policy file (AGENT_MANIFEST.md) — unblocks Markdown Lint in 7 repos | — | DocumentationAgent + GovernanceAgent |
-| **R-4** | Investigate job-log HTTP 403 for a-townchain (evidence infrastructure) | — | RepositoryAgent |
-| **R-5** | Triage the Dependabot PR: reproduce the 4 remaining gate failures locally or via logs once R-4 is resolved | R-3, R-4 | QAAgent + CodingAgent |
-| **R-6** | Update BLK-P0-01 evidence; award `CI_VERIFIED` per repo only on a green exact-SHA run | R-2, R-3, R-5 | RepositoryAgent |
+| **R-3** | Organization policy markdown (single authoritative fix + pin chain) | — | 11 findings removed, no rule weakened, reusable workflow green in all 7 consuming repositories, documented with commit SHA and run ID |
+| **R-4** | Job-log access (a-townchain 403) | — | complete job/step/log evidence retrievable |
+| **R-2** | Verification sweep, per event class | R-3, R-4 | every active repository assessed; `push`, `workflow_dispatch`, `schedule` judged separately |
+| **R-5** | Dependabot PR triage | R-3 (markdown), R-4 (others) | each of the 5 gates judged separately |
+| **R-6** | Evidence binding | R-2, R-5 | all proofs SHA-bound; `CI_VERIFIED` assigned per repository only on a green exact-SHA run |
+| **R-1** | GitHub support escalation status | Owner | ticket state recorded |
 
-R-3 and R-4 can run in parallel immediately. No bulk workflow repair is required or permitted.
+## 10. Phase 0 acceptance status
 
-## 9. Phase 0 acceptance status
+| # | Criterion | Status | Note |
+|---|---|---|---|
+| 1 | All 33 HEAD SHAs captured | **MET** | API snapshot 2026-11-16 |
+| 2 | All 19 startup failures individually examined | **MET** | §4 cohorts, per repo and event |
+| 3 | Common causes proven or excluded | **MET** | §5 |
+| 4 | Repository-specific causes documented | **MET** | §7 |
+| 5 | Red-but-running pipelines assessed separately | **MET** | §7.2, §7.4, §7.5 |
+| 6 | Each finding bound to run, job, step and log | **PARTIAL** | logs unavailable for a-townchain (403) |
+| 7 | Repair plan with dependencies | **MET** | §9 |
+| 8 | Register and roadmap updated consistently | **MET** | BLK-P0-01 with 01a–01e |
 
-| Criterion | Status | Note |
-|---|---|---|
-| All 33 HEAD SHAs current | **MET** | API snapshot 2026-11-16 |
-| 19 startup failures individually examined | **MET** | last 40 runs + job counts per repo |
-| Common causes proven or excluded | **MET** | §4, each candidate with evidence |
-| Repo-specific causes documented | **MET** | §6.1-6.4 |
-| Running-but-red pipelines separately assessed | **MET** | a-townchain, atc-oracle |
-| Each finding bound to run/job/step/log | **PARTIAL** | log access 403 for a-townchain (§6.3) |
-| Repair plan with dependencies | **MET** | §8 |
-| Register and roadmap consistent | **MET** | BLK-P0-01 updated, cross-linked |
+**7 of 8 MET → PARTIAL.** `CI_VERIFIED` = 0, `VERIFIED` = 0. BLK-P0-01 remains `BLOCKED`.
 
-## 10. Governance note
+## 11. Owner acceptance criteria (recorded verbatim, 2026-11-16)
 
-A started run is not a green run, and a green run is not `CI_VERIFIED`. `CI_VERIFIED` requires a
-successful run on the exact HEAD SHA with traceable evidence (registry ATC-STD-003). Historical
-evidence is not overwritten; the incident window 2026-11-06T17:23Z–2026-11-16T14:56Z is recorded as
-`INCIDENT` and any run from that window is marked historical.
+- **A. Policy file:** fix only the authoritative org policy file; all 11 violations removed; no
+  weakening of the markdownlint rules; reusable workflow re-executed in all seven affected
+  repositories; results documented with commit SHA and run ID.
+- **B. Log access:** HTTP 403 is an access/permission problem in evidence procurement; missing job logs
+  must not be interpreted as success or failure of any step.
+- **C. Imported snapshots:** no blanket formatting of the monorepo, no automatic changes to imported
+  snapshots; establish origin and freshness per affected snapshot; trace each error back to its source
+  repository; only then decide whether to update the snapshot or fix the source.
+- **D. Verification sweep:** the nine unverified active repositories need their own sweep; `push`,
+  `workflow_dispatch` and `schedule` must be judged separately — a successful push does not prove that
+  scheduled workflows work.
+
+## 12. Governance note
+
+The platform recovery must not be equated with restored CI and evidence infrastructure. A workflow that
+starts is not green; a green run is not verified until it is bound to an exact SHA and its evidence is
+complete. No release gate inherits evidence from this assessment.

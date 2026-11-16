@@ -1,8 +1,8 @@
 schema_version: 1.0.0
 document_id: ATC-PHASE0-CI-RCA-001
 title: Phase 0 - CI Root Cause Assessment
-version: 0.1.0
-status: ASSESSED
+version: 0.2.0
+status: PARTIAL
 updated: '2026-11-16'
 owner: A-TownChain-Okosystems
 tracking_issue: https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/116
@@ -81,12 +81,14 @@ excluded_causes:
 repo_findings:
 - id: RF-1
   repo: org/.github + 7 consumers
-  finding: 'org policy markdown defect: .org-github-policy/AGENT_MANIFEST.md lines 50-58, 11 markdownlint findings (MD056, MD058, MD022)'
+  finding: 'org policy markdown defect: .org-github-policy/AGENT_MANIFEST.md lines 50-58, 11 markdownlint findings (MD056,
+    MD058, MD022)'
   impact: Markdown Lint fails in a-townchain, atc-contracts, atc-engineering, atc-ide, atc-node, atc-shivacore, aurora-ai
   evidence_run: 43893675443
 - id: RF-2
   repo: a-townchain
-  finding: five red gates all from one Dependabot PR (lucide-react 1.72.0, sha acce944f9); details for 4 gates unavailable (logs 403)
+  finding: five red gates all from one Dependabot PR (lucide-react 1.72.0, sha acce944f9); details for 4 gates unavailable
+    (logs 403)
   evidence_runs:
   - 43893675443
   - 43893675171
@@ -103,7 +105,8 @@ repo_findings:
   impact: historical only
 - id: RF-5
   repo: a-townchain-ecosystem
-  finding: 'post-recovery run set on 849186604: 10 workflows started, 4 green, 5 red; all reds are content gates over imported component snapshots (fmt/clippy/tests/determinism/integration crate)'
+  finding: 'post-recovery run set on 849186604: 10 workflows started, 4 green, 5 red; all reds are content gates over imported
+    component snapshots (fmt/clippy/tests/determinism/integration crate)'
   impact: 'pre-existing snapshot drift; not caused by docs-only PR #247'
   evidence_runs:
   - 43916656415
@@ -200,3 +203,148 @@ governance:
   ci_verified_awarded: false
   startup_fixed_is_not_ci_verified: true
   historical_evidence_overwritten: false
+acceptance:
+  met: 7
+  partial: 1
+  total: 8
+  ci_verified: 0
+  verified: 0
+corpus:
+  repositories: 33
+  runs: 6005
+  by_event:
+    pull_request:
+      runs: 2067
+      startup_failure: 0
+    push:
+      runs: 2423
+      startup_failure: 493
+    dynamic:
+      runs: 1126
+      startup_failure: 399
+      note: affected in a subset, recovered earlier
+    schedule:
+      runs: 368
+      startup_failure: 82
+    workflow_dispatch:
+      runs: 20
+      startup_failure: 10
+recovery:
+  push_bracket_utc:
+  - '2026-11-16T10:54:30Z'
+  - '2026-11-16T14:56:52Z'
+  schedule_bracket_utc:
+  - '2026-11-16T14:52:00Z'
+  - '2026-11-16T14:58:00Z'
+  dynamic_bracket_utc:
+  - '2026-11-13T12:55:00Z'
+  - '2026-11-14T07:53:00Z'
+  note: not uniform per repository; cohort table in the markdown twin
+onset_cohorts:
+- at: 2026-11-05T11:21Z
+  events:
+  - push
+  - dynamic
+  repos:
+  - atc-ide
+  - a-townchain-os-docs
+- at: 2026-11-05T12:47Z
+  events:
+  - schedule
+  repos:
+  - atc-standards
+- at: 2026-11-06T17:18Z
+  events:
+  - push
+  - workflow_dispatch
+  - dynamic
+  repos:
+  - atc-standards
+  - demo-repository
+  - atc-node
+  - genesis-chronicles
+- at: 2026-11-08T09:05Z
+  events:
+  - push
+  repos:
+  - a-townchain-os
+  - atc-node
+  - atc-shivacore
+- at: 2026-11-09T13:26Z
+  events:
+  - schedule
+  repos: 17 repositories within 19 minutes (mass cohort)
+- at: 2026-11-12T15:46Z
+  events:
+  - push
+  - workflow_dispatch
+  repos:
+  - a-townchain
+  - atclang
+- at: 2026-11-13T17:58Z
+  events:
+  - push
+  - dynamic
+  - schedule
+  repos:
+  - aurora-ai
+  - .github
+- at: 2026-11-14T09:14Z
+  events:
+  - push
+  - workflow_dispatch
+  repos:
+  - a-townchain-os
+  - a-townchain-ecosystem
+- at: 2026-11-15T00:32Z
+  events:
+  - push
+  - workflow_dispatch
+  repos:
+  - globus-os
+post_recovery_coverage:
+  push:
+  - a-townchain
+  - a-townchain-ecosystem
+  - atc-node
+  - atc-standards
+  - globus-os
+  schedule:
+  - a-townchain-ecosystem
+  - atc-algorithm
+  - atc-engineering
+  - atc-node
+  - atc-vm
+  - atc-zkp
+  - atclang
+  - globus-os
+  pull_request:
+  - a-townchain
+  - a-townchain-ecosystem
+  - atc-node
+  dynamic:
+  - a-townchain
+  - a-townchain-ecosystem
+  - atc-ide
+  - atc-node
+  - genesis-engine
+  - globus-os
+  workflow_dispatch: []
+  no_run_since_recovery: 21
+owner_decision:
+  date: '2026-11-16'
+  phase0_status: PARTIAL
+  met: 7
+  partial: 1
+  note: Platform recovery is not equal to restored CI and evidence infrastructure; CI_VERIFIED stays unassigned
+repair_plan_order:
+- R-3
+- R-4
+- R-2
+- R-5
+- R-6
+- R-1
+corrections:
+- dynamic events were affected too (399 of 1126); earlier claim 'never affected' retracted
+- 'incident window is not uniform: onset cohorts per repository and event class'
+- 'post-recovery run: CodeQL completed success; final split 5 success / 5 failure / 0 open'
