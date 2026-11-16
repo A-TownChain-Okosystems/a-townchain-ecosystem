@@ -121,3 +121,27 @@ Testfälle zählen, nicht nur den Exit-Code lesen.
 | a-townchain-ecosystem_a-townchain-python | `a4b34fae51e1e2d878306413eb735a6ca6a55b31765e2cf7807d5953f83c176d` |
 | atc-marketplace_pytest | `9fe77020c4ea5d84e7ea4bd4967bf4df1b53d55b3dac5b76b380dbf96ed54077` |
 | globus-os_cargo-tests | `c43047d78eaf06fc69274fcb81c90ba98443cb370d29ba8b95d9f12cb60624ca` |
+
+---
+
+## 8. Umsetzung D-3 (17.11.2026) — Node-20-Vertraeglichkeit
+
+**Fix:** `aurora-ai` PR #65 (Branch `fix/aistudio-node20-compat-2026-11-17`, Commit `da94528`).
+
+| | vorher | nachher |
+|---|---|---|
+| `vitest run` (Node 20.20.2) | 7 Errors, 0 Tests | 7 Dateien, 31 Tests gruen |
+| `npm run build` | ok | ok |
+| `npm ls undici` | `undici@8.12.2` (engines `node >=22.19.0`) | `undici@7.30.2` via `jsdom@29.1.1` |
+
+Ursache im Detail: `jsdom@30` zieht `undici@8`; `undici@8.12.2` deklariert `engines.node >=22.19.0`,
+beide Workflows fahren `node-version: "20"`. Zusaetzlich war `undici` eine ungenutzte
+Direktabhaengigkeit. Korrektur: `jsdom` auf `^29.1.1`, `undici` entfernt. Keine Testaenderung.
+
+### 8.1 Folgefund: Dependabot-Majors in diesem Bereich sind Fallen
+
+`a-townchain-os-docs` PR #49 (`jsdom 29.1.1 -> 30.1.3`) traegt exakt dieselbe Inkompatibilitaet.
+Der PR wurde am 16.11. 19:19 ohne Merge geschlossen; `main` steht dort weiterhin auf `^29.1.1`.
+Bewertung bleibt: Major-Bumps von `jsdom` (>=30) und `undici` (>=8) sind auf Node 20 nicht lauffaehig
+und duerfen nicht als reine Patch-/Minor-Pflege behandelt werden. Der Ausbau der CI auf Node 22 ist
+eine Workflow-Aenderung und bleibt separat.
