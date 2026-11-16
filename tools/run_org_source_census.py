@@ -34,6 +34,7 @@ def run_census(workspace: Path, manifest: dict) -> dict:
     active_total = sum(1 for r in manifest["repositories"] if not r.get("archived", False))
     scanned_active = 0
     excluded_private = 0
+    excluded_policy = 0
     for item in sorted(manifest["repositories"], key=lambda r: r["name"].lower()):
         name = item["name"]
         active = not item.get("archived", False)
@@ -51,6 +52,20 @@ def run_census(workspace: Path, manifest: dict) -> dict:
             "report": None,
             "residuals": [],
         }
+        if active and item.get("exclude_from_live_drift_gate", False):
+            reason = item.get("live_drift_gate_exclusion_reason")
+            if not isinstance(reason, str) or not reason.strip():
+                entry["residuals"].append("LIVE_DRIFT_EXCLUSION_REASON_MISSING")
+                repositories.append(entry)
+                continue
+            entry["status"] = "EXCLUDED"
+            entry["exclusion_scope"] = "LIVE_DRIFT_GATE"
+            entry["exclusion_reason"] = reason
+            entry["residuals"].append("EXCLUDED_FROM_LIVE_DRIFT_GATE_BY_MANIFEST")
+            excluded_policy += 1
+            repositories.append(entry)
+            continue
+
         if not root.is_dir() or not (root / ".git").exists():
             if active and item.get("private"):
                 # Documented exclusion, not a silent omission: a private
@@ -102,7 +117,7 @@ def run_census(workspace: Path, manifest: dict) -> dict:
         "schema_version": "1.0.0",
         "owner": manifest["owner"],
         "catalog_ref": manifest.get("catalog_ref"),
-        "status": "RESIDUAL" if not missing_active and scanned_active + excluded_private == active_total else "BLOCKED",
+        "status": "RESIDUAL" if not missing_active and scanned_active + excluded_private + excluded_policy == active_total else "BLOCKED",
         "functional_verification": "NOT_PERFORMED",
         "summary": {
             "repositories_expected": len(repositories),
@@ -110,6 +125,7 @@ def run_census(workspace: Path, manifest: dict) -> dict:
             "active_scanned": scanned_active,
             "active_blocked": len(missing_active),
             "active_excluded_private": excluded_private,
+            "active_excluded_policy": excluded_policy,
             "archived_reference_repositories": sum(1 for r in repositories if r["archived"]),
             "source_files_scanned": sum((r["summary"] or {}).get("source_files_scanned", 0) for r in repositories),
             "candidate_public_symbols": sum((r["summary"] or {}).get("candidate_public_symbols", 0) for r in repositories),
@@ -120,6 +136,7 @@ def run_census(workspace: Path, manifest: dict) -> dict:
             "Regex discovery may miss generated, macro-expanded, dynamic, conditional, or indirect entrypoints.",
             "Catalog reconciliation, canonical ownership review, contract checks, tests, and exact-SHA CI evidence remain separate required gates.",
             "Archived repositories are recorded as historical reference only and are not counted as active coverage.",
+            "Repositories explicitly excluded by manifest policy are recorded as EXCLUDED and are never scanned by the live drift gate, even when a checkout is present.",
             "Private repositories without CI credential access are recorded as EXCLUDED_PRIVATE_NO_CI_ACCESS and counted in active_excluded_private; the exclusion reduces CI coverage and is documented, not silent."
         ],
         "repositories": repositories,
