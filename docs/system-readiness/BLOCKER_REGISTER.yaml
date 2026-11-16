@@ -76,7 +76,7 @@ blockers:
   title: 'ATC-BC-001: normative Bytecode-Spezifikation'
   priority: P0
   gate: G3
-  status: BLOCKED
+  status: IN_PROGRESS
   source_shas:
   - atc-vm@21132a4935
   - atclang@516482abbf
@@ -98,6 +98,8 @@ blockers:
   - Conformance-Testdatei
   - CI-Run
   owner: ArchitectAgent + CodingAgent (atc-vm/atclang)
+  audit: docs/system-readiness/ORG_PROTECTION_AUDIT_2026-11-17.md
+  audit_result: 4 von 26 aktiven Repos geschuetzt; 23 aktiv ungeschuetzt; 2 archivierte mit dangling contexts
 - id: BLK-P0-03
   title: 'Contract-Lowering: ATCLang .atc -> Bytecode'
   priority: P0
