@@ -85,8 +85,11 @@ def validate(registry: dict, census: dict, build_manifest: dict) -> tuple[list[s
     for repository, total in census_per_repo.items():
         accounted = registry_per_repo.get(repository, 0)
         declared = sum(per_repo_summary.get(repository, {}).values())
-        if accounted + 0 != registry_per_repo.get(repository, 0):
-            errors.append(f"{repository}: entry/accounting drift")
+        declared_runtime = per_repo_summary.get(repository, {}).get("RUNTIME_SYMBOL", 0)
+        if accounted != declared_runtime:
+            errors.append(
+                f"{repository}: runtime entry/accounting drift "
+                f"({accounted} registry entries != {declared_runtime} declared RUNTIME_SYMBOL)")
         if declared != total:
             errors.append(
                 f"{repository}: classification total {declared} != census candidates {total}")
