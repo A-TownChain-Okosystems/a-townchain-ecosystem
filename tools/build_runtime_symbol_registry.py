@@ -76,6 +76,12 @@ def catalog_bindings(catalog: dict) -> tuple[set, list, list, list]:
                 delegated.append({"function_id": function["id"],
                                   "delegates_to_function_id": binding["delegates_to_function_id"]})
                 continue
+            # Specification-only records may cite issues/specifications, but they
+            # do not identify an executable source binding and must not participate
+            # in duplicate executable-binding detection.
+            if (binding.get("binding_kind") == "specification_only"
+                    or binding.get("status") == "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING"):
+                continue
             path = binding.get("source_path")
             symbol = binding.get("symbol_or_entrypoint")
             if path and symbol:
