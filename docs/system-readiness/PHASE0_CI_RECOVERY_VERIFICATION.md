@@ -160,15 +160,27 @@ normalisation. Recorded per consumer: `http_status`, `log_bytes`, `log_sha256`, 
 A 403/404/missing log yields `log_status=MISSING:<code>` and `evidence_complete=false` — a missing log
 is never success evidence, whatever the run conclusion says.
 
-`evidence_complete` is true only when **all** of the following hold:
-run conclusion `success`, `run.head_sha` equal to the consumer HEAD read in the same collection,
-`log_status=OK`, `workflow_pin` equal to the approved workflow commit, and `policy_ref` equal to the
-approved policy commit. The definition is machine-checked in the collector, not by a human.
+`evidence_complete` is true only when **all ten** conditions hold (collector v3, machine-checked):
+
+1. the run's repository identity equals the expected consumer;
+2. `run.head_sha` equals the consumer HEAD read in the same collection;
+3. the consumer workflow file at HEAD is byte-identical to the file at the approved workflow commit;
+4. the executed reusable-workflow SHA (`run.referenced_workflows`) equals the approved workflow commit;
+5. the consumer pin equals the approved workflow commit;
+6. the policy ref inside the pinned workflow equals the approved policy commit;
+7. the policy file at that ref matches the approved file hash;
+8. the run was created strictly after the pin commit;
+9. the markdownlint job conclusion is `success` (run level alone is not sufficient);
+10. the lint job log was retrieved (HTTP 200) and hashed per the log specification.
+
+A technically successful but historical, misattributed or log-less run cannot qualify. The archive
+(JSONL) is append-only and its SHA-256 is recorded with the registry entry.
 
 ### Acceptance for R-3
 
-R-3 is complete only when **7 of 7** consuming repositories show a successful Markdown Lint run on
-the new pin, each recorded with run ID, consumer HEAD SHA, workflow SHA and job evidence.
+R-3 is complete only when **7 of 7** consuming repositories reach `evidence_complete=true` against the
+same approved policy and workflow commit, archived with run ID, consumer HEAD, executed workflow SHA,
+job conclusion and log hash.
 
 ### Governance model
 

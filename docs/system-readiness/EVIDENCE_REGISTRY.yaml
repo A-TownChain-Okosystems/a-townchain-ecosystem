@@ -104,3 +104,7 @@ r3_consumer_evidence:
   - atc-shivacore
   - aurora-ai
   acceptance: 7/7 evidence_complete = true
+r3_runs:
+  note: appended by evidence.sh archive; entries are immutable
+  evidence_complete_required: true
+  entries: []
