@@ -1,0 +1,30 @@
+{
+  "schema_id": "ATC-ORG-REPOSITORY-DRIFT-SCOPE-001",
+  "schema_version": "1.0.0",
+  "purpose": "Versioned fail-closed scope policy for the live repository HEAD/root-tree drift gate.",
+  "organization": "A-TownChain-Okosystems",
+  "default_policy": {
+    "active_repository": "INCLUDE",
+    "archived_repository": "EXCLUDE",
+    "private_repository": "NO_OVERRIDE",
+    "unknown_repository": "BLOCK",
+    "unknown_scope_action": "BLOCK",
+    "reason_required_for_every_explicit_override": true
+  },
+  "explicit_overrides": [
+    {
+      "name": "demo-repository",
+      "decision": "EXCLUDE",
+      "reason_code": "TEMPLATE_FIXTURE_NOT_PRODUCTION",
+      "reason": "Demo/reference repository is a private integration fixture and is excluded from the production live-drift gate; this is an explicit scope exception, not a consequence of being private.",
+      "expected_archived": false,
+      "expected_private": true,
+      "expected_role": "demo/reference"
+    }
+  ],
+  "semantics": {
+    "INCLUDE": "Must be checked against live default-branch HEAD and root-tree SHAs.",
+    "EXCLUDE": "Must be skipped only with a known, versioned rule and reason.",
+    "BLOCK": "Fail closed; no PASS/VERIFIED result may be emitted."
+  }
+}

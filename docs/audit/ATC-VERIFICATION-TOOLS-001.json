@@ -1,0 +1,478 @@
+{
+  "schema_id": "ATC-VERIFICATION-TOOLS-001",
+  "schema_version": "1.0.0",
+  "title": "Soll-Ist-Inventar der Prüfwerkzeuge",
+  "status": "BASELINE_INVENTORY_NOT_EXECUTED",
+  "purpose": "Revisionsgebundene Bestandsaufnahme der 18 vorgesehenen Prüfwerkzeuge. MAPPED bedeutet nur, dass ein relevanter Implementierungspfad im geprüften Tree identifiziert wurde; es bedeutet nicht VERIFIED.",
+  "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+  "baseline": {
+    "ref": "main",
+    "commit_sha": "12f9f427f5f5fa1d68fe278a026df1f04c67085b",
+    "root_tree_sha": "af4ec584b0d96a86f19da32e4d46d3efa2e2741c",
+    "commit_timestamp": "2026-10-16T18:58:11Z",
+    "inventory_method": "GitHub API metadata and recursive Git tree inspection",
+    "tree_entries": 14570,
+    "blob_files": 12266,
+    "scripts_executed": false,
+    "tests_executed": false,
+    "verified_tools": 0
+  },
+  "status_semantics": {
+    "MAPPED": "Relevanter Implementierungspfad identifiziert; Laufzeit- und Abnahmeevidenz separat offen.",
+    "EXCLUDED": "Explizit und versioniert aus dem Gate-Scope ausgeschlossen; Begründung und Regressionstest erforderlich.",
+    "UNRESOLVED": "Implementierung, Tests oder eindeutige Evidenz im geprüften Bestand nicht nachgewiesen.",
+    "BLOCKED": "Widerspruch oder fehlende Voraussetzung verhindert einen belastbaren Soll-Ist-Abschluss."
+  },
+  "requirements": {
+    "common_output_fields": [
+      "schema_version",
+      "check_id",
+      "check_name",
+      "repository",
+      "expected_commit_sha",
+      "observed_commit_sha",
+      "expected_tree_sha",
+      "observed_tree_sha",
+      "status",
+      "reason_code",
+      "evidence.workflow_run_id",
+      "evidence.job_id",
+      "evidence.step_name",
+      "evidence.exit_code",
+      "evidence.artifact_sha256"
+    ],
+    "fail_closed": true,
+    "verified_requires_exact_commit": true,
+    "green_ci_alone_is_not_verification": true,
+    "single_source_of_truth": true
+  },
+  "tools": [
+    {
+      "id": "V01",
+      "name": "manifest_integrity",
+      "priority": "P0",
+      "status": "UNRESOLVED",
+      "observed_paths": [
+        "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      ],
+      "missing": [
+        "Eigenständiger Manifestintegritätsvalidator und Negativtests nicht nachgewiesen"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Schema-/Pflichtfeldprüfung",
+        "eindeutige Repository-Namen",
+        "valide Voll-SHAs",
+        "Fehlerfälle fail-closed"
+      ]
+    },
+    {
+      "id": "V02",
+      "name": "repository_identity",
+      "priority": "P0",
+      "status": "MAPPED",
+      "observed_paths": [
+        "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json",
+        "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json",
+        "tools/validate_org_repository_integration.py"
+      ],
+      "missing": [
+        "Live-Abgleich von Default-Branch, HEAD-SHA und Root-Tree-SHA auf identischem Snapshot ausführen und testen"
+      ],
+      "depends_on": [
+        "V01"
+      ],
+      "acceptance": [
+        "Identität für jedes im Scope befindliche Repository",
+        "vollständige SHAs",
+        "API-Fehler führen nicht zu PASS"
+      ]
+    },
+    {
+      "id": "V03",
+      "name": "repository_drift",
+      "priority": "P0",
+      "status": "UNRESOLVED",
+      "observed_paths": [
+        "tools/validate_org_repository_integration.py"
+      ],
+      "missing": [
+        "tools/validate_org_repository_drift.py wurde im Baseline-Tree nicht gefunden; vorhandener Integrationsvalidator ist kein bestätigter Ersatz für Live-Drift"
+      ],
+      "depends_on": [
+        "V01",
+        "V02",
+        "V04"
+      ],
+      "acceptance": [
+        "Manifest gegen Live-HEAD- und Root-Tree-SHA vergleichen",
+        "Drift und API-Fehler getrennt ausweisen",
+        "demo-repository nur gemäß versionierter Policy ausschließen"
+      ]
+    },
+    {
+      "id": "V04",
+      "name": "exclusion_policy",
+      "priority": "P0",
+      "status": "BLOCKED",
+      "observed_paths": [
+        "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json",
+        "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json"
+      ],
+      "missing": [
+        "Manifest markiert demo-repository als archived:false/private:true; Integrationsaufnahme führt TEMPLATE_FIXTURE/AUDIT_REQUIRED; explizite, schema-validierte Drift-Scope-Regel und Regressionstest nicht nachgewiesen"
+      ],
+      "depends_on": [
+        "V01"
+      ],
+      "acceptance": [
+        "Versionierte Ausschlussbegründung",
+        "unbekannte Ausschlüsse fail-closed",
+        "Tests für active, archived, private fixture und unbekannte Repositories"
+      ]
+    },
+    {
+      "id": "V05",
+      "name": "registry_consistency",
+      "priority": "P0",
+      "status": "MAPPED",
+      "observed_paths": [
+        "tools/validate_runtime_symbol_registry.py",
+        "tools/validate_component_function_catalog.py",
+        "tools/validate_catalog_taxonomy.py"
+      ],
+      "missing": [
+        "Ein gemeinsamer, deterministischer Cross-Registry-Abgleich mit eindeutigem Soll-Ist-Report nicht nachgewiesen"
+      ],
+      "depends_on": [
+        "V01",
+        "V06",
+        "V07"
+      ],
+      "acceptance": [
+        "IDs und Referenzen konsistent",
+        "Dubletten und verwaiste Referenzen erkannt",
+        "keine manuelle Korrektur bloßer Summen"
+      ]
+    },
+    {
+      "id": "V06",
+      "name": "source_symbol_inventory",
+      "priority": "P0",
+      "status": "MAPPED",
+      "observed_paths": [
+        "tools/run_org_source_census.py",
+        "tools/scan_public_symbols.py",
+        "tools/build_runtime_symbol_registry.py"
+      ],
+      "missing": [
+        "Lauf und Resultate auf Baseline-SHA nicht ausgeführt; Coverage/Exclusions nicht neu reproduziert"
+      ],
+      "depends_on": [
+        "V01",
+        "V02"
+      ],
+      "acceptance": [
+        "Reproduzierbare Census-Artefakte",
+        "jeder Kandidat klassifiziert",
+        "Scan-Fehler und unvollständige Repositories ausgewiesen"
+      ]
+    },
+    {
+      "id": "V07",
+      "name": "catalog_reconciliation",
+      "priority": "P0",
+      "status": "MAPPED",
+      "observed_paths": [
+        "tools/reconcile_component_function_catalog.py",
+        "tools/validate_component_function_catalog.py"
+      ],
+      "missing": [
+        "Katalogzählung 104 gegenüber zuvor dokumentierten 105 nicht deterministisch erklärt"
+      ],
+      "depends_on": [
+        "V05",
+        "V06"
+      ],
+      "acceptance": [
+        "Jede Funktion MAPPED/EXCLUDED/UNRESOLVED",
+        "stabile IDs und exakte Quellen",
+        "104/105-Abweichung aus Rohdaten reproduziert"
+      ]
+    },
+    {
+      "id": "V08",
+      "name": "duplicate_ssot_detector",
+      "priority": "P0",
+      "status": "UNRESOLVED",
+      "observed_paths": [],
+      "missing": [
+        "Dedizierter, getesteter SSOT-Dublettenprüfer im Baseline-Tree nicht nachgewiesen"
+      ],
+      "depends_on": [
+        "V07"
+      ],
+      "acceptance": [
+        "Kanonischer Eigentümer je Capability",
+        "Spiegel-/Spezifikations-Repositories separat klassifiziert",
+        "bekannte VM-/Algorithmus-SSOT-Regeln getestet"
+      ]
+    },
+    {
+      "id": "V09",
+      "name": "dependency_graph_validator",
+      "priority": "P1",
+      "status": "MAPPED",
+      "observed_paths": [
+        "tools/validate_build_graph.py",
+        "tools/validate_layer_registry.py"
+      ],
+      "missing": [
+        "Vollständige Abdeckung der deklarierten Repository- und Interface-Abhängigkeiten nicht auf Baseline-SHA ausgeführt"
+      ],
+      "depends_on": [
+        "V02",
+        "V05"
+      ],
+      "acceptance": [
+        "Keine unbekannten Knoten/Kanten",
+        "Zyklen gemäß Policy behandelt",
+        "exakte SHA-gebundene Referenzen"
+      ]
+    },
+    {
+      "id": "V10",
+      "name": "ci_evidence_validator",
+      "priority": "P0",
+      "status": "UNRESOLVED",
+      "observed_paths": [],
+      "missing": [
+        "Eigenständiger Validator für Run→Job→Step→Exit-Code→Artefakt-SHA unter tools/validate_ci_evidence*.py nicht nachgewiesen"
+      ],
+      "depends_on": [
+        "V01",
+        "V02"
+      ],
+      "acceptance": [
+        "Run/Job/Step-Identitäten vorhanden",
+        "Commit-SHA exakt passend",
+        "Exit-Code 0 und Artefakt-SHA erforderlich",
+        "fehlende oder widersprüchliche Evidenz BLOCKED"
+      ]
+    },
+    {
+      "id": "V11",
+      "name": "build_reproducibility",
+      "priority": "P1",
+      "status": "UNRESOLVED",
+      "observed_paths": [],
+      "missing": [
+        "Reproduzierbarer Build-Vergleich mit Artefakt-Hash und festgelegter Toolchain nicht nachgewiesen"
+      ],
+      "depends_on": [
+        "V10"
+      ],
+      "acceptance": [
+        "Toolchain/Inputs fixiert",
+        "zweiter Build reproduziert erwartete Outputs",
+        "Abweichungen und Artefakt-Hashes dokumentiert"
+      ]
+    },
+    {
+      "id": "V12",
+      "name": "interface_contract_tests",
+      "priority": "P1",
+      "status": "UNRESOLVED",
+      "observed_paths": [
+        ".github/workflows/l1-network-e2e.yml"
+      ],
+      "missing": [
+        "Allgemeiner, aus Dependency-Graph abgeleiteter Interface-Contract-Testlauf nicht nachgewiesen"
+      ],
+      "depends_on": [
+        "V09",
+        "V10"
+      ],
+      "acceptance": [
+        "Deklarierte Kanten haben versionierte Verträge",
+        "Kompatibilitätstests pro Kante",
+        "Ergebnisse an exakte beteiligte SHAs gebunden"
+      ]
+    },
+    {
+      "id": "V13",
+      "name": "security_policy_gate",
+      "priority": "P1",
+      "status": "MAPPED",
+      "observed_paths": [
+        ".github/workflows/security-assurance.yml",
+        "tools/validate_privacy_policy.py"
+      ],
+      "missing": [
+        "Alle Security-Gates, ihre Pflichtschritte und SHA-gebundene Evidenz nicht in einem Soll-Ist-Bericht konsolidiert"
+      ],
+      "depends_on": [
+        "V10"
+      ],
+      "acceptance": [
+        "Policy-Verletzungen fail-closed",
+        "Pflichtprüfungen und Ausnahmen versioniert",
+        "keine pauschale VERIFIED-Ableitung aus Workflow-Grün"
+      ]
+    },
+    {
+      "id": "V14",
+      "name": "dependency_advisory_gate",
+      "priority": "P1",
+      "status": "UNRESOLVED",
+      "observed_paths": [],
+      "missing": [
+        "Vollständiger, reproduzierbarer Advisory-Abgleich mit Severity-/Package-/Fix-Version-Evidenz nicht nachgewiesen"
+      ],
+      "depends_on": [
+        "V10"
+      ],
+      "acceptance": [
+        "Advisories mit exaktem Lockfile-/Commit-Bezug",
+        "Severity-Schwellen versioniert",
+        "Ausnahmen mit Ablauf und Begründung"
+      ]
+    },
+    {
+      "id": "V15",
+      "name": "artifact_provenance",
+      "priority": "P1",
+      "status": "UNRESOLVED",
+      "observed_paths": [],
+      "missing": [
+        "Artefakt-Provenienz mit Hash, Erzeuger-Workflow und Quell-SHA nicht nachgewiesen"
+      ],
+      "depends_on": [
+        "V10",
+        "V11"
+      ],
+      "acceptance": [
+        "Artefakt-SHA256",
+        "Quell-Commit und Workflow-Run",
+        "Provenienz attestiert, aber nicht als alleiniger Sicherheitsbeweis behandelt"
+      ]
+    },
+    {
+      "id": "V16",
+      "name": "e2e_integration_gate",
+      "priority": "P1",
+      "status": "MAPPED",
+      "observed_paths": [
+        ".github/workflows/l1-network-e2e.yml",
+        ".github/workflows/ecosystem-integration.yml"
+      ],
+      "missing": [
+        "End-to-End-Gate für alle vorgesehenen Repository-/Interface-Kanten auf Baseline-SHA nicht ausgeführt"
+      ],
+      "depends_on": [
+        "V09",
+        "V10",
+        "V12"
+      ],
+      "acceptance": [
+        "Deklarierte E2E-Scope-Abdeckung",
+        "exakte SHAs für alle Teilnehmer",
+        "fehlende Integrationsevidenz bleibt BLOCKED"
+      ]
+    },
+    {
+      "id": "V17",
+      "name": "release_readiness_gate",
+      "priority": "P1",
+      "status": "MAPPED",
+      "observed_paths": [
+        ".github/workflows/ecosystem-release-readiness.yml"
+      ],
+      "missing": [
+        "Release-Entscheidung nicht mit vollständig verifizierten V01–V16-Ergebnissen auf Baseline-SHA belegt"
+      ],
+      "depends_on": [
+        "V03",
+        "V08",
+        "V10",
+        "V13",
+        "V15",
+        "V16"
+      ],
+      "acceptance": [
+        "Keine ungelösten P0-Blocker",
+        "alle Pflichtgates erfolgreich und SHA-gebunden",
+        "Residuals explizit bewertet"
+      ]
+    },
+    {
+      "id": "V18",
+      "name": "audit_report_generator",
+      "priority": "P1",
+      "status": "UNRESOLVED",
+      "observed_paths": [],
+      "missing": [
+        "Dedizierter deterministischer Generator für den vollständigen V01–V18-Soll-Ist-Bericht nicht nachgewiesen"
+      ],
+      "depends_on": [
+        "V01",
+        "V05",
+        "V07",
+        "V10"
+      ],
+      "acceptance": [
+        "Maschinenlesbarer JSON-Bericht",
+        "Status und Evidenzreferenzen pro Tool",
+        "stabile Ausgabe für gleiche Inputs",
+        "Baseline-Commit im Bericht gebunden"
+      ]
+    }
+  ],
+  "known_discrepancies": [
+    {
+      "id": "D001",
+      "status": "BLOCKED",
+      "summary": "demo-repository has conflicting scope signals: active/private in manifest; TEMPLATE_FIXTURE/AUDIT_REQUIRED in integration registry.",
+      "resolution": "Add an explicit versioned drift-scope policy and tests before the live drift gate relies on the exclusion."
+    },
+    {
+      "id": "D002",
+      "status": "BLOCKED",
+      "summary": "Catalog baseline scan found 104 function entries, while earlier planning states 105.",
+      "resolution": "Recompute count from raw catalog records with a deterministic script; do not edit count by hand."
+    },
+    {
+      "id": "D003",
+      "status": "UNRESOLVED",
+      "summary": "A successful general code-quality run exists for the baseline SHA, but specialized recent runs observed in the audit were on a different SHA.",
+      "resolution": "Only attach workflow evidence whose head SHA equals the audited commit; fetch run/job/step evidence before VERIFIED."
+    }
+  ],
+  "next_actions": [
+    {
+      "order": 1,
+      "id": "V04",
+      "action": "Resolve and schema-validate the versioned drift-scope/exclusion policy for demo-repository."
+    },
+    {
+      "order": 2,
+      "id": "V03",
+      "action": "Implement live repository drift by extending/reusing existing integration logic, with API and SHA failure tests."
+    },
+    {
+      "order": 3,
+      "id": "V10",
+      "action": "Implement strict CI evidence validation and negative tests."
+    },
+    {
+      "order": 4,
+      "id": "V07",
+      "action": "Reconstruct the catalog 104/105 discrepancy from raw records."
+    },
+    {
+      "order": 5,
+      "id": "V18",
+      "action": "Generate a deterministic report from tool inventory and evidence."
+    }
+  ]
+}
