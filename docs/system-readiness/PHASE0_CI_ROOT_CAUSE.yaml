@@ -1,8 +1,8 @@
 schema_version: 1.0.0
 document_id: ATC-PHASE0-CI-RCA-001
 title: Phase 0 - CI Root Cause Assessment
-version: 0.2.0
-status: PARTIAL
+version: 1.0.0
+status: FINAL
 updated: '2026-11-16'
 owner: A-TownChain-Okosystems
 tracking_issue: https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/116
@@ -348,3 +348,6 @@ corrections:
 - dynamic events were affected too (399 of 1126); earlier claim 'never affected' retracted
 - 'incident window is not uniform: onset cohorts per repository and event class'
 - 'post-recovery run: CodeQL completed success; final split 5 success / 5 failure / 0 open'
+frozen: '2026-11-16'
+successor: ATC-PHASE0-CI-RECOVERY-VERIFICATION-001
+operational_progress: tracked in ATC-PHASE0-CI-RECOVERY-VERIFICATION-001

@@ -1,8 +1,8 @@
 ---
 document_id: ATC-PHASE0-CI-RCA-001
 title: Phase 0 — CI Root Cause Assessment
-version: 0.2.0
-status: PARTIAL
+version: 1.0.0
+status: FINAL (historical)
 owner: A-TownChain-Okosystems
 updated: 2026-11-16
 standard: ATC-STD-MD-001
@@ -15,6 +15,9 @@ related: [ATC-BLOCKER-REGISTER-001, ATC-SYSTEM-READINESS-001, ATC-PHASE0-CI-RECO
 > **Scope:** read-only investigation. No workflow was changed, no gate weakened, no run without jobs
 > counted as success, no historical evidence overwritten.
 > **Status decision (Owner, 2026-11-16): PARTIAL — 7 of 8 acceptance criteria MET. `CI_VERIFIED` = 0.**
+> **IMMUTABLE (Owner decision 2026-11-16):** this document is the historical root-cause record.
+> It is frozen; corrections and operational progress belong to the successor
+> `ATC-PHASE0-CI-RECOVERY-VERIFICATION-001`.
 > **Machine-readable twin:** [`PHASE0_CI_ROOT_CAUSE.yaml`](PHASE0_CI_ROOT_CAUSE.yaml).
 > **Register entry:** BLK-P0-01 in [`BLOCKER_REGISTER.md`](BLOCKER_REGISTER.md).
 
@@ -133,13 +136,8 @@ ancestor of `main`** — the reusable workflow was never merged. The consumers' 
 bind the policy to `1c198f3c` (6 repos) and `daf4b6e` (aurora-ai), so the policy tree is linted at an
 old, unclean commit regardless of `main`.
 
-**Progress R-3 (2026-11-16):** policy markdown corrected in `.github` PR #35 — 44 findings → 0,
-verified locally with `markdownlint-cli2 0.18.1` and the unchanged policy config (no rule weakened;
-40 whitespace fixes, 4 manual). Two steps remain and are **blocked for the agent token** (no `workflow`
-scope): (1) the reusable workflow must pin `ref:` to the corrected commit, (2) the 7 consumers must bump
-their reusable pin. Ready-to-apply artifact: `github-ci-fix/` (workflow file, `apply.sh`, consumer table
-with all seven current pins).
-
+Operational repair progress is tracked exclusively in
+`ATC-PHASE0-CI-RECOVERY-VERIFICATION-001`.
 ### 7.2 a-townchain — one Dependabot PR blocks five gates
 All five red workflows belong to **one** pull request
 (`dependabot/npm_and_yarn/modules/atc-blockchain/lucide-react-1.72.0`, sha `acce944f9`):

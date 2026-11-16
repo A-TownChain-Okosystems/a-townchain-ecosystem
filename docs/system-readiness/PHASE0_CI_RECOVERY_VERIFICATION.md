@@ -80,7 +80,10 @@ Legend: `started` = a run after 14:56Z produced jobs; `startup_failure` = last r
 | `pull_request` | 3 | not incident-relevant, but needed for content gates |
 | `dynamic` | 6 | not incident-relevant |
 
-21 repositories have no run after recovery. R-2 closes this section.
+21 repositories have no run after recovery. **They are unverified, not faulty.** The same
+applies to `workflow_dispatch`: zero observed runs in the measurement window is an absence of
+evidence, not evidence of a defect. R-2 closes this section per event class — a successful
+`push` does not prove that `schedule` or `workflow_dispatch` work, and vice versa.
 
 ## 4. Error classification
 
@@ -107,17 +110,47 @@ Legend: `started` = a run after 14:56Z produced jobs; `startup_failure` = last r
 
 | Artifact | SHA-256 |
 |---|---|
-| `docs/system-readiness/PHASE0_CI_ROOT_CAUSE.md` | `35d4fa0f3eda2ecb74e4b1ce6c7e2add0e1ff0322b1666830f15a57b93041dec` |
+| `docs/system-readiness/PHASE0_CI_ROOT_CAUSE.md` | `e8e27a9edea44e23e91fb8b110886f488b8536d926c8a52e5724046568527bcb` |
 | `docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml` | `a4af1b8939b3e417b5d98c8d37ff51136b4b848010bc1e73ab626f2827c11ddc` |
 | `docs/system-readiness/BLOCKER_REGISTER.md` | `d8365da99450b77f51de9941afcf924e883f77ee87b61c57c0522d11460005e2` |
-| `docs/system-readiness/BLOCKER_REGISTER.yaml` | `7aa03e6438340ca763e6d06d540f1d4b036989ff33aa176575da3b308c24b193` |
+| `docs/system-readiness/BLOCKER_REGISTER.yaml` | `58848f5f1fa893cf7d641abeadf9f0cf092c9038946306c021d1ba33e78a7348` |
+| `docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.yaml` | `9c146b027fba70e5b86d803a56d352f9a307fbec48994f532ca94570a84ba9e1` |
 
-## 6.5 Repair progress
+Hashes bind the RCA and register at the commit that introduced this document. They are historical anchors, not live checksums.
 
-| ID | Progress (2026-11-16) | Evidence |
+## 6.5 Repair progress — R-3 (policy markdown and pin chain)
+
+### State
+
+| Step | State | Evidence |
 |---|---|---|
-| R-3 | policy markdown fixed (.github PR #35, 44 → 0, rules unchanged) | local `markdownlint-cli2 0.18.1`, policy config unchanged |
-| R-3 (rest) | **blocked**: workflow pin + 7 consumer bumps need `workflow` scope | `github-ci-fix/` artifact prepared |
+| 1. Policy markdown corrected | **DONE** — `.github` PR #35 | 44 → 0 findings, `markdownlint-cli2 0.18.1`, unchanged policy config; 40 whitespace fixes, 4 manual (MD025, MD001, MD040 ×2) |
+| 2. Merge PR #35 (owner review) | **OPEN** — owner process | review pack: policy diff, config identity, rule strictness |
+| 3. Reusable workflow pins corrected commit | **OPEN** — needs `workflow` scope | `github-ci-fix/reusable-markdownlint.yml` + `apply.sh` |
+| 4. Seven consumer pins updated | **OPEN** — needs `workflow` scope | `github-ci-fix/CONSUMERS.md` (exact current pins) |
+| 5. All seven consumers run green | **OPEN** | evidence schema below |
+| 6. Evidence recorded | **OPEN** | run ID, consumer HEAD, workflow SHA, job logs, artifact hash |
+
+### Two separate defects (must not be merged into one)
+
+1. **Policy content defect** — 44 markdownlint findings in the policy tree, fixed by PR #35.
+2. **Integration defect** — the policy commit `1c198f3c…` pinned by the consumers is **not an
+   ancestor of `main`**; the reusable workflow was never merged. A corrected `main` alone therefore
+   cannot turn any consumer green.
+
+### Mandatory guards for `apply.sh` (fail closed)
+
+- `--policy-sha` must equal the reviewed merge commit of PR #35 and must be an ancestor of `main`;
+  if not, abort before any write.
+- The policy tree at that SHA must be proven clean with the policy config; abort otherwise.
+- Exactly the seven documented consumers may be touched — any additional or missing repository aborts.
+- Each consumer's current pin must match the recorded pin in `CONSUMERS.md`; drift aborts.
+- Dry run is the default; `--apply` is required for writes. No `--force`.
+
+### Acceptance for R-3
+
+R-3 is complete only when **7 of 7** consuming repositories show a successful Markdown Lint run on
+the new pin, each recorded with run ID, consumer HEAD SHA, workflow SHA and job evidence.
 
 ## 7. Remaining blockers
 
@@ -138,6 +171,7 @@ Legend: `started` = a run after 14:56Z produced jobs; `startup_failure` = last r
 | `CI_VERIFIED` | **0** repositories |
 | `VERIFIED` | **0** |
 | BLK-P0-01 | **BLOCKED** |
+| R-3 | **OPEN** — 7/7 consumer runs required |
 
 A completed recovery verification requires: every governed repository with a started run on its
 exact HEAD SHA, per event class, with run → job → step → log binding and artifact hashes.
