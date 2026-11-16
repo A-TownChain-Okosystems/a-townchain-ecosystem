@@ -67,8 +67,8 @@ blockers:
       blocked (token without workflow scope); artifact github-ci-fix/
   sub_blocker_status:
     01a_verification_sweep: OPEN
-    01b_policy_markdown: 'IN_PROGRESS — PR #35 open (44->0 verified locally); workflow/pin chain pending'
-    01c_log_access: OPEN
+    01b_policy_markdown: POLICY MERGED 7f76c509; workflow/pin chain still pending
+    01c_log_access: CLOSED 2026-11-17 — 14/14 HTTP 200 ueber 8 Repos; 403 war zeitgebunden
     01d_content_failures: OPEN
     01e_support_status: OWNER
   acceptance_note: Status changes only with evidence_registry entries (evidence_complete=true).

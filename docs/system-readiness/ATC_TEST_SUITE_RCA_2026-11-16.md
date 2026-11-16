@@ -145,3 +145,49 @@ Der PR wurde am 16.11. 19:19 ohne Merge geschlossen; `main` steht dort weiterhin
 Bewertung bleibt: Major-Bumps von `jsdom` (>=30) und `undici` (>=8) sind auf Node 20 nicht lauffaehig
 und duerfen nicht als reine Patch-/Minor-Pflege behandelt werden. Der Ausbau der CI auf Node 22 ist
 eine Workflow-Aenderung und bleibt separat.
+
+---
+
+## 9. R-4 und atc-standards (17.11.2026)
+
+### 9.1 R-4 Logzugriff: Luecke geschlossen
+
+Der in Phase 0 dokumentierte 403 auf `a-townchain`-Joblogs ist nicht reproduzierbar. Stichprobe
+ueber acht Repositories, jeweils der erste fehlgeschlagene Job:
+
+| Repo | Run | Job | HTTP | Bytes |
+|---|---|---|---|---|
+| a-townchain | 43941833383 | pytest | 200 | 28.291 |
+| a-townchain | 43941833344 | determinism | 200 | 24.850 |
+| a-townchain-ecosystem | 43981505156 | rust-components (atc-indexer) | 200 | 29.250 |
+| a-townchain-ecosystem | 43981505261 | a-townchain-rust | 200 | 12.576 |
+| globus-os | 43935737075 | cargo-tests | 200 | 61.521 |
+| globus-os | 43892871011 | rust | 200 | 377.102 |
+| atc-marketplace | 43935715993 | pytest | 200 | 16.195 |
+| atc-standards | 43935757996 | regenerate | 200 | 27.447 |
+| atc-standards | 43935758423 | matrix | 200 | 19.919 |
+| aurora-ai | 43981455878 | markdownlint | 200 | 33.690 |
+| atc-node | 43891181845 | markdownlint | 200 | 55.478 |
+
+**14/14 HTTP 200.** Der 403 war zeitgebunden (Incident-Fenster), kein Dauerzustand. R-4 wechselt
+von BLOCKED auf IN_PROGRESS: Zugriff steht, die vollstaendige Erhebung aller roten Laeufe ist die
+offene Restarbeit.
+
+### 9.2 atc-standards: zwei getrennte Fehlschlaege
+
+**Regenerate Standards Views (run 43935757996)** — die Regeneration selbst ist erfolgreich
+(533 Standards, 506 APPROVED/27 CANDIDATE, 76 Familien, SHA `ca5c3b44`), der Commit `7fcccfd` und der
+Bot-Branch `bot/regenerate-standards-views-43935757996` entstehen. Der Job scheitert erst an:
+
+```
+pull request create failed: GraphQL: GitHub Actions is not permitted to create or approve pull requests
+```
+
+Klasse: **Governance-Einstellung** (Repo/Org-Option "Allow GitHub Actions to create and approve pull
+requests" ist aus), nicht Code. Zwei Wege: Einstellung freigeben (Owner) oder Workflow so umbauen, dass
+kein PR erzeugt wird.
+
+**Code Quality Matrix Live (run 43935758423)** — echtes Inhaltsfinding `a-townchain — language=MISMATCH`.
+Ursache: Byte-Mehrheits-Sprache TypeScript (39,8 %) gegen deklariert `[rust, python]` bei Rust 30,4 %
+und Python 28,3 %. Behoben in `atc-standards` PR #126 (Praesenz >= 5 % statt Byte-Mehrheit, Anteile im
+Bericht sichtbar). Lokal 26/26 PASS, 0 FINDINGS; genau ein Verdict aendert sich.
