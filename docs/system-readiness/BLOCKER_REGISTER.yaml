@@ -62,6 +62,9 @@ blockers:
   - BLK-P0-01e support escalation state (R-1)
   assessment_ref: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.md (v0.2.0, PARTIAL 7/8)
   recovery_verification_ref: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.md (PENDING)
+  sub_blockers_progress:
+    BLK-P0-01b: PARTIAL - policy markdown fixed (.github PR 35, 44->0, no rule weakened); workflow pin + 7 consumer bumps
+      blocked (token without workflow scope); artifact github-ci-fix/
 - id: BLK-P0-02
   title: 'ATC-BC-001: normative Bytecode-Spezifikation'
   priority: P0

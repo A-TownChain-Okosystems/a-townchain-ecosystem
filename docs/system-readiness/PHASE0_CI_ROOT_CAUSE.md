@@ -128,6 +128,18 @@ annotations.
 Fix is single-location, but the pin chain must be moved: policy file → internal ref in
 `reusable-markdownlint.yml` → pinned reusable-workflow SHA in each of the 7 consumers.
 
+**Pin-chain finding (2026-11-16):** the policy commit `1c198f3c` that the consumers pin is **not an
+ancestor of `main`** — the reusable workflow was never merged. The consumers' pinned reusable versions
+bind the policy to `1c198f3c` (6 repos) and `daf4b6e` (aurora-ai), so the policy tree is linted at an
+old, unclean commit regardless of `main`.
+
+**Progress R-3 (2026-11-16):** policy markdown corrected in `.github` PR #35 — 44 findings → 0,
+verified locally with `markdownlint-cli2 0.18.1` and the unchanged policy config (no rule weakened;
+40 whitespace fixes, 4 manual). Two steps remain and are **blocked for the agent token** (no `workflow`
+scope): (1) the reusable workflow must pin `ref:` to the corrected commit, (2) the 7 consumers must bump
+their reusable pin. Ready-to-apply artifact: `github-ci-fix/` (workflow file, `apply.sh`, consumer table
+with all seven current pins).
+
 ### 7.2 a-townchain — one Dependabot PR blocks five gates
 All five red workflows belong to **one** pull request
 (`dependabot/npm_and_yarn/modules/atc-blockchain/lucide-react-1.72.0`, sha `acce944f9`):
@@ -168,7 +180,7 @@ under test. Confirmed again on `2c3824d4c` with the identical 5/5 split.
 
 | ID | Work | Depends on | Acceptance |
 |---|---|---|---|
-| **R-3** | Organization policy markdown (single authoritative fix + pin chain) | — | 11 findings removed, no rule weakened, reusable workflow green in all 7 consuming repositories, documented with commit SHA and run ID |
+| **R-3** | Organization policy markdown (single authoritative fix + pin chain) | — | **PARTIAL**: PR #35 (44→0, no rule weakened). Remaining: workflow pin + 7 consumer bumps — Owner action, token has no `workflow` scope |
 | **R-4** | Job-log access (a-townchain 403) | — | complete job/step/log evidence retrievable |
 | **R-2** | Verification sweep, per event class | R-3, R-4 | every active repository assessed; `push`, `workflow_dispatch`, `schedule` judged separately |
 | **R-5** | Dependabot PR triage | R-3 (markdown), R-4 (others) | each of the 5 gates judged separately |

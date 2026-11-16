@@ -112,6 +112,13 @@ Legend: `started` = a run after 14:56Z produced jobs; `startup_failure` = last r
 | `docs/system-readiness/BLOCKER_REGISTER.md` | `d8365da99450b77f51de9941afcf924e883f77ee87b61c57c0522d11460005e2` |
 | `docs/system-readiness/BLOCKER_REGISTER.yaml` | `7aa03e6438340ca763e6d06d540f1d4b036989ff33aa176575da3b308c24b193` |
 
+## 6.5 Repair progress
+
+| ID | Progress (2026-11-16) | Evidence |
+|---|---|---|
+| R-3 | policy markdown fixed (.github PR #35, 44 → 0, rules unchanged) | local `markdownlint-cli2 0.18.1`, policy config unchanged |
+| R-3 (rest) | **blocked**: workflow pin + 7 consumer bumps need `workflow` scope | `github-ci-fix/` artifact prepared |
+
 ## 7. Remaining blockers
 
 | ID | Blocker | Owner | Status |
