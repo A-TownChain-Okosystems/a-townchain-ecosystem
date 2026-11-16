@@ -118,3 +118,75 @@ Keine der beiden Varianten wurde umgesetzt.
 | `Dependabot` fachlich zugeordnet und nachweisbarer Status | erfüllt (Abschnitt 3) |
 | Keine Required Checks ohne Begründung entfernt | erfüllt — nichts entfernt |
 | Vier PRs gegen aktuellen Head erneut geprüft | erfüllt (Baseline dokumentiert); Neubewertung erst nach Reparatur sinnvoll |
+
+
+---
+
+## 6. Umsetzung 16.11.2026 (Owner-Entscheidung: exec-chain beibehalten, Dependabot gezielt entfernen)
+
+### 6.1 Vorprüfung der PR-seitigen Dependency-Gates
+
+| Gate | Trigger | Paths-Filter | Job-Name | Ergebnis auf den Heads #14–#17 | Required? |
+|---|---|---|---|---|---|
+| `dependency-review` | `pull_request` (branches: main) | nein | `dependency-review` | `completed / success` (4/4) | war **nein** |
+| `cargo-audit` | `pull_request`, `push` (main), `schedule` (Mo 06:00), `workflow_dispatch` | nein | `cargo-audit` | `completed / success` (4/4) | ja |
+
+Befund: Beide laufen tatsächlich PR-seitig. `cargo-audit` war bereits Required Context,
+`dependency-review` **nicht**. Damit war die Bedingung „dependency-review und cargo-audit
+laufen und sind als Required Checks konfiguriert" nur zur Hälfte erfüllt.
+
+### 6.2 Protection-Änderung (nur der Status-Check-Teilsatz)
+
+`PATCH /repos/A-TownChain-Okosystems/atc-vm/branches/main/protection/required_status_checks`
+
+```json
+{"strict": false,
+ "contexts": ["audit","cargo-tests","cargo-audit","codeql","dependency-review","exec-chain"]}
+```
+
+| | vorher | nachher |
+|---|---|---|
+| contexts | `audit`, `cargo-tests`, `cargo-audit`, `codeql`, `exec-chain`, **`Dependabot`** | `audit`, `cargo-tests`, `cargo-audit`, `codeql`, `exec-chain`, **`dependency-review`** |
+| strict | false | false |
+| reviews | 1 | 1 |
+| enforce_admins | true | true |
+
+Die Änderung ist keine Abschwächung, sondern eine Korrektur der Zuordnung: ein
+schedule-gebundener Wartungsjob (`Dependabot`, `dynamic`-Event, nur `main`) verlässt die
+Required-Liste, ein echter PR-seitiger Dependency-Sicherheitscheck (`dependency-review`)
+kommt hinzu. Alle fachlichen Gates, die auf Pull Requests erzeugt werden, bleiben Required.
+
+### 6.3 Neubewertung der vier PRs gegen ihre aktuellen Heads
+
+| PR | Head | mergeable_state | erfüllte Required Contexts | fehlend |
+|---|---|---|---|---|
+| #14 | `a03dfe4bb345` | blocked | audit, cargo-audit, cargo-tests, codeql, dependency-review | `exec-chain` |
+| #15 | `8ae644be7d56` | blocked | audit, cargo-audit, cargo-tests, codeql, dependency-review | `exec-chain` |
+| #16 | `6693286f3ccd` | blocked | audit, cargo-audit, cargo-tests, codeql, dependency-review | `exec-chain` |
+| #17 | `e4d97fa54b65` | blocked | audit, cargo-audit, cargo-tests, codeql, dependency-review | `exec-chain` |
+
+Nach der Protection-Korrektur fehlt **nur noch** `exec-chain`. Kein weiterer Required Context
+ist unerfüllbar. Der Zustand `blocked` ist damit vollständig durch den fehlenden
+`pull_request`-Trigger erklärt und nicht mehr durch die Schutzkonfiguration.
+
+### 6.4 Reihenfolge für den verbleibenden Schritt (Owner, workflow-Scope)
+
+Der Patch muss über einen Pull Request laufen, nicht direkt auf `main` (Schutz greift,
+`enforce_admins: true` verhindert Bypass). Der Kreis schließt sich, weil GitHub für
+`pull_request`-Läufe die Workflow-Datei **aus dem PR-Branch** verwendet:
+
+1. `git am atc-vm-exec-chain-on-pr.patch`
+2. `git push -u origin ci/exec-chain-on-pull-request`
+3. PR gegen `main` öffnen
+4. Der PR erzeugt selbst den Lauf `Contract Exec Gate` → Check `exec-chain`
+5. Nach grünem Lauf und Review: Merge
+
+Erst mit Schritt 5 existiert ein GitHub-nachgewiesener `exec-chain`-Lauf auf einem PR-Head.
+Bis dahin bleibt CI_VERIFIED bei 0.
+
+### 6.5 Was sich nicht geändert hat
+
+- `exec-chain`-Patch: weiterhin `VORBEREITET`, Push ohne `workflow`-Scope abgelehnt.
+- #14 (Ref `d04ec88`), #16 (Widerspruch zu ATC-ARCH-001): inhaltlich offen, unabhängig von
+  der Protection.
+- Kein Merge, keine Merge-Freigabe.
