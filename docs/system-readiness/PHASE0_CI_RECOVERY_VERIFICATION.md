@@ -182,6 +182,9 @@ R-3 is complete only when **7 of 7** consuming repositories reach `evidence_comp
 same approved policy and workflow commit, archived with run ID, consumer HEAD, executed workflow SHA,
 job conclusion and log hash.
 
+**Abort rule:** a single failed consumer blocks R-3. The failing consumer is isolated and investigated;
+the six complete proofs are **not** discarded. No partial promotion, no "6 of 7 is good enough".
+
 ### Governance model
 
 The separation requested by the owner is now normative for all blockers:

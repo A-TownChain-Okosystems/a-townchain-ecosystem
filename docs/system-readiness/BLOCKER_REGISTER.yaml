@@ -418,3 +418,24 @@ evidence_model: docs/system-readiness/EVIDENCE_MODEL.md
 evidence_registry: docs/system-readiness/EVIDENCE_REGISTRY.yaml
 rca: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.md (FINAL, historical)
 recovery: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.md
+org_snapshot: docs/system-readiness/ORG_SNAPSHOT.md
+evidence_model_rollout:
+  order:
+  - R-4
+  - R-2
+  - R-5
+  - R-6
+  rationale: R-4 liefert Logs, ohne die kein weiterer Nachweis belastbar ist
+  per_blocker:
+    R-4:
+      focus: job log access and evidence completeness
+      gate: every assessed run carries http_status + log_sha256 or an explicit MISSING code
+    R-2:
+      focus: org-wide verification sweep per event class
+      gate: per repo a run on the recorded HEAD; 'no run' stays unverified
+    R-5:
+      focus: dependabot PR and content failures
+      gate: green job-level runs on the same head SHA, separated by cause
+    R-6:
+      focus: remaining evidence gaps (support, access, history)
+      gate: explicit list with status and owner; nothing silently closed

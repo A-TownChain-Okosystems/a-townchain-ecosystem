@@ -111,3 +111,5 @@ evidence_model: docs/system-readiness/EVIDENCE_MODEL.md
 evidence_registry: docs/system-readiness/EVIDENCE_REGISTRY.yaml
 rca: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
 recovery: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.yaml
+org_snapshot: docs/system-readiness/ORG_SNAPSHOT.md
+snapshot_tool: docs/system-readiness/tools/org_snapshot.sh

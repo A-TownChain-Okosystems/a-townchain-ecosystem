@@ -36,4 +36,15 @@ Jede Evidenzzeile der Registry nennt: `artifact`, `sha256`, `commit`, `run_id` (
 
 ## 5. Anwendung auf die übrigen Blocker
 
-Das Modell gilt für alle Register-Einträge: `BLK-P0-01`, `BLK-P0-02` (ATC-BC-001), `BLK-P1-01` (E-1 bis E-7) usw. Jeder Blocker erhält bei Abarbeitung ein Recovery-Objekt; die RCA entsteht nur dort, wo ein abgeschlossenes Ereignis zu analysieren ist.
+Das Modell gilt für alle Register-Einträge. Jeder Blocker erhält bei Abarbeitung ein Recovery-Objekt;
+eine RCA entsteht nur dort, wo ein abgeschlossenes Ereignis zu analysieren ist.
+
+| Blocker | Nächstes Recovery-Objekt | Nachweisform |
+|---|---|---|
+| R-4 | `BLK-P0-01c-RECOVERY` | Joblog je Lauf: HTTP-Status, Bytezahl, SHA-256; alternativ offiziell bestätigter Zugriffsweg. Ohne Log kein Nachweis. |
+| R-2 | `BLK-P0-01a-RECOVERY` | Verification-Sweep je Event-Klasse (`push`, `schedule`, `workflow_dispatch`, `pull_request`, `dynamic`), je Repo ein Lauf mit Run-ID und HEAD-Bindung; "kein Lauf" bleibt `unverified`. |
+| R-5 | `BLK-P0-01d-RECOVERY` | Je Gate ein grüner Lauf auf demselben Head-SHA des PR, Job-Ebene, Log-Hash; getrennt nach Ursache (Inhalt vs. Policy). |
+| R-6 | `BLK-P0-01e-RECOVERY` | Explizite Liste verbleibender Lücken (Support, Zugriff, Historie) mit Status und Verantwortlichem; nichts wird stillschweigend geschlossen. |
+
+Reihenfolge nach Abhängigkeit: R-4 zuerst (Logs sind Voraussetzung für belastbare Nachweise),
+dann R-2 (Sweep), R-5 (Inhalte), R-6 (Restlücken).
