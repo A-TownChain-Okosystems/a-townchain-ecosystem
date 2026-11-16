@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-25",
-  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved. 2026-10-16: Reconciled proposed FN-GLOBUS-003, FN-AURORA-004 and FN-ECO-003 onto the current main baseline after PR #130 diverged. All three remain RESIDUAL/UNBOUND_RESIDUAL; no implementation or verification claim is made. Structural specification_contract counters reconciled to 104 function contracts and 31 components; functional verification remains false and release decision remains BLOCKED.\n2026-10-16: Reconciled primary and multi-layer mappings to ARCHITECTURE.md (L0-L7 + X), made source-binding counts derivable from 104 function records, and explicitly excluded demo-repository from production-readiness interpretation. These changes improve catalog consistency only; they do not assert source completeness or functional verification.\n2026-10-25: Reconciled COMP-IDE source bindings and inventory against current atc-ide HEAD 40a07acbbb2f240f0d409e97bd0262b8c63688b4. src/App.tsx blob b9aa3c7712e8149b016ea23c97edea31cb1abf9b and src/components/AtcVmSimulatorPanel.tsx blob 67e55a6502d2bd21f4363559304143bc212048f8 contain the catalog-mapped symbols. package.json blob 2714a41ecd906d8b398d9833193e75a29f143328 has no non-empty scripts.test; functional verification remains unclaimed and the build-loop blocker remains open.",
+  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved. 2026-10-16: Reconciled proposed FN-GLOBUS-003, FN-AURORA-004 and FN-ECO-003 onto the current main baseline after PR #130 diverged. All three remain RESIDUAL/UNBOUND_RESIDUAL; no implementation or verification claim is made. Structural specification_contract counters reconciled to 104 function contracts and 31 components; functional verification remains false and release decision remains BLOCKED.\n2026-10-16: Reconciled primary and multi-layer mappings to ARCHITECTURE.md (L0-L7 + X), made source-binding counts derivable from 104 function records, and explicitly excluded demo-repository from production-readiness interpretation. These changes improve catalog consistency only; they do not assert source completeness or functional verification.\n2026-10-25: Reconciled COMP-IDE source bindings and inventory against current atc-ide HEAD 40a07acbbb2f240f0d409e97bd0262b8c63688b4. src/App.tsx blob b9aa3c7712e8149b016ea23c97edea31cb1abf9b and src/components/AtcVmSimulatorPanel.tsx blob 67e55a6502d2bd21f4363559304143bc212048f8 contain the catalog-mapped symbols. package.json blob 2714a41ecd906d8b398d9833193e75a29f143328 has no non-empty scripts.test; functional verification remains unclaimed and the build-loop blocker remains open.\n2026-10-26: Rebased the FN-ATC-ENG-002 lexical source-binding correction onto current ecosystem main. Source binding points to atc-engineering main 38ab42e81847ac6bc03c2d288ec7a9b8a940c670 and crates/atc-evidence/src/lib.rs blob 5dd34c63488b46dd7fc74dd40b0224a25663125a. Functional verification and source_inventory reconciliation remain RESIDUAL.\n2026-10-26: Replaced stale COMP-ATC-ENG source-inventory snapshot fields with the live atc-engineering/main HEAD 38ab42e81847ac6bc03c2d288ec7a9b8a940c670 and tree 043b59d0581f8cb0ca445516004c5021c0d9ebc6. The two listed source files were checked on that ref; exported-symbol reconciliation remains false and completeness remains RESIDUAL. No interface version or functional verification was inferred.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -217,10 +217,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-evidence/src/lib.rs",
             "symbol_or_entrypoint": "validate",
-            "exact_source_sha": "2e91ec61ac6680566cbe9b525406a9752c31e539",
-            "file_blob_sha": "5bea1f27a09dfda18d59bfd91550cde77a3aa599",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-engineering/blob/2e91ec61ac6680566cbe9b525406a9752c31e539/crates/atc-evidence/src/lib.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: validate at crates/atc-evidence/src/lib.rs (additional related symbols in the original qualified mapping: EvidenceRecord::{validate,to_json,write_to})."
+            "exact_source_sha": "38ab42e81847ac6bc03c2d288ec7a9b8a940c670",
+            "file_blob_sha": "5dd34c63488b46dd7fc74dd40b0224a25663125a",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-engineering/blob/38ab42e81847ac6bc03c2d288ec7a9b8a940c670/crates/atc-evidence/src/lib.rs",
+            "note": "The validate entry symbol was confirmed in the file at this exact repository commit. This is a lexical source mapping only; functional correctness, tests, full symbol coverage, and component inventory reconciliation remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-engineering",
           "preconditions": {
@@ -250,7 +250,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "2e91ec61ac6680566cbe9b525406a9752c31e539",
+            "source_sha": "38ab42e81847ac6bc03c2d288ec7a9b8a940c670",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -266,17 +266,17 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/atc-engineering",
         "canonical_path": ".",
-        "observed_head_sha": "2e91ec61ac6680566cbe9b525406a9752c31e539",
-        "observed_tree_sha": "c42f803fea64d3e2e1e0aee3d681fc6c914a8d1a",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at 2e91ec61ac6680566cbe9b525406a9752c31e539)",
+        "observed_head_sha": "38ab42e81847ac6bc03c2d288ec7a9b8a940c670",
+        "observed_tree_sha": "043b59d0581f8cb0ca445516004c5021c0d9ebc6",
+        "census_date": "2026-10-26",
+        "evidence_source": "GitHub main ref queried 2026-10-26; source file blobs confirmed at the recorded main HEAD",
         "source_paths_examined": [
           "crates/atc-evidence/src/lib.rs",
           "scripts/standards_enforcement_audit.py"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL."
+        "status_reason": "Current main HEAD/tree and inspected source file blobs are recorded. This is a two-file source snapshot, not a complete repository-wide exported-symbol census; source-path coverage and function inventory reconciliation remain RESIDUAL."
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -309,17 +309,17 @@
       "source_inventory_with_exact_head_and_tree_sha": {
         "repository": "A-TownChain-Okosystems/atc-engineering",
         "canonical_path": ".",
-        "observed_head_sha": "2e91ec61ac6680566cbe9b525406a9752c31e539",
-        "observed_tree_sha": "c42f803fea64d3e2e1e0aee3d681fc6c914a8d1a",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at 2e91ec61ac6680566cbe9b525406a9752c31e539)",
+        "observed_head_sha": "38ab42e81847ac6bc03c2d288ec7a9b8a940c670",
+        "observed_tree_sha": "043b59d0581f8cb0ca445516004c5021c0d9ebc6",
+        "census_date": "2026-10-26",
+        "evidence_source": "GitHub main ref queried 2026-10-26; source file blobs confirmed at the recorded main HEAD",
         "source_paths_examined": [
           "crates/atc-evidence/src/lib.rs",
           "scripts/standards_enforcement_audit.py"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL.",
+        "status_reason": "Current main HEAD/tree and inspected source file blobs are recorded. This is a two-file source snapshot, not a complete repository-wide exported-symbol census; source-path coverage and function inventory reconciliation remain RESIDUAL.",
         "status": "RESIDUAL"
       },
       "test_and_ci_gates": {
