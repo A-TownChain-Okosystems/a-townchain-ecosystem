@@ -6,6 +6,8 @@ System-of-Systems-Integrations- und Evidence-Control-Plane des A-TownChain-Ökos
 
 Dieses Repository koordiniert die Integration dieser Systeme, dokumentiert Cross-Repo-Verträge und aggregiert Evidence. Ein Import, ein grüner Einzel-Gate oder ein vorhandener Integrationstest beweist nicht, dass alle Komponenten als Gesamtsystem vollständig verifiziert sind.
 
+Strategische Vision, Mission, Ziele, Technologie-Säulen, Entwicklungs-Horizonte und KPI-Rahmen: [Ecosystem Vision, Mission & Master Strategy](docs/strategy/ECOSYSTEM-VISION-MISSION-MASTER-STRATEGY.md).
+
 ## Scope
 
 In-Scope: System-Integration, komponentenübergreifende Gates und der
@@ -24,10 +26,33 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 
 ## Architecture
 
-Schichten (unten → oben): ShivaCore-Kernel (TCB) → ATCLang → ATC-VM →
-ATC-Algorithm/Node (A-TownChain L1) → Aurora AI (Policy/Agent-Ebene) →
-Genesis Engine (Game-Plattform) → Anwendungen (Genesis Chronicles, Flagship).
-Details: `ARCHITECTURE.md`.
+`ARCHITECTURE.md` defines conceptual responsibility domains and the
+cross-layer control plane X. Its domain model is not a mandatory runtime
+order, a dependency chain or product-subordination model.
+
+The seven strategic technology pillars are independent domains with explicit
+interfaces. Their primary conceptual responsibility mapping is:
+
+| Technology pillar | Primary architecture responsibility |
+|---|---|
+| ATCLang | Deterministic Execution |
+| ShivaCore Kernel | System & Network |
+| Aurora AI | AI & Intelligence |
+| A-TownChain | Blockchain Core & Consensus |
+| ATC-VM | Deterministic Execution |
+| GlobusOS | System & Network |
+| Genesis Engine | Applications & User Experience |
+
+X provides cross-cutting identity, capability, authorization, policy,
+governance, security and evidence controls; it is not an additional execution
+pillar. Genesis Engine is not downstream of GlobusOS, and Aurora AI does not
+own blockchain consensus or canonical chain state.
+
+This conceptual crosswalk does not assign or modify repository classification,
+maturity, ownership or canonical status. Those remain governed by
+`ATC-STD-202`, `atc-standards/registry/repositories.yaml` and each
+repository's canonical SSOT records. See `ARCHITECTURE.md` for the complete
+model.
 
 ## Capabilities and limits
 
