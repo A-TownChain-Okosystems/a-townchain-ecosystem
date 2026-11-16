@@ -101,6 +101,16 @@ repo_findings:
   repo: atc-oracle
   finding: ATC Test Suite evidence-binding step fails since 2026-10-07; repo archived
   impact: historical only
+- id: RF-5
+  repo: a-townchain-ecosystem
+  finding: 'post-recovery run set on 849186604: 10 workflows started, 4 green, 5 red; all reds are content gates over imported component snapshots (fmt/clippy/tests/determinism/integration crate)'
+  impact: 'pre-existing snapshot drift; not caused by docs-only PR #247'
+  evidence_runs:
+  - 43916656415
+  - 43916656205
+  - 43916656345
+  - 43916656202
+  - 43916656206
 reproducibility:
   before:
   - utc: '2026-11-15T01:24:00Z'
@@ -131,6 +141,11 @@ reproducibility:
     run: 43914636413
     jobs: 1
     conclusion: success
+  - utc: 2026-11-16T17:2x
+    repo: a-townchain-ecosystem
+    run: 43916656415
+    jobs: 10
+    conclusion: started; 4 green / 5 content failures
   control: pull_request runs started continuously during the incident
 repair_plan:
 - id: R-1

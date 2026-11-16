@@ -129,6 +129,23 @@ only be bound to run/job/step level, not to log content. This is itself an evide
 The last run (2026-10-07, push) fails in "Evidence-Bindung (SCR-0086 idempotentes test_run-Update)".
 The repository is archived; the failure is historical and does not affect current readiness.
 
+### 6.5 a-townchain-ecosystem — integration gates red after recovery (Class B)
+
+The first post-recovery run set on `849186604` (PR #247, docs-only change) started 10 workflows with jobs:
+4 green (Repository Governance ×2, Security Assurance, Code Quality), 5 red — all in **content gates over
+imported component snapshots**, not in the changed files:
+
+- **ATC Test Suite** — aurora-ai npm, shivacore cargo, atclang quality, a-townchain ruff (4 jobs, exit 1)
+- **Blockchain Core Integration** — Format fails for atc-indexer, atc-vm, atc-node, atc-sdk, atc-governance, atc-mining
+- **Determinism Gate** — a-townchain rust/python and shivacore rust static scans fail
+- **Ecosystem Integration** — integration crate exits 101
+- **Ecosystem Release Readiness** — clippy/fmt in `components/a-townchain/apps/atc-marketplace`, plus python/js project validation
+
+Interpretation: the integration control plane is green on governance/security, but the imported component
+snapshots do not pass their own quality gates. This is pre-existing drift between snapshots and their
+canonical sources (expected: the repo declares snapshots non-canonical), not a regression from this PR.
+It must be resolved in the canonical repositories or by re-sync, not by weakening gates here.
+
 ## 7. Historical vs. current state
 
 | Status | Repositories |
