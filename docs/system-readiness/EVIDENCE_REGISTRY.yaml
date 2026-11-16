@@ -1,0 +1,106 @@
+schema_version: 1.0.0
+document_id: ATC-EVIDENCE-REGISTRY-001
+title: Evidence Registry
+owner: A-TownChain-Okosystems
+updated: '2026-11-16'
+model: EVIDENCE_MODEL.md
+rule: append-only; evidence only with artifact+sha256+commit; run-bound entries additionally need run_id and log_sha256
+statuses:
+- PLANNED
+- COLLECTED
+- BOUND
+- VERIFIED
+- MISSING
+- STALE
+entries:
+- artifact: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.md
+  sha256: e8e27a9edea44e23e91fb8b110886f488b8536d926c8a52e5724046568527bcb
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
+  sha256: 3df1a840107c86164a2cf6f4972c79b7752a7adc4c2dca7886a3ae87d2ead090
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/BLOCKER_REGISTER.md
+  sha256: d8365da99450b77f51de9941afcf924e883f77ee87b61c57c0522d11460005e2
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/BLOCKER_REGISTER.yaml
+  sha256: 450355a46db518d7e94bec406b5fb46fb92972dbcb45820aafca4d66a81cebe8
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.md
+  sha256: 6ff5a57fc980ec597de81520f07a0d6c9656c77d830faea512482e2318036f27
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.yaml
+  sha256: 9c146b027fba70e5b86d803a56d352f9a307fbec48994f532ca94570a84ba9e1
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/EVIDENCE_MODEL.md
+  sha256: adf466e456d9dc4fc9baffc9ca72967a54667a717d77f7c48e1d4f74d0efed59
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/system-readiness.yaml
+  sha256: 7b8abf6a08bdbddb2799da5200bf3a92c0ccb908b5050d3910975e02b5a52e97
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+r3_consumer_evidence:
+  collector: github-ci-fix/evidence.sh
+  log_hash_spec: sha256 over gzip-decoded response bytes, no normalisation
+  required_fields:
+  - repo
+  - consumer_head
+  - run_id
+  - run_head_sha
+  - run_conclusion
+  - workflow_pin
+  - policy_ref
+  - policy_file_sha256_approved
+  - log_status
+  - log_sha256
+  - log_bytes
+  - evidence_complete
+  complete_definition: conclusion=success AND run_head_sha=consumer_head AND log_status=OK AND workflow_pin=approved AND policy_ref=approved
+  state: PENDING - R-3 not executed; baseline collection 2026-11-16 shows 0/7 complete and policy_ref=1c198f3c/daf4b6e (unmerged)
+  consumers:
+  - a-townchain
+  - atc-contracts
+  - atc-engineering
+  - atc-ide
+  - atc-node
+  - atc-shivacore
+  - aurora-ai
+  acceptance: 7/7 evidence_complete = true
