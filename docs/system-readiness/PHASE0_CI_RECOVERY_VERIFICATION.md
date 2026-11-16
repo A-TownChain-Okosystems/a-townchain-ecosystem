@@ -128,8 +128,8 @@ Hashes bind the RCA and register at the commit that introduced this document. Th
 | 2. Merge PR #35 (owner review) | **OPEN** — owner process | review pack: policy diff, config identity, rule strictness |
 | 3. Reusable workflow pins corrected commit | **OPEN** — needs `workflow` scope | `github-ci-fix/reusable-markdownlint.yml` + `apply.sh` |
 | 4. Seven consumer pins updated | **OPEN** — needs `workflow` scope | `github-ci-fix/CONSUMERS.md` (exact current pins) |
-| 5. All seven consumers run green | **OPEN** | evidence schema below |
-| 6. Evidence recorded | **OPEN** | run ID, consumer HEAD, workflow SHA, job logs, artifact hash |
+| 5. All seven consumers run green | **OPEN** | `evidence.sh` → `evidence_complete` per consumer |
+| 6. Evidence recorded | **OPEN** | `EVIDENCE_REGISTRY.yaml` (`r3_consumer_evidence`), artifact hashes |
 
 ### Two separate defects (must not be merged into one)
 
@@ -146,11 +146,36 @@ Hashes bind the RCA and register at the commit that introduced this document. Th
 - Exactly the seven documented consumers may be touched — any additional or missing repository aborts.
 - Each consumer's current pin must match the recorded pin in `CONSUMERS.md`; drift aborts.
 - Dry run is the default; `--apply` is required for writes. No `--force`.
+- **TOCTOU:** the consumer HEAD is re-read immediately before the write; if it moved since planning,
+  the run aborts. After the write the pushed branch head is read back and must carry the new pin.
+- **Semantics (not just a successful call):** the pinned reusable workflow must contain
+  `ref: <approved policy commit>`, and that commit must contain the approved policy file
+  (SHA-256 match). A green run alone does not prove the corrected file was linted.
+
+### Log-evidence specification (binding)
+
+`evidence.sh` hashes the **gzip-decoded response bytes** of
+`GET /repos/{org}/{repo}/actions/jobs/{job_id}/logs` exactly as received: no trimming, no line-ending
+normalisation. Recorded per consumer: `http_status`, `log_bytes`, `log_sha256`, `retrieved_at`.
+A 403/404/missing log yields `log_status=MISSING:<code>` and `evidence_complete=false` — a missing log
+is never success evidence, whatever the run conclusion says.
+
+`evidence_complete` is true only when **all** of the following hold:
+run conclusion `success`, `run.head_sha` equal to the consumer HEAD read in the same collection,
+`log_status=OK`, `workflow_pin` equal to the approved workflow commit, and `policy_ref` equal to the
+approved policy commit. The definition is machine-checked in the collector, not by a human.
 
 ### Acceptance for R-3
 
 R-3 is complete only when **7 of 7** consuming repositories show a successful Markdown Lint run on
 the new pin, each recorded with run ID, consumer HEAD SHA, workflow SHA and job evidence.
+
+### Governance model
+
+The separation requested by the owner is now normative for all blockers:
+[`EVIDENCE_MODEL.md`](EVIDENCE_MODEL.md) defines the four objects (RCA immutable, Recovery operational,
+register current state, evidence registry machine-checkable). Machine-readable proofs live in
+[`EVIDENCE_REGISTRY.yaml`](EVIDENCE_REGISTRY.yaml); R-3 entries are appended there, never in the RCA.
 
 ## 7. Remaining blockers
 

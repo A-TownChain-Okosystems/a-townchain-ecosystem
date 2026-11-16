@@ -65,6 +65,13 @@ blockers:
   sub_blockers_progress:
     BLK-P0-01b: PARTIAL - policy markdown fixed (.github PR 35, 44->0, no rule weakened); workflow pin + 7 consumer bumps
       blocked (token without workflow scope); artifact github-ci-fix/
+  sub_blocker_status:
+    01a_verification_sweep: OPEN
+    01b_policy_markdown: 'IN_PROGRESS — PR #35 open (44->0 verified locally); workflow/pin chain pending'
+    01c_log_access: OPEN
+    01d_content_failures: OPEN
+    01e_support_status: OWNER
+  acceptance_note: Status changes only with evidence_registry entries (evidence_complete=true).
 - id: BLK-P0-02
   title: 'ATC-BC-001: normative Bytecode-Spezifikation'
   priority: P0
@@ -407,3 +414,7 @@ owner_decision_2026_11_16:
   - no blanket formatting of imported snapshots; trace back to source repo first
   - verification sweep must judge push, workflow_dispatch and schedule separately
   statement: platform recovery is not equal to restored CI and evidence infrastructure
+evidence_model: docs/system-readiness/EVIDENCE_MODEL.md
+evidence_registry: docs/system-readiness/EVIDENCE_REGISTRY.yaml
+rca: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.md (FINAL, historical)
+recovery: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.md
