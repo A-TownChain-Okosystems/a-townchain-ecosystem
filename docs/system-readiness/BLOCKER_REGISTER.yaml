@@ -1,0 +1,368 @@
+schema_version: "1.0.0"
+document_id: "ATC-BLOCKER-REGISTER-001"
+title: "Org-wide Prioritized Blocker Register"
+version: "0.1.0"
+status: "PROPOSED"
+updated: "2026-11-16"
+owner: "A-TownChain-Okosystems"
+tracking_issue: "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/116"
+related: ["ATC-SYSTEM-READINESS-001", "ATC-ARCH-001", "ATC-BC-001 (proposed)"]
+source_snapshot:
+  date: "2026-11-16"
+  repos: 33
+  head_sha_basis: "per-blocker source_shas"
+rules:
+  no_evidence_no_trust: true
+  ai_never_approves_release: true
+  single_capability_authority: "ShivaCore"
+  architecture_normative_source: "ATC-ARCH-001"
+  historical_evidence_marked: true
+blockers:
+  - id: "BLK-P0-01"
+    title: "CI startup_failure org-wide"
+    priority: "P0"
+    gate: "G0-G5 (precondition)"
+    status: "BLOCKED"
+    source_shas:
+      - "(org-weit: 19 von 33 Repos betroffen)"
+    problem: "startup_failure: Workflows starten mit 0 Jobs; zuletzt dokumentiert in globus-os/docs/CI_STATUS.md und .atc/ci-forensics/2026-11-15-startup-failure.md; an GitHub Support eskaliert, Status INVESTIGATED/NICHT BEHOBEN"
+    blocked_by:
+      []
+    blocks:
+      - "BLK-P0-02"
+      - "BLK-P0-03"
+      - "BLK-P0-04"
+      - "BLK-P1-01"
+      - "BLK-P1-02"
+      - "BLK-P1-03"
+      - "BLK-P2-01"
+      - "BLK-P2-02"
+      - "BLK-P2-04"
+    acceptance_criteria:
+      - "Fuer jedes governed Repo (26) startet mindestens ein Workflow bei Push auf main und laeuft auf dem exakten HEAD-SHA"
+      - "Startfehler-Repos: 19 -> 0 (Nachweis per API-Zaehlung, Stichtag dokumentiert)"
+      - "Gemeinsame Ursache von repo-spezifischen Fehlern getrennt dokumentiert"
+      - "Fuer jedes Repo eine erfolgreiche Run-ID auf exaktem SHA im Evidence-Index"
+    required_evidence:
+      - "Run-IDs je Repo"
+      - "API-Zaehlung vor/nach"
+      - "Support-Ticket-Status"
+    owner: "RepositoryAgent (Org-weit) / Owner fuer GitHub-Support-Eskalation"
+  - id: "BLK-P0-02"
+    title: "ATC-BC-001: normative Bytecode-Spezifikation"
+    priority: "P0"
+    gate: "G3"
+    status: "BLOCKED"
+    source_shas:
+      - "atc-vm@21132a4935"
+      - "atclang@516482abbf"
+      - "a-townchain@2c91820710 (components/vm)"
+    problem: "Zwei divergierende ISA-Definitionen: Compiler-Bytecode 19 Instruktionen (bytecode.rs), VM 16 Opcodes (vm.rs), Schnittmenge ~5, keine gemeinsame Opcode-Tabelle"
+    blocked_by:
+      []
+    blocks:
+      - "BLK-P0-03"
+      - "BLK-P0-04"
+    acceptance_criteria:
+      - "ATC-BC-001 spezifiziert: Opcode-IDs, Semantik, Operandenformate, Stack-Verhalten, Typregeln, Gas-Kosten, Trap-/Fehlerverhalten, Versionierung/Kompatibilitaet, Determinismus"
+      - "Compiler und VM referenzieren dieselbe normative Tabelle (eine Quelle, keine Kopie)"
+      - "Differenz-/Conformance-Test Compiler<->VM existiert und ist gruen"
+      - "Spezifikation APPROVED gemaess ATC-STD-000"
+    required_evidence:
+      - "ATC-BC-001.md"
+      - "Conformance-Testdatei"
+      - "CI-Run"
+    owner: "ArchitectAgent + CodingAgent (atc-vm/atclang)"
+  - id: "BLK-P0-03"
+    title: "Contract-Lowering: ATCLang .atc -> Bytecode"
+    priority: "P0"
+    gate: "G3"
+    status: "BLOCKED"
+    source_shas:
+      - "atclang@516482abbf"
+      - "atc-contracts@876c03b2c8"
+    problem: "Nur 2 von 27 Contract-Dateien bestehen atc check --profile consensus (7,4%); Contract-Ruempfe werden nur als Token-Strom gehalten (native.rs: Syntax/AST recognition only); STATUS.md: 'contract support is still zero'"
+    blocked_by:
+      - "BLK-P0-02"
+    blocks:
+      - "BLK-P0-04"
+    acceptance_criteria:
+      - "Definierter Contract-Scope (>=27 Dateien) besteht atc check --profile consensus: 100%"
+      - "Lowering deckt contract-Ruempfe inkl. State, require/invariant, Events ab"
+      - "Mindestens 3 reale Contracts laufen .atc -> .ops -> ATVM mit State-Assertions"
+      - "Die 17 EXEC-CHAIN-Faelle testen Contract-Semantik statt Arithmetik-Attrappen"
+    required_evidence:
+      - "CLI-Ausgabe 27/27"
+      - "Testlaeufe"
+      - "State-Assertions"
+    owner: "CodingAgent (atclang) + QAAgent"
+  - id: "BLK-P0-04"
+    title: "E2E-Nachweis: consensus-verifizierte Contract-Ausfuehrung"
+    priority: "P0"
+    gate: "G5 (G3)"
+    status: "BLOCKED"
+    source_shas:
+      - "a-townchain@2c91820710"
+      - "atc-vm@21132a4935"
+      - "atclang@516482abbf"
+      - "atc-contracts@876c03b2c8"
+    problem: "Die Kette .atc -> Bytecode -> ATVM -> Chain ist nirgends end-to-end bewiesen; 17/17 EXEC-CHAIN ist kein Nachweis dieser Kette"
+    blocked_by:
+      - "BLK-P0-02"
+      - "BLK-P0-03"
+    blocks:
+      []
+    acceptance_criteria:
+      - "Eine Transaktion fuehrt einen ATCLang-Contract aus und wird von >=2 Knoten konsens-verifiziert"
+      - "Deterministischer State-Root: identische Ausfuehrung auf beiden Knoten"
+      - "Wiederholbarkeit: Replay derselben Eingaben erzeugt identischen State"
+      - "Evidence: Run, Knoten-IDs, State-Roots, Logs, exakte SHAs"
+    required_evidence:
+      - "Multi-Node-Run"
+      - "State-Root-Vergleich"
+      - "Replay-Protokoll"
+    owner: "QAAgent + SecurityAgent"
+  - id: "BLK-P1-01"
+    title: "E-1 bis E-7: ABI- und Rechteentscheidungen"
+    priority: "P1"
+    gate: "G1"
+    status: "BLOCKED"
+    source_shas:
+      - "globus-os@cb605552f6"
+      - "atc-shivacore@d817de2dec"
+    problem: "Entscheidungsvorlage docs/decisions/ABI-E1-E7-ENTSCHEIDUNGSVORLAGE-2026-11-15.md: nichts entschieden; vier Rechtevokabulare V1-V4 konkurrieren (u16/u8/enum; ACCESS=256 faellt bei u8 weg); SpawnProcess (ABI 2.1) bis E-2 gesperrt"
+    blocked_by:
+      []
+    blocks:
+      - "BLK-P1-03"
+      - "BLK-P2-04"
+    acceptance_criteria:
+      - "Alle 7 Entscheidungen mit Datum, Owner und Begruendung dokumentiert (DECISION, nicht ASSUMPTION)"
+      - "ABI 2.1 spezifiziert und approved; ein einziges Rechtevokabular"
+      - "ShivaCore ist alleinige Capability-Authority: keine parallele Rechteverwaltung in GlobusOS, Aurora oder Subsystemen"
+      - "Syscall::implemented() als abgeleitete Wahrheit statt Doppelpflege"
+    required_evidence:
+      - "Decision-Records E-1..E-7"
+      - "ABI-2.1-Spec"
+      - "Grep-Nachweis: keine zweite Rechteverwaltung"
+    owner: "Owner (Michael) entscheidet; ArchitectAgent bereitet vor"
+  - id: "BLK-P1-02"
+    title: "Hardware-Kette und VMM-Conformance-Freeze"
+    priority: "P1"
+    gate: "G1"
+    status: "BLOCKED"
+    source_shas:
+      - "globus-os@cb605552f6"
+    problem: "VMM M1.2 'conditional pass', Freeze offen; Residuals R-1..R-4 offen; Hardware-Kette (IOMMU, SMP, PCIe, NVMe/NIC, TLB) ohne Evidenz"
+    blocked_by:
+      - "BLK-P0-01"
+    blocks:
+      - "BLK-P2-04"
+    acceptance_criteria:
+      - "M1.2-Conformance-Freeze mit Akzeptanz-Matrix auf CI dokumentiert"
+      - "Boot-Wiring HHDM/TLB mit Evidenz"
+      - "IOMMU-, SMP-, NVMe- und NIC-Pfad je mit exact-SHA-Evidenz"
+      - "Residuals R-1..R-4 dispositioniert (behoben oder begruendet)"
+    required_evidence:
+      - "CI-Runs"
+      - "Boot-Protokolle"
+      - "Akzeptanz-Matrix"
+    owner: "CodingAgent + SecurityAgent"
+  - id: "BLK-P1-03"
+    title: "Kernel: Service-Space im Image, Entropie, eine Capability-/Geraeteautoritaet, SMP"
+    priority: "P1"
+    gate: "G1/G2"
+    status: "BLOCKED"
+    source_shas:
+      - "globus-os@cb605552f6"
+    problem: "Sechs Blockierer laut SHIVACORE-DEPENDENCY-MATRIX-2026-11-15.md: ABI-Erweiterung, Service-Space nicht im Image, Entropie, eine Capability-Autoritaet, eine Geraeteautoritaet, SMP"
+    blocked_by:
+      - "BLK-P1-01"
+    blocks:
+      []
+    acceptance_criteria:
+      - "Service-Space startet aus dem Image (kein Bypass)"
+      - "Deterministische Entropiequelle spezifiziert und implementiert"
+      - "Genau eine Capability-Autoritaet, genau eine Geraeteautoritaet (Nachweis per Grep/Struktur)"
+      - "SMP-Basis mit Test"
+    required_evidence:
+      - "Boot-Logs aus Image"
+      - "Struktur-Nachweis"
+      - "Tests"
+    owner: "CodingAgent"
+  - id: "BLK-P1-04"
+    title: "Architektur-Konsolidierung: ATC-ARCH-001 als einzige normative Quelle"
+    priority: "P1"
+    gate: "G0"
+    status: "BLOCKED"
+    source_shas:
+      - "a-townchain-os@8dbbb5ddfa"
+      - "a-townchain-os-docs@ce8534a5b2"
+      - "a-townchain-ecosystem@e18bdb90db"
+      - "atc-standards@f54083518f"
+    problem: "Drei konkurrierende Layer-Modelle (AD-026 L0-L7; a-townchain-ecosystem ARCHITECTURE.md abweichend; Boot-Ebenen L0-L10) und zwei divergierende Wiki-Fassungen (MD5-verschieden); KAI-OS teils als Architektur, teils als Produktname"
+    blocked_by:
+      []
+    blocks:
+      - "BLK-P2-02"
+    acceptance_criteria:
+      - "Genau ein Layer-Modell gemaess ATC-ARCH-001 in allen Repos referenziert"
+      - "Alle abweichenden Darstellungen als DEPRECATED markiert und auf die Quelle verlinkt"
+      - "Eine Wiki-SSOT; Doppelkopien entfernt oder als Archiv erklaert"
+      - "Zahlen (Repos/Standards/Kapitel) nur aus Registry/Generator, keine handgepflegten Kopien"
+    required_evidence:
+      - "Diff-/Grep-Nachweis"
+      - "DEPRECATED-Index"
+      - "Generator-Lauf"
+    owner: "ArchitectAgent + DocumentationAgent"
+  - id: "BLK-P2-01"
+    title: "Standards-Umsetzung: 330 von 533 specification_only"
+    priority: "P2"
+    gate: "G0"
+    status: "BLOCKED"
+    source_shas:
+      - "atc-standards@f54083518f"
+      - "atc-engineering@0f94b4f7cc"
+    problem: "Umsetzungsgrad 36,8% (65 enforced + 131 implemented); 330 specification_only; 89 von 160 Findings offen; Fleet-Audit rot"
+    blocked_by:
+      - "BLK-P0-01"
+    blocks:
+      []
+    acceptance_criteria:
+      - "Umsetzungs-Wellen mit Definition of Done je Welle"
+      - "Findings 89 -> 0 oder explizit dispositioniert"
+      - "Fleet-Audit gruen"
+    required_evidence:
+      - "registry/standard-implementation.yaml"
+      - "findings.yaml"
+      - "Audit-Run"
+    owner: "StandardsAgent + GovernanceAgent"
+  - id: "BLK-P2-02"
+    title: "Evidence-Bindung: exact-SHA statt Prosa-Zahlen"
+    priority: "P2"
+    gate: "G0-G5"
+    status: "BLOCKED"
+    source_shas:
+      - "a-townchain-os@8dbbb5ddfa"
+      - "a-townchain-os-docs@ce8534a5b2"
+    problem: "bound_commit: pending, tests: not_run, latest_verified: null; REALITY_STATUS stuft auf R2 herab; dutzende Dokumente behaupten 731/731, 106/106, GATE PASS ohne aktuelle Evidenz"
+    blocked_by:
+      - "BLK-P0-01"
+    blocks:
+      []
+    acceptance_criteria:
+      - "Jede Status-Aussage traegt bound_commit + run_id oder ist als HISTORICAL markiert"
+      - "Keine handgepflegte Zahl in Statusdokumenten ohne Generator-Herkunft"
+      - "Evidence-Index vorhanden und pruefbar"
+    required_evidence:
+      - "Evidence-Index"
+      - "Statusdateien"
+      - "Generator"
+    owner: "DocumentationAgent + RepositoryAgent"
+  - id: "BLK-P2-03"
+    title: "Governance-Abdeckung und PR-Bypass"
+    priority: "P2"
+    gate: "G0"
+    status: "BLOCKED"
+    source_shas:
+      - ".github@1cf30d8c0b"
+      - "atc-engineering@0f94b4f7cc"
+    problem: "6 ungoverned Repos (org-scope.yaml), atc-engineering selbst ungoverned; Admin-Push-Bypass (Finding F-045); .github vom eigenen Scan exempt"
+    blocked_by:
+      []
+    blocks:
+      []
+    acceptance_criteria:
+      - "26/26 governed"
+      - "Bypass geschlossen (Branch Protection erzwungen)"
+      - "Scan ohne continue-on-error fuer Pflicht-Gates"
+    required_evidence:
+      - "org-scope.yaml"
+      - "Branch-Protection-Config"
+      - "Scan-Run"
+    owner: "GovernanceAgent"
+  - id: "BLK-P2-04"
+    title: "Aurora AI: Integrationstiefe nachweisen"
+    priority: "P2"
+    gate: "G4"
+    status: "BLOCKED"
+    source_shas:
+      - "aurora-ai@2855956b32"
+    problem: "13.357 Rust + 8.822 ATCLang aktiv gepflegt; Integrationstiefe (Intent -> Policy -> Capability -> Tool -> Audit) nicht durchgaengig belegt"
+    blocked_by:
+      - "BLK-P1-01"
+      - "BLK-P1-02"
+    blocks:
+      []
+    acceptance_criteria:
+      - "Modell/Runtime-IDs dokumentiert"
+      - "Inferenz-Tests"
+      - "Denied-Action-Tests"
+      - "Audit-Vollstaendigkeit"
+    required_evidence:
+      - "G4-Evidenz nach system-readiness.yaml"
+    owner: "CodingAgent + QAAgent (aurora-ai)"
+  - id: "BLK-P2-05"
+    title: "Genesis Engine: Reifegrad-Assessment"
+    priority: "P2"
+    gate: "-"
+    status: "BLOCKED"
+    source_shas:
+      - "genesis-engine@3c2be8c11c"
+      - "genesis-chronicles@734b272245"
+      - "genesis-franchise-factory@673fa56032"
+    problem: "Letzter Commit 2026-10-23 ist ein Aktivitaetssignal, kein Beweis fuer technischen Rueckstand; Assessment fehlt"
+    blocked_by:
+      []
+    blocks:
+      []
+    acceptance_criteria:
+      - "Assessment mit Metriken: Build, Tests, Abhaengigkeiten, Abdeckung, offene Findings"
+      - "Ergebnis: entweder Gate-Zuordnung (G5) oder Wartungsplan"
+    required_evidence:
+      - "Assessment-Bericht"
+    owner: "QAAgent + ResearchAgent"
+  - id: "BLK-P2-06"
+    title: "Chain-Sicherheitsarchitektur: unabhaengige Tiefenanalyse"
+    priority: "P2"
+    gate: "G3"
+    status: "BLOCKED"
+    source_shas:
+      - "a-townchain@2c91820710"
+      - "atc-algorithm@f25b433834"
+      - "atc-zkp@a284eeab3d"
+      - "atc-node@821d049efc"
+    problem: "Offene Analyse-Luecke: Kennzahlen wurden erhoben, Konsens-/Signatur-/Replay-/ZKP-/Upgrade-Architektur aber nicht unabhaengig geprueft"
+    blocked_by:
+      - "BLK-P0-01"
+    blocks:
+      []
+    acceptance_criteria:
+      - "Analysebericht mit Findings"
+      - "Findings dispositioniert"
+      - "Keine P0-Luecke offen"
+    required_evidence:
+      - "Audit-Bericht"
+    owner: "SecurityAgent + ResearchAgent"
+  - id: "BLK-P2-07"
+    title: "Release-Gate-Kriterien erweitern"
+    priority: "P2"
+    gate: "G5"
+    status: "BLOCKED"
+    source_shas:
+      - "a-townchain-ecosystem@e18bdb90db"
+    problem: "Produktionsreife ist nicht allein durch externes Audit belegt: Determinismus-E2E, Reproduzierbarkeit, Recovery, Upgrade-Sicherheit und operative Nachweise fehlen im Kriterienkatalog"
+    blocked_by:
+      - "BLK-P0-04"
+      - "BLK-P2-01"
+      - "BLK-P2-02"
+    blocks:
+      []
+    acceptance_criteria:
+      - "Kriterienkatalog approved: Audit, Determinismus-E2E, Reproduzierbarkeit, Recovery, Upgrade-Sicherheit, Betriebsnachweise"
+      - "Jedes Kriterium an ein Gate und eine Evidenzform gebunden"
+      - "Produktionsfreigabe nur bei vollstaendigem, SHA-gebundenem Evidence-Index"
+    required_evidence:
+      - "Kriterienkatalog"
+      - "Gate-Zuordnung"
+    owner: "Owner + GovernanceAgent"
