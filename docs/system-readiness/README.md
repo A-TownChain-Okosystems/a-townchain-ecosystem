@@ -49,3 +49,9 @@ Dokument ohne Eintrag gilt als nicht vorhanden.
 Normative Standards liegen in `atc-standards`, nicht hier. Befunde dürfen dort
 nur referenziert, nicht dupliziert werden. Verweise auf andere Repositories
 erfolgen als Pfad plus Repositoryname, nie als kopierter Inhalt.
+
+## Altlasten in Nachbar-Repositories
+
+| Item | Repository | Stand |
+|---|---|---|
+| FILE_REGISTER ohne Bezug zum Bestand (828 von 2160 Dateien) | atc-standards | Fix als PR #128 vorgeschlagen |
