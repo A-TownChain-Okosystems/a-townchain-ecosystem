@@ -513,7 +513,15 @@ blockers:
     d) cargo fmt --check: atc-node 53 Diff-Bloecke, atc-mining 14, atc-governance und vm 0 (scheitern vorher
     an b).'
   fix: 'a) Umgesetzt in Cargo.toml: exclude-Eintrag fuer das Digest-Paket mit Begruendung, keine erfundene
-    Workspace-Mitgliedschaft; cargo metadata laeuft danach fehlerfrei.'
+    Workspace-Mitgliedschaft; cargo metadata laeuft danach fehlerfrei. b) Das fehlende Crate standards/sdk
+    (19 Zeilen, zwei Dateien) aus a-townchain main in den Snapshot uebernommen; damit laedt der
+    a-townchain-Workspace wieder und atc-governance und vm erreichen den Format-Schritt ueberhaupt.'
+  fmt_state_after_b: 'Nach dem Import gemessen: atc-governance, a-townchain-vm, standards/sdk sowie atc-node
+    und atc-mining zeigen echte rustfmt-Abweichungen; die frueheren Nullwerte fuer governance und vm waren
+    Folge des Abbruchs in cargo metadata, kein Beleg fuer Sauberkeit.'
+  owner_decision_needed: 'atc-node ist nach SCR-0127 FREEZE, atc-mining ARCHIVE. Formatierung dort wuerde die
+    Freeze-Entscheidung verletzen. Entweder Frozen-Snapshots mit dokumentierter Begruendung aus dem Format-Gate
+    nehmen oder Freeze aufheben; beides ist eine Owner-Entscheidung, keine Agentenentscheidung.'
   next: 'b) Import des standards-Verzeichnisses reparieren (Subtree-Sync bzw. Exportfilter pruefen), danach
     Neusynchronisation. c) Matrix auf existierende Manifeste umstellen oder aus dem Baum ableiten; Workflow-File,
     deshalb Owner-Push. d) fmt in den Quellrepos atc-node und atc-mining korrigieren, dann Snapshot neu ziehen.'
