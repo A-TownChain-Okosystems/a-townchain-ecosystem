@@ -475,7 +475,16 @@ blockers:
   problem: 'Der Job repository-integrity prueft eine hartkodierte 26er-Liste, in der components/globus-os steht. Die vendorte globus-os-Kopie wurde mit E-4 (Commit 3759d78a1, 504 Dateien) absichtlich entfernt, und MIGRATION_MANIFEST.yaml fuehrt globus-os nicht als Import. Das Gate verlangte damit einen Pfad, den der SSOT des Repos nicht kennt, und konnte strukturell nie gruen werden (FAIL MISSING components/globus-os).'
   evidence: 'Job 133891642992, Schritt Verify canonical component set, 2026-11-17T07:35:49Z: MISSING components/globus-os.'
   fix: 'Gate liest die Komponenten aus MIGRATION_MANIFEST.yaml (imports) statt aus einer Hartliste; Fail-Closed bleibt, weil eine leere Importliste den Job ebenfalls abbricht. Fuenf Importe vorhanden, alle Pfade existieren. Der Patch liegt als docs/system-readiness/patches/repository-integrity-manifest.patch bereit; der Push des Workflow-Files scheitert am fehlenden workflow-Scope des Tokens (OAuth App refused), deshalb Owner-Push.'
-  next: 'Nach Merge von PR #247 Job-Lauf belegen, danach schliessen.'
+  tests: 'Gate-Logik mit vier Faellen geprueft (Patch auf eine Kopie angewendet, Skript aus dem gepatchten YAML extrahiert):
+    gueltiges Manifest -> exit 0 mit 5 Manifest-Importen; leere Importliste -> exit 1 "keine imports gefunden";
+    Manifest nennt fehlende Komponente -> exit 1 "MISSING components/gibtsnicht"; globus-os wieder im Manifest
+    eingetragen -> exit 1 "MISSING components/globus-os". Fail-Closed bleibt damit belegt, auch fuer den
+    rueckgaengig gemachten E-4-Fall.'
+  verification_state: 'IMPLEMENTED + TESTED, nicht CI_VERIFIED. Der Workflow-Push scheitert am fehlenden
+    workflow-Scope des Tokens; CI_VERIFIED wird erst nach Owner-Push, erneutem Lauf von repository-integrity
+    auf dem PR-Head und dokumentiertem Run/Job/Step/Log vergeben.'
+  next: 'Owner pusht den Patch mit workflow-Scope; danach repository-integrity auf dem PR-Head erneut ausfuehren
+    und Ergebnis mit Commit, Run, Job, Step und Log dokumentieren. Erst dann schliessen.'
   blocked_by: []
   blocks: []
 - id: BLK-P1-07
