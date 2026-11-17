@@ -191,3 +191,29 @@ kein PR erzeugt wird.
 Ursache: Byte-Mehrheits-Sprache TypeScript (39,8 %) gegen deklariert `[rust, python]` bei Rust 30,4 %
 und Python 28,3 %. Behoben in `atc-standards` PR #126 (Praesenz >= 5 % statt Byte-Mehrheit, Anteile im
 Bericht sichtbar). Lokal 26/26 PASS, 0 FINDINGS; genau ein Verdict aendert sich.
+
+---
+
+## 10. D-1 und D-2 geschlossen (17.11.2026) — mit CI-Nachweis
+
+**Fix:** `a-townchain-ecosystem` PR #248 (Commit `29ceb6986b`), drei `exclude`-Eintraege.
+
+**Ursache praezisiert:** Die Jobs testen nur ihren eigenen Komponentenbaum
+(`components/atc-shivacore`: 2 Manifeste, `components/atclang`: 1 Manifest), nicht das
+gesamte Repository. Damit betrifft der Defekt genau drei Pakete, nicht 141:
+`atc-shivacore/modules/atc-security`, `atc-shivacore/sdk`, `atclang/crates/atc-core`.
+
+**CI-Nachweis (Run 43983905111, Workflow `ATC Test Suite`, Head `29ceb6986b`):**
+
+| Job | vorher (ea75ce92) | nachher (29ceb6986b) |
+|---|---|---|
+| `shivacore-tests` | failure | **success** |
+| `atclang-quality` | failure | **success** |
+
+**Korrektur einer frueheren Angabe:** In Abschnitt 9 wurde `atc-core` mit 0 Tests
+berichtet. Das war ein Artefakt einer Arbeitskopie. `atc-core` fuehrt **71 Tests** aus
+(alle gruen). Der Befund "gruen ohne Testbestand" bleibt nur fuer
+`atc-shivacore/sdk` (0 Tests) bestehen und ist deutlich kleiner als dargestellt.
+
+**Rest im selben Workflow:** `aurora-tests` (wartet auf Import von aurora-ai PR #65)
+und `a-townchain-python` (wartet auf Import von a-townchain PR #109).
