@@ -429,9 +429,9 @@ blockers:
   status: OPEN
   opened: '2026-11-17'
   evidence:
-    source: 'atc-standards main 81c9bce (Merge von PR #130, 07:01Z)'
+    source: 'atc-standards main dd3bb2e (Merge von PR #131, 07:31Z); Vorgaenger 81c9bce (#130)'
     document: standards/architecture/ATC-ARCH-002.md
-    registry: 'registry/standards.yaml — version 0.1.1, status draft, normative false'
+    registry: 'registry/standards.yaml — version 0.1.2, status draft, normative false'
   detail: >-
     DEC-1 (Begriffstabelle) und DEC-2 (Genesis Engine als Anwendungsdomaene) sind am
     17.11.2026 entschieden und im Dokument normativ gefasst (3.1 BEG-1 bis BEG-6,
@@ -439,7 +439,7 @@ blockers:
     nach ATC-STD-000 Paragraf 9 freigegeben: status draft, normative false. Folge:
     nicht referenzierbar, die Desktop-Schicht kann sich nicht verbindlich auf ihn
     berufen.
-  fix: 'Freigabeverfahren nach ATC-STD-000 Paragraf 9 durchfuehren, danach Registry auf approved und 1.0.0'
+  fix: 'Freigabepaket nach ATC-STD-000 Paragraf 18: Technical Review (15), Security Review (16), Architecture Review (17); DEC-3 und DEC-4 offen (Vorlagen SCR-0142 Paragraf 8)'
   owner_action: true
 - id: BLK-P2-10
   title: 'regenerate auf atc-standards/main ist strukturell rot: Views tragen eine Wall-Clock-Zeitangabe'

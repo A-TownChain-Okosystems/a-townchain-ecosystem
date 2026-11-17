@@ -31,7 +31,7 @@ Dokument ohne Eintrag gilt als nicht vorhanden.
 
 | Dokument | Gegenstand | Stand |
 |---|---|---|
-| [DESKTOP_LAYER_GAP_2026-11-17.md](DESKTOP_LAYER_GAP_2026-11-17.md) | Ist-Bestand gegen ATC-ARCH-002 v0.1.1 (DRAFT) | erhoben |
+| [DESKTOP_LAYER_GAP_2026-11-17.md](DESKTOP_LAYER_GAP_2026-11-17.md) | Ist-Bestand gegen ATC-ARCH-002 v0.1.2 (DRAFT) | erhoben |
 | [DESKTOP_LAYER_REQ_MATRIX.yaml](DESKTOP_LAYER_REQ_MATRIX.yaml) | Anforderung je Status, maschinenlesbar | erhoben |
 | [END_TO_END_RUNTIME_ROADMAP.md](END_TO_END_RUNTIME_ROADMAP.md) | Weg zur Ende-zu-Ende-Lauffähigkeit | geplant |
 
