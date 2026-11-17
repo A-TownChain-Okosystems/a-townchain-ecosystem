@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 document_id: ATC-BLOCKER-REGISTER-001
 title: Org-wide Prioritized Blocker Register
-version: 0.3.6
+version: 0.3.7
 status: PROPOSED
 updated: '2026-11-17'
 owner: A-TownChain-Okosystems
@@ -771,16 +771,17 @@ blockers:
 - id: BLK-P2-13
   title: Keine normative Datenarchitektur fuer GlobusOS; Klassifizierung fehlt im Datenpfad
   priority: P2
-  status: OPEN
+  status: IN_PROGRESS
   opened: '2026-11-17'
   gate: architecture, standards
   description: Data Management, Data Classification, Lifecycle und Synchronization existieren weder normativ noch im Bestand. Ohne Klassifizierung lassen sich Access Control, Aufbewahrung und ein kontrollierter Aurora-Zugriff
     nicht durchsetzen, weil keine Schutzstufe vorhanden ist.
-  evidence: 'globus-os: kein Klassifizierungsmerkmal im Datenpfad, kein Lifecycle-Dienst, kein Sync-Bestand; system/aurora-core nur contracts/state/types; NPU nur als Anzeigetext. Integrationssicht in docs/architecture/GLOBUSOS-DATA-VERIFICATION-MATRIX.md.'
+  evidence: 'Forensik 17.11.2026 (docs/architecture/GLOBUSOS-DATA-FORENSICS-2026-11-17.md): sensitivity, data_class, trust_class, provenance je 0 Dateien; classification nur Seitenfehler-Kontext; IPC-Header ohne
+    Label; VFS-Inode nur mode u16; aurora-core ohne Klassifizierung vor Uebergabe. Fuenf fehlende Durchsetzungspunkte D-1 bis D-5 benannt.'
   evidence_head: cb60555
-  verification: Crate-Bestand und Klassennamen im Arbeitsbaum gelesen, 37 VFS-Tests und Audit-Kette gegengeprueft
-  closure_criteria: Datenarchitektur normativ in atc-standards, Klassifizierung im Datenpfad implementiert, Access Control und Aurora-Zugriff darauf aufbauend getestet.
-  last_verified: 2026-11-17T19:45+01:00
+  verification: Datentypen in 25 system/-Crates und modules/ gelesen, Begriffssuche dokumentiert, Prueffelder einzeln beantwortet. Keine Laufzeitpruefung.
+  closure_criteria: Schutzstufenmodell normativ; Label in IPC-Header und VFS-Inode; Pruefung an D-1 bis D-4; Audit-Datensatz in bestehender Kette; nachgewiesen je Durchsetzungspunkt mit negativen Tests.
+  last_verified: 2026-11-17T19:55+01:00
   supersedes: null
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
