@@ -2,9 +2,10 @@ schema_version: 1.0.0
 document_id: ATC-EVIDENCE-REGISTRY-001
 title: Evidence Registry
 owner: A-TownChain-Okosystems
-updated: '2026-11-16'
+updated: '2026-11-17'
 model: EVIDENCE_MODEL.md
-rule: append-only; evidence only with artifact+sha256+commit; run-bound entries additionally need run_id and log_sha256
+rule: 'Bindings sind append-only: ein Re-Bind ueberschreibt nie stillschweigend, sondern verschiebt die vorherige Bindung mit superseded_by in
+  binding_history.'
 statuses:
 - PLANNED
 - COLLECTED
@@ -38,13 +39,14 @@ entries:
   evidence_complete: true
   note: 'artifact anchor: hash of the file as committed in this commit'
 - artifact: docs/system-readiness/BLOCKER_REGISTER.yaml
-  sha256: a189fec51666b674d0fc33dd189e0ecaef5a5d73906663d04ac236ae588cd83e
-  commit: fe4821184
+  sha256: bf17a4853e521f7a97e9c47a02a10ef1391b781800b3f6be1504098a46ff6389
+  commit: 29a956980
   collected_at: 2026-11-16T18:14Z
   collector: aurora-agent
   status: BOUND
   evidence_complete: true
   note: 'artifact anchor: hash of the file as committed in this commit'
+  bound_at: '2026-11-17T00:06:06Z'
 - artifact: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.md
   sha256: d8caabc85564980fb3e0b6a2ff4e381f20e1e3e7523259742937a1ad15c2653f
   commit: fe4821184
@@ -141,3 +143,10 @@ r3_merges:
     policy_file_sha256: 6f5a0f1e1d0b780717a309dc586ea9e520adf45b6d7b31386a2b2bd7b8bce381
     config_file_sha256: 0317b55519061201e21b33593e1e027f14f435fab70f50a8c3995589992c199b
   collector: aurora-agent via GitHub API
+binding_history:
+- artifact: docs/system-readiness/BLOCKER_REGISTER.yaml
+  commit: fe4821184
+  sha256: a189fec51666b674d0fc33dd189e0ecaef5a5d73906663d04ac236ae588cd83e
+  status: BOUND
+  superseded_by: 29a956980
+  superseded_at: '2026-11-17T00:06:06Z'

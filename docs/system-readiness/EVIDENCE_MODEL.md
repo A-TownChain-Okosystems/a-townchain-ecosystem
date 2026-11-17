@@ -48,3 +48,23 @@ eine RCA entsteht nur dort, wo ein abgeschlossenes Ereignis zu analysieren ist.
 
 Reihenfolge nach Abhängigkeit: R-4 zuerst (Logs sind Voraussetzung für belastbare Nachweise),
 dann R-2 (Sweep), R-5 (Inhalte), R-6 (Restlücken).
+
+## 8. Integritätsprüfung der Registry (R-6, 17.11.2026)
+
+**Ergebnis: 10 von 10 Bindungen verifiziert.** Für jeden Eintrag wurde der
+Artefaktinhalt am gebundenen Commit über die GitHub-API geladen und der
+SHA-256 neu berechnet. Alle zehn stimmen mit dem gespeicherten Wert überein.
+Kein Eintrag war `MISMATCH`, keiner `MISSING`.
+
+**Eine Bindung erneuert:** `BLOCKER_REGISTER.yaml` hatte sich seit ihrer
+Bindung geändert. Statt den Eintrag zu überschreiben, wurde die vorherige
+Bindung mit `superseded_by` in `binding_history` verschoben und der Eintrag
+auf den aktuellen Commit neu gebunden.
+
+**Neue Regel, im Registry-Feld `rule` festgehalten:** Bindungen sind
+append-only. Ein Re-Bind überschreibt nie stillschweigend, sondern erhält die
+Vorgängerbindung mit Verweis auf den ablösenden Commit.
+
+**Grenze der Aussage:** Die Prüfung belegt, dass die Registry den Inhalt am
+gebundenen Commit korrekt beschreibt. Sie belegt nicht, dass dieser Inhalt
+inhaltlich richtig ist — dafür gelten die Regeln aus §2 bis §5.
