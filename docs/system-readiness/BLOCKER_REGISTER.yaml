@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 document_id: ATC-BLOCKER-REGISTER-001
 title: Org-wide Prioritized Blocker Register
-version: 0.3.3
+version: 0.3.4
 status: PROPOSED
 updated: '2026-11-17'
 owner: A-TownChain-Okosystems
@@ -697,15 +697,16 @@ blockers:
 - id: BLK-P1-10
   title: 'Max Supply widerspruechlich: 360.000.000 ATC gegen 21.000.000'
   priority: P1
-  status: FIX_IN_SOURCE_PR
+  status: IN_PROGRESS
   opened: '2026-11-17'
   gate: standards
   description: Zwei Bestaende im selben Repository setzen unterschiedliche Obergrenzen. Das ist konsenskritisch, nicht Konfiguration.
   evidence: 'apps/atc-contracts/atcoin/atcoin.atc: ATC_MAX_SUPPLY = 360000000000000000000000000 (360M * 10^18, ''canonical L1 cap''); apps/atc-contracts/exec_chain/tests/t03_atcoin_supply_cap.atc: max_supply = 21000000.'
-  evidence_head: 3c7b4efa0
-  verification: vier Belege fuer 360.000.000 ATC (atcoin.atc, SMART_CONTRACTS.md, Contract-Integrity-Audit 08.11., Komponentenkatalog) gegen eine Stelle im Supply-Cap-Test mit 21.000.000; Test angeglichen.
-  closure_criteria: Fix auf main, Obergrenze zusaetzlich in einem genehmigten Standard fixiert, damit sie nicht erneut auseinanderlaeuft.
-  last_verified: 2026-11-17T18:40+01:00
+  evidence_head: e923e89cd
+  verification: 'Obergrenze ist keine offene Frage mehr: Owner-Entscheidung 08.11.2026, CAP_TOKENS = 360_000_000, belegt in tools/atc-sc-validator/tests/test_supply_cap_invariant.py; 21 Mio steht dort ausdruecklich
+    als NICHT autorisierte Obergrenze. Beide Kopien des Supply-Cap-Tests (apps/ und components/) am 17.11. angeglichen, Commits 3c7b4efa0 und e923e89cd.'
+  closure_criteria: Fix auf main; zusaetzlich Governance-Vertrag auf dieselbe Obergrenze (BLK-P1-13) und Obergrenze in einem genehmigten Standard fixiert.
+  last_verified: 2026-11-17T19:05+01:00
   supersedes: null
 - id: BLK-P1-11
   title: 'Signaturverfahren widerspruechlich: Ed25519 normativ, secp256k1 in Katalog und Code'
@@ -737,6 +738,35 @@ blockers:
   closure_criteria: Feldbreite normativ entschieden, Standard angeglichen, Serialisierungstests fuer den groessten darstellbaren Betrag vorhanden.
   last_verified: 2026-11-17T18:40+01:00
   supersedes: K-01 Teilaspekt Feldbreite
+- id: BLK-P1-13
+  title: Governance-Vertrag fuehrt total_supply mit 21 Mio, kanonisch sind 360 Mio
+  priority: P1
+  status: OPEN
+  opened: '2026-11-17'
+  gate: standards, contracts
+  description: Die kanonische Obergrenze ist per Owner-Entscheidung 08.11.2026 auf 360.000.000 ATC gesetzt. Vier Governance-Vertraege setzen total_supply weiterhin auf 21.000.000 * 10^18. Ob total_supply die Obergrenze,
+    die Genesis-Allokation oder einen Startwert bezeichnet, ist nicht dokumentiert; eine stille Angleichung waere eine Verhaltensaenderung.
+  evidence: apps/atc-contracts/governance/governance_contract.atc:52, apps/atc-contracts/modules/atc-contracts/governance/governance_contract.atc:52, components/contracts/governance/governance_contract.atc:52, components/contracts/modules/atc-contracts/governance/governance_contract.atc:52
+    jeweils 'total_supply = 21000000000000000000000000'.
+  evidence_head: e923e89cd
+  verification: vier Fundstellen im Bestand gelesen; Abgrenzung zu total_supply nicht dokumentiert.
+  closure_criteria: Semantik von total_supply gegen max_supply entschieden und dokumentiert, Vertraege angeglichen, Testvektoren konsistent.
+  last_verified: 2026-11-17T19:05+01:00
+  supersedes: null
+- id: BLK-P1-14
+  title: 'Vertragsbaum dreifach vorhanden: apps/atc-contracts, components/contracts, modules/atc-contracts'
+  priority: P1
+  status: OPEN
+  opened: '2026-11-17'
+  gate: architecture
+  description: 'Dieselbe Vertragsquelle existiert drei- bis vierfach im Repository, inklusive verschachtelter modules/-Kopien. Ein Fix an einer Stelle laesst die anderen unveraendert, wie der Supply-Cap-Test gezeigt
+    hat: der erste Commit erreichte nur eine von zwei Kopien.'
+  evidence: atcoin.atc, governance_contract.atc und exec_chain/tests/t03_atcoin_supply_cap.atc liegen jeweils unter apps/atc-contracts, components/contracts und teils modules/atc-contracts.
+  evidence_head: e923e89cd
+  verification: Pfadvergleich ueber grep am 17.11.2026; der zweite Commit e923e89cd war noetig, weil die components-Kopie stehen blieb.
+  closure_criteria: eine kanonische Quelle je Vertrag, Kopien mechanisch erzeugt oder entfernt, Drift-Gate vorhanden.
+  last_verified: 2026-11-17T19:05+01:00
+  supersedes: null
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
   path: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
