@@ -1,0 +1,42 @@
+# Ist-Zuordnung der Anforderungen aus ATC-ARCH-002 (DRAFT) am 17.11.2026
+# Status: covered = durch Bestand gedeckt · partial = teilweise · missing = nicht vorhanden
+# Evidence: Dateipfade relativ zum jeweiligen Repository, geprueft am 17.11.2026
+schema_version: 1
+standard: ATC-ARCH-002
+standard_version: 0.1.0
+standard_status: draft
+matrix_status: draft
+method: "Datei-, Zeilen- und Testinventur; kein Laufzeitnachweis"
+requirements:
+  - {id: REQ-ARCH-201, scope: "Profil von GlobusOS", status: covered, evidence: "ATC-ARCH-001 (normativ); keine Implementierung noetig"}
+  - {id: REQ-ARCH-202, scope: "genau eine Implementierung je Komponente", status: covered, evidence: "ATC-ARCH-002 Abschnitt 7 (Repo-Zuordnung)"}
+  - {id: REQ-ARCH-203, scope: "neue Funktion im zugeordneten Repo", status: covered, evidence: "Governance, 33 Repos mit 1:1-Zuordnung"}
+  - {id: REQ-ARCH-204, scope: "keine Konsens-/VM-/Kernel-Semantik", status: covered, evidence: "globus-os konsumiert Konsens nur (AD-008)"}
+  - {id: REQ-ARCH-205, scope: "Schichtrichtung D7 bis D0", status: partial, evidence: "keine formale Pruefung der Abhaengigkeitsrichtung"}
+  - {id: REQ-ARCH-206, scope: "deklarierte Abhaengigkeiten, startfaehig ohne Nachbarn", status: partial, evidence: "system/graphics ohne Nachbarn testbar (23 Tests), uebrige Dienste ungeprueft"}
+  - {id: REQ-ARCH-207, scope: "Compositor alleiniger Inhaber des Display-Graphen", status: partial, evidence: "system/graphics/src/compositor.rs (190), wm.rs (377); Scanout fehlt"}
+  - {id: REQ-ARCH-208, scope: "Input-Dienst vermittelt alle Eingaben", status: partial, evidence: "system/graphics/src/input.rs (173), kernel/src/input_queue.rs; kein Seat"}
+  - {id: REQ-ARCH-209, scope: "Sitzungsidentitaet, Token-Entzug bei Wechsel", status: missing, evidence: "kein Sitzungsdienst vorhanden"}
+  - {id: REQ-ARCH-210, scope: "lokales Konto und DID/ Wallet", status: partial, evidence: "modules/atc-shivacore/greeter/src/main.rs (459), DID-Anbindung fehlt"}
+  - {id: REQ-ARCH-211, scope: "IPC mit schema_id, SemVer, Capability", status: partial, evidence: "system/ipc/src/channel.rs (387); keine Schema-Registry"}
+  - {id: REQ-ARCH-212, scope: "Majorierung und Migrationsfenster", status: missing, evidence: "kein Versionierungsverfahren fuer IPC-Schemata"}
+  - {id: REQ-ARCH-213, scope: "Default Deny", status: covered, evidence: "kernel/src/capability.rs, kernel/src/cap_authority.rs"}
+  - {id: REQ-ARCH-214, scope: "Portale fuer Dateien, Bildschirm, Mikrofon, Standort", status: missing, evidence: "Suchbegriff portal: 0 Treffer in globus-os"}
+  - {id: REQ-ARCH-215, scope: "ShivaCore als Rechtequelle", status: covered, evidence: "kernel/src/cap_authority.rs, system/security/src/capability_registry.rs"}
+  - {id: REQ-ARCH-216, scope: "Sandbox je Anwendung mit minimalem Recht", status: partial, evidence: "Capability-Kern vorhanden; App-Sandbox-Profile fehlen"}
+  - {id: REQ-ARCH-217, scope: "Signaturpruefung bei Installation", status: missing, evidence: "system/package enthaelt keine Signaturpruefung"}
+  - {id: REQ-ARCH-218, scope: "Keyring-Grenze", status: partial, evidence: "kernel/src/identity_gate.rs, system/security/src/identity.rs; Desktop-Ebene ungeprueft"}
+  - {id: REQ-ARCH-219, scope: "Audit sicherheitsrelevanter Entscheidungen", status: partial, evidence: "kernel/src/diagnostics.rs; kein Audit auf Desktop-Ebene"}
+  - {id: REQ-ARCH-220, scope: "drei Anwendungskategorien", status: missing, evidence: "modules/atc-linux-edition und atc-windows-edition ohne Laufzeit"}
+  - {id: REQ-ARCH-221, scope: "Capability-Mapping der Kompatibilitaetsschicht", status: missing, evidence: "keine Deklaration vorhanden"}
+  - {id: REQ-ARCH-222, scope: "Browser als Sandbox-Anwendung", status: missing, evidence: "Suchbegriff browser: 0 Treffer in globus-os"}
+  - {id: REQ-ARCH-223, scope: "Paketdienst mit signierten Manifesten", status: partial, evidence: "system/package/src/dependency.rs (532 Zeilen); Signaturen fehlen"}
+  - {id: REQ-ARCH-224, scope: "atomare Updates mit Rollback", status: partial, evidence: "system/update/src/{boot_state,health,transition}.rs (435); Rollback nicht belegt"}
+  - {id: REQ-ARCH-225, scope: "Wiederherstellung ohne Netz", status: missing, evidence: "kein Wiederherstellungsweg vorhanden"}
+  - {id: REQ-ARCH-226, scope: "reproduzierbare Desktop-Binaries", status: partial, evidence: "Reproduzierbarkeit im Standards-Gate; keine Desktop-Binaries"}
+  - {id: REQ-ARCH-227, scope: "Bedienbarkeit ohne Fachkenntnis", status: missing, evidence: "keine Produktoberflaeche; modules/atc-globus-desktop leer"}
+  - {id: REQ-ARCH-228, scope: "Barrierefreiheit als Systemdienst", status: missing, evidence: "Suchbegriff accessibility: 0 Treffer"}
+  - {id: REQ-ARCH-229, scope: "Texte aus Ressourcen", status: missing, evidence: "Suchbegriff locale/i18n: 0 Treffer"}
+  - {id: REQ-ARCH-230, scope: "KI ist Dienst, handelt ueber Portale", status: partial, evidence: "system/aurora-core vorhanden; Portal-Bindung fehlt"}
+  - {id: REQ-ARCH-231, scope: "Telemetrie opt-in, lokal zuerst", status: missing, evidence: "keine Telemetriekonfiguration"}
+  - {id: REQ-ARCH-232, scope: "ACTIVE nur mit Conformance-Nachweis", status: covered, evidence: "COM-ARCH-201 bis 210 in ATC-ARCH-002 Abschnitt 8"}
