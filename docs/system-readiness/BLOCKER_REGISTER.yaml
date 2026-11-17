@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 document_id: ATC-BLOCKER-REGISTER-001
 title: Org-wide Prioritized Blocker Register
-version: 0.3.4
+version: 0.3.5
 status: PROPOSED
 updated: '2026-11-17'
 owner: A-TownChain-Okosystems
@@ -741,17 +741,18 @@ blockers:
 - id: BLK-P1-13
   title: Governance-Vertrag fuehrt total_supply mit 21 Mio, kanonisch sind 360 Mio
   priority: P1
-  status: OPEN
+  status: FIX_IN_SOURCE_PR
   opened: '2026-11-17'
   gate: standards, contracts
   description: Die kanonische Obergrenze ist per Owner-Entscheidung 08.11.2026 auf 360.000.000 ATC gesetzt. Vier Governance-Vertraege setzen total_supply weiterhin auf 21.000.000 * 10^18. Ob total_supply die Obergrenze,
     die Genesis-Allokation oder einen Startwert bezeichnet, ist nicht dokumentiert; eine stille Angleichung waere eine Verhaltensaenderung.
-  evidence: apps/atc-contracts/governance/governance_contract.atc:52, apps/atc-contracts/modules/atc-contracts/governance/governance_contract.atc:52, components/contracts/governance/governance_contract.atc:52, components/contracts/modules/atc-contracts/governance/governance_contract.atc:52
-    jeweils 'total_supply = 21000000000000000000000000'.
-  evidence_head: e923e89cd
-  verification: vier Fundstellen im Bestand gelesen; Abgrenzung zu total_supply nicht dokumentiert.
-  closure_criteria: Semantik von total_supply gegen max_supply entschieden und dokumentiert, Vertraege angeglichen, Testvektoren konsistent.
-  last_verified: 2026-11-17T19:05+01:00
+  evidence: 'Vier governance_contract.atc-Kopien total_supply 21e24 -> 360e24 (apps/atc-contracts/governance, apps/atc-contracts/modules/atc-contracts/governance, components/contracts/governance, components/contracts/modules/atc-contracts/governance);
+    Supply-Cap-Vektor t03.json in beiden Baeumen auf minted_total 360000000; t04 als Formelpruefung gekennzeichnet. Commit 9ebc6dec6 auf a-townchain #115.'
+  evidence_head: 9ebc6dec6
+  verification: 'Vier Kopien per grep bestaetigt, Vektor rechnerisch geprueft (360e24 - 360e6 = 0), u128-Reichweite 3,4e38 gegen 3,6e26 ausreichend. Verhaltenswirkung: quorum_required steigt von 2,1e24 auf 3,6e25
+    wei.'
+  closure_criteria: Fix auf main; Reststand in Archivbaeumen (docs/os-docs fuehrt 21M in Python-Beispielen) und im VM-E2E-Beispiel bewertet; danach Obergrenze in einem genehmigten Standard fixiert.
+  last_verified: 2026-11-17T19:20+01:00
   supersedes: null
 - id: BLK-P1-14
   title: 'Vertragsbaum dreifach vorhanden: apps/atc-contracts, components/contracts, modules/atc-contracts'

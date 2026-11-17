@@ -33,7 +33,7 @@ Entscheidungsbedarf). Nichts wird stillschweigend aufgeloest.
 | K-10 | Feldbreite: ATC-STD-600 fuehrt `amount` als `u64`, 18 Dezimalstellen und 360.000.000 ATC erfordern aber rund 3,6e26 und damit u128 | `standards/os/ATC-STD-600.md` § 4 gegen `atcoin.atc` und Katalog (`u128`, 16 Byte BE) | BLK-P1-12 |
 
 | K-11 | Vertragsbaum dreifach vorhanden (`apps/atc-contracts`, `components/contracts`, `modules/atc-contracts`) | BLK-P1-14: ein Fix erreichte nur eine von zwei Kopien | nur eine kanonische Quelle je Vertrag |
-| K-12 | Governance-Vertraege setzen `total_supply` auf 21 Mio, kanonisch sind 360 Mio | BLK-P1-13 | Semantik von `total_supply` gegen `max_supply` ist undokumentiert |
+| K-12 | Governance-Vertraege setzen `total_supply` auf 21 Mio, kanonisch sind 360 Mio | auf 360e24 korrigiert in allen vier Kopien, zusaetzlich Vektor t03 und Hinweis in t04 (Commit `9ebc6dec6`, a-townchain #115) | Reststand nur in Archivbaeumen und im VM-E2E-Beispiel |
 
 ## Hinweis zu K-08 und K-10
 
