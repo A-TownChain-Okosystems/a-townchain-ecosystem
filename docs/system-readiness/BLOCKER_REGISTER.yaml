@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 document_id: ATC-BLOCKER-REGISTER-001
 title: Org-wide Prioritized Blocker Register
-version: 0.3.2
+version: 0.3.3
 status: PROPOSED
 updated: '2026-11-17'
 owner: A-TownChain-Okosystems
@@ -697,16 +697,46 @@ blockers:
 - id: BLK-P1-10
   title: 'Max Supply widerspruechlich: 360.000.000 ATC gegen 21.000.000'
   priority: P1
-  status: OPEN
+  status: FIX_IN_SOURCE_PR
   opened: '2026-11-17'
   gate: standards
   description: Zwei Bestaende im selben Repository setzen unterschiedliche Obergrenzen. Das ist konsenskritisch, nicht Konfiguration.
   evidence: 'apps/atc-contracts/atcoin/atcoin.atc: ATC_MAX_SUPPLY = 360000000000000000000000000 (360M * 10^18, ''canonical L1 cap''); apps/atc-contracts/exec_chain/tests/t03_atcoin_supply_cap.atc: max_supply = 21000000.'
-  evidence_head: c018e7549
-  verification: beide Stellen im Bestand gelesen, Zeilen belegt
-  closure_criteria: eine Obergrenze normativ festgelegt, Code und Test angeglichen, Standard referenziert
-  last_verified: 2026-11-17T18:20+01:00
+  evidence_head: 3c7b4efa0
+  verification: vier Belege fuer 360.000.000 ATC (atcoin.atc, SMART_CONTRACTS.md, Contract-Integrity-Audit 08.11., Komponentenkatalog) gegen eine Stelle im Supply-Cap-Test mit 21.000.000; Test angeglichen.
+  closure_criteria: Fix auf main, Obergrenze zusaetzlich in einem genehmigten Standard fixiert, damit sie nicht erneut auseinanderlaeuft.
+  last_verified: 2026-11-17T18:40+01:00
   supersedes: null
+- id: BLK-P1-11
+  title: 'Signaturverfahren widerspruechlich: Ed25519 normativ, secp256k1 in Katalog und Code'
+  priority: P1
+  status: OPEN
+  opened: '2026-11-17'
+  gate: standards, security
+  description: Die normative Quelle ATC-STD-600 legt Ed25519 als kanonische L1-Signatur fest und schliesst Doppelakzeptanz aus. Katalog und Node-Implementierung arbeiten mit secp256k1 ECDSA. Jede Seite fuer sich
+    ist in sich stimmig, zusammen sind sie es nicht.
+  evidence: 'atc-standards/standards/os/ATC-STD-600.md §5.2 ''The canonical L1 signature is Ed25519 over the exact V2 signing bytes''; atc-standards/docs ... ATC-COMPONENT-FUNCTION-CATALOG-001.md ''TX-V2: secp256k1
+    ECDSA, RFC6979/SHA-256''; a-townchain/components/node/src/{consensus,did,mempool,validator}.rs und oracle/Cargo.toml fuehren secp256k1.'
+  evidence_head: 3c7b4efa0
+  verification: Standard, Katalog und Code gelesen; die Abweichung ist an drei Stellen belegt und nicht auf einen veralteten Snapshot zurueckzufuehren.
+  closure_criteria: Owner-Entscheidung zum kanonischen Verfahren, Standard und Katalog angeglichen, Implementierung umgestellt oder als bewusst abweichend dokumentiert, Testvektoren deckungsgleich.
+  last_verified: 2026-11-17T18:40+01:00
+  supersedes: null
+- id: BLK-P1-12
+  title: 'Feldbreite widerspruechlich: amount als u64 gegen 18 Dezimalstellen und 360M Supply'
+  priority: P1
+  status: OPEN
+  opened: '2026-11-17'
+  gate: standards
+  description: ATC-STD-600 fuehrt das Feld amount als u64 in Big Endian. 360.000.000 ATC mit 18 Dezimalstellen ergibt 3,6e26 und passt nicht in u64 (max 1,84e19). Der Katalog und atcoin.atc arbeiten mit u128. Damit
+    ist die normative Felddefinition entweder zu klein oder die Tokenparameter sind nicht darstellbar.
+  evidence: atc-standards/standards/os/ATC-STD-600.md §4 'amount (u64, big-endian)'; ATC-COMPONENT-FUNCTION-CATALOG-001.md 'u128 amounts as 16-byte big-endian'; a-townchain/apps/atc-contracts/atcoin/atcoin.atc ATC_MAX_SUPPLY
+    = 360000000000000000000000000.
+  evidence_head: 3c7b4efa0
+  verification: Felddefinition, Katalog und Konstante gelesen; Reichweitenvergleich u64 gegen 3,6e26 nachgerechnet.
+  closure_criteria: Feldbreite normativ entschieden, Standard angeglichen, Serialisierungstests fuer den groessten darstellbaren Betrag vorhanden.
+  last_verified: 2026-11-17T18:40+01:00
+  supersedes: K-01 Teilaspekt Feldbreite
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
   path: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
