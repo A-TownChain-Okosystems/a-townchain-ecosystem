@@ -488,17 +488,35 @@ blockers:
   blocked_by: []
   blocks: []
 - id: BLK-P1-07
-  title: Vendorte Rust-Snapshots - fmt-Verstoesse und gebrochene Workspace-Bindung
+  title: Rust-Gates - drei getrennte Ursachen statt eines Snapshot-Defekts
   priority: P1
   gate: rust-manifests, rust-components (7 Jobs)
-  status: OPEN
-  owner: aurora-ai, atc-shivacore, a-townchain
+  status: IN_PROGRESS
+  owner: a-townchain-ecosystem (a, c), a-townchain (b, d)
   opened: '2026-11-17'
   source_shas:
   - 25b3af54 (PR #247, Runs 44039899172 und 44039899028)
-  problem: 'rust-manifests bricht in components/aurora-ai/modules/atc-aurora-digest mit der Meldung ab, das Paket glaube in einem Workspace zu sein, der im importierten Subtree nicht existiert. Zusaetzlich meldet der Job fmt-Verstoesse unter anderem in components/atc-shivacore/sdk, und sechs rust-components-Jobs scheitern im Schritt Format.'
-  evidence: 'Job 133891642658, 2026-11-17T07:35:46Z: Rust fmt/check/test/clippy failed in components/aurora-ai/modules/atc-aurora-digest; Rust fmt failed in components/atc-shivacore/sdk. Rote Schritte der sechs rust-components-Jobs: Format.'
-  next: 'Ursache je Quelle trennen: fmt im Quellrepo beheben (aurora-ai, atc-shivacore), Workspace-Bindung von atc-aurora-digest im Quellrepo reparieren, danach Snapshot neu synchronisieren.'
+  - 5a9add0e (a-townchain main, Standards-Import fehlt)
+  problem: 'Die Diagnose hat drei Ursachen getrennt, die vorher als ein Snapshot-Defekt galten. (a) Der
+    Umbrella-Workspace kannte components/aurora-ai/modules/atc-aurora-digest nicht, cargo brach mit
+    "current package believes it in a workspace when it is not" ab. (b) Der importierte a-townchain-Subtree
+    enthaelt components/a-townchain/standards nicht, obwohl der Quellrepo dort standards/sdk mit Cargo.toml
+    und src fuehrt und der a-townchain-Workspace den Pfad in Zeile 35 als Mitglied listet; damit scheitern
+    atc-governance und a-townchain-vm schon in cargo metadata, nicht an rustfmt. (c) Die Matrix in
+    blockchain-core.yml nennt components/atc-sdk/Cargo.toml und components/atc-indexer/Cargo.toml, beide
+    Manifests existieren nicht. (d) Nur bei atc-node (53) und atc-mining (14) liegen echte rustfmt-Abweichungen
+    vor.'
+  evidence: 'a) Reproduktion und Behebung: cargo metadata im Digest-Verzeichnis vor/nach dem exclude-Eintrag.
+    b) cargo metadata in components/a-townchain: failed to read standards/sdk/Cargo.toml, os error 2; im
+    Quellrepo git ls-files standards/sdk zaehlt getrackte Dateien, Verzeichnis vorhanden.
+    c) git ls-files components/atc-sdk/Cargo.toml und components/atc-indexer/Cargo.toml je 0 Treffer.
+    d) cargo fmt --check: atc-node 53 Diff-Bloecke, atc-mining 14, atc-governance und vm 0 (scheitern vorher
+    an b).'
+  fix: 'a) Umgesetzt in Cargo.toml: exclude-Eintrag fuer das Digest-Paket mit Begruendung, keine erfundene
+    Workspace-Mitgliedschaft; cargo metadata laeuft danach fehlerfrei.'
+  next: 'b) Import des standards-Verzeichnisses reparieren (Subtree-Sync bzw. Exportfilter pruefen), danach
+    Neusynchronisation. c) Matrix auf existierende Manifeste umstellen oder aus dem Baum ableiten; Workflow-File,
+    deshalb Owner-Push. d) fmt in den Quellrepos atc-node und atc-mining korrigieren, dann Snapshot neu ziehen.'
   blocked_by: []
   blocks: []
 - id: BLK-P1-08
