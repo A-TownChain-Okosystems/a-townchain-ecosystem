@@ -27,11 +27,11 @@ Davon sind **2 archiviert** (SCR-0127). Durchgesetzt wird CI also in **4 von 26 
 `atc-toolchain`, `atc-wallet`*, `atc-zkp`, `atclang`, `aurora-ai`, `demo-repository`,
 `genesis-chronicles`, `genesis-engine`, `genesis-franchise-factory`, `globus-os`
 
-`*` = archiviert (7 Repos, deckungsgleich mit SCR-0127). Aktive ungeschützte Repositories: **23**.
+`*` = archiviert (7 Repos, deckungsgleich mit SCR-0127). Aktive ungeschützte Repositories: **22** (davon `demo-repository`, per Owner-Entscheidung von der Governance ausgenommen, also **21** relevant).
 
 ## 2. Was das konkret bedeutet
 
-In den 23 aktiven ungeschützten Repositories gilt:
+In den 22 aktiven ungeschützten Repositories gilt:
 
 - Required Checks sind nicht wirksam. Ein roter Lauf verhindert den Merge nicht.
 - Es gibt keine erzwungene Review-Freigabe. `APPROVED` ist Konvention, nicht Bedingung.

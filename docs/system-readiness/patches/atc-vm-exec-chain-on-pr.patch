@@ -1,0 +1,29 @@
+From 980fe9680ed87d9beece575a730597ef168c4b70 Mon Sep 17 00:00:00 2001
+From: Aurora <aurora@a-townchain.local>
+Date: Mon, 16 Nov 2026 19:18:47 +0000
+Subject: [PATCH] ci(atc-vm): exec-chain auch auf pull_request ausfuehren
+
+Der Job exec-chain existiert und ist gruen, lief aber nur auf push/main und
+workflow_dispatch. Als Required Context war er damit auf keinem PR erfuellbar.
+Lokal verifiziert: build --locked, assembly, ATVM-Ausfuehrung (result 20),
+Receipt PASS.
+---
+ .github/workflows/contract-exec-gate.yml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/.github/workflows/contract-exec-gate.yml b/.github/workflows/contract-exec-gate.yml
+index 5652f82..ecccdc0 100644
+--- a/.github/workflows/contract-exec-gate.yml
++++ b/.github/workflows/contract-exec-gate.yml
+@@ -4,6 +4,8 @@ on:
+   workflow_dispatch:
+   push:
+     branches: [main]
++  pull_request:
++    branches: [main]
+ 
+ permissions:
+   contents: read
+-- 
+2.39.5
+

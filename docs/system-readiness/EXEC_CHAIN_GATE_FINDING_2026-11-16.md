@@ -64,7 +64,7 @@ keine neue Implementierung, kein Ersatz-Job:
 Status: `VORBEREITET`. Der Push wurde von GitHub abgelehnt:
 `refusing to allow an OAuth App to create or update workflow ... without 'workflow' scope`.
 Der Agenten-Token hat `read:user, repo` — kein `workflow`. Kein Umgehungsweg.
-Patch: `atc-vm-exec-chain-on-pr.patch`, Datei: `contract-exec-gate.PUSH.yml`.
+Patch: `patches/atc-vm-exec-chain-on-pr.patch`, korrigierte Datei: `patches/contract-exec-gate.PUSH.yml`.
 
 ## 3. `Dependabot` — Identität und Funktion, jetzt belegt
 
@@ -175,7 +175,7 @@ Der Patch muss über einen Pull Request laufen, nicht direkt auf `main` (Schutz 
 `enforce_admins: true` verhindert Bypass). Der Kreis schließt sich, weil GitHub für
 `pull_request`-Läufe die Workflow-Datei **aus dem PR-Branch** verwendet:
 
-1. `git am atc-vm-exec-chain-on-pr.patch`
+1. `git am docs/system-readiness/patches/atc-vm-exec-chain-on-pr.patch`
 2. `git push -u origin ci/exec-chain-on-pull-request`
 3. PR gegen `main` öffnen
 4. Der PR erzeugt selbst den Lauf `Contract Exec Gate` → Check `exec-chain`
