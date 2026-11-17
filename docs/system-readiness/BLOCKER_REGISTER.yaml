@@ -403,6 +403,20 @@ blockers:
     consequence: Dimension 12 der Compliance-Matrix prueft nur Existenz, nicht Aktualitaet
   fix: 'atc-standards PR #128 — deterministische Neuerzeugung aus git ls-files, Reproduktionsbefehl im Kopf'
   residual: 'Snapshot-Charakter: nach Merge von #127 ist eine erneute Generierung noetig'
+- id: BLK-P1-05
+  title: Required Context matrix ist auf main rot und blockiert alle PRs in atc-standards
+  severity: P1
+  status: FIX PROPOSED
+  opened: '2026-11-17'
+  evidence:
+    workflow: Code Quality Matrix Live
+    required_context: matrix (14 Kontexte, strict=true)
+    main_run: '43935757996 Umgebung: push auf main 16.11. 19:06 -> failure'
+    finding: a-townchain language=MISMATCH (TypeScript 39,8 Prozent gegen deklariert rust, python)
+    passing_ref: 'fix/matrix-language-presence-2026-11 (PR #126) -> success 16.11. 23:55'
+  consequence: 'Jeder PR in atc-standards ist blockiert, ausser dem Fix selbst. Betrifft aktuell #127 und #128.'
+  fix: 'atc-standards PR #126 — Praesenzpruefung ab 5 Prozent Anteil statt Byte-Mehrheit'
+  next: 'Nach Merge von #126 die offenen PRs auf den neuen main-Stand nachziehen'
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
   path: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
