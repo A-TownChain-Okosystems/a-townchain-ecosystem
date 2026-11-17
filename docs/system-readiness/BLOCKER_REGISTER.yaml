@@ -441,6 +441,27 @@ blockers:
     berufen.
   fix: 'Freigabeverfahren nach ATC-STD-000 Paragraf 9 durchfuehren, danach Registry auf approved und 1.0.0'
   owner_action: true
+- id: BLK-P2-10
+  title: 'regenerate auf atc-standards/main ist strukturell rot: Views tragen eine Wall-Clock-Zeitangabe'
+  severity: P2
+  status: OPEN
+  opened: '2026-11-17'
+  evidence:
+    repo: atc-standards
+    commit: 81c9bcefb8
+    check: regenerate
+    command: 'gen_metadata.py + generate_views.py + gen_index.py auf main ausgefuehrt'
+    diff: 'AGENT_MANIFEST.md, README.md, STATUS.md, registry/registry.lock — ausschliesslich die Zeile "Stand HH:MM UTC+2"'
+  detail: >-
+    Die Generatoren schreiben neben der inhaltsabgeleiteten Kennung ATC-STATE-<Datum>-<SHA>
+    zusaetzlich einen Wall-Clock-Zeitstempel in die Views. Jede Regeneration erzeugt
+    deshalb einen Diff, auch wenn Registry und Standards unveraendert sind. Zusammen mit
+    der Repo-Einstellung, dass Actions keine Pull Requests anlegen darf, kann der
+    regenerate-Kontext auf main nie gruen werden. Das ist kein Inhaltsfehler: Inhalt
+    (SHA 6915d48e, 534 Standards, Verteilung) ist reproduzierbar, nur die Uhrzeit nicht.
+  consequence: 'Ein dauerhaft roter Kontext auf main; Regeneration ist nicht byte-identisch und damit als Nachweis unbrauchbar.'
+  fix: 'Zeitstempel aus dem Inhalt ableiten (ATC-STATE-Kennung bzw. Commit-Zeit des Registry-Blobs) statt Systemuhr; zusaetzlich Actions-PR-Recht klaeren'
+  owner_action: false
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
   path: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
