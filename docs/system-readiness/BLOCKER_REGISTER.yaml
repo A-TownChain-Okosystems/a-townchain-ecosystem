@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 document_id: ATC-BLOCKER-REGISTER-001
 title: Org-wide Prioritized Blocker Register
-version: 0.2.0
+version: 0.3.0
 status: PROPOSED
 updated: '2026-11-17'
 owner: A-TownChain-Okosystems
@@ -25,12 +25,11 @@ blockers:
   title: CI startup_failure org-wide
   priority: P0
   gate: G0-G5 (precondition)
-  status: BLOCKED
+  status: CLOSED
   source_shas:
   - '(org-weit: 19 von 33 Repos betroffen)'
-  problem: 'Platform-Incident 06.11.-16.11.2026: push, workflow_dispatch und schedule erzeugten Laeufe mit 0 Jobs (startup_failure); pull_request
-    und dynamic nicht betroffen. Erholung am 16.11. ~14:56Z ohne Aenderung in der Organisation. Historisch 19 Repos betroffen; aktuell 0 nachgewiesen
-    defekt, 9 aktive Repos unverifiziert.'
+  problem: 'Platform-Incident 06.11.-16.11.2026: push, workflow_dispatch und schedule erzeugten Laeufe mit 0 Jobs (startup_failure); pull_request und dynamic nicht betroffen. Erholung am 16.11. ~14:56Z ohne Aenderung
+    in der Organisation. Historisch 19 Repos betroffen; aktuell 0 nachgewiesen defekt, 9 aktive Repos unverifiziert.'
   blocked_by: []
   blocks:
   - BLK-P0-02
@@ -63,8 +62,7 @@ blockers:
   assessment_ref: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.md (v0.2.0, PARTIAL 7/8)
   recovery_verification_ref: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.md (PENDING)
   sub_blockers_progress:
-    BLK-P0-01b: PARTIAL - policy markdown fixed (.github PR 35, 44->0, no rule weakened); workflow pin + 7 consumer bumps blocked (token without
-      workflow scope); artifact github-ci-fix/
+    BLK-P0-01b: PARTIAL - policy markdown fixed (.github PR 35, 44->0, no rule weakened); workflow pin + 7 consumer bumps blocked (token without workflow scope); artifact github-ci-fix/
   sub_blocker_status:
     01a_verification_sweep: OPEN
     01b_policy_markdown: POLICY MERGED 7f76c509; workflow/pin chain still pending
@@ -72,6 +70,11 @@ blockers:
     01d_content_failures: OPEN
     01e_support_status: OWNER
   acceptance_note: Status changes only with evidence_registry entries (evidence_complete=true).
+  evidence_head: 5a9add0e24
+  verification: 'Push-Ereignisse in a-townchain laufen wieder: ''Repository Governance'' und ''SDK Build and Test'' success am 2026-11-17 12:06Z und 13:27Z.'
+  closure_criteria: push, workflow_dispatch und schedule starten wieder mit Jobs; Erholung ohne Aenderung in der Organisation nachgewiesen.
+  last_verified: 2026-11-17T14:55+01:00
+  supersedes: ATC-PHASE0-CI-RCA-001 Signatur-Hypothese (widerlegt)
 - id: BLK-P0-02
   title: 'ATC-BC-001: normative Bytecode-Spezifikation'
   priority: P0
@@ -81,15 +84,13 @@ blockers:
   - atc-vm@21132a4935
   - atclang@516482abbf
   - a-townchain@2c91820710 (components/vm)
-  problem: 'Zwei divergierende ISA-Definitionen: Compiler-Bytecode 19 Instruktionen (bytecode.rs), VM 16 Opcodes (vm.rs), Schnittmenge ~5, keine
-    gemeinsame Opcode-Tabelle'
+  problem: 'Zwei divergierende ISA-Definitionen: Compiler-Bytecode 19 Instruktionen (bytecode.rs), VM 16 Opcodes (vm.rs), Schnittmenge ~5, keine gemeinsame Opcode-Tabelle'
   blocked_by: []
   blocks:
   - BLK-P0-03
   - BLK-P0-04
   acceptance_criteria:
-  - 'ATC-BC-001 spezifiziert: Opcode-IDs, Semantik, Operandenformate, Stack-Verhalten, Typregeln, Gas-Kosten, Trap-/Fehlerverhalten, Versionierung/Kompatibilitaet,
-    Determinismus'
+  - 'ATC-BC-001 spezifiziert: Opcode-IDs, Semantik, Operandenformate, Stack-Verhalten, Typregeln, Gas-Kosten, Trap-/Fehlerverhalten, Versionierung/Kompatibilitaet, Determinismus'
   - Compiler und VM referenzieren dieselbe normative Tabelle (eine Quelle, keine Kopie)
   - Differenz-/Conformance-Test Compiler<->VM existiert und ist gruen
   - Spezifikation APPROVED gemaess ATC-STD-000
@@ -99,8 +100,12 @@ blockers:
   - CI-Run
   owner: ArchitectAgent + CodingAgent (atc-vm/atclang)
   audit: docs/system-readiness/ORG_PROTECTION_AUDIT_2026-11-17.md
-  audit_result: 4 von 26 aktiven Repos geschuetzt; 22 aktiv ungeschuetzt (davon demo-repository governance-excluded); 2 archivierte mit dangling
-    contexts
+  audit_result: 4 von 26 aktiven Repos geschuetzt; 22 aktiv ungeschuetzt (davon demo-repository governance-excluded); 2 archivierte mit dangling contexts
+  evidence_head: 5a9add0e24
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: ATC-BC-001 als normative Bytecode-Spezifikation auf dem Default-Branch, referenziert aus Registry und Implementierung.
+  last_verified: null
+  supersedes: null
 - id: BLK-P0-03
   title: 'Contract-Lowering: ATCLang .atc -> Bytecode'
   priority: P0
@@ -109,8 +114,8 @@ blockers:
   source_shas:
   - atclang@516482abbf
   - atc-contracts@876c03b2c8
-  problem: 'Nur 2 von 27 Contract-Dateien bestehen atc check --profile consensus (7,4%); Contract-Ruempfe werden nur als Token-Strom gehalten
-    (native.rs: Syntax/AST recognition only); STATUS.md: ''contract support is still zero'''
+  problem: 'Nur 2 von 27 Contract-Dateien bestehen atc check --profile consensus (7,4%); Contract-Ruempfe werden nur als Token-Strom gehalten (native.rs: Syntax/AST recognition only); STATUS.md: ''contract support
+    is still zero'''
   blocked_by:
   - BLK-P0-02
   blocks:
@@ -125,6 +130,11 @@ blockers:
   - Testlaeufe
   - State-Assertions
   owner: CodingAgent (atclang) + QAAgent
+  evidence_head: 5a9add0e24
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: Lowering .atc -> Bytecode mit Tests belegt und in der Registry als implementiert gefuehrt.
+  last_verified: null
+  supersedes: null
 - id: BLK-P0-04
   title: 'E2E-Nachweis: consensus-verifizierte Contract-Ausfuehrung'
   priority: P0
@@ -150,6 +160,11 @@ blockers:
   - State-Root-Vergleich
   - Replay-Protokoll
   owner: QAAgent + SecurityAgent
+  evidence_head: e18bdb90db
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: 'E2E-Lauf: Contract-Ausfuehrung von Consensus verifiziert, mit Run, Job, Step und archiviertem Log.'
+  last_verified: null
+  supersedes: null
 - id: BLK-P1-01
   title: 'E-1 bis E-7: ABI- und Rechteentscheidungen'
   priority: P1
@@ -158,8 +173,8 @@ blockers:
   source_shas:
   - globus-os@cb605552f6
   - atc-shivacore@d817de2dec
-  problem: 'Entscheidungsvorlage docs/decisions/ABI-E1-E7-ENTSCHEIDUNGSVORLAGE-2026-11-15.md: nichts entschieden; vier Rechtevokabulare V1-V4
-    konkurrieren (u16/u8/enum; ACCESS=256 faellt bei u8 weg); SpawnProcess (ABI 2.1) bis E-2 gesperrt'
+  problem: 'Entscheidungsvorlage docs/decisions/ABI-E1-E7-ENTSCHEIDUNGSVORLAGE-2026-11-15.md: nichts entschieden; vier Rechtevokabulare V1-V4 konkurrieren (u16/u8/enum; ACCESS=256 faellt bei u8 weg); SpawnProcess
+    (ABI 2.1) bis E-2 gesperrt'
   blocked_by: []
   blocks:
   - BLK-P1-03
@@ -174,6 +189,11 @@ blockers:
   - ABI-2.1-Spec
   - 'Grep-Nachweis: keine zweite Rechteverwaltung'
   owner: Owner (Michael) entscheidet; ArchitectAgent bereitet vor
+  evidence_head: a38738dfcd
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: E-1 bis E-7 entschieden und im Syscall-ABI-Contract eingetragen.
+  last_verified: null
+  supersedes: null
 - id: BLK-P1-02
   title: Hardware-Kette und VMM-Conformance-Freeze
   priority: P1
@@ -196,6 +216,11 @@ blockers:
   - Boot-Protokolle
   - Akzeptanz-Matrix
   owner: CodingAgent + SecurityAgent
+  evidence_head: a38738dfcd
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: Hardware-Kette UEFI bis DMA belegt und VMM-Conformance-Freeze auf CI abgeschlossen.
+  last_verified: null
+  supersedes: null
 - id: BLK-P1-03
   title: 'Kernel: Service-Space im Image, Entropie, eine Capability-/Geraeteautoritaet, SMP'
   priority: P1
@@ -203,8 +228,7 @@ blockers:
   status: BLOCKED
   source_shas:
   - globus-os@cb605552f6
-  problem: 'Sechs Blockierer laut SHIVACORE-DEPENDENCY-MATRIX-2026-11-15.md: ABI-Erweiterung, Service-Space nicht im Image, Entropie, eine Capability-Autoritaet,
-    eine Geraeteautoritaet, SMP'
+  problem: 'Sechs Blockierer laut SHIVACORE-DEPENDENCY-MATRIX-2026-11-15.md: ABI-Erweiterung, Service-Space nicht im Image, Entropie, eine Capability-Autoritaet, eine Geraeteautoritaet, SMP'
   blocked_by:
   - BLK-P1-01
   blocks: []
@@ -218,6 +242,11 @@ blockers:
   - Struktur-Nachweis
   - Tests
   owner: CodingAgent
+  evidence_head: a38738dfcd
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: Service-Space im Image, Entropiequelle und genau eine Capability-Quelle nachgewiesen.
+  last_verified: null
+  supersedes: null
 - id: BLK-P1-04
   title: 'Architektur-Konsolidierung: ATC-ARCH-001 als einzige normative Quelle'
   priority: P1
@@ -228,8 +257,8 @@ blockers:
   - a-townchain-os-docs@ce8534a5b2
   - a-townchain-ecosystem@e18bdb90db
   - atc-standards@f54083518f
-  problem: Drei konkurrierende Layer-Modelle (AD-026 L0-L7; a-townchain-ecosystem ARCHITECTURE.md abweichend; Boot-Ebenen L0-L10) und zwei divergierende
-    Wiki-Fassungen (MD5-verschieden); KAI-OS teils als Architektur, teils als Produktname
+  problem: Drei konkurrierende Layer-Modelle (AD-026 L0-L7; a-townchain-ecosystem ARCHITECTURE.md abweichend; Boot-Ebenen L0-L10) und zwei divergierende Wiki-Fassungen (MD5-verschieden); KAI-OS teils als Architektur,
+    teils als Produktname
   blocked_by: []
   blocks:
   - BLK-P2-02
@@ -243,6 +272,11 @@ blockers:
   - DEPRECATED-Index
   - Generator-Lauf
   owner: ArchitectAgent + DocumentationAgent
+  evidence_head: 5ef28537b8
+  verification: 'Architekturstatus geprueft: ATC-ARCH-002 auf main mit version 1.0.0, status approved, normative true (Merge 6ee3e08291).'
+  closure_criteria: Verhaeltnis ATC-ARCH-001 zu ATC-ARCH-002 normativ entschieden und die aeltere Quelle als ueberholt oder ergaenzt gekennzeichnet.
+  last_verified: 2026-11-17T14:55+01:00
+  supersedes: null
 - id: BLK-P2-01
   title: 'Standards-Umsetzung: 330 von 533 specification_only'
   priority: P2
@@ -264,6 +298,11 @@ blockers:
   - findings.yaml
   - Audit-Run
   owner: StandardsAgent + GovernanceAgent
+  evidence_head: 5ef28537b8
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: specification_only auf null reduziert oder mit dokumentierter Restliste je Standard.
+  last_verified: null
+  supersedes: null
 - id: BLK-P2-02
   title: 'Evidence-Bindung: exact-SHA statt Prosa-Zahlen'
   priority: P2
@@ -272,8 +311,7 @@ blockers:
   source_shas:
   - a-townchain-os@8dbbb5ddfa
   - a-townchain-os-docs@ce8534a5b2
-  problem: 'bound_commit: pending, tests: not_run, latest_verified: null; REALITY_STATUS stuft auf R2 herab; dutzende Dokumente behaupten 731/731,
-    106/106, GATE PASS ohne aktuelle Evidenz'
+  problem: 'bound_commit: pending, tests: not_run, latest_verified: null; REALITY_STATUS stuft auf R2 herab; dutzende Dokumente behaupten 731/731, 106/106, GATE PASS ohne aktuelle Evidenz'
   blocked_by:
   - BLK-P0-01
   blocks: []
@@ -286,6 +324,11 @@ blockers:
   - Statusdateien
   - Generator
   owner: DocumentationAgent + RepositoryAgent
+  evidence_head: 5ef28537b8
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: Jeder Nachweis nennt exakten SHA statt Prosa-Zahl.
+  last_verified: null
+  supersedes: null
 - id: BLK-P2-03
   title: Governance-Abdeckung und PR-Bypass
   priority: P2
@@ -294,8 +337,7 @@ blockers:
   source_shas:
   - .github@1cf30d8c0b
   - atc-engineering@0f94b4f7cc
-  problem: 6 ungoverned Repos (org-scope.yaml), atc-engineering selbst ungoverned; Admin-Push-Bypass (Finding F-045); .github vom eigenen Scan
-    exempt
+  problem: 6 ungoverned Repos (org-scope.yaml), atc-engineering selbst ungoverned; Admin-Push-Bypass (Finding F-045); .github vom eigenen Scan exempt
   blocked_by: []
   blocks: []
   acceptance_criteria:
@@ -307,6 +349,11 @@ blockers:
   - Branch-Protection-Config
   - Scan-Run
   owner: GovernanceAgent
+  evidence_head: 7f76c5092c
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: Governance-Abdeckung je aktivem Repo gemessen, Bypass-Pfade geschlossen.
+  last_verified: null
+  supersedes: null
 - id: BLK-P2-04
   title: 'Aurora AI: Integrationstiefe nachweisen'
   priority: P2
@@ -314,8 +361,7 @@ blockers:
   status: BLOCKED
   source_shas:
   - aurora-ai@2855956b32
-  problem: 13.357 Rust + 8.822 ATCLang aktiv gepflegt; Integrationstiefe (Intent -> Policy -> Capability -> Tool -> Audit) nicht durchgaengig
-    belegt
+  problem: 13.357 Rust + 8.822 ATCLang aktiv gepflegt; Integrationstiefe (Intent -> Policy -> Capability -> Tool -> Audit) nicht durchgaengig belegt
   blocked_by:
   - BLK-P1-01
   - BLK-P1-02
@@ -328,6 +374,11 @@ blockers:
   required_evidence:
   - G4-Evidenz nach system-readiness.yaml
   owner: CodingAgent + QAAgent (aurora-ai)
+  evidence_head: 2855956b32
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: Aurora-AI-Integrationstiefe mit Tests und Run-Nachweis belegt.
+  last_verified: null
+  supersedes: null
 - id: BLK-P2-05
   title: 'Genesis Engine: Reifegrad-Assessment'
   priority: P2
@@ -346,6 +397,11 @@ blockers:
   required_evidence:
   - Assessment-Bericht
   owner: QAAgent + ResearchAgent
+  evidence_head: 3c2be8c11c
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: Reifegrad-Assessment der Genesis Engine dokumentiert und mit Evidenz hinterlegt.
+  last_verified: null
+  supersedes: null
 - id: BLK-P2-06
   title: 'Chain-Sicherheitsarchitektur: unabhaengige Tiefenanalyse'
   priority: P2
@@ -367,6 +423,11 @@ blockers:
   required_evidence:
   - Audit-Bericht
   owner: SecurityAgent + ResearchAgent
+  evidence_head: 5a9add0e24
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: Unabhaengige Tiefenanalyse der Chain-Sicherheitsarchitektur mit Findings und Massnahmen.
+  last_verified: null
+  supersedes: null
 - id: BLK-P2-07
   title: Release-Gate-Kriterien erweitern
   priority: P2
@@ -374,8 +435,7 @@ blockers:
   status: BLOCKED
   source_shas:
   - a-townchain-ecosystem@e18bdb90db
-  problem: 'Produktionsreife ist nicht allein durch externes Audit belegt: Determinismus-E2E, Reproduzierbarkeit, Recovery, Upgrade-Sicherheit
-    und operative Nachweise fehlen im Kriterienkatalog'
+  problem: 'Produktionsreife ist nicht allein durch externes Audit belegt: Determinismus-E2E, Reproduzierbarkeit, Recovery, Upgrade-Sicherheit und operative Nachweise fehlen im Kriterienkatalog'
   blocked_by:
   - BLK-P0-04
   - BLK-P2-01
@@ -389,6 +449,11 @@ blockers:
   - Kriterienkatalog
   - Gate-Zuordnung
   owner: Owner + GovernanceAgent
+  evidence_head: 5ef28537b8
+  verification: nicht reproduziert in diesem Durchgang
+  closure_criteria: Release-Gate-Kriterien erweitert und im Gate umgesetzt.
+  last_verified: null
+  supersedes: null
 - id: BLK-P2-08
   title: FILE_REGISTER.md in atc-standards ohne Bezug zum Bestand
   severity: P2
@@ -404,8 +469,12 @@ blockers:
   fix: 'atc-standards PR #128 — deterministische Neuerzeugung aus git ls-files, Reproduktionsbefehl im Kopf'
   residual: 'Snapshot-Charakter: nach Merge von #127 ist eine erneute Generierung noetig'
   closed: '2026-11-17'
-  resolution: 'atc-standards PR #128 gemergt (Merge-Commit eb0e039f5c, 00:44Z). Register auf main: 2163 Eintraege, ATC-ARCH-002 und SCR-0142 enthalten.
-    CI auf main: 13 von 13 Checks gruen.'
+  resolution: 'atc-standards PR #128 gemergt (Merge-Commit eb0e039f5c, 00:44Z). Register auf main: 2163 Eintraege, ATC-ARCH-002 und SCR-0142 enthalten. CI auf main: 13 von 13 Checks gruen.'
+  evidence_head: 5ef28537b8
+  verification: FILE_REGISTER deterministisch aus git ls-files erzeugt, 2163 Eintraege, validate_all und Repo-Audit 100/100 (Merge eb0e039f).
+  closure_criteria: Register deckt den gesamten getrackten Bestand, Erzeugung reproduzierbar.
+  last_verified: 2026-11-17T14:55+01:00
+  supersedes: null
 - id: BLK-P1-05
   title: Required Context matrix ist auf main rot und blockiert alle PRs in atc-standards
   severity: P1
@@ -421,26 +490,27 @@ blockers:
   fix: 'atc-standards PR #126 — Praesenzpruefung ab 5 Prozent Anteil statt Byte-Mehrheit'
   next: 'Nach Merge von #126 die offenen PRs auf den neuen main-Stand nachziehen'
   closed: '2026-11-17'
-  resolution: 'atc-standards PR #126 gemergt (Merge-Commit 3573ebc83e, 00:36Z). Matrix-Lauf auf main: success. PR #127 und #128 auf den neuen
-    Stand rebased und vollstaendig gruen (22/22 bzw. 21/21, matrix success).'
+  resolution: 'atc-standards PR #126 gemergt (Merge-Commit 3573ebc83e, 00:36Z). Matrix-Lauf auf main: success. PR #127 und #128 auf den neuen Stand rebased und vollstaendig gruen (22/22 bzw. 21/21, matrix success).'
+  evidence_head: 5ef28537b8
+  verification: 'Required Context matrix auf main gruen; Ursache war Byte-Mehrheit statt Praesenz, behoben in PR #126.'
+  closure_criteria: matrix auf main gruen und keine PR-Blockade mehr durch den Required Context.
+  last_verified: 2026-11-17T14:55+01:00
+  supersedes: null
 - id: BLK-P2-09
   title: ATC-ARCH-002 ist auf main, aber nicht freigegeben
   severity: P2
-  status: OPEN
+  status: CLOSED
   opened: '2026-11-17'
-  evidence:
-    source: 'atc-standards main dd3bb2e (Merge von PR #131, 07:31Z); Vorgaenger 81c9bce (#130)'
-    document: standards/architecture/ATC-ARCH-002.md
-    registry: 'registry/standards.yaml — version 0.1.2, status draft, normative false'
-  detail: >-
-    DEC-1 (Begriffstabelle) und DEC-2 (Genesis Engine als Anwendungsdomaene) sind am
-    17.11.2026 entschieden und im Dokument normativ gefasst (3.1 BEG-1 bis BEG-6,
-    7.1 ZUO-1 bis ZUO-4). Der Standard ist inhaltlich entscheidungsreif, aber nicht
-    nach ATC-STD-000 Paragraf 9 freigegeben: status draft, normative false. Folge:
-    nicht referenzierbar, die Desktop-Schicht kann sich nicht verbindlich auf ihn
-    berufen.
+  evidence: 'ATC-ARCH-002 auf main: version 1.0.0, status approved, normative true. Merge-Commit 6ee3e08291 (PR #135), SCR-0142 ACCEPTED.'
+  detail: 'DEC-1 (Begriffstabelle) und DEC-2 (Genesis Engine als Anwendungsdomaene) sind am 17.11.2026 entschieden und im Dokument normativ gefasst (3.1 BEG-1 bis BEG-6, 7.1 ZUO-1 bis ZUO-4). Der Standard ist inhaltlich
+    entscheidungsreif, aber nicht nach ATC-STD-000 Paragraf 9 freigegeben: status draft, normative false. Folge: nicht referenzierbar, die Desktop-Schicht kann sich nicht verbindlich auf ihn berufen.'
   fix: 'Freigabepaket nach ATC-STD-000 Paragraf 18: Technical Review (15), Security Review (16), Architecture Review (17); DEC-3 und DEC-4 offen (Vorlagen SCR-0142 Paragraf 8)'
   owner_action: true
+  evidence_head: 5ef28537b8
+  verification: Frontmatter auf atc-standards/main gelesen; drei Reviews nach 15-17 und Freigabe nach 18 dokumentiert.
+  closure_criteria: ATC-ARCH-002 auf main normativ freigegeben statt nur abgelegt.
+  last_verified: 2026-11-17T14:55+01:00
+  supersedes: null
 - id: BLK-P2-10
   title: 'regenerate auf atc-standards/main ist strukturell rot: Views tragen eine Wall-Clock-Zeitangabe'
   severity: P2
@@ -450,18 +520,19 @@ blockers:
     repo: atc-standards
     commit: 81c9bcefb8
     check: regenerate
-    command: 'gen_metadata.py + generate_views.py + gen_index.py auf main ausgefuehrt'
-    diff: 'AGENT_MANIFEST.md, README.md, STATUS.md, registry/registry.lock — ausschliesslich die Zeile "Stand HH:MM UTC+2"'
-  detail: >-
-    Die Generatoren schreiben neben der inhaltsabgeleiteten Kennung ATC-STATE-<Datum>-<SHA>
-    zusaetzlich einen Wall-Clock-Zeitstempel in die Views. Jede Regeneration erzeugt
-    deshalb einen Diff, auch wenn Registry und Standards unveraendert sind. Zusammen mit
-    der Repo-Einstellung, dass Actions keine Pull Requests anlegen darf, kann der
-    regenerate-Kontext auf main nie gruen werden. Das ist kein Inhaltsfehler: Inhalt
-    (SHA 6915d48e, 534 Standards, Verteilung) ist reproduzierbar, nur die Uhrzeit nicht.
-  consequence: 'Ein dauerhaft roter Kontext auf main; Regeneration ist nicht byte-identisch und damit als Nachweis unbrauchbar.'
-  fix: 'Zeitstempel aus dem Inhalt ableiten (ATC-STATE-Kennung bzw. Commit-Zeit des Registry-Blobs) statt Systemuhr; zusaetzlich Actions-PR-Recht klaeren'
+    command: gen_metadata.py + generate_views.py + gen_index.py auf main ausgefuehrt
+    diff: AGENT_MANIFEST.md, README.md, STATUS.md, registry/registry.lock — ausschliesslich die Zeile "Stand HH:MM UTC+2"
+  detail: 'Die Generatoren schreiben neben der inhaltsabgeleiteten Kennung ATC-STATE-<Datum>-<SHA> zusaetzlich einen Wall-Clock-Zeitstempel in die Views. Jede Regeneration erzeugt deshalb einen Diff, auch wenn Registry
+    und Standards unveraendert sind. Zusammen mit der Repo-Einstellung, dass Actions keine Pull Requests anlegen darf, kann der regenerate-Kontext auf main nie gruen werden. Das ist kein Inhaltsfehler: Inhalt (SHA
+    6915d48e, 534 Standards, Verteilung) ist reproduzierbar, nur die Uhrzeit nicht.'
+  consequence: Ein dauerhaft roter Kontext auf main; Regeneration ist nicht byte-identisch und damit als Nachweis unbrauchbar.
+  fix: Zeitstempel aus dem Inhalt ableiten (ATC-STATE-Kennung bzw. Commit-Zeit des Registry-Blobs) statt Systemuhr; zusaetzlich Actions-PR-Recht klaeren
   owner_action: false
+  evidence_head: 5ef28537b8
+  verification: 'nicht neu geprueft in diesem Durchgang; zuletzt: einziger Diff ist die Zeile ''Stand HH:MM UTC+2'', Actions darf keine PRs anlegen.'
+  closure_criteria: regenerate-Job auf main gruen ohne PR-Erzeugung, etwa durch inhaltlich abgeleiteten Zeitstempel.
+  last_verified: null
+  supersedes: null
 - id: BLK-P1-06
   title: Ecosystem-Integritaets-Gate widerspricht Entscheidung E-4 (components/globus-os)
   priority: P1
@@ -470,23 +541,26 @@ blockers:
   owner: a-townchain-ecosystem
   opened: '2026-11-17'
   source_shas:
-  - 25b3af54 (PR #247, Job 133891642992)
+  - 25b3af54 (PR
   - 3759d78a1 (E-4, vendorte globus-os-Kopie entfernen)
-  problem: 'Der Job repository-integrity prueft eine hartkodierte 26er-Liste, in der components/globus-os steht. Die vendorte globus-os-Kopie wurde mit E-4 (Commit 3759d78a1, 504 Dateien) absichtlich entfernt, und MIGRATION_MANIFEST.yaml fuehrt globus-os nicht als Import. Das Gate verlangte damit einen Pfad, den der SSOT des Repos nicht kennt, und konnte strukturell nie gruen werden (FAIL MISSING components/globus-os).'
+  problem: Der Job repository-integrity prueft eine hartkodierte 26er-Liste, in der components/globus-os steht. Die vendorte globus-os-Kopie wurde mit E-4 (Commit 3759d78a1, 504 Dateien) absichtlich entfernt, und
+    MIGRATION_MANIFEST.yaml fuehrt globus-os nicht als Import. Das Gate verlangte damit einen Pfad, den der SSOT des Repos nicht kennt, und konnte strukturell nie gruen werden (FAIL MISSING components/globus-os).
   evidence: 'Job 133891642992, Schritt Verify canonical component set, 2026-11-17T07:35:49Z: MISSING components/globus-os.'
-  fix: 'Gate liest die Komponenten aus MIGRATION_MANIFEST.yaml (imports) statt aus einer Hartliste; Fail-Closed bleibt, weil eine leere Importliste den Job ebenfalls abbricht. Fuenf Importe vorhanden, alle Pfade existieren. Der Patch liegt als docs/system-readiness/patches/repository-integrity-manifest.patch bereit; der Push des Workflow-Files scheitert am fehlenden workflow-Scope des Tokens (OAuth App refused), deshalb Owner-Push.'
-  tests: 'Gate-Logik mit vier Faellen geprueft (Patch auf eine Kopie angewendet, Skript aus dem gepatchten YAML extrahiert):
-    gueltiges Manifest -> exit 0 mit 5 Manifest-Importen; leere Importliste -> exit 1 "keine imports gefunden";
-    Manifest nennt fehlende Komponente -> exit 1 "MISSING components/gibtsnicht"; globus-os wieder im Manifest
-    eingetragen -> exit 1 "MISSING components/globus-os". Fail-Closed bleibt damit belegt, auch fuer den
-    rueckgaengig gemachten E-4-Fall.'
-  verification_state: 'IMPLEMENTED + TESTED, nicht CI_VERIFIED. Der Workflow-Push scheitert am fehlenden
-    workflow-Scope des Tokens; CI_VERIFIED wird erst nach Owner-Push, erneutem Lauf von repository-integrity
-    auf dem PR-Head und dokumentiertem Run/Job/Step/Log vergeben.'
-  next: 'Owner pusht den Patch mit workflow-Scope; danach repository-integrity auf dem PR-Head erneut ausfuehren
-    und Ergebnis mit Commit, Run, Job, Step und Log dokumentieren. Erst dann schliessen.'
+  fix: Gate liest die Komponenten aus MIGRATION_MANIFEST.yaml (imports) statt aus einer Hartliste; Fail-Closed bleibt, weil eine leere Importliste den Job ebenfalls abbricht. Fuenf Importe vorhanden, alle Pfade existieren.
+    Der Patch liegt als docs/system-readiness/patches/repository-integrity-manifest.patch bereit; der Push des Workflow-Files scheitert am fehlenden workflow-Scope des Tokens (OAuth App refused), deshalb Owner-Push.
+  tests: 'Gate-Logik mit vier Faellen geprueft (Patch auf eine Kopie angewendet, Skript aus dem gepatchten YAML extrahiert): gueltiges Manifest -> exit 0 mit 5 Manifest-Importen; leere Importliste -> exit 1 "keine
+    imports gefunden"; Manifest nennt fehlende Komponente -> exit 1 "MISSING components/gibtsnicht"; globus-os wieder im Manifest eingetragen -> exit 1 "MISSING components/globus-os". Fail-Closed bleibt damit belegt,
+    auch fuer den rueckgaengig gemachten E-4-Fall.'
+  verification_state: IMPLEMENTED + TESTED, nicht CI_VERIFIED. Der Workflow-Push scheitert am fehlenden workflow-Scope des Tokens; CI_VERIFIED wird erst nach Owner-Push, erneutem Lauf von repository-integrity auf
+    dem PR-Head und dokumentiertem Run/Job/Step/Log vergeben.
+  next: Owner pusht den Patch mit workflow-Scope; danach repository-integrity auf dem PR-Head erneut ausfuehren und Ergebnis mit Commit, Run, Job, Step und Log dokumentieren. Erst dann schliessen.
   blocked_by: []
   blocks: []
+  evidence_head: e18bdb90db
+  verification: Patch wendet sauber an, Gate-Logik in vier Faellen fail-closed; CI-Nachweis fehlt weiter, Commit 3e6498793.
+  closure_criteria: Patch auf dem Default-Branch, Lauf auf dem Merge-Commit mit Repo, Run, Job, Step und Log dokumentiert.
+  last_verified: null
+  supersedes: null
 - id: BLK-P1-07
   title: Rust-Gates - drei getrennte Ursachen statt eines Snapshot-Defekts
   priority: P1
@@ -495,38 +569,30 @@ blockers:
   owner: a-townchain-ecosystem (a, c), a-townchain (b, d)
   opened: '2026-11-17'
   source_shas:
-  - 25b3af54 (PR #247, Runs 44039899172 und 44039899028)
+  - 25b3af54 (PR
   - 5a9add0e (a-townchain main, Standards-Import fehlt)
-  problem: 'Die Diagnose hat drei Ursachen getrennt, die vorher als ein Snapshot-Defekt galten. (a) Der
-    Umbrella-Workspace kannte components/aurora-ai/modules/atc-aurora-digest nicht, cargo brach mit
-    "current package believes it in a workspace when it is not" ab. (b) Der importierte a-townchain-Subtree
-    enthaelt components/a-townchain/standards nicht, obwohl der Quellrepo dort standards/sdk mit Cargo.toml
-    und src fuehrt und der a-townchain-Workspace den Pfad in Zeile 35 als Mitglied listet; damit scheitern
-    atc-governance und a-townchain-vm schon in cargo metadata, nicht an rustfmt. (c) Die Matrix in
-    blockchain-core.yml nennt components/atc-sdk/Cargo.toml und components/atc-indexer/Cargo.toml, beide
-    Manifests existieren nicht. (d) Nur bei atc-node (53) und atc-mining (14) liegen echte rustfmt-Abweichungen
-    vor.'
-  evidence: 'a) Reproduktion und Behebung: cargo metadata im Digest-Verzeichnis vor/nach dem exclude-Eintrag.
-    b) cargo metadata in components/a-townchain: failed to read standards/sdk/Cargo.toml, os error 2; im
-    Quellrepo git ls-files standards/sdk zaehlt getrackte Dateien, Verzeichnis vorhanden.
-    c) git ls-files components/atc-sdk/Cargo.toml und components/atc-indexer/Cargo.toml je 0 Treffer.
-    d) cargo fmt --check: atc-node 53 Diff-Bloecke, atc-mining 14, atc-governance und vm 0 (scheitern vorher
-    an b).'
-  fix: 'a) Umgesetzt in Cargo.toml: exclude-Eintrag fuer das Digest-Paket mit Begruendung, keine erfundene
-    Workspace-Mitgliedschaft; cargo metadata laeuft danach fehlerfrei. b) Das fehlende Crate standards/sdk
-    (19 Zeilen, zwei Dateien) aus a-townchain main in den Snapshot uebernommen; damit laedt der
-    a-townchain-Workspace wieder und atc-governance und vm erreichen den Format-Schritt ueberhaupt.'
-  fmt_state_after_b: 'Nach dem Import gemessen: atc-governance, a-townchain-vm, standards/sdk sowie atc-node
-    und atc-mining zeigen echte rustfmt-Abweichungen; die frueheren Nullwerte fuer governance und vm waren
+  problem: Die Diagnose hat drei Ursachen getrennt, die vorher als ein Snapshot-Defekt galten. (a) Der Umbrella-Workspace kannte components/aurora-ai/modules/atc-aurora-digest nicht, cargo brach mit "current package
+    believes it in a workspace when it is not" ab. (b) Der importierte a-townchain-Subtree enthaelt components/a-townchain/standards nicht, obwohl der Quellrepo dort standards/sdk mit Cargo.toml und src fuehrt und
+    der a-townchain-Workspace den Pfad in Zeile 35 als Mitglied listet; damit scheitern atc-governance und a-townchain-vm schon in cargo metadata, nicht an rustfmt. (c) Die Matrix in blockchain-core.yml nennt components/atc-sdk/Cargo.toml
+    und components/atc-indexer/Cargo.toml, beide Manifests existieren nicht. (d) Nur bei atc-node (53) und atc-mining (14) liegen echte rustfmt-Abweichungen vor.
+  evidence: 'a) Reproduktion und Behebung: cargo metadata im Digest-Verzeichnis vor/nach dem exclude-Eintrag. b) cargo metadata in components/a-townchain: failed to read standards/sdk/Cargo.toml, os error 2; im Quellrepo
+    git ls-files standards/sdk zaehlt getrackte Dateien, Verzeichnis vorhanden. c) git ls-files components/atc-sdk/Cargo.toml und components/atc-indexer/Cargo.toml je 0 Treffer. d) cargo fmt --check: atc-node 53
+    Diff-Bloecke, atc-mining 14, atc-governance und vm 0 (scheitern vorher an b).'
+  fix: 'a) Umgesetzt in Cargo.toml: exclude-Eintrag fuer das Digest-Paket mit Begruendung, keine erfundene Workspace-Mitgliedschaft; cargo metadata laeuft danach fehlerfrei. b) Das fehlende Crate standards/sdk (19
+    Zeilen, zwei Dateien) aus a-townchain main in den Snapshot uebernommen; damit laedt der a-townchain-Workspace wieder und atc-governance und vm erreichen den Format-Schritt ueberhaupt.'
+  fmt_state_after_b: 'Nach dem Import gemessen: atc-governance, a-townchain-vm, standards/sdk sowie atc-node und atc-mining zeigen echte rustfmt-Abweichungen; die frueheren Nullwerte fuer governance und vm waren
     Folge des Abbruchs in cargo metadata, kein Beleg fuer Sauberkeit.'
-  owner_decision_needed: 'atc-node ist nach SCR-0127 FREEZE, atc-mining ARCHIVE. Formatierung dort wuerde die
-    Freeze-Entscheidung verletzen. Entweder Frozen-Snapshots mit dokumentierter Begruendung aus dem Format-Gate
-    nehmen oder Freeze aufheben; beides ist eine Owner-Entscheidung, keine Agentenentscheidung.'
-  next: 'b) Import des standards-Verzeichnisses reparieren (Subtree-Sync bzw. Exportfilter pruefen), danach
-    Neusynchronisation. c) Matrix auf existierende Manifeste umstellen oder aus dem Baum ableiten; Workflow-File,
-    deshalb Owner-Push. d) fmt in den Quellrepos atc-node und atc-mining korrigieren, dann Snapshot neu ziehen.'
+  owner_decision_needed: atc-node ist nach SCR-0127 FREEZE, atc-mining ARCHIVE. Formatierung dort wuerde die Freeze-Entscheidung verletzen. Entweder Frozen-Snapshots mit dokumentierter Begruendung aus dem Format-Gate
+    nehmen oder Freeze aufheben; beides ist eine Owner-Entscheidung, keine Agentenentscheidung.
+  next: b) Import des standards-Verzeichnisses reparieren (Subtree-Sync bzw. Exportfilter pruefen), danach Neusynchronisation. c) Matrix auf existierende Manifeste umstellen oder aus dem Baum ableiten; Workflow-File,
+    deshalb Owner-Push. d) fmt in den Quellrepos atc-node und atc-mining korrigieren, dann Snapshot neu ziehen.
   blocked_by: []
   blocks: []
+  evidence_head: 5a9add0e24
+  verification: 'vier Ursachen gemessen: aurora-ai Exclude 561447f06, standards/sdk-Import ca8efe891, Matrix nennt fehlende Cargo.toml, echte rustfmt-Diffs vm 57 / atc-node 53 / governance 23 / mining 14 / sdk 1.'
+  closure_criteria: alle sechs Rust-Format- und Build-Jobs gruen auf dem jeweiligen Default-Branch, inklusive Entscheidung zu FREEZE und ARCHIVE.
+  last_verified: null
+  supersedes: frueherer Sammelbefund 'Rust-Snapshots'
 - id: BLK-P1-08
   title: atc-explorer - TypeScript-Abhaengigkeit kollidiert mit ts-jest (ERESOLVE)
   priority: P1
@@ -535,35 +601,33 @@ blockers:
   owner: a-townchain
   opened: '2026-11-17'
   source_shas:
-  - 25b3af54 (PR #247, Job 133891642983)
-  - f7706583a (Quellrepo-Branch, a-townchain PR #112)
-  problem: 'npm install bricht in apps/atc-explorer/modules/atc-explorer mit ERESOLVE ab. Reproduziert:
-    Found typescript@7.0.2, peer typescript >=4.3 <7 from ts-jest@29.4.15. Zusaetzlich stand typescript
-    unter dependencies statt devDependencies. Der gemeldete Build-Fehler war eine Folge des
-    fehlgeschlagenen install, keine zweite Ursache.'
-  evidence: 'Lokale Reproduktion im Snapshot und im Quellrepo: npm install --package-lock-only zeigt
-    ERESOLVE mit beiden Abhaengigkeiten im Klartext. Nach dem Fix: npm install 317 Pakete ohne ERESOLVE,
-    npm run build (tsc) ohne Fehler, npm test exit 0 (passWithNoTests).'
-  fix: 'TypeScript aus dependencies entfernt und in devDependencies auf ^5 gepinnt (von Next 16 und ts-jest
-    getragen), Lockfile reproduzierbar erzeugt. Kein --legacy-peer-deps, kein --force, keine Overrides.
-    Quellrepo-PR: a-townchain #112, Commit f7706583a.'
-  next: 'Owner-Review und Merge von a-townchain #112. Danach Snapshot im Umbrella nachziehen (package.json
-    und package-lock.json) und javascript-projects auf dem dann aktuellen PR-Head erneut pruefen.
-    Bis dahin ist der Befund im Umbrella erwartungsgemaess rot; kein Snapshot-Vorgriff auf ungemergte
-    Quellaenderungen.'
+  - 25b3af54 (PR
+  - f7706583a (Quellrepo-Branch, a-townchain PR
+  problem: 'npm install bricht in apps/atc-explorer/modules/atc-explorer mit ERESOLVE ab. Reproduziert: Found typescript@7.0.2, peer typescript >=4.3 <7 from ts-jest@29.4.15. Zusaetzlich stand typescript unter dependencies
+    statt devDependencies. Der gemeldete Build-Fehler war eine Folge des fehlgeschlagenen install, keine zweite Ursache.'
+  evidence: 'Lokale Reproduktion im Snapshot und im Quellrepo: npm install --package-lock-only zeigt ERESOLVE mit beiden Abhaengigkeiten im Klartext. Nach dem Fix: npm install 317 Pakete ohne ERESOLVE, npm run build
+    (tsc) ohne Fehler, npm test exit 0 (passWithNoTests).'
+  fix: 'TypeScript aus dependencies entfernt und in devDependencies auf ^5 gepinnt (von Next 16 und ts-jest getragen), Lockfile reproduzierbar erzeugt. Kein --legacy-peer-deps, kein --force, keine Overrides. Quellrepo-PR:
+    a-townchain #112, Commit f7706583a.'
+  next: 'Owner-Review und Merge von a-townchain #112. Danach Snapshot im Umbrella nachziehen (package.json und package-lock.json) und javascript-projects auf dem dann aktuellen PR-Head erneut pruefen. Bis dahin ist
+    der Befund im Umbrella erwartungsgemaess rot; kein Snapshot-Vorgriff auf ungemergte Quellaenderungen.'
   blocked_by: []
   blocks: []
+  evidence_head: 5a9add0e24
+  verification: 'Ursache reproduziert: typescript ^7 gegen ts-jest@29 (peer >=4.3 <7). Fix in a-townchain #112 offen, lokal install 319/317 Pakete, tsc und npm test gruen.'
+  closure_criteria: PR gemergt, Umbrella-Snapshot nachgezogen, javascript-projects auf dem dann aktuellen Head gruen.
+  last_verified: 2026-11-17T14:55+01:00
+  supersedes: null
 - id: BLK-P1-09
   title: Python-Befunde - 242 ruff-Funde in 10 von 21 Projekten, zwei Klassen
   priority: P1
   gate: python-projects
-  status: OPEN
+  status: IN_PROGRESS
   owner: a-townchain (ueberwiegend), aurora-ai
   opened: '2026-11-17'
   source_shas:
-  - 25b3af54 (PR #247, Job 133891643117)
-  problem: 'Der Job prueft jedes Verzeichnis mit pyproject.toml oder setup.py (21 Projekte) und ruft
-    ruff check je Verzeichnis auf. Die frueheren CI-Zahlen sind reproduziert und je Projekt zugeordnet.'
+  - 25b3af54 (PR
+  problem: Der Job prueft jedes Verzeichnis mit pyproject.toml oder setup.py (21 Projekte) und ruft ruff check je Verzeichnis auf. Die frueheren CI-Zahlen sind reproduziert und je Projekt zugeordnet.
   findings_by_project:
   - 'ai/genesis-engine/franchise_factory: 183 (E702 156, E701 27) - dichter Einzeiler-Stil, kein Autofix'
   - 'genesis-engine/modules/atc-genesis-engine: 22 (UP006 8, I001 6, UP035 5, F401 2, UP037 1) - 18 autofixbar'
@@ -573,27 +637,25 @@ blockers:
   - 'ai/genesis-chronicles und genesis-chronicles: je 4 (E741 2, F841 2) - Handarbeit, trivial'
   - 'apps/atc-contracts und atc-contracts: je 1 (I001) - autofixbar'
   - 'aurora-ai/modules/atc-aurora-ai: 1 (I001) - autofixbar'
-  evidence: 'Reproduktion mit ruff 0.16.7, also derselben Version, die der Job installiert; Aufruf identisch
-    (find ueber pyproject.toml/setup.py, ein ruff check je Verzeichnis). Summe 242, davon rund 40 autofixbar.'
-  split: 'Klasse 1 mechanisch: I001, F401, E401, UP0xx, F841, E741 - sauber per Fix und Handarbeit in der
-    Quelle. Klasse 2 gestalterisch: 183 E701/E702 in franchise_factory, ein Erzeugercode im Einzeiler-Stil;
-    kein Autofix, das ist Arbeit mit Pruefaufwand je Zeile.'
-  next: 'Zuerst die mechanischen Funde in den Quellrepos beheben (a-townchain, aurora-ai) und den Snapshot
-    nachziehen. Die 183 E701/E702 erst danach und getrennt, weil dort Verhalten nicht durch Umformatieren
-    veraendert werden darf. Keine Regel-Deaktivierung, keine globalen Ausschluesse.'
+  evidence: Reproduktion mit ruff 0.16.7, also derselben Version, die der Job installiert; Aufruf identisch (find ueber pyproject.toml/setup.py, ein ruff check je Verzeichnis). Summe 242, davon rund 40 autofixbar.
+  split: 'Klasse 1 mechanisch: I001, F401, E401, UP0xx, F841, E741 - sauber per Fix und Handarbeit in der Quelle. Klasse 2 gestalterisch: 183 E701/E702 in franchise_factory, ein Erzeugercode im Einzeiler-Stil; kein
+    Autofix, das ist Arbeit mit Pruefaufwand je Zeile.'
+  next: Zuerst die mechanischen Funde in den Quellrepos beheben (a-townchain, aurora-ai) und den Snapshot nachziehen. Die 183 E701/E702 erst danach und getrennt, weil dort Verhalten nicht durch Umformatieren veraendert
+    werden darf. Keine Regel-Deaktivierung, keine globalen Ausschluesse.
   progress:
-  - 'a-townchain #114 (c018e7549): atc-genesis-engine 9->0, apps/atc-contracts 1->0, atc-cli 10->5.
-    Autofix nur I001,F401,E401,UP0xx; compileall sauber, pytest 4/4 in atc-genesis-engine.'
-  - 'a-townchain #113 (7e84e433a): docs/os-docs npm-Aufloesung repariert, vitest ^5 auf ^4.
-    Isoliert belegt: vitest ^5.0.0 und ^5.1.0 scheitern einzeln unter npm 10.8.2, ^4 und ^3 loesen auf.
-    Job erreicht danach erstmals Build und Test: beide rot (vite build 1 Fehler, 10 von 44 Tests).'
-  - 'a-townchain #112 (8b3e21b35): TypeScript-Peer-Konflikt auch im Elternprojekt apps/atc-explorer
-    behoben; npm install, tsc-Build und npm test dort gruen.'
-  remaining_scope: 'Offen sind nur nicht-a-townchain-Kopien (atc-sdk, atc-contracts, genesis-engine,
-    genesis-chronicles, aurora-ai), die 183 E701/E702 in franchise_factory, die E741/F841 in
-    genesis-chronicles und die Test-Sammlungsweite in docs/os-docs.'
+  - 'a-townchain #114 (c018e7549): atc-genesis-engine 9->0, apps/atc-contracts 1->0, atc-cli 10->5. Autofix nur I001,F401,E401,UP0xx; compileall sauber, pytest 4/4 in atc-genesis-engine.'
+  - 'a-townchain #113 (7e84e433a): docs/os-docs npm-Aufloesung repariert, vitest ^5 auf ^4. Isoliert belegt: vitest ^5.0.0 und ^5.1.0 scheitern einzeln unter npm 10.8.2, ^4 und ^3 loesen auf. Job erreicht danach
+    erstmals Build und Test: beide rot (vite build 1 Fehler, 10 von 44 Tests).'
+  - 'a-townchain #112 (8b3e21b35): TypeScript-Peer-Konflikt auch im Elternprojekt apps/atc-explorer behoben; npm install, tsc-Build und npm test dort gruen.'
+  remaining_scope: Offen sind nur nicht-a-townchain-Kopien (atc-sdk, atc-contracts, genesis-engine, genesis-chronicles, aurora-ai), die 183 E701/E702 in franchise_factory, die E741/F841 in genesis-chronicles und
+    die Test-Sammlungsweite in docs/os-docs.
   blocked_by: []
   blocks: []
+  evidence_head: 5a9add0e24
+  verification: '242 Funde je Projekt zugeordnet; a-townchain #114 offen (atc-genesis-engine 9->0, atc-contracts 1->0, atc-cli 10->5), compileall und pytest 4/4 gruen.'
+  closure_criteria: python-projects gruen auf allen 21 Projekten, ohne Regel-Deaktivierung und ohne globale Ausschluesse.
+  last_verified: 2026-11-17T14:55+01:00
+  supersedes: null
 - id: BLK-P2-11
   title: Fuenf Test- und Build-Gates ohne isolierte Ursache
   priority: P2
@@ -602,12 +664,18 @@ blockers:
   owner: a-townchain-ecosystem
   opened: '2026-11-17'
   source_shas:
-  - 25b3af54 (PR #247, Runs 44039899028, 44039899061, 44039899172)
-  problem: 'Diese fuenf Gates sind rot, die Ursache ist aber noch nicht auf Datei- und Fehlerebene isoliert. Bekannt ist jeweils nur der rote Schritt: cargo test, ATCLang fmt/clippy/test, npm test/build, integration crate, CodeQL.'
-  evidence: 'Rote Schritte je Job am Kopf 25b3af54; Job-Logs noch nicht im Detail ausgewertet.'
-  next: 'Je Job Log und Fehlerzeile erheben, Ursache klassifizieren, dann entweder Quellrepo oder Gate reparieren. Ein behobener Startfehler gilt nicht als Nachweis; CI_VERIFIED nur mit vollstaendiger Evidenz.'
+  - 25b3af54 (PR
+  problem: 'Diese fuenf Gates sind rot, die Ursache ist aber noch nicht auf Datei- und Fehlerebene isoliert. Bekannt ist jeweils nur der rote Schritt: cargo test, ATCLang fmt/clippy/test, npm test/build, integration
+    crate, CodeQL.'
+  evidence: Rote Schritte je Job am Kopf 25b3af54; Job-Logs noch nicht im Detail ausgewertet.
+  next: Je Job Log und Fehlerzeile erheben, Ursache klassifizieren, dann entweder Quellrepo oder Gate reparieren. Ein behobener Startfehler gilt nicht als Nachweis; CI_VERIFIED nur mit vollstaendiger Evidenz.
   blocked_by: []
   blocks: []
+  evidence_head: e18bdb90db
+  verification: nicht erhoben in diesem Durchgang; Job-Logs liefern HTTP 401, nur Schrittnamen lesbar.
+  closure_criteria: fuenf Gates mit Fehlerzeile, Job und Step belegt und je Gate ein eigenes Ticket oder eine Ursache.
+  last_verified: null
+  supersedes: null
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
   path: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
@@ -657,3 +725,10 @@ evidence_model_rollout:
     R-6:
       focus: remaining evidence gaps (support, access, history)
       gate: explicit list with status and owner; nothing silently closed
+status_pass:
+  performed: '2026-11-17'
+  method: Status gegen den Default-Branch geprueft; Felder status, evidence, evidence_head, verification, closure_criteria, last_verified, supersedes je Eintrag ergaenzt. Ein Fix in einem offenen Source-PR fuehrt
+    nicht zu CLOSED.
+  verified_count: 7
+  unverified_count: 17
+  counting_note: '#247 am aktuellen Head: 38 Check-Runs, 17 gruen, 20 rot. Die frueher genannte Zahl von 18 roten Gates beruht auf einem anderen Zaehlmassstab und wird hier nicht weiter verwendet.'
