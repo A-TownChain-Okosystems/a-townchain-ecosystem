@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 document_id: ATC-BLOCKER-REGISTER-001
 title: Org-wide Prioritized Blocker Register
-version: 0.3.0
+version: 0.3.1
 status: PROPOSED
 updated: '2026-11-17'
 owner: A-TownChain-Okosystems
@@ -79,7 +79,7 @@ blockers:
   title: 'ATC-BC-001: normative Bytecode-Spezifikation'
   priority: P0
   gate: G3
-  status: IN_PROGRESS
+  status: BLOCKED
   source_shas:
   - atc-vm@21132a4935
   - atclang@516482abbf
@@ -106,6 +106,9 @@ blockers:
   closure_criteria: ATC-BC-001 als normative Bytecode-Spezifikation auf dem Default-Branch, referenziert aus Registry und Implementierung.
   last_verified: null
   supersedes: null
+  related_scr: SCR-0129 (ATCB-v1-SSOT-Setzung, Status PENDING_OWNER_APPROVAL)
+  related_scr_note: 'Maßgeblich ist change-requests/SCR-0129.md, Freeze-Anker ee265313 (atclang, ATC-BC-001 v1.0.0-FROZEN). NICHT die gleichnamige Kennung aus atc-standards PR #45, #46 und #56, siehe BLK-P2-12.'
+  related_scr_lineage: SCR-0071 (Spezifikations-Backlog, DECIDED/IMPLEMENTED) führt ATC-BC-001 als Posten F-070; das ist die Herkunft, nicht die Freigabe.
 - id: BLK-P0-03
   title: 'Contract-Lowering: ATCLang .atc -> Bytecode'
   priority: P0
@@ -675,6 +678,21 @@ blockers:
   verification: nicht erhoben in diesem Durchgang; Job-Logs liefern HTTP 401, nur Schrittnamen lesbar.
   closure_criteria: fuenf Gates mit Fehlerzeile, Job und Step belegt und je Gate ein eigenes Ticket oder eine Ursache.
   last_verified: null
+  supersedes: null
+- id: BLK-P2-12
+  title: 'SCR-ID-Kollision: SCR-0129 ist vier Gegenständen zugeordnet'
+  priority: P2
+  status: OPEN
+  opened: '2026-11-17'
+  gate: governance
+  description: Die Kennung SCR-0129 bezeichnet gleichzeitig den SCR-Datensatz ATCB-v1-SSOT-Setzung und drei Pull Requests mit voellig anderem Inhalt. Eine Freigabe oder Ablehnung laesst sich damit keinem Gegenstand
+    eindeutig zuordnen.
+  evidence: 'change-requests/SCR-0129.md = ''ATCB-v1-SSOT-Setzung: normativer Träger atclang + Durchsetzungsregel RV-001'', Status PENDING. Abweichend belegt: atc-standards #45 ''SCR-0129: canonical ATC monetary
+    type policy'' (merged 517c0f0), #46 ''SCR-0129: Standalone First, Ecosystem Second'' (open), #56 ''SCR-0129: Extend SCR with purpose, necessity, safety and completeness'' (draft).'
+  evidence_head: 7603cf641
+  verification: PR-Titel, Zustand und Draft-Kennzeichen per API am 2026-11-17 gelesen; SCR-Datensatz lokal im Bestand gelesen.
+  closure_criteria: Jede Kennung benennt genau einen Gegenstand; die drei PR-Gegenstände erhalten eigene SCR-IDs; Registry und FILE_REGISTER nennen die Zuordnung ohne Doppeldeutigkeit.
+  last_verified: 2026-11-17T16:10+01:00
   supersedes: null
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
