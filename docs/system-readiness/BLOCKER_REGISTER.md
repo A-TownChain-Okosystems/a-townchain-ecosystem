@@ -82,6 +82,10 @@ Sub-blockers: **01a** verification sweep, **01b** policy markdown, **01c** log a
 | **BLK-P1-03** | Six kernel blockers: service space not in image, entropy, one capability authority, one device authority, SMP | globus-os@cb605552 | BLK-P1-01 | Service space boots from image; deterministic entropy source; exactly one capability and one device authority (structural proof); SMP base with test | CodingAgent |
 | **BLK-P1-04** | Architecture consolidation: three layer models, two diverging wikis, KAI-OS ambiguous | a-townchain-os@8dbbb5dd, a-townchain-os-docs@ce8534a5, a-townchain-ecosystem@e18bdb90, atc-standards@f5408351 | — | Exactly one layer model per ATC-ARCH-001 everywhere; deviations DEPRECATED and linked; one wiki SSOT; all counts generated, not hand-edited | ArchitectAgent + DocumentationAgent |
 
+| **BLK-P1-06** | Ecosystem-Integritaets-Gate widerspricht E-4: `components/globus-os` verlangt, obwohl mit E-4 entfernt und im Manifest nicht gefuehrt | a-townchain-ecosystem@25b3af54 | — | Gate liest `MIGRATION_MANIFEST.yaml` (imports); Job repository-integrity green on the merged HEAD | RepositoryAgent |
+| **BLK-P1-07** | Vendorte Rust-Snapshots: `atc-aurora-digest` verweist auf einen nicht importierten Workspace, fmt-Verstoesse u.a. `atc-shivacore/sdk`; 7 Jobs | a-townchain-ecosystem@25b3af54 | — | fmt clean per source repo; Workspace-Bindung repariert; rust-manifests + 6 rust-components green on the same HEAD | CodingAgent + aurora-ai/atc-shivacore |
+| **BLK-P1-08** | Vendorter npm-Snapshot `atc-explorer`: ERESOLVE beim install, Build-Fehler | a-townchain@25b3af54 (snapshot) | — | Peer-Deps gepinnt im Quellrepo, Build green, Snapshot synced, javascript-projects green | CodingAgent (a-townchain) |
+| **BLK-P1-09** | Vendorte Python-Baeume: ruff 183/22/10/9/7/4/1 Befunde je Verzeichnis | a-townchain@25b3af54 (snapshot) | — | 0 Befunde je Quellrepo, Snapshot synced, python-projects green | CodingAgent (a-townchain) |
 ### P2
 
 | ID | Blocker | Repos (HEAD) | Blocked by | Acceptance (measurable) | Owner |
@@ -94,6 +98,7 @@ Sub-blockers: **01a** verification sweep, **01b** policy markdown, **01c** log a
 | **BLK-P2-06** | Chain security architecture: independent deep analysis missing (consensus, signatures, replay, ZKP, upgrade) | a-townchain@2c918207, atc-algorithm@f25b4338, atc-zkp@a284eeab, atc-node@821d049e | BLK-P0-01 | Analysis report with findings, all dispositioned, no open P0 finding | SecurityAgent + ResearchAgent |
 | **BLK-P2-07** | Release criteria incomplete: audit alone is not production readiness | a-townchain-ecosystem@e18bdb90 | BLK-P0-04, P2-01, P2-02 | Catalog approved covering audit, deterministic E2E, reproducibility, recovery, upgrade safety, operational evidence; each bound to a gate | Owner + GovernanceAgent |
 
+| **BLK-P2-11** | Fuenf Test-/Build-Gates ohne isolierte Ursache: shivacore-tests, atclang-quality, aurora-tests, contract tests, CodeQL | a-townchain-ecosystem@25b3af54 | BLK-P1-06 | Root cause per job with log evidence; each either fixed in source or gate repaired with reason | QAAgent + RepositoryAgent |
 ## 5. Phase plan
 
 Phases may be **prepared** in parallel; **implementation and release dependencies must not be skipped**.

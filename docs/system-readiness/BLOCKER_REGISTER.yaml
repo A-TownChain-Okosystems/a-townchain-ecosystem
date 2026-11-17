@@ -1,9 +1,9 @@
 schema_version: 1.0.0
 document_id: ATC-BLOCKER-REGISTER-001
 title: Org-wide Prioritized Blocker Register
-version: 0.1.0
+version: 0.2.0
 status: PROPOSED
-updated: '2026-11-16'
+updated: '2026-11-17'
 owner: A-TownChain-Okosystems
 tracking_issue: https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/116
 related:
@@ -462,6 +462,78 @@ blockers:
   consequence: 'Ein dauerhaft roter Kontext auf main; Regeneration ist nicht byte-identisch und damit als Nachweis unbrauchbar.'
   fix: 'Zeitstempel aus dem Inhalt ableiten (ATC-STATE-Kennung bzw. Commit-Zeit des Registry-Blobs) statt Systemuhr; zusaetzlich Actions-PR-Recht klaeren'
   owner_action: false
+- id: BLK-P1-06
+  title: Ecosystem-Integritaets-Gate widerspricht Entscheidung E-4 (components/globus-os)
+  priority: P1
+  gate: repository-integrity
+  status: FIX_PENDING_OWNER_PUSH
+  owner: a-townchain-ecosystem
+  opened: '2026-11-17'
+  source_shas:
+  - 25b3af54 (PR #247, Job 133891642992)
+  - 3759d78a1 (E-4, vendorte globus-os-Kopie entfernen)
+  problem: 'Der Job repository-integrity prueft eine hartkodierte 26er-Liste, in der components/globus-os steht. Die vendorte globus-os-Kopie wurde mit E-4 (Commit 3759d78a1, 504 Dateien) absichtlich entfernt, und MIGRATION_MANIFEST.yaml fuehrt globus-os nicht als Import. Das Gate verlangte damit einen Pfad, den der SSOT des Repos nicht kennt, und konnte strukturell nie gruen werden (FAIL MISSING components/globus-os).'
+  evidence: 'Job 133891642992, Schritt Verify canonical component set, 2026-11-17T07:35:49Z: MISSING components/globus-os.'
+  fix: 'Gate liest die Komponenten aus MIGRATION_MANIFEST.yaml (imports) statt aus einer Hartliste; Fail-Closed bleibt, weil eine leere Importliste den Job ebenfalls abbricht. Fuenf Importe vorhanden, alle Pfade existieren. Der Patch liegt als docs/system-readiness/patches/repository-integrity-manifest.patch bereit; der Push des Workflow-Files scheitert am fehlenden workflow-Scope des Tokens (OAuth App refused), deshalb Owner-Push.'
+  next: 'Nach Merge von PR #247 Job-Lauf belegen, danach schliessen.'
+  blocked_by: []
+  blocks: []
+- id: BLK-P1-07
+  title: Vendorte Rust-Snapshots - fmt-Verstoesse und gebrochene Workspace-Bindung
+  priority: P1
+  gate: rust-manifests, rust-components (7 Jobs)
+  status: OPEN
+  owner: aurora-ai, atc-shivacore, a-townchain
+  opened: '2026-11-17'
+  source_shas:
+  - 25b3af54 (PR #247, Runs 44039899172 und 44039899028)
+  problem: 'rust-manifests bricht in components/aurora-ai/modules/atc-aurora-digest mit der Meldung ab, das Paket glaube in einem Workspace zu sein, der im importierten Subtree nicht existiert. Zusaetzlich meldet der Job fmt-Verstoesse unter anderem in components/atc-shivacore/sdk, und sechs rust-components-Jobs scheitern im Schritt Format.'
+  evidence: 'Job 133891642658, 2026-11-17T07:35:46Z: Rust fmt/check/test/clippy failed in components/aurora-ai/modules/atc-aurora-digest; Rust fmt failed in components/atc-shivacore/sdk. Rote Schritte der sechs rust-components-Jobs: Format.'
+  next: 'Ursache je Quelle trennen: fmt im Quellrepo beheben (aurora-ai, atc-shivacore), Workspace-Bindung von atc-aurora-digest im Quellrepo reparieren, danach Snapshot neu synchronisieren.'
+  blocked_by: []
+  blocks: []
+- id: BLK-P1-08
+  title: Vendorter npm-Snapshot atc-explorer - unabhaengige Abhaengigkeiten und Build-Fehler
+  priority: P1
+  gate: javascript-projects
+  status: OPEN
+  owner: a-townchain
+  opened: '2026-11-17'
+  source_shas:
+  - 25b3af54 (PR #247, Job 133891642983)
+  problem: 'npm install scheitert in components/a-townchain/apps/atc-explorer/modules/atc-explorer mit ERESOLVE (unable to resolve dependency tree); zusaetzlich bricht ein Build mit Build failed with 1 error ab.'
+  evidence: 'Job 133891642983, 2026-11-17T07:36:44Z bis 07:36:46Z: Build failed in 14ms, npm error code ERESOLVE, npm install failed.'
+  next: 'Abhaengigkeitskonflikt im Quellrepo a-townchain loesen (Peer-Abhaengigkeiten pinnen), Build-Fehler dort beheben, danach Snapshot neu synchronisieren.'
+  blocked_by: []
+  blocks: []
+- id: BLK-P1-09
+  title: Vendorte Python-Baeume - ruff-Befunde in mindestens acht Verzeichnissen
+  priority: P1
+  gate: python-projects
+  status: OPEN
+  owner: a-townchain (ueberwiegend)
+  opened: '2026-11-17'
+  source_shas:
+  - 25b3af54 (PR #247, Job 133891643117)
+  problem: 'ruff meldet je Verzeichnis 183, 22, 10, 9, 7, 4 und mehrfach 1 Befund. Die Gates laufen gegen vendorte Kopien; die Korrektur gehoert in die Quellrepositories, nicht in das Umbrella.'
+  evidence: 'Job 133891643117, 2026-11-17T07:35:59Z: Found 183 / 22 / 10 / 9 / 7 / 4 / 1 errors, exit 1.'
+  next: 'Befunde je Quellrepo erheben, dort beheben, Snapshot neu synchronisieren. Kein Bypass im Umbrella.'
+  blocked_by: []
+  blocks: []
+- id: BLK-P2-11
+  title: Fuenf Test- und Build-Gates ohne isolierte Ursache
+  priority: P2
+  gate: shivacore-tests, atclang-quality, aurora-tests, Ecosystem contract tests, CodeQL
+  status: TODO
+  owner: a-townchain-ecosystem
+  opened: '2026-11-17'
+  source_shas:
+  - 25b3af54 (PR #247, Runs 44039899028, 44039899061, 44039899172)
+  problem: 'Diese fuenf Gates sind rot, die Ursache ist aber noch nicht auf Datei- und Fehlerebene isoliert. Bekannt ist jeweils nur der rote Schritt: cargo test, ATCLang fmt/clippy/test, npm test/build, integration crate, CodeQL.'
+  evidence: 'Rote Schritte je Job am Kopf 25b3af54; Job-Logs noch nicht im Detail ausgewertet.'
+  next: 'Je Job Log und Fehlerzeile erheben, Ursache klassifizieren, dann entweder Quellrepo oder Gate reparieren. Ein behobener Startfehler gilt nicht als Nachweis; CI_VERIFIED nur mit vollstaendiger Evidenz.'
+  blocked_by: []
+  blocks: []
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
   path: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
