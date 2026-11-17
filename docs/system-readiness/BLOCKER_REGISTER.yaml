@@ -423,6 +423,24 @@ blockers:
   closed: '2026-11-17'
   resolution: 'atc-standards PR #126 gemergt (Merge-Commit 3573ebc83e, 00:36Z). Matrix-Lauf auf main: success. PR #127 und #128 auf den neuen
     Stand rebased und vollstaendig gruen (22/22 bzw. 21/21, matrix success).'
+- id: BLK-P2-09
+  title: ATC-ARCH-002 ist auf main, aber nicht freigegeben
+  severity: P2
+  status: OPEN
+  opened: '2026-11-17'
+  evidence:
+    source: 'atc-standards main 81c9bce (Merge von PR #130, 07:01Z)'
+    document: standards/architecture/ATC-ARCH-002.md
+    registry: 'registry/standards.yaml — version 0.1.1, status draft, normative false'
+  detail: >-
+    DEC-1 (Begriffstabelle) und DEC-2 (Genesis Engine als Anwendungsdomaene) sind am
+    17.11.2026 entschieden und im Dokument normativ gefasst (3.1 BEG-1 bis BEG-6,
+    7.1 ZUO-1 bis ZUO-4). Der Standard ist inhaltlich entscheidungsreif, aber nicht
+    nach ATC-STD-000 Paragraf 9 freigegeben: status draft, normative false. Folge:
+    nicht referenzierbar, die Desktop-Schicht kann sich nicht verbindlich auf ihn
+    berufen.
+  fix: 'Freigabeverfahren nach ATC-STD-000 Paragraf 9 durchfuehren, danach Registry auf approved und 1.0.0'
+  owner_action: true
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
   path: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml

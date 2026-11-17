@@ -1,6 +1,6 @@
 # Desktop-Schicht: Ist-Bestand gegen ATC-ARCH-002
 
-**Datum:** 17.11.2026 · **Grundlage:** ATC-ARCH-002 (DRAFT, atc-standards PR #127), SCR-0142
+**Datum:** 17.11.2026 · **Grundlage:** ATC-ARCH-002 v0.1.1 (DRAFT, auf main seit 81c9bce), SCR-0142
 **Methode:** Datei- und Testinventur in `globus-os`, `aurora-ai`, `a-townchain`; keine Schätzung
 **Zweck:** Zeigen, was für einen bedienbaren Desktop fehlt, bevor Implementierung beginnt
 
