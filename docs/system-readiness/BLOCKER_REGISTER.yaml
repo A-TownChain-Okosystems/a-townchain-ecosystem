@@ -554,17 +554,33 @@ blockers:
   blocked_by: []
   blocks: []
 - id: BLK-P1-09
-  title: Vendorte Python-Baeume - ruff-Befunde in mindestens acht Verzeichnissen
+  title: Python-Befunde - 242 ruff-Funde in 10 von 21 Projekten, zwei Klassen
   priority: P1
   gate: python-projects
   status: OPEN
-  owner: a-townchain (ueberwiegend)
+  owner: a-townchain (ueberwiegend), aurora-ai
   opened: '2026-11-17'
   source_shas:
   - 25b3af54 (PR #247, Job 133891643117)
-  problem: 'ruff meldet je Verzeichnis 183, 22, 10, 9, 7, 4 und mehrfach 1 Befund. Die Gates laufen gegen vendorte Kopien; die Korrektur gehoert in die Quellrepositories, nicht in das Umbrella.'
-  evidence: 'Job 133891643117, 2026-11-17T07:35:59Z: Found 183 / 22 / 10 / 9 / 7 / 4 / 1 errors, exit 1.'
-  next: 'Befunde je Quellrepo erheben, dort beheben, Snapshot neu synchronisieren. Kein Bypass im Umbrella.'
+  problem: 'Der Job prueft jedes Verzeichnis mit pyproject.toml oder setup.py (21 Projekte) und ruft
+    ruff check je Verzeichnis auf. Die frueheren CI-Zahlen sind reproduziert und je Projekt zugeordnet.'
+  findings_by_project:
+  - 'ai/genesis-engine/franchise_factory: 183 (E702 156, E701 27) - dichter Einzeiler-Stil, kein Autofix'
+  - 'genesis-engine/modules/atc-genesis-engine: 22 (UP006 8, I001 6, UP035 5, F401 2, UP037 1) - 18 autofixbar'
+  - 'apps/atc-sdk/modules/atc-cli: 10 (E701 3, I001 2, F401 2, E741 1, E401 1, E702 1) - 5 autofixbar'
+  - 'ai/genesis-engine/modules/atc-genesis-engine: 9 (I001 6, F401 2, E401 1) - 9 autofixbar'
+  - 'atc-sdk/modules/atc-cli: 7 (BLE001 2, I001 2, F401 2, S110 1) - 4 autofixbar'
+  - 'ai/genesis-chronicles und genesis-chronicles: je 4 (E741 2, F841 2) - Handarbeit, trivial'
+  - 'apps/atc-contracts und atc-contracts: je 1 (I001) - autofixbar'
+  - 'aurora-ai/modules/atc-aurora-ai: 1 (I001) - autofixbar'
+  evidence: 'Reproduktion mit ruff 0.16.7, also derselben Version, die der Job installiert; Aufruf identisch
+    (find ueber pyproject.toml/setup.py, ein ruff check je Verzeichnis). Summe 242, davon rund 40 autofixbar.'
+  split: 'Klasse 1 mechanisch: I001, F401, E401, UP0xx, F841, E741 - sauber per Fix und Handarbeit in der
+    Quelle. Klasse 2 gestalterisch: 183 E701/E702 in franchise_factory, ein Erzeugercode im Einzeiler-Stil;
+    kein Autofix, das ist Arbeit mit Pruefaufwand je Zeile.'
+  next: 'Zuerst die mechanischen Funde in den Quellrepos beheben (a-townchain, aurora-ai) und den Snapshot
+    nachziehen. Die 183 E701/E702 erst danach und getrennt, weil dort Verhalten nicht durch Umformatieren
+    veraendert werden darf. Keine Regel-Deaktivierung, keine globalen Ausschluesse.'
   blocked_by: []
   blocks: []
 - id: BLK-P2-11
