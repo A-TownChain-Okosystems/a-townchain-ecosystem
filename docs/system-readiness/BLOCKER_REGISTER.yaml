@@ -528,17 +528,29 @@ blockers:
   blocked_by: []
   blocks: []
 - id: BLK-P1-08
-  title: Vendorter npm-Snapshot atc-explorer - unabhaengige Abhaengigkeiten und Build-Fehler
+  title: atc-explorer - TypeScript-Abhaengigkeit kollidiert mit ts-jest (ERESOLVE)
   priority: P1
   gate: javascript-projects
-  status: OPEN
+  status: FIX_IN_SOURCE_PR
   owner: a-townchain
   opened: '2026-11-17'
   source_shas:
   - 25b3af54 (PR #247, Job 133891642983)
-  problem: 'npm install scheitert in components/a-townchain/apps/atc-explorer/modules/atc-explorer mit ERESOLVE (unable to resolve dependency tree); zusaetzlich bricht ein Build mit Build failed with 1 error ab.'
-  evidence: 'Job 133891642983, 2026-11-17T07:36:44Z bis 07:36:46Z: Build failed in 14ms, npm error code ERESOLVE, npm install failed.'
-  next: 'Abhaengigkeitskonflikt im Quellrepo a-townchain loesen (Peer-Abhaengigkeiten pinnen), Build-Fehler dort beheben, danach Snapshot neu synchronisieren.'
+  - f7706583a (Quellrepo-Branch, a-townchain PR #112)
+  problem: 'npm install bricht in apps/atc-explorer/modules/atc-explorer mit ERESOLVE ab. Reproduziert:
+    Found typescript@7.0.2, peer typescript >=4.3 <7 from ts-jest@29.4.15. Zusaetzlich stand typescript
+    unter dependencies statt devDependencies. Der gemeldete Build-Fehler war eine Folge des
+    fehlgeschlagenen install, keine zweite Ursache.'
+  evidence: 'Lokale Reproduktion im Snapshot und im Quellrepo: npm install --package-lock-only zeigt
+    ERESOLVE mit beiden Abhaengigkeiten im Klartext. Nach dem Fix: npm install 317 Pakete ohne ERESOLVE,
+    npm run build (tsc) ohne Fehler, npm test exit 0 (passWithNoTests).'
+  fix: 'TypeScript aus dependencies entfernt und in devDependencies auf ^5 gepinnt (von Next 16 und ts-jest
+    getragen), Lockfile reproduzierbar erzeugt. Kein --legacy-peer-deps, kein --force, keine Overrides.
+    Quellrepo-PR: a-townchain #112, Commit f7706583a.'
+  next: 'Owner-Review und Merge von a-townchain #112. Danach Snapshot im Umbrella nachziehen (package.json
+    und package-lock.json) und javascript-projects auf dem dann aktuellen PR-Head erneut pruefen.
+    Bis dahin ist der Befund im Umbrella erwartungsgemaess rot; kein Snapshot-Vorgriff auf ungemergte
+    Quellaenderungen.'
   blocked_by: []
   blocks: []
 - id: BLK-P1-09
