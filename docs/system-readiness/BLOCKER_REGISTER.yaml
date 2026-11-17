@@ -581,6 +581,17 @@ blockers:
   next: 'Zuerst die mechanischen Funde in den Quellrepos beheben (a-townchain, aurora-ai) und den Snapshot
     nachziehen. Die 183 E701/E702 erst danach und getrennt, weil dort Verhalten nicht durch Umformatieren
     veraendert werden darf. Keine Regel-Deaktivierung, keine globalen Ausschluesse.'
+  progress:
+  - 'a-townchain #114 (c018e7549): atc-genesis-engine 9->0, apps/atc-contracts 1->0, atc-cli 10->5.
+    Autofix nur I001,F401,E401,UP0xx; compileall sauber, pytest 4/4 in atc-genesis-engine.'
+  - 'a-townchain #113 (7e84e433a): docs/os-docs npm-Aufloesung repariert, vitest ^5 auf ^4.
+    Isoliert belegt: vitest ^5.0.0 und ^5.1.0 scheitern einzeln unter npm 10.8.2, ^4 und ^3 loesen auf.
+    Job erreicht danach erstmals Build und Test: beide rot (vite build 1 Fehler, 10 von 44 Tests).'
+  - 'a-townchain #112 (8b3e21b35): TypeScript-Peer-Konflikt auch im Elternprojekt apps/atc-explorer
+    behoben; npm install, tsc-Build und npm test dort gruen.'
+  remaining_scope: 'Offen sind nur nicht-a-townchain-Kopien (atc-sdk, atc-contracts, genesis-engine,
+    genesis-chronicles, aurora-ai), die 183 E701/E702 in franchise_factory, die E741/F841 in
+    genesis-chronicles und die Test-Sammlungsweite in docs/os-docs.'
   blocked_by: []
   blocks: []
 - id: BLK-P2-11
