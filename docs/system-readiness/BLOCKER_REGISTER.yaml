@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 document_id: ATC-BLOCKER-REGISTER-001
 title: Org-wide Prioritized Blocker Register
-version: 0.3.1
+version: 0.3.2
 status: PROPOSED
 updated: '2026-11-17'
 owner: A-TownChain-Okosystems
@@ -693,6 +693,19 @@ blockers:
   verification: PR-Titel, Zustand und Draft-Kennzeichen per API am 2026-11-17 gelesen; SCR-Datensatz lokal im Bestand gelesen.
   closure_criteria: Jede Kennung benennt genau einen Gegenstand; die drei PR-Gegenstände erhalten eigene SCR-IDs; Registry und FILE_REGISTER nennen die Zuordnung ohne Doppeldeutigkeit.
   last_verified: 2026-11-17T16:10+01:00
+  supersedes: null
+- id: BLK-P1-10
+  title: 'Max Supply widerspruechlich: 360.000.000 ATC gegen 21.000.000'
+  priority: P1
+  status: OPEN
+  opened: '2026-11-17'
+  gate: standards
+  description: Zwei Bestaende im selben Repository setzen unterschiedliche Obergrenzen. Das ist konsenskritisch, nicht Konfiguration.
+  evidence: 'apps/atc-contracts/atcoin/atcoin.atc: ATC_MAX_SUPPLY = 360000000000000000000000000 (360M * 10^18, ''canonical L1 cap''); apps/atc-contracts/exec_chain/tests/t03_atcoin_supply_cap.atc: max_supply = 21000000.'
+  evidence_head: c018e7549
+  verification: beide Stellen im Bestand gelesen, Zeilen belegt
+  closure_criteria: eine Obergrenze normativ festgelegt, Code und Test angeglichen, Standard referenziert
+  last_verified: 2026-11-17T18:20+01:00
   supersedes: null
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
