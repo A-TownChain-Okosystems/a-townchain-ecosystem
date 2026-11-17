@@ -406,7 +406,7 @@ blockers:
 - id: BLK-P1-05
   title: Required Context matrix ist auf main rot und blockiert alle PRs in atc-standards
   severity: P1
-  status: FIX PROPOSED
+  status: CLOSED
   opened: '2026-11-17'
   evidence:
     workflow: Code Quality Matrix Live
@@ -417,6 +417,9 @@ blockers:
   consequence: 'Jeder PR in atc-standards ist blockiert, ausser dem Fix selbst. Betrifft aktuell #127 und #128.'
   fix: 'atc-standards PR #126 — Praesenzpruefung ab 5 Prozent Anteil statt Byte-Mehrheit'
   next: 'Nach Merge von #126 die offenen PRs auf den neuen main-Stand nachziehen'
+  closed: '2026-11-17'
+  resolution: 'atc-standards PR #126 gemergt (Merge-Commit 3573ebc83e, 00:36Z). Matrix-Lauf auf main: success. PR #127 und #128 auf den neuen
+    Stand rebased und vollstaendig gruen (22/22 bzw. 21/21, matrix success).'
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
   path: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
