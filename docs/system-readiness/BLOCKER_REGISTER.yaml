@@ -392,7 +392,7 @@ blockers:
 - id: BLK-P2-08
   title: FILE_REGISTER.md in atc-standards ohne Bezug zum Bestand
   severity: P2
-  status: FIX PROPOSED
+  status: CLOSED
   opened: '2026-11-17'
   evidence:
     register_date: '2026-09-10'
@@ -403,6 +403,9 @@ blockers:
     consequence: Dimension 12 der Compliance-Matrix prueft nur Existenz, nicht Aktualitaet
   fix: 'atc-standards PR #128 — deterministische Neuerzeugung aus git ls-files, Reproduktionsbefehl im Kopf'
   residual: 'Snapshot-Charakter: nach Merge von #127 ist eine erneute Generierung noetig'
+  closed: '2026-11-17'
+  resolution: 'atc-standards PR #128 gemergt (Merge-Commit eb0e039f5c, 00:44Z). Register auf main: 2163 Eintraege, ATC-ARCH-002 und SCR-0142 enthalten.
+    CI auf main: 13 von 13 Checks gruen.'
 - id: BLK-P1-05
   title: Required Context matrix ist auf main rot und blockiert alle PRs in atc-standards
   severity: P1

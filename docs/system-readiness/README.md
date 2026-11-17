@@ -54,4 +54,4 @@ erfolgen als Pfad plus Repositoryname, nie als kopierter Inhalt.
 
 | Item | Repository | Stand |
 |---|---|---|
-| FILE_REGISTER ohne Bezug zum Bestand (828 von 2160 Dateien) | atc-standards | Fix als PR #128 vorgeschlagen |
+| FILE_REGISTER ohne Bezug zum Bestand (828 von 2160 Dateien) | atc-standards | behoben, PR #128 gemergt (2163 Eintraege) |
