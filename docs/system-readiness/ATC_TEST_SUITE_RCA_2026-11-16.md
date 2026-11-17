@@ -2,7 +2,9 @@
 
 **Datum:** 16.11.2026 · **Gegenstand:** Workflow `ATC Test Suite`, Jobs mit `cargo`-/`pytest`-Bezug
 **Abgrenzung:** nicht Gegenstand sind Rust CI und System CI (laut Owner grün) sowie der Phase-0-Plattform-Incident.
-**Status:** `BLOCKED` — kein Defekt dieses Komplexes ist vollständig behoben, `CI_VERIFIED = 0`.
+**Status:** `IN_PROGRESS` — vier von sechs Defekten behoben (D-1, D-2 mit CI-Nachweis,
+D-3 und D-4 per Fix-PR). Offen: D-5 und D-6, beide brauchen den `workflow`-Scope.
+`CI_VERIFIED = 0`, weil kein Job des Komplexes vollständig grün ist.
 
 ## 1. Erfasste fehlgeschlagene Läufe
 

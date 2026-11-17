@@ -21,7 +21,7 @@ Dokument ohne Eintrag gilt als nicht vorhanden.
 | [PHASE0_CI_ROOT_CAUSE.md](PHASE0_CI_ROOT_CAUSE.md) | Ursachenanalyse des CI-Ausfalls im November | eingefroren |
 | [PHASE0_CI_RECOVERY_VERIFICATION.md](PHASE0_CI_RECOVERY_VERIFICATION.md) | Wiederherstellungsnachweis R-1 bis R-6 | laufend |
 | [EXEC_CHAIN_GATE_FINDING_2026-11-16.md](EXEC_CHAIN_GATE_FINDING_2026-11-16.md) | Required Check `exec-chain`, `Dependabot`-Kontext | Fix vorbereitet, Push offen |
-| [ATC_TEST_SUITE_RCA_2026-11-16.md](ATC_TEST_SUITE_RCA_2026-11-16.md) | Fehlerkomplex ATC Test Suite / `cargo-tests` | 2 von 6 Defekten geschlossen |
+| [ATC_TEST_SUITE_RCA_2026-11-16.md](ATC_TEST_SUITE_RCA_2026-11-16.md) | Fehlerkomplex ATC Test Suite / `cargo-tests` | 4 von 6 Defekten geschlossen, 2 brauchen `workflow`-Scope |
 | [ORG_PROTECTION_AUDIT_2026-11-17.md](ORG_PROTECTION_AUDIT_2026-11-17.md) | Branch Protection über alle 33 Repositories | erhoben, Änderung offen |
 | [R5_ROTE_PRS_2026-11-17.md](R5_ROTE_PRS_2026-11-17.md) | Klassifikation der 66 roten PRs | erhoben |
 | [MERGE_LOG_2026-11-16.md](MERGE_LOG_2026-11-16.md) | Einzelmerges mit SHA-Nachweis | abgeschlossen |

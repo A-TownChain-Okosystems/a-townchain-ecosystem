@@ -28,9 +28,9 @@ blockers:
   status: BLOCKED
   source_shas:
   - '(org-weit: 19 von 33 Repos betroffen)'
-  problem: 'Platform-Incident 06.11.-16.11.2026: push, workflow_dispatch und schedule erzeugten Laeufe mit 0 Jobs (startup_failure);
-    pull_request und dynamic nicht betroffen. Erholung am 16.11. ~14:56Z ohne Aenderung in der Organisation. Historisch 19
-    Repos betroffen; aktuell 0 nachgewiesen defekt, 9 aktive Repos unverifiziert.'
+  problem: 'Platform-Incident 06.11.-16.11.2026: push, workflow_dispatch und schedule erzeugten Laeufe mit 0 Jobs (startup_failure); pull_request
+    und dynamic nicht betroffen. Erholung am 16.11. ~14:56Z ohne Aenderung in der Organisation. Historisch 19 Repos betroffen; aktuell 0 nachgewiesen
+    defekt, 9 aktive Repos unverifiziert.'
   blocked_by: []
   blocks:
   - BLK-P0-02
@@ -63,8 +63,8 @@ blockers:
   assessment_ref: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.md (v0.2.0, PARTIAL 7/8)
   recovery_verification_ref: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.md (PENDING)
   sub_blockers_progress:
-    BLK-P0-01b: PARTIAL - policy markdown fixed (.github PR 35, 44->0, no rule weakened); workflow pin + 7 consumer bumps
-      blocked (token without workflow scope); artifact github-ci-fix/
+    BLK-P0-01b: PARTIAL - policy markdown fixed (.github PR 35, 44->0, no rule weakened); workflow pin + 7 consumer bumps blocked (token without
+      workflow scope); artifact github-ci-fix/
   sub_blocker_status:
     01a_verification_sweep: OPEN
     01b_policy_markdown: POLICY MERGED 7f76c509; workflow/pin chain still pending
@@ -81,15 +81,15 @@ blockers:
   - atc-vm@21132a4935
   - atclang@516482abbf
   - a-townchain@2c91820710 (components/vm)
-  problem: 'Zwei divergierende ISA-Definitionen: Compiler-Bytecode 19 Instruktionen (bytecode.rs), VM 16 Opcodes (vm.rs),
-    Schnittmenge ~5, keine gemeinsame Opcode-Tabelle'
+  problem: 'Zwei divergierende ISA-Definitionen: Compiler-Bytecode 19 Instruktionen (bytecode.rs), VM 16 Opcodes (vm.rs), Schnittmenge ~5, keine
+    gemeinsame Opcode-Tabelle'
   blocked_by: []
   blocks:
   - BLK-P0-03
   - BLK-P0-04
   acceptance_criteria:
-  - 'ATC-BC-001 spezifiziert: Opcode-IDs, Semantik, Operandenformate, Stack-Verhalten, Typregeln, Gas-Kosten, Trap-/Fehlerverhalten,
-    Versionierung/Kompatibilitaet, Determinismus'
+  - 'ATC-BC-001 spezifiziert: Opcode-IDs, Semantik, Operandenformate, Stack-Verhalten, Typregeln, Gas-Kosten, Trap-/Fehlerverhalten, Versionierung/Kompatibilitaet,
+    Determinismus'
   - Compiler und VM referenzieren dieselbe normative Tabelle (eine Quelle, keine Kopie)
   - Differenz-/Conformance-Test Compiler<->VM existiert und ist gruen
   - Spezifikation APPROVED gemaess ATC-STD-000
@@ -99,7 +99,8 @@ blockers:
   - CI-Run
   owner: ArchitectAgent + CodingAgent (atc-vm/atclang)
   audit: docs/system-readiness/ORG_PROTECTION_AUDIT_2026-11-17.md
-  audit_result: 4 von 26 aktiven Repos geschuetzt; 23 aktiv ungeschuetzt; 2 archivierte mit dangling contexts
+  audit_result: 4 von 26 aktiven Repos geschuetzt; 22 aktiv ungeschuetzt (davon demo-repository governance-excluded); 2 archivierte mit dangling
+    contexts
 - id: BLK-P0-03
   title: 'Contract-Lowering: ATCLang .atc -> Bytecode'
   priority: P0
@@ -108,8 +109,8 @@ blockers:
   source_shas:
   - atclang@516482abbf
   - atc-contracts@876c03b2c8
-  problem: 'Nur 2 von 27 Contract-Dateien bestehen atc check --profile consensus (7,4%); Contract-Ruempfe werden nur als Token-Strom
-    gehalten (native.rs: Syntax/AST recognition only); STATUS.md: ''contract support is still zero'''
+  problem: 'Nur 2 von 27 Contract-Dateien bestehen atc check --profile consensus (7,4%); Contract-Ruempfe werden nur als Token-Strom gehalten
+    (native.rs: Syntax/AST recognition only); STATUS.md: ''contract support is still zero'''
   blocked_by:
   - BLK-P0-02
   blocks:
@@ -134,8 +135,7 @@ blockers:
   - atc-vm@21132a4935
   - atclang@516482abbf
   - atc-contracts@876c03b2c8
-  problem: Die Kette .atc -> Bytecode -> ATVM -> Chain ist nirgends end-to-end bewiesen; 17/17 EXEC-CHAIN ist kein Nachweis
-    dieser Kette
+  problem: Die Kette .atc -> Bytecode -> ATVM -> Chain ist nirgends end-to-end bewiesen; 17/17 EXEC-CHAIN ist kein Nachweis dieser Kette
   blocked_by:
   - BLK-P0-02
   - BLK-P0-03
@@ -158,8 +158,8 @@ blockers:
   source_shas:
   - globus-os@cb605552f6
   - atc-shivacore@d817de2dec
-  problem: 'Entscheidungsvorlage docs/decisions/ABI-E1-E7-ENTSCHEIDUNGSVORLAGE-2026-11-15.md: nichts entschieden; vier Rechtevokabulare
-    V1-V4 konkurrieren (u16/u8/enum; ACCESS=256 faellt bei u8 weg); SpawnProcess (ABI 2.1) bis E-2 gesperrt'
+  problem: 'Entscheidungsvorlage docs/decisions/ABI-E1-E7-ENTSCHEIDUNGSVORLAGE-2026-11-15.md: nichts entschieden; vier Rechtevokabulare V1-V4
+    konkurrieren (u16/u8/enum; ACCESS=256 faellt bei u8 weg); SpawnProcess (ABI 2.1) bis E-2 gesperrt'
   blocked_by: []
   blocks:
   - BLK-P1-03
@@ -181,8 +181,7 @@ blockers:
   status: BLOCKED
   source_shas:
   - globus-os@cb605552f6
-  problem: VMM M1.2 'conditional pass', Freeze offen; Residuals R-1..R-4 offen; Hardware-Kette (IOMMU, SMP, PCIe, NVMe/NIC,
-    TLB) ohne Evidenz
+  problem: VMM M1.2 'conditional pass', Freeze offen; Residuals R-1..R-4 offen; Hardware-Kette (IOMMU, SMP, PCIe, NVMe/NIC, TLB) ohne Evidenz
   blocked_by:
   - BLK-P0-01
   blocks:
@@ -204,8 +203,8 @@ blockers:
   status: BLOCKED
   source_shas:
   - globus-os@cb605552f6
-  problem: 'Sechs Blockierer laut SHIVACORE-DEPENDENCY-MATRIX-2026-11-15.md: ABI-Erweiterung, Service-Space nicht im Image,
-    Entropie, eine Capability-Autoritaet, eine Geraeteautoritaet, SMP'
+  problem: 'Sechs Blockierer laut SHIVACORE-DEPENDENCY-MATRIX-2026-11-15.md: ABI-Erweiterung, Service-Space nicht im Image, Entropie, eine Capability-Autoritaet,
+    eine Geraeteautoritaet, SMP'
   blocked_by:
   - BLK-P1-01
   blocks: []
@@ -229,8 +228,8 @@ blockers:
   - a-townchain-os-docs@ce8534a5b2
   - a-townchain-ecosystem@e18bdb90db
   - atc-standards@f54083518f
-  problem: Drei konkurrierende Layer-Modelle (AD-026 L0-L7; a-townchain-ecosystem ARCHITECTURE.md abweichend; Boot-Ebenen
-    L0-L10) und zwei divergierende Wiki-Fassungen (MD5-verschieden); KAI-OS teils als Architektur, teils als Produktname
+  problem: Drei konkurrierende Layer-Modelle (AD-026 L0-L7; a-townchain-ecosystem ARCHITECTURE.md abweichend; Boot-Ebenen L0-L10) und zwei divergierende
+    Wiki-Fassungen (MD5-verschieden); KAI-OS teils als Architektur, teils als Produktname
   blocked_by: []
   blocks:
   - BLK-P2-02
@@ -252,8 +251,7 @@ blockers:
   source_shas:
   - atc-standards@f54083518f
   - atc-engineering@0f94b4f7cc
-  problem: Umsetzungsgrad 36,8% (65 enforced + 131 implemented); 330 specification_only; 89 von 160 Findings offen; Fleet-Audit
-    rot
+  problem: Umsetzungsgrad 36,8% (65 enforced + 131 implemented); 330 specification_only; 89 von 160 Findings offen; Fleet-Audit rot
   blocked_by:
   - BLK-P0-01
   blocks: []
@@ -274,8 +272,8 @@ blockers:
   source_shas:
   - a-townchain-os@8dbbb5ddfa
   - a-townchain-os-docs@ce8534a5b2
-  problem: 'bound_commit: pending, tests: not_run, latest_verified: null; REALITY_STATUS stuft auf R2 herab; dutzende Dokumente
-    behaupten 731/731, 106/106, GATE PASS ohne aktuelle Evidenz'
+  problem: 'bound_commit: pending, tests: not_run, latest_verified: null; REALITY_STATUS stuft auf R2 herab; dutzende Dokumente behaupten 731/731,
+    106/106, GATE PASS ohne aktuelle Evidenz'
   blocked_by:
   - BLK-P0-01
   blocks: []
@@ -296,8 +294,8 @@ blockers:
   source_shas:
   - .github@1cf30d8c0b
   - atc-engineering@0f94b4f7cc
-  problem: 6 ungoverned Repos (org-scope.yaml), atc-engineering selbst ungoverned; Admin-Push-Bypass (Finding F-045); .github
-    vom eigenen Scan exempt
+  problem: 6 ungoverned Repos (org-scope.yaml), atc-engineering selbst ungoverned; Admin-Push-Bypass (Finding F-045); .github vom eigenen Scan
+    exempt
   blocked_by: []
   blocks: []
   acceptance_criteria:
@@ -316,8 +314,8 @@ blockers:
   status: BLOCKED
   source_shas:
   - aurora-ai@2855956b32
-  problem: 13.357 Rust + 8.822 ATCLang aktiv gepflegt; Integrationstiefe (Intent -> Policy -> Capability -> Tool -> Audit)
-    nicht durchgaengig belegt
+  problem: 13.357 Rust + 8.822 ATCLang aktiv gepflegt; Integrationstiefe (Intent -> Policy -> Capability -> Tool -> Audit) nicht durchgaengig
+    belegt
   blocked_by:
   - BLK-P1-01
   - BLK-P1-02
@@ -358,8 +356,7 @@ blockers:
   - atc-algorithm@f25b433834
   - atc-zkp@a284eeab3d
   - atc-node@821d049efc
-  problem: 'Offene Analyse-Luecke: Kennzahlen wurden erhoben, Konsens-/Signatur-/Replay-/ZKP-/Upgrade-Architektur aber nicht
-    unabhaengig geprueft'
+  problem: 'Offene Analyse-Luecke: Kennzahlen wurden erhoben, Konsens-/Signatur-/Replay-/ZKP-/Upgrade-Architektur aber nicht unabhaengig geprueft'
   blocked_by:
   - BLK-P0-01
   blocks: []
@@ -377,8 +374,8 @@ blockers:
   status: BLOCKED
   source_shas:
   - a-townchain-ecosystem@e18bdb90db
-  problem: 'Produktionsreife ist nicht allein durch externes Audit belegt: Determinismus-E2E, Reproduzierbarkeit, Recovery,
-    Upgrade-Sicherheit und operative Nachweise fehlen im Kriterienkatalog'
+  problem: 'Produktionsreife ist nicht allein durch externes Audit belegt: Determinismus-E2E, Reproduzierbarkeit, Recovery, Upgrade-Sicherheit
+    und operative Nachweise fehlen im Kriterienkatalog'
   blocked_by:
   - BLK-P0-04
   - BLK-P2-01
