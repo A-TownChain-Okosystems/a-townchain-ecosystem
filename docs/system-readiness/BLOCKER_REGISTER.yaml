@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 document_id: ATC-BLOCKER-REGISTER-001
 title: Org-wide Prioritized Blocker Register
-version: 0.3.5
+version: 0.3.6
 status: PROPOSED
 updated: '2026-11-17'
 owner: A-TownChain-Okosystems
@@ -767,6 +767,20 @@ blockers:
   verification: Pfadvergleich ueber grep am 17.11.2026; der zweite Commit e923e89cd war noetig, weil die components-Kopie stehen blieb.
   closure_criteria: eine kanonische Quelle je Vertrag, Kopien mechanisch erzeugt oder entfernt, Drift-Gate vorhanden.
   last_verified: 2026-11-17T19:05+01:00
+  supersedes: null
+- id: BLK-P2-13
+  title: Keine normative Datenarchitektur fuer GlobusOS; Klassifizierung fehlt im Datenpfad
+  priority: P2
+  status: OPEN
+  opened: '2026-11-17'
+  gate: architecture, standards
+  description: Data Management, Data Classification, Lifecycle und Synchronization existieren weder normativ noch im Bestand. Ohne Klassifizierung lassen sich Access Control, Aufbewahrung und ein kontrollierter Aurora-Zugriff
+    nicht durchsetzen, weil keine Schutzstufe vorhanden ist.
+  evidence: 'globus-os: kein Klassifizierungsmerkmal im Datenpfad, kein Lifecycle-Dienst, kein Sync-Bestand; system/aurora-core nur contracts/state/types; NPU nur als Anzeigetext. Integrationssicht in docs/architecture/GLOBUSOS-DATA-VERIFICATION-MATRIX.md.'
+  evidence_head: cb60555
+  verification: Crate-Bestand und Klassennamen im Arbeitsbaum gelesen, 37 VFS-Tests und Audit-Kette gegengeprueft
+  closure_criteria: Datenarchitektur normativ in atc-standards, Klassifizierung im Datenpfad implementiert, Access Control und Aurora-Zugriff darauf aufbauend getestet.
+  last_verified: 2026-11-17T19:45+01:00
   supersedes: null
 assessments:
 - id: ATC-PHASE0-CI-RCA-001
