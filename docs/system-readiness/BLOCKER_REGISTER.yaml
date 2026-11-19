@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 document_id: ATC-BLOCKER-REGISTER-001
 title: Org-wide Prioritized Blocker Register
-version: 0.3.8
+version: 0.3.9
 status: PROPOSED
 updated: '2026-11-19'
 owner: A-TownChain-Okosystems
@@ -843,3 +843,13 @@ status_pass:
   verified_count: 7
   unverified_count: 17
   counting_note: '#247 am aktuellen Head: 38 Check-Runs, 17 gruen, 20 rot. Die frueher genannte Zahl von 18 roten Gates beruht auf einem anderen Zaehlmassstab und wird hier nicht weiter verwendet.'
+ci_verification_policy:
+  decision: DEFERRED_BY_OWNER
+  date: '2026-11-19'
+  owner_statement: Wir verzichten auf die CI und pruefen spaeter.
+  effect:
+  - kein Status CI_VERIFIED oder E2E_VERIFIED bis Widerruf
+  - Fixes bleiben maximal IMPLEMENTED, mit lokalem Nachweis TESTED
+  - rote Checks bleiben dokumentiert, blockieren den Fortgang aber nicht
+  - fehlende CI gilt weder als Erfolg noch als Fehler
+  reopen_by: Owner
