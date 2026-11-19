@@ -4,6 +4,8 @@
 **Owner:** Ecosystem integration and evidence control plane  
 **Tracking issue:** [#116](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/116)
 
+> **Gap register (G0 evidence):** [`BLOCKER_REGISTER.md`](BLOCKER_REGISTER.md) / [`BLOCKER_REGISTER.yaml`](BLOCKER_REGISTER.yaml)
+
 ## 1. Purpose
 
 Define the implementation sequence and acceptance evidence required to operate ShivaCore, GlobusOS, A-TownChain and Aurora AI as one integrated platform. This document is a control-plane plan; it does not claim that runtime functionality has already passed.

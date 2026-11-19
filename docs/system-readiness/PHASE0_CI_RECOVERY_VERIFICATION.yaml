@@ -1,0 +1,76 @@
+schema_version: 1.0.0
+document_id: ATC-PHASE0-CI-RECOVERY-VERIFICATION-001
+title: Phase 0 - CI Recovery Verification
+version: 0.1.0
+status: PENDING
+updated: '2026-11-16'
+tracking_issue: https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/116
+incident:
+  symptom: runs with 0 jobs, startup_failure, path BuildFailed
+  affected_events:
+  - push
+  - workflow_dispatch
+  - schedule
+  - dynamic
+  unaffected_events:
+    pull_request:
+      runs: 2067
+      startup_failure: 0
+  onset_cohorts:
+  - 2026-11-05T11:21Z
+  - 2026-11-06T17:18Z
+  - 2026-11-08T09:05Z
+  - 2026-11-09T13:26Z
+  - 2026-11-12T15:46Z
+  - 2026-11-13T17:58Z
+  - 2026-11-14T09:14Z
+  - 2026-11-15T00:32Z
+  recovery_push_bracket_utc:
+  - '2026-11-16T10:54:30Z'
+  - '2026-11-16T14:56:52Z'
+  recovery_schedule_bracket_utc:
+  - '2026-11-16T14:52:00Z'
+  - '2026-11-16T14:58:00Z'
+  configuration_changed: false
+  support_escalation: OPEN - owner
+coverage:
+  repositories_total: 33
+  post_recovery_evidence:
+    push: 5
+    schedule: 8
+    workflow_dispatch: 0
+    pull_request: 3
+    dynamic: 6
+  no_run_since_recovery: 21
+  status: OPEN
+classification:
+  A_platform_initialization:
+    status: assessed
+    recovery: evidenced
+  B_content_failures:
+    status: assessed
+    repair: open
+  C_evidence_access:
+    status: open
+    detail: a-townchain job logs HTTP 403
+  D_unverified_repositories:
+    status: open
+    detail: no post-recovery run
+binding:
+  run_to_job_to_step_to_log: true
+  gaps:
+  - a-townchain logs HTTP 403 (Class C)
+  - workflow_dispatch never probed
+artifacts:
+- path: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.md
+  sha256: see markdown twin
+- path: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
+  sha256: see markdown twin
+gate_decision:
+  phase0: PARTIAL
+  criteria_met: 7
+  criteria_total: 8
+  recovery_verification: PENDING
+  ci_verified: 0
+  verified: 0
+  BLK-P0-01: BLOCKED

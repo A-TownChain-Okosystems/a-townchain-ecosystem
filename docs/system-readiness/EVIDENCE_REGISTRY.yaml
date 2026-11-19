@@ -1,0 +1,152 @@
+schema_version: 1.0.0
+document_id: ATC-EVIDENCE-REGISTRY-001
+title: Evidence Registry
+owner: A-TownChain-Okosystems
+updated: '2026-11-17'
+model: EVIDENCE_MODEL.md
+rule: 'Bindings sind append-only: ein Re-Bind ueberschreibt nie stillschweigend, sondern verschiebt die vorherige Bindung mit superseded_by in
+  binding_history.'
+statuses:
+- PLANNED
+- COLLECTED
+- BOUND
+- VERIFIED
+- MISSING
+- STALE
+entries:
+- artifact: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.md
+  sha256: e8e27a9edea44e23e91fb8b110886f488b8536d926c8a52e5724046568527bcb
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/PHASE0_CI_ROOT_CAUSE.yaml
+  sha256: 3df1a840107c86164a2cf6f4972c79b7752a7adc4c2dca7886a3ae87d2ead090
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/BLOCKER_REGISTER.md
+  sha256: d8365da99450b77f51de9941afcf924e883f77ee87b61c57c0522d11460005e2
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/BLOCKER_REGISTER.yaml
+  sha256: bf17a4853e521f7a97e9c47a02a10ef1391b781800b3f6be1504098a46ff6389
+  commit: 29a956980
+  collected_at: 2026-11-16T18:14Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+  bound_at: '2026-11-17T00:06:06Z'
+- artifact: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.md
+  sha256: d8caabc85564980fb3e0b6a2ff4e381f20e1e3e7523259742937a1ad15c2653f
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/PHASE0_CI_RECOVERY_VERIFICATION.yaml
+  sha256: 9c146b027fba70e5b86d803a56d352f9a307fbec48994f532ca94570a84ba9e1
+  commit: df5bd373efb9735d965c627b51a9eefb484e882c
+  collected_at: 2026-11-16T17:58Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/EVIDENCE_MODEL.md
+  sha256: 9ef8ba194dff9d4580888d0d6145d6e4746f8301a31f4317652fb08d02ff1a93
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/system-readiness.yaml
+  sha256: 37861fecd7ad58c9bfa45542fa1ea1965e65ba7c71df9a0977f3fb5b173cff5a
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+  note: 'artifact anchor: hash of the file as committed in this commit'
+- artifact: docs/system-readiness/ORG_SNAPSHOT.md
+  sha256: def75b9d60723c55b050994d6dc1fa55dbd694b45b988931d30711ea4a97da15
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+- artifact: docs/system-readiness/tools/org_snapshot.sh
+  sha256: 1106b0f919e5b41dd99ecc9e3772d38d06988134476276e57d3f6d4614653d76
+  commit: fe4821184
+  collected_at: 2026-11-16T18:14Z
+  collector: aurora-agent
+  status: BOUND
+  evidence_complete: true
+r3_consumer_evidence:
+  collector: github-ci-fix/evidence.sh
+  log_hash_spec: sha256 over gzip-decoded response bytes, no normalisation
+  required_fields:
+  - repo
+  - consumer_head
+  - run_id
+  - run_head_sha
+  - run_conclusion
+  - workflow_pin
+  - policy_ref
+  - policy_file_sha256_approved
+  - log_status
+  - log_sha256
+  - log_bytes
+  - evidence_complete
+  complete_definition: conclusion=success AND run_head_sha=consumer_head AND log_status=OK AND workflow_pin=approved AND policy_ref=approved
+  state: policy defect resolved (merge 7f76c50); workflow pin commit still outstanding; 0/7 evidence_complete
+  consumers:
+  - a-townchain
+  - atc-contracts
+  - atc-engineering
+  - atc-ide
+  - atc-node
+  - atc-shivacore
+  - aurora-ai
+  acceptance: 7/7 evidence_complete = true
+r3_runs:
+  note: appended by evidence.sh archive; entries are immutable
+  evidence_complete_required: true
+  entries: []
+org_snapshot:
+  tool: docs/system-readiness/tools/org_snapshot.sh
+  archive: SNAPSHOTS.jsonl (append-only, local)
+  repos: 33
+  baseline: 2026-11-16T18:09Z drift=0 unpushed=0 dirty=0
+r3_merges:
+- object: 'PR #35 (.github)'
+  merge_sha: 7f76c5092ceeadb2bd5be4cc4a1161decd53f1a8
+  merged_at: 2026-11-16T18:52Z
+  review: A-TownChain APPROVED 2026-11-16T18:45:39Z
+  checks:
+    quality: success
+    Analyze (python): success
+  post_merge:
+    main_head: 7f76c5092ceeadb2bd5be4cc4a1161decd53f1a8
+    compare_main: identical
+    policy_file_sha256: 6f5a0f1e1d0b780717a309dc586ea9e520adf45b6d7b31386a2b2bd7b8bce381
+    config_file_sha256: 0317b55519061201e21b33593e1e027f14f435fab70f50a8c3995589992c199b
+  collector: aurora-agent via GitHub API
+binding_history:
+- artifact: docs/system-readiness/BLOCKER_REGISTER.yaml
+  commit: fe4821184
+  sha256: a189fec51666b674d0fc33dd189e0ecaef5a5d73906663d04ac236ae588cd83e
+  status: BOUND
+  superseded_by: 29a956980
+  superseded_at: '2026-11-17T00:06:06Z'

@@ -5,6 +5,11 @@ resolver = "2"
 exclude = [
   # Kein Cargo.toml vorhanden, nur Doku: koennen keine Workspace-Mitglieder sein.
   "components/atc-marketplace/modules/atc-dex",
+  # aurora-ai hat kein Root-Cargo.toml; das Digest-Modul ist ein eigenstaendiges
+  # Vendor-Paket im Umbrella-Baum (AD-FT1). Ohne Eintrag bricht cargo metadata mit
+  # "believes it's in a workspace when it's not" ab, weil der Umbrella-Workspace
+  # darueber liegt. Keine Mitgliedschaft erfinden, nur sauber ausschliessen.
+  "components/aurora-ai/modules/atc-aurora-digest",
   "components/atc-sdk",
   "components/atc-indexer",
   # integration haengt per Pfad an components/atc-sdk (kein Manifest) und macht

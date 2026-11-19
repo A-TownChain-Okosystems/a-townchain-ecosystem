@@ -1,0 +1,26 @@
+diff --git a/.github/workflows/ecosystem-release-readiness.yml b/.github/workflows/ecosystem-release-readiness.yml
+index 0b973cd02..452546c0e 100644
+--- a/.github/workflows/ecosystem-release-readiness.yml
++++ b/.github/workflows/ecosystem-release-readiness.yml
+@@ -145,7 +145,18 @@ jobs:
+         shell: bash
+         run: |
+           set -euo pipefail
+-          for component in atc-standards atclang a-townchain a-townchain-os a-townchain-os-docs atc-shivacore atc-contracts atc-node atc-compute atc-oracle atc-sdk atc-marketplace atc-wallet atc-vm atc-zkp aurora-ai globus-os genesis-engine genesis-chronicles atc-mining atc-indexer atc-interop atc-launchpad atc-explorer atc-storage atc-algorithm; do
+-            test -d "components/$component" || { echo "MISSING components/$component"; exit 1; }
++          # SSOT ist MIGRATION_MANIFEST.yaml (imports). Die frueher hier stehende
++          # 26er-Hartliste enthielt components/globus-os, das mit Entscheidung E-4
++          # (Commit 3759d78a1, "vendorte globus-os-Kopie entfernen") absichtlich
++          # nicht mehr vendort wird und im Manifest nicht gefuehrt ist. Ein Gate
++          # gegen eine Liste, die der SSOT widerspricht, kann nie gruen werden.
++          mapfile -t components < <(
++            awk '/^imports:/{f=1;next} f&&/^[a-z_]+:/{f=0} f&&/component:/{print $3}' MIGRATION_MANIFEST.yaml
++          )
++          if [ "${#components[@]}" -eq 0 ]; then
++            echo "MIGRATION_MANIFEST.yaml: keine imports gefunden"; exit 1
++          fi
++          for component in "${components[@]}"; do
++            test -d "$component" || { echo "MISSING $component"; exit 1; }
+           done
+-          echo "Canonical component set present."
++          echo "Canonical component set present (${#components[@]} Manifest-Importe)."

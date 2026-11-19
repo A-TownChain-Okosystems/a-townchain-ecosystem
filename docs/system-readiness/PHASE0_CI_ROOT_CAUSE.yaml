@@ -1,0 +1,353 @@
+schema_version: 1.0.0
+document_id: ATC-PHASE0-CI-RCA-001
+title: Phase 0 - CI Root Cause Assessment
+version: 1.0.0
+status: FINAL
+updated: '2026-11-16'
+owner: A-TownChain-Okosystems
+tracking_issue: https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/116
+related:
+- ATC-BLOCKER-REGISTER-001
+- ATC-SYSTEM-READINESS-001
+scope: read-only; no workflow changed; no gate weakened
+snapshot:
+  date: '2026-11-16'
+  repositories: 33
+incident:
+  window_start_utc: '2026-11-06T17:23:00Z'
+  window_end_utc: '2026-11-16T14:56:00Z'
+  last_failing_push_utc: '2026-11-16T10:54:30Z'
+  first_starting_push_utc: '2026-11-16T14:56:52Z'
+  affected_event_classes:
+  - push
+  - workflow_dispatch
+  - schedule
+  unaffected_event_classes:
+  - pull_request
+  - dynamic
+  symptom: conclusion=startup_failure, jobs total_count=0, empty workflow name, path=BuildFailed
+  recovered: true
+  recovered_by: platform-side; no workflow or configuration change in the organization
+classification:
+- class: A
+  description: Initialization failure with zero jobs (pre-recovery)
+  historical_repos: 19
+  evidence_runs:
+    globus-os: 43662920291
+    atc-standards: 43830111537
+    a-townchain-os-docs: 43830162044
+    atc-node: 43852994457
+- class: B
+  description: Content failures in running pipelines
+  repos:
+  - a-townchain
+  - atc-oracle
+- class: C
+  description: Evidence access gap (job logs)
+  repos:
+  - a-townchain
+  detail: job logs 403 (SAS/auth signature error); globus-os logs 200
+- class: D
+  description: Pending verification - no run since recovery
+  count: 16
+excluded_causes:
+- candidate: workflow YAML syntax
+  verdict: excluded
+  evidence: all workflow files in 33 repos parse
+- candidate: actions disabled / allowed_actions
+  verdict: excluded
+  evidence: actions enabled, allowed_actions all
+- candidate: billing / minutes
+  verdict: excluded
+  evidence: 805 included minutes, netAmount 0.0
+- candidate: runner availability
+  verdict: excluded
+  evidence: zero jobs created; no self-hosted labels
+- candidate: workflow definition / dispatch resolution
+  verdict: excluded
+  evidence: dispatch accepted 204, run named, zero jobs
+- candidate: reusable workflow references
+  verdict: excluded
+  evidence: all pinned org SHAs resolve and contain the file
+- candidate: commit signature / verification
+  verdict: excluded
+  evidence: post-recovery pushes started unsigned (globus-os 43894367069, atc-standards 43898277268)
+- candidate: repository configuration
+  verdict: excluded
+  evidence: affected and unaffected repos share structure; pull_request started everywhere
+- candidate: org/repo policy
+  verdict: not supported
+  evidence: same repos/rights, pull_request started
+repo_findings:
+- id: RF-1
+  repo: org/.github + 7 consumers
+  finding: 'org policy markdown defect: .org-github-policy/AGENT_MANIFEST.md lines 50-58, 11 markdownlint findings (MD056,
+    MD058, MD022)'
+  impact: Markdown Lint fails in a-townchain, atc-contracts, atc-engineering, atc-ide, atc-node, atc-shivacore, aurora-ai
+  evidence_run: 43893675443
+- id: RF-2
+  repo: a-townchain
+  finding: five red gates all from one Dependabot PR (lucide-react 1.72.0, sha acce944f9); details for 4 gates unavailable
+    (logs 403)
+  evidence_runs:
+  - 43893675443
+  - 43893675171
+  - 43893674072
+  - 43893673988
+  - 43893673930
+- id: RF-3
+  repo: a-townchain
+  finding: job logs HTTP 403 while other repos return 200
+  impact: evidence binding limited to run/job/step
+- id: RF-4
+  repo: atc-oracle
+  finding: ATC Test Suite evidence-binding step fails since 2026-10-07; repo archived
+  impact: historical only
+- id: RF-5
+  repo: a-townchain-ecosystem
+  finding: 'post-recovery run set on 849186604: 10 workflows started, 4 green, 5 red; all reds are content gates over imported
+    component snapshots (fmt/clippy/tests/determinism/integration crate)'
+  impact: 'pre-existing snapshot drift; not caused by docs-only PR #247'
+  evidence_runs:
+  - 43916656415
+  - 43916656205
+  - 43916656345
+  - 43916656202
+  - 43916656206
+reproducibility:
+  before:
+  - utc: '2026-11-15T01:24:00Z'
+    repo: globus-os
+    run: 43662920291
+    jobs: 0
+  - utc: '2026-11-16T08:18:00Z'
+    repo: atc-standards
+    run: 43830111537
+    jobs: 0
+  - utc: '2026-11-16T10:54:30Z'
+    repo: atc-node
+    run: 43852994457
+    jobs: 0
+  after:
+  - utc: '2026-11-16T14:56:52Z'
+    repo: atc-node
+    run: 43891148071
+    jobs: 1
+    conclusion: success
+  - utc: '2026-11-16T15:15:24Z'
+    repo: globus-os
+    run: 43894367069
+    jobs: 1
+    conclusion: success
+  - utc: '2026-11-16T17:05:30Z'
+    repo: a-townchain-ecosystem
+    run: 43914636413
+    jobs: 1
+    conclusion: success
+  - utc: 2026-11-16T17:2x
+    repo: a-townchain-ecosystem
+    run: 43916656415
+    jobs: 10
+    conclusion: started; 4 green / 5 content failures
+  control: pull_request runs started continuously during the incident
+repair_plan:
+- id: R-1
+  action: record GitHub Support ticket status and confirm incident window
+  depends_on: []
+  owner: Owner (Michael)
+- id: R-2
+  action: 'verification sweep: one fresh run per unverified repo, bind run IDs'
+  depends_on:
+  - R-1
+  owner: RepositoryAgent
+- id: R-3
+  action: fix markdownlint findings in .github policy file
+  depends_on: []
+  owner: DocumentationAgent + GovernanceAgent
+- id: R-4
+  action: investigate job-log HTTP 403 for a-townchain
+  depends_on: []
+  owner: RepositoryAgent
+- id: R-5
+  action: triage Dependabot PR failures (local reproduction or logs)
+  depends_on:
+  - R-3
+  - R-4
+  owner: QAAgent + CodingAgent
+- id: R-6
+  action: update BLK-P0-01 evidence; CI_VERIFIED per repo only on green exact-SHA run
+  depends_on:
+  - R-2
+  - R-3
+  - R-5
+  owner: RepositoryAgent
+acceptance_status:
+- criterion: 33 HEAD SHAs current
+  status: MET
+- criterion: 19 startup failures examined
+  status: MET
+- criterion: common causes proven or excluded
+  status: MET
+- criterion: repo-specific causes documented
+  status: MET
+- criterion: running-but-red pipelines assessed
+  status: MET
+- criterion: findings bound to run/job/step/log
+  status: PARTIAL
+  note: logs 403 for a-townchain
+- criterion: repair plan with dependencies
+  status: MET
+- criterion: register and roadmap consistent
+  status: MET
+governance:
+  ci_verified_awarded: false
+  startup_fixed_is_not_ci_verified: true
+  historical_evidence_overwritten: false
+acceptance:
+  met: 7
+  partial: 1
+  total: 8
+  ci_verified: 0
+  verified: 0
+corpus:
+  repositories: 33
+  runs: 6005
+  by_event:
+    pull_request:
+      runs: 2067
+      startup_failure: 0
+    push:
+      runs: 2423
+      startup_failure: 493
+    dynamic:
+      runs: 1126
+      startup_failure: 399
+      note: affected in a subset, recovered earlier
+    schedule:
+      runs: 368
+      startup_failure: 82
+    workflow_dispatch:
+      runs: 20
+      startup_failure: 10
+recovery:
+  push_bracket_utc:
+  - '2026-11-16T10:54:30Z'
+  - '2026-11-16T14:56:52Z'
+  schedule_bracket_utc:
+  - '2026-11-16T14:52:00Z'
+  - '2026-11-16T14:58:00Z'
+  dynamic_bracket_utc:
+  - '2026-11-13T12:55:00Z'
+  - '2026-11-14T07:53:00Z'
+  note: not uniform per repository; cohort table in the markdown twin
+onset_cohorts:
+- at: 2026-11-05T11:21Z
+  events:
+  - push
+  - dynamic
+  repos:
+  - atc-ide
+  - a-townchain-os-docs
+- at: 2026-11-05T12:47Z
+  events:
+  - schedule
+  repos:
+  - atc-standards
+- at: 2026-11-06T17:18Z
+  events:
+  - push
+  - workflow_dispatch
+  - dynamic
+  repos:
+  - atc-standards
+  - demo-repository
+  - atc-node
+  - genesis-chronicles
+- at: 2026-11-08T09:05Z
+  events:
+  - push
+  repos:
+  - a-townchain-os
+  - atc-node
+  - atc-shivacore
+- at: 2026-11-09T13:26Z
+  events:
+  - schedule
+  repos: 17 repositories within 19 minutes (mass cohort)
+- at: 2026-11-12T15:46Z
+  events:
+  - push
+  - workflow_dispatch
+  repos:
+  - a-townchain
+  - atclang
+- at: 2026-11-13T17:58Z
+  events:
+  - push
+  - dynamic
+  - schedule
+  repos:
+  - aurora-ai
+  - .github
+- at: 2026-11-14T09:14Z
+  events:
+  - push
+  - workflow_dispatch
+  repos:
+  - a-townchain-os
+  - a-townchain-ecosystem
+- at: 2026-11-15T00:32Z
+  events:
+  - push
+  - workflow_dispatch
+  repos:
+  - globus-os
+post_recovery_coverage:
+  push:
+  - a-townchain
+  - a-townchain-ecosystem
+  - atc-node
+  - atc-standards
+  - globus-os
+  schedule:
+  - a-townchain-ecosystem
+  - atc-algorithm
+  - atc-engineering
+  - atc-node
+  - atc-vm
+  - atc-zkp
+  - atclang
+  - globus-os
+  pull_request:
+  - a-townchain
+  - a-townchain-ecosystem
+  - atc-node
+  dynamic:
+  - a-townchain
+  - a-townchain-ecosystem
+  - atc-ide
+  - atc-node
+  - genesis-engine
+  - globus-os
+  workflow_dispatch: []
+  no_run_since_recovery: 21
+owner_decision:
+  date: '2026-11-16'
+  phase0_status: PARTIAL
+  met: 7
+  partial: 1
+  note: Platform recovery is not equal to restored CI and evidence infrastructure; CI_VERIFIED stays unassigned
+repair_plan_order:
+- R-3
+- R-4
+- R-2
+- R-5
+- R-6
+- R-1
+corrections:
+- dynamic events were affected too (399 of 1126); earlier claim 'never affected' retracted
+- 'incident window is not uniform: onset cohorts per repository and event class'
+- 'post-recovery run: CodeQL completed success; final split 5 success / 5 failure / 0 open'
+frozen: '2026-11-16'
+successor: ATC-PHASE0-CI-RECOVERY-VERIFICATION-001
+operational_progress: tracked in ATC-PHASE0-CI-RECOVERY-VERIFICATION-001
