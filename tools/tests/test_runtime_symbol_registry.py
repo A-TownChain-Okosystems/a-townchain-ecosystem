@@ -117,6 +117,53 @@ class RuntimeSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(registry["status"], "BLOCKED")
         self.assertEqual(len(registry["catalog_duplicate_findings"]["duplicate_source_bindings"]), 1)
 
+    def test_non_executable_placeholder_bindings_are_not_indexed(self):
+        catalog = {
+            "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
+            "components": [{
+                "id": "COMP-SPEC",
+                "name": "specification-only",
+                "canonical_owner": "example/spec",
+                "source_inventory": {"repository": "example/spec"},
+                "functions": [
+                    {
+                        "id": "FN-SPEC-001",
+                        "name": "proposal one",
+                        "source_binding": {
+                            "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+                            "binding_kind": "specification_only",
+                            "source_path": "N/A — proposal only",
+                            "symbol_or_entrypoint": "No canonical executable symbol",
+                        },
+                    },
+                    {
+                        "id": "FN-SPEC-002",
+                        "name": "proposal two",
+                        "source_binding": {
+                            "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+                            "binding_kind": "specification_only",
+                            "source_path": "N/A — proposal only",
+                            "symbol_or_entrypoint": "No canonical executable symbol",
+                        },
+                    },
+                    {
+                        "id": "FN-UNBOUND-001",
+                        "name": "unbound proposal",
+                        "source_binding": {
+                            "status": "UNBOUND_RESIDUAL",
+                            "binding_kind": "exempt_no_source_binding",
+                            "source_path": "UNMAPPED",
+                            "symbol_or_entrypoint": "PROPOSED_CONTRACT_ONLY",
+                        },
+                    },
+                ],
+            }],
+        }
+        registry = build_sample_registry(catalog=catalog)
+        self.assertEqual(registry["status"], "RESIDUAL")
+        self.assertEqual(registry["summary"]["bound_to_catalog_functions"], 0)
+        self.assertEqual(registry["catalog_duplicate_findings"]["duplicate_source_bindings"], [])
+
     def test_delegated_binding_is_documented_not_duplicate(self):
         catalog = {
             "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
