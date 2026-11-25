@@ -112,5 +112,61 @@ class OrganizationCensusTests(unittest.TestCase):
             self.assertIn("WORKTREE_DIRTY", report["repositories"][0]["residuals"])
 
 
+    def test_live_drift_gate_policy_excludes_existing_checkout(self):
+        with tempfile.TemporaryDirectory() as temp:
+            workspace = Path(temp)
+            self._clean_checkout(workspace / "demo-repository")
+            manifest = {
+                "owner": "example",
+                "repositories": [{
+                    "name": "demo-repository",
+                    "archived": False,
+                    "private": True,
+                    "exclude_from_live_drift_gate": True,
+                    "live_drift_gate_exclusion_reason": "Template/integration fixture; excluded from live drift gate.",
+                }],
+            }
+            report = run_census(workspace, manifest)
+            self.assertEqual(report["status"], "RESIDUAL")
+            self.assertEqual(report["summary"]["active_expected"], 1)
+            self.assertEqual(report["summary"]["active_scanned"], 0)
+            self.assertEqual(report["summary"]["active_excluded_private"], 0)
+            self.assertEqual(report["summary"]["active_excluded_policy"], 1)
+            entry = report["repositories"][0]
+            self.assertEqual(entry["status"], "EXCLUDED")
+            self.assertEqual(entry["exclusion_scope"], "LIVE_DRIFT_GATE")
+            self.assertEqual(entry["source_sha"], None)
+            self.assertIsNone(entry["report"])
+
+    def test_live_drift_gate_exclusion_without_reason_blocks(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = {
+                "owner": "example",
+                "repositories": [{
+                    "name": "demo-repository",
+                    "archived": False,
+                    "exclude_from_live_drift_gate": True,
+                }],
+            }
+            report = run_census(Path(temp), manifest)
+            self.assertEqual(report["status"], "BLOCKED")
+            self.assertEqual(report["summary"]["active_blocked"], 1)
+            self.assertEqual(report["summary"]["active_excluded_policy"], 0)
+            self.assertIn(
+                "LIVE_DRIFT_EXCLUSION_REASON_MISSING",
+                report["repositories"][0]["residuals"],
+            )
+
+    def test_demo_manifest_and_workflow_exclusion_are_explicit(self):
+        root = Path(__file__).resolve().parents[2]
+        manifest = json.loads((root / "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json").read_text(encoding="utf-8"))
+        demo = next(item for item in manifest["repositories"] if item["name"] == "demo-repository")
+        self.assertTrue(demo["exclude_from_live_drift_gate"])
+        self.assertTrue(demo["live_drift_gate_exclusion_reason"].strip())
+        workflow = (root / ".github/workflows/source-symbol-inventory.yml").read_text(encoding="utf-8")
+        self.assertIn('not repo.get("exclude_from_live_drift_gate", False)', workflow)
+
+
+
 if __name__ == "__main__":
     unittest.main()
