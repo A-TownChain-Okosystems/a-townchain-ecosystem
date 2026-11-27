@@ -1,6 +1,10 @@
 # A-TownChain Ecosystem
 
-System-of-Systems-Integrations- und Evidence-Control-Plane des A-TownChain-Ökosystems. Importierte `git subtree`-Verzeichnisse sind Integrations-Snapshots; sie verschieben keine SSOT-Verantwortung und beweisen nicht, dass alle Komponenten synchron oder end-to-end verifiziert sind.
+Das A-TownChain-Ökosystem ist **nicht nur eine Blockchain**. Es ist ein mehrteiliges Technologie- und Softwaresystem (System of Systems), dessen Blockchain **A-TownChain L1 nur eine eigenständige Domäne** darstellt. Zum Gesamtökosystem gehören außerdem ein Betriebssystem-/Kernel-Stack (GlobusOS/ShivaCore), eine Programmiersprache und Compiler-Toolchain (ATCLang), eine deterministische virtuelle Maschine (ATC-VM), eine AI-Plattform und Runtime (Aurora AI), eine eigenständige Engine (Genesis Engine) sowie Wallet-, SDK-, Identitäts-, Sicherheits-, ZKP-, Marketplace-, Entwickler- und Integrationsdienste.
+
+Die Blockchain ist daher weder das gesamte Produkt noch die übergeordnete Instanz aller anderen Domänen. Die Domänen haben eigene Verantwortlichkeiten und Autoritätsgrenzen und interagieren über definierte Schnittstellen. Nicht jede Domäne muss von der Blockchain abhängig sein oder über sie ausgeführt werden.
+
+Dieses Repository ist die System-of-Systems-Integrations- und Evidence-Control-Plane des Ökosystems. Importierte `git subtree`-Verzeichnisse sind Integrations-Snapshots; sie verschieben keine SSOT-Verantwortung und beweisen nicht, dass alle Komponenten synchron oder end-to-end verifiziert sind.
 
 ## Purpose
 
@@ -26,7 +30,7 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 
 ### Independent product domains
 
-The ecosystem is a system of independent domains with explicit ownership and versioned interfaces. The following is a responsibility map, **not** a linear execution order, dependency chain or authority hierarchy:
+The ecosystem is a multi-domain technology platform, not a blockchain-only product. A-TownChain L1 is one peer responsibility domain alongside the OS/kernel, AI, engine, language and VM domains. The following is a responsibility map, **not** a linear execution order, dependency chain or authority hierarchy:
 
 ```text
 ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
@@ -46,7 +50,7 @@ The ecosystem is a system of independent domains with explicit ownership and ver
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-The seven domains do not imply that all listed capabilities are implemented or connected. Each domain retains its own implementation source of truth. Cross-domain interaction is permitted only through explicit contracts, authorization boundaries and compatibility rules.
+The seven domains do not imply that all listed capabilities are implemented or connected. Each domain retains its own implementation source of truth. Cross-domain interaction is permitted only through explicit contracts, authorization boundaries and compatibility rules. The blockchain does not automatically own OS state, AI execution, Genesis simulation state, compiler semantics or every ecosystem service.
 
 **Cross-cutting controls are not an eighth execution domain:** security, cryptography, identity, capability, governance, observability, interoperability and evidence span the domains. `atc-standards` owns normative standards; this repository owns integration architecture and evidence aggregation, not component implementation.
 
@@ -85,7 +89,7 @@ The intended end-to-end runtime path to be verified is:
 
 `wallet/SDK transaction → mempool → proposer → block → network block validation → state transition → reward → validator vote → weighted finality → durable persistence → restart recovery → next block`.
 
-This path is an integration contract, not by itself proof that the whole chain is currently verified. Each edge requires evidence tied to the exact source SHA and the relevant workflow run/job/step/logs. Multi-node behavior, chain-identity binding, block validation, finality and restart recovery must be reported separately where their evidence differs.
+This path describes the blockchain vertical slice only. It is an integration contract, not the execution model of the entire ecosystem and not by itself proof that the whole chain is currently verified. Other domains have their own runtime and lifecycle paths. Each edge requires evidence tied to the exact source SHA and the relevant workflow run/job/step/logs. Multi-node behavior, chain-identity binding, block validation, finality and restart recovery must be reported separately where their evidence differs.
 
 A successful relevant CI run is required before any verification claim, and all applicable release gates are required before production-readiness claims. Current development status remains **not production-ready** until mandatory gates and exact-SHA evidence support the claim.
 
