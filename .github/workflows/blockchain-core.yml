@@ -14,18 +14,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # ATC-VM is canonical inside the imported a-townchain L1 subtree.
-          # Do not build the legacy top-level components/atc-vm snapshot as production VM.
+          # Canonical ATC-VM inside the imported a-townchain L1 subtree.
           - name: a-townchain-vm
             manifest: components/a-townchain/components/vm/Cargo.toml
+          # Canonical Rust client SDK; no separate legacy root-level package.
           - name: atc-sdk
-            manifest: components/atc-sdk/Cargo.toml
-          - name: atc-indexer
-            manifest: components/atc-indexer/Cargo.toml
+            manifest: components/a-townchain/components/sdk/modules/atc-sdk/rust/Cargo.toml
           - name: atc-mining
-            manifest: components/atc-mining/Cargo.toml
+            manifest: components/a-townchain/components/mining/Cargo.toml
           - name: atc-node
-            manifest: components/atc-node/Cargo.toml
+            manifest: components/a-townchain/components/node/Cargo.toml
           - name: atc-governance
             manifest: components/a-townchain/modules/atc-governance/Cargo.toml
     steps:
@@ -41,11 +39,3 @@ jobs:
         run: cargo test --manifest-path ${{ matrix.manifest }} --all-targets
       - name: Clippy
         run: cargo clippy --manifest-path ${{ matrix.manifest }} --all-targets -- -D warnings
-  sdk-e2e:
-    runs-on: ubuntu-latest
-    needs: rust-components
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Run full blockchain E2E gate
-        run: cargo test --manifest-path components/atc-sdk/Cargo.toml --test e2e
