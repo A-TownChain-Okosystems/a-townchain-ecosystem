@@ -17,16 +17,43 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 | ATCLang (Programmiersprache) | `components/atclang` | atclang |
 | ATC-VM | `components/a-townchain/components/vm` | a-townchain (L1-Monorepo) |
 | Algorithmus/Konsens | `components/a-townchain/components/algorithm` | a-townchain (L1-Monorepo) |
-| ShivaCore-Kernel | kein Mirror (seit 14.11.2026); Quelle `globus-os/modules/atc-shivacore/kernel` | globus-os (alleinige Kernel-SSOT, HEAD `9472b4c`) |
-| A-TownChain (L1, 13 Komponenten) | `components/a-townchain` | a-townchain |
+| ShivaCore-Kernel | kein Mirror (seit 14.11.2026); Quelle `globus-os/modules/atc-shivacore/kernel` | globus-os (alleinige Kernel-SSOT; HEAD-Angabe im Komponenten-Repo live prüfen) |
+| A-TownChain (L1) | `components/a-townchain` | a-townchain |
 | Aurora AI | `components/aurora-ai` | aurora-ai |
 | Genesis Engine | `components/genesis-engine` | genesis-engine |
 
 ## Architecture
 
-Schichten (unten → oben): ShivaCore-Kernel (TCB) → ATCLang → ATC-VM →
-ATC-Algorithm/Node (A-TownChain L1) → Aurora AI (Policy/Agent-Ebene) →
-Genesis Engine (Game-Plattform) → Anwendungen (Genesis Chronicles, Flagship).
+### Independent product domains
+
+The ecosystem is a system of independent domains with explicit ownership and versioned interfaces. The following is a responsibility map, **not** a linear execution order, dependency chain or authority hierarchy:
+
+```text
+┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
+│ 01  GlobusOS        │  │ 02  A-TownChain      │  │ 03  Aurora AI       │
+│ OS / Kernel / HAL   │  │ L1 / Consensus      │  │ AI Runtime / Agents │
+└─────────────────────┘  └─────────────────────┘  └─────────────────────┘
+
+┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
+│ 04  Genesis Engine  │  │ 05  ATCLang         │  │ 06  ATC-VM          │
+│ Simulation / Tools  │  │ Language / Compiler │  │ Deterministic Exec. │
+└─────────────────────┘  └─────────────────────┘  └─────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 07  Ecosystem Services                                               │
+│ Wallet · SDK · Identity · Standards · ZKP · Marketplace · Dev Tools  │
+│ Integration and evidence control                                    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+The seven domains do not imply that all listed capabilities are implemented or connected. Each domain retains its own implementation source of truth. Cross-domain interaction is permitted only through explicit contracts, authorization boundaries and compatibility rules.
+
+**Cross-cutting controls are not an eighth execution domain:** security, cryptography, identity, capability, governance, observability, interoperability and evidence span the domains. `atc-standards` owns normative standards; this repository owns integration architecture and evidence aggregation, not component implementation.
+
+The detailed L0–L7 responsibility model, deterministic L1/L2/L3 runtime semantics and cross-layer control-plane contract are specified in `ARCHITECTURE.md`. That technical model is complementary to this product-domain map. Neither diagram should be interpreted as a mandatory linear execution sequence.
+
+**Architecture principle:** Standalone First · Native Implementation · Ecosystem Second.
+
 Details: `ARCHITECTURE.md`.
 
 ## Capabilities and limits
@@ -34,7 +61,16 @@ Details: `ARCHITECTURE.md`.
 - Imported component trees are integration snapshots; their freshness must be checked against the canonical source SHA.
 - Component-specific Determinism Gates use their own tools and allowlists; a pass in one component does not verify another.
 - Governance checks validate repository policy and registry alignment; they do not prove production readiness.
-- The seven-system map records intended ownership and paths, not complete runtime connectivity.
+- The seven-domain map records intended ownership and boundaries, not complete runtime connectivity.
+- Architecture documentation is not implementation evidence; file presence is not proof of an executable capability.
+
+## Strategic reverse-engineering audit
+
+The ecosystem-wide strategic reverse-engineering program is tracked in:
+
+[`docs/audits/KAI-OS-STRATEGIC-REVERSE-ENGINEERING-2026-11-27.md`](docs/audits/KAI-OS-STRATEGIC-REVERSE-ENGINEERING-2026-11-27.md)
+
+The dossier defines source-level audit phases, exact-SHA evidence requirements, a provisional risk register and exit criteria. Its initial risks are hypotheses until independently revalidated against current repository HEADs and source symbols.
 
 ## Installation
 
