@@ -8,13 +8,13 @@
 
 ## 1. Purpose and decision question
 
-This dossier establishes the controlled audit plan for determining what the A-TownChain / KAI-OS ecosystem actually contains, what works, how its components interact, where architecture and implementation diverge, and which alternatives would reduce risk or complexity.
+This dossier establishes the controlled audit plan for determining what the A-TownChain / KAI-OS ecosystem actually contains, what works, how its components interact, where architecture and implementation diverge, and which alternatives would reduce risk or complexity. A foundational correction is explicit: **the ecosystem is not merely a blockchain**. A-TownChain L1 is one independent domain in a broader technology platform that also includes an operating system/kernel, AI runtime, engine, programming language/compiler, deterministic VM and ecosystem services.
 
 The audit must answer:
 
 > How can the existing independent implementations be consolidated into a technically coherent, secure and verifiably functioning KAI-OS ecosystem without discarding valuable work or creating duplicate authorities?
 
-This is not a feature-count exercise and not a review based on repository names, README claims, diagrams or CI badges alone.
+This is not a feature-count exercise and not a review based on repository names, README claims, diagrams or CI badges alone. The audit scope is the complete multi-domain system, not only the L1 chain. Blockchain-specific correctness (consensus, transactions, finality and token economics) is necessary for the chain domain but cannot stand in for OS, AI, language, VM, engine, service, security or cross-domain verification.
 
 ## 2. Evidence and status discipline
 
@@ -113,7 +113,7 @@ These are **audit hypotheses**, not current verified findings. Each must be rech
 
 ## 4. Target system model
 
-The audit uses seven independent product / responsibility domains. This is an ownership model, not a linear dependency chain and not a claim that all domains are implemented or integrated.
+The audit uses seven independent product / responsibility domains. A-TownChain L1 is one domain, not the definition of the entire ecosystem. The other domains are not subordinate blockchain modules: each has its own product purpose, runtime or lifecycle, implementation ownership and state/authority boundaries. This is an ownership model, not a linear dependency chain and not a claim that all domains are implemented or integrated.
 
 | Domain | Intended responsibility | Authority boundary to verify |
 |---|---|---|
@@ -125,7 +125,7 @@ The audit uses seven independent product / responsibility domains. This is an ow
 | ATC-VM | Deterministic execution and state-transition machinery | Exactly one canonical implementation and ABI / opcode contract |
 | Ecosystem Services | Wallet, SDK, identity, standards, marketplace, ZKP, developer tools and integration | Each service has explicit SSOT; standards and integration control planes do not duplicate runtime authority |
 
-Cross-cutting concerns — identity, cryptography, authorization, governance, observability, interoperability, compatibility, security and evidence — are contracts and controls spanning domains, not an additional execution layer.
+Cross-cutting concerns — identity, cryptography, authorization, governance, observability, interoperability, compatibility, security and evidence — are contracts and controls spanning domains, not an additional execution layer. In particular, the chain is not the universal state authority: blockchain canonical state belongs to A-TownChain; OS/kernel state belongs to GlobusOS/ShivaCore; AI runtime/session state belongs to Aurora; simulation state belongs to Genesis; compiler and VM execution semantics belong to their respective canonical owners. Any cross-domain state exchange must be explicit, authenticated and contract-bound.
 
 **Architecture rule:** Standalone First · Native Implementation · Ecosystem Second. Native implementation is the default where it provides a measurable benefit; external implementations may be used as bounded adapters or security-reviewed dependencies. This principle does not justify reimplementing cryptographic primitives without a demonstrated need and independent analysis.
 
@@ -297,4 +297,4 @@ No new large subsystem should be initiated solely to compensate for missing evid
 | Aurora / Genesis runtime audit | NOT_STARTED |
 | Alternative technology evaluation | NOT_STARTED |
 
-**Current conclusion:** The strategic audit has been formally initiated and its evidence rules are defined. No ecosystem-wide implementation or production-readiness conclusion is made at this stage.
+**Current conclusion:** The strategic audit has been formally initiated and its evidence rules are defined. The system boundary is the complete multi-domain A-TownChain / KAI-OS ecosystem; A-TownChain L1 is only one constituent domain. No ecosystem-wide implementation or production-readiness conclusion is made at this stage.
